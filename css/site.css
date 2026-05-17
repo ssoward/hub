@@ -145,7 +145,9 @@ button { font-family: inherit; }
 }
 .site-header-inner {
   display: flex; align-items: center; justify-content: space-between;
-  gap: var(--sp-4); min-height: 60px; padding: var(--sp-3) 0;
+  gap: var(--sp-4); min-height: 60px;
+  /* vertical only — .container provides left/right */
+  padding-block: var(--sp-3);
   position: relative;
   flex-wrap: wrap;
 }
@@ -207,16 +209,20 @@ button { font-family: inherit; }
   .brand .brand-role { display: none; }
 }
 
-/* ===== Hero / Section / Prose ===== */
-.site-hero { padding: var(--sp-16) 0 var(--sp-12); }
-@media (max-width: 640px) { .site-hero { padding: var(--sp-12) 0 var(--sp-8); } }
+/* ===== Hero / Section / Prose =====
+   IMPORTANT: use padding-block (top/bottom only) so when a node combines
+   .site-hero with .container, the .container's left/right padding is
+   preserved. The shorthand `padding: Y 0` would set padding-left/right
+   to 0 and override .container, pushing content flush to the viewport. */
+.site-hero { padding-block: var(--sp-16) var(--sp-12); }
+@media (max-width: 640px) { .site-hero { padding-block: var(--sp-12) var(--sp-8); } }
 .hero-eyebrow { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--sp-3); }
 .hero-title { font-size: var(--fs-display); font-weight: 700; letter-spacing: -0.02em; margin-bottom: var(--sp-4); }
 .hero-lede { font-size: var(--fs-md); color: var(--ink-soft); max-width: 60ch; }
 
-.section { padding: var(--sp-12) 0; }
+.section { padding-block: var(--sp-12); }
 .section + .section { border-top: 1px solid var(--border); }
-@media (max-width: 640px) { .section { padding: var(--sp-8) 0; } }
+@media (max-width: 640px) { .section { padding-block: var(--sp-8); } }
 .section-eyebrow { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--sp-2); }
 .section-title { font-size: var(--fs-xl); margin-bottom: var(--sp-6); }
 .section-lede { color: var(--ink-soft); max-width: 68ch; margin-bottom: var(--sp-6); }
