@@ -1,0 +1,60 @@
+/* ============================================================
+   reveal-site-theme.css — site harmonization layer for Reveal.js
+   Load AFTER the base Reveal theme so the cascade wins.
+   Scoped to .reveal selectors only — never bleeds outside slides.
+   ============================================================ */
+
+.reveal {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  color: #0f172a;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  text-transform: none;
+  text-shadow: none;
+}
+
+.reveal h1 { font-size: 2.4em; }
+.reveal h2 { font-size: 1.8em; }
+.reveal h3 { font-size: 1.4em; }
+
+.reveal a {
+  color: #1d4ed8;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(29,78,216,0.3);
+}
+.reveal a:hover { color: #1e3a8a; border-bottom-color: #1e3a8a; }
+
+.reveal blockquote {
+  background: transparent;
+  border-left: 3px solid #1d4ed8;
+  padding: 0.4em 1em;
+  font-style: italic;
+  color: #334155;
+  box-shadow: none;
+}
+
+.reveal .slide-number {
+  font-family: inherit;
+  font-size: 0.65em;
+  color: #64748b;
+}
+
+.reveal code, .reveal pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.reveal section img {
+  border: 0;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section.future,
+  .reveal .slides section.past { transition: none !important; }
+}
