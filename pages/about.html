@@ -3,478 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About the Alma 31 Study web application - purpose, features, and development information.">
-    <meta name="keywords" content="Alma 31 study app, about, Book of Mormon, scripture study tools">
+    <meta name="description" content="About the Alma 31 Study app — project background, sources, and feedback.">
+    <meta name="theme-color" content="#1d4ed8">
+    <title>Alma 31 · About — Scott Soward</title>
 
-    <title>About - Alma 31 Study App</title>
-
-    <!-- Icons and PWA -->
     <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
     <link rel="manifest" href="../manifest.json">
-    <meta name="theme-color" content="#002E5D">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/alma31.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="../index.html" class="logo">Alma 31 Study</a>
 
-            <nav class="nav">
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-                    ☰
-                </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="../index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="scripture.html" class="nav-link">Scripture</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="analysis.html" class="nav-link">Analysis</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="gallery.html" class="nav-link">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="applications.html" class="nav-link">Applications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../presentations/" class="nav-link">Presentations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../activities/" class="nav-link">Activities</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Main Content -->
-    <div class="container">
-        <main class="main-content">
-            <!-- Sidebar Navigation -->
-            <aside class="sidebar">
-                <nav>
-                    <ul class="sidebar-nav">
-                        <li><a href="#overview" class="active">Overview</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#purpose">Purpose & Vision</a></li>
-                        <li><a href="#technology">Technology</a></li>
-                        <li><a href="#sources">Sources</a></li>
-                        <li><a href="#feedback">Feedback</a></li>
-                        <li><a href="../index.html">← Back to Home</a></li>
-                    </ul>
-                </nav>
-            </aside>
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../">Home</a>
+      <a href="../presentations/">Gospel</a>
+      <a href="../tech-presentations/">Tech &amp; AI</a>
+      <a href="../activities/">Activities</a>
+      <a href="../conferences/">Conferences</a>
+      <a href="../alma31.html" aria-current="page">Scripture</a>
+    </nav>
+  </div>
+</header>
 
-            <!-- About Content -->
-            <section class="content">
-                <div class="about-header" id="overview">
-                    <h1>About Alma 31 Study</h1>
-                    <p class="lead">
-                        An interactive web application designed to enhance study and understanding of Alma 31 from the Book of Mormon through comprehensive analysis, visual elements, and practical applications.
-                    </p>
-                </div>
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Alma 31 · About</p>
+    <h1 class="hero-title">About this study app</h1>
+    <p class="hero-lede">Project background, sources, and feedback for the Alma 31 study tool.</p>
+  </section>
 
-                <!-- Features Section -->
-                <section id="features" class="about-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Features & Capabilities</h2>
-                        </div>
+  <section class="section container">
+    <article class="prose">
+      <h2>What this is</h2>
+      <p>The Alma 31 study app is an interactive companion for one of the Book of Mormon's most instructive chapters. It pairs the full scripture text with thematic analysis, a visual gallery, and practical applications for personal, family, and teaching contexts.</p>
 
-                        <div class="features-grid">
-                            <div class="feature-item">
-                                <h3>📖 Complete Scripture Text</h3>
-                                <p>Full text of Alma 31 with verse-by-verse display, organized into logical sections for easy study and navigation.</p>
-                            </div>
+      <h2>How it's built</h2>
+      <p>The app is a Progressive Web App (PWA) built with plain HTML, CSS, and JavaScript — no framework, no build step. It works offline through a service worker and is installable on phones, tablets, and desktops. The redesigned site shares a single stylesheet across all pages for consistency and accessibility.</p>
+      <ul>
+        <li><strong>Markup:</strong> Semantic HTML5 with ARIA where appropriate.</li>
+        <li><strong>Styling:</strong> CSS custom properties, grid, and a small set of shared components.</li>
+        <li><strong>JavaScript:</strong> Vanilla ES2018+ for navigation, filters, lightbox, and search.</li>
+        <li><strong>PWA:</strong> Service worker handles offline caching; manifest enables install.</li>
+      </ul>
 
-                            <div class="feature-item">
-                                <h3>🔍 Deep Analysis</h3>
-                                <p>Comprehensive thematic analysis covering historical context, spiritual insights, and modern applications of eternal principles.</p>
-                            </div>
+      <h2>Features</h2>
+      <ul>
+        <li>Complete Alma 31 text with section markers and search.</li>
+        <li>Deep analysis covering pride, prayer, the power of the word, and compassion.</li>
+        <li>Visual gallery with an accessible lightbox and category filters.</li>
+        <li>Study applications for personal, family, and teaching contexts.</li>
+        <li>Mobile-first, fully responsive, and keyboard-operable.</li>
+        <li>Offline support via service worker.</li>
+      </ul>
 
-                            <div class="feature-item">
-                                <h3>🎨 Visual Gallery</h3>
-                                <p>Artistic representations and illustrations of key scenes, characters, and symbols from Alma 31, including the Rameumptom.</p>
-                            </div>
+      <h2>Sources &amp; attribution</h2>
+      <ul>
+        <li>Scripture text: <em>The Book of Mormon</em>, public-domain editions.</li>
+        <li>Gallery images: LDS Media Library, public-domain religious artwork, and custom illustrations created for this study app.</li>
+        <li>Analysis: original commentary based on personal scripture study.</li>
+      </ul>
 
-                            <div class="feature-item">
-                                <h3>💡 Study Applications</h3>
-                                <p>Practical activities for personal study, family home evening, and teaching, with age-appropriate content and interactive elements.</p>
-                            </div>
+      <h2>Accessibility</h2>
+      <p>The redesigned site targets WCAG 2.1 AA. Every page includes a skip link, visible focus indicators, accessible names on interactive controls, sufficient contrast, and respect for <code>prefers-reduced-motion</code>. If you find an accessibility issue, please open a GitHub issue at the link below.</p>
 
-                            <div class="feature-item">
-                                <h3>🔎 Search Functionality</h3>
-                                <p>Full-text search across all content to quickly find specific verses, themes, or topics of interest.</p>
-                            </div>
+      <h2>Feedback</h2>
+      <p>This is a personal project. If you find an error in the scripture text, a broken link, or have a suggestion, please file an issue at <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>.</p>
 
-                            <div class="feature-item">
-                                <h3>📱 Responsive Design</h3>
-                                <p>Optimized for all devices - desktop, tablet, and mobile - ensuring a seamless study experience anywhere.</p>
-                            </div>
+      <h2>License</h2>
+      <p>Code is MIT-licensed. Scripture text is public domain. Gallery images retain their original licenses; please respect attribution and copyright for any reuse.</p>
+    </article>
 
-                            <div class="feature-item">
-                                <h3>⚡ Progressive Web App</h3>
-                                <p>Installable as an app on your device with offline capabilities for study without internet connection.</p>
-                            </div>
-
-                            <div class="feature-item">
-                                <h3>🎯 Interactive Elements</h3>
-                                <p>Hands-on activities like the Rameumptom demonstration and prayer comparisons to enhance understanding.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Purpose Section -->
-                <section id="purpose" class="about-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Purpose & Vision</h2>
-                        </div>
-
-                        <h3>Our Mission</h3>
-                        <p>
-                            The Alma 31 Study app was created to provide a comprehensive, accessible, and engaging platform for studying one of the most instructive chapters in the Book of Mormon. Our goal is to help individuals, families, and teachers gain deeper insights into the eternal principles taught through Alma's encounter with the Zoramites.
-                        </p>
-
-                        <h3>Core Values</h3>
-                        <div class="values-list">
-                            <div class="value-item">
-                                <h4>🙏 Spiritual Focus</h4>
-                                <p>All content is designed to enhance spiritual understanding and personal application of gospel principles.</p>
-                            </div>
-
-                            <div class="value-item">
-                                <h4>🎓 Educational Excellence</h4>
-                                <p>Combining scholarly analysis with practical application to create comprehensive learning experiences.</p>
-                            </div>
-
-                            <div class="value-item">
-                                <h4>♿ Accessibility</h4>
-                                <p>Ensuring all content is accessible to people of different abilities, ages, and technological comfort levels.</p>
-                            </div>
-
-                            <div class="value-item">
-                                <h4>👨‍👩‍👧‍👦 Family-Centered</h4>
-                                <p>Providing resources that strengthen family scripture study and gospel learning.</p>
-                            </div>
-                        </div>
-
-                        <h3>Target Audience</h3>
-                        <ul>
-                            <li><strong>Individual Students:</strong> Personal scripture study and spiritual growth</li>
-                            <li><strong>Families:</strong> Family home evening activities and gospel discussions</li>
-                            <li><strong>Teachers:</strong> Seminary, institute, Sunday School, and Primary instructors</li>
-                            <li><strong>Youth:</strong> Young men, young women, and seminary students</li>
-                            <li><strong>General Audiences:</strong> Anyone interested in understanding religious texts and spiritual principles</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Technology Section -->
-                <section id="technology" class="about-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Technology & Design</h2>
-                        </div>
-
-                        <h3>Technical Stack</h3>
-                        <div class="tech-stack">
-                            <div class="tech-item">
-                                <h4>Frontend Technologies</h4>
-                                <ul>
-                                    <li><strong>HTML5:</strong> Semantic markup for accessibility and SEO</li>
-                                    <li><strong>CSS3:</strong> Modern styling with custom properties and responsive design</li>
-                                    <li><strong>JavaScript (ES6+):</strong> Interactive features and dynamic content</li>
-                                </ul>
-                            </div>
-
-                            <div class="tech-item">
-                                <h4>Design Principles</h4>
-                                <ul>
-                                    <li><strong>Mobile-First:</strong> Responsive design starting with mobile optimization</li>
-                                    <li><strong>Progressive Enhancement:</strong> Core functionality works without JavaScript</li>
-                                    <li><strong>Accessibility (WCAG 2.1):</strong> Screen reader compatible with keyboard navigation</li>
-                                    <li><strong>Performance:</strong> Optimized loading with lazy loading and minimal dependencies</li>
-                                </ul>
-                            </div>
-
-                            <div class="tech-item">
-                                <h4>Progressive Web App Features</h4>
-                                <ul>
-                                    <li><strong>Service Worker:</strong> Offline caching for core content</li>
-                                    <li><strong>Web App Manifest:</strong> Installable on devices</li>
-                                    <li><strong>Responsive Icons:</strong> Properly sized for all platforms</li>
-                                    <li><strong>Theme Integration:</strong> Matches device preferences</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <h3>Design Inspiration</h3>
-                        <p>
-                            The visual design is inspired by <a href="https://churchofjesuschrist.org" target="_blank">churchofjesuschrist.org</a>,
-                            incorporating the clean, reverent aesthetic that characterizes official Church resources. This includes:
-                        </p>
-                        <ul>
-                            <li>Church blue (#002E5D) as the primary color</li>
-                            <li>Clean typography with serif fonts for body text</li>
-                            <li>Generous white space for improved readability</li>
-                            <li>Professional layout that emphasizes content over decoration</li>
-                        </ul>
-
-                        <h3>Browser Support</h3>
-                        <p>The application is tested and optimized for:</p>
-                        <ul>
-                            <li>Chrome 90+ (desktop and mobile)</li>
-                            <li>Firefox 88+ (desktop and mobile)</li>
-                            <li>Safari 14+ (desktop and mobile)</li>
-                            <li>Edge 90+ (desktop and mobile)</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Sources Section -->
-                <section id="sources" class="about-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Sources & Attribution</h2>
-                        </div>
-
-                        <h3>Scripture Sources</h3>
-                        <p>
-                            All scripture text is from the Book of Mormon as published by The Church of Jesus Christ of Latter-day Saints.
-                            Cross-references and footnotes are based on the current edition of the scriptures available at
-                            <a href="https://churchofjesuschrist.org/study/scriptures" target="_blank">churchofjesuschrist.org</a>.
-                        </p>
-
-                        <h3>Commentary & Analysis</h3>
-                        <p>
-                            The analysis and commentary draw from multiple sources including:
-                        </p>
-                        <ul>
-                            <li>Official Church curriculum and manuals</li>
-                            <li>General Conference talks and addresses</li>
-                            <li>Scholarly works on Book of Mormon studies</li>
-                            <li>Historical and archaeological research</li>
-                            <li>Cross-scriptural references and patterns</li>
-                        </ul>
-
-                        <h3>Visual Assets</h3>
-                        <p>Images and visual elements are sourced from:</p>
-                        <ul>
-                            <li><strong>LDS Media Library:</strong> Official artwork and resources</li>
-                            <li><strong>Public Domain Collections:</strong> Historical religious art</li>
-                            <li><strong>Educational Illustrations:</strong> Custom artwork for educational use</li>
-                            <li><strong>Creative Commons:</strong> Properly attributed open-source materials</li>
-                        </ul>
-
-                        <h3>Usage Rights</h3>
-                        <p>
-                            This application is created for educational and spiritual enrichment purposes. All copyrighted materials
-                            are used under fair use provisions for educational purposes. Original content is available for
-                            personal and educational use with proper attribution.
-                        </p>
-                    </div>
-                </section>
-
-                <!-- Feedback Section -->
-                <section id="feedback" class="about-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Feedback & Support</h2>
-                        </div>
-
-                        <h3>We Want to Hear From You</h3>
-                        <p>
-                            Your feedback helps us improve this resource for all users. We welcome suggestions, bug reports,
-                            and ideas for new features that would enhance your scripture study experience.
-                        </p>
-
-                        <div class="feedback-options">
-                            <div class="feedback-item">
-                                <h4>📧 General Feedback</h4>
-                                <p>Send suggestions, compliments, or general comments about the application.</p>
-                                <a href="mailto:feedback@alma31study.org" class="btn btn-secondary">Send Feedback</a>
-                            </div>
-
-                            <div class="feedback-item">
-                                <h4>🐛 Report Issues</h4>
-                                <p>Found a bug or technical problem? Let us know so we can fix it quickly.</p>
-                                <a href="mailto:support@alma31study.org" class="btn btn-secondary">Report Issue</a>
-                            </div>
-
-                            <div class="feedback-item">
-                                <h4>💡 Feature Requests</h4>
-                                <p>Have an idea for a new feature or improvement? We'd love to hear it!</p>
-                                <a href="mailto:ideas@alma31study.org" class="btn btn-secondary">Suggest Feature</a>
-                            </div>
-
-                            <div class="feedback-item">
-                                <h4>🎓 Educational Use</h4>
-                                <p>Questions about using this resource in classrooms or teaching environments.</p>
-                                <a href="mailto:education@alma31study.org" class="btn btn-secondary">Education Inquiry</a>
-                            </div>
-                        </div>
-
-                        <h3>Privacy & Data</h3>
-                        <p>
-                            This application does not collect personal information or track user behavior. Any data stored
-                            (such as search history or bookmarks) remains on your device and is not transmitted to our servers.
-                            We respect your privacy and focus solely on providing excellent scripture study resources.
-                        </p>
-
-                        <h3>Accessibility</h3>
-                        <p>
-                            We are committed to making this resource accessible to all users. If you encounter accessibility
-                            barriers or have suggestions for improvement, please contact us at
-                            <a href="mailto:accessibility@alma31study.org">accessibility@alma31study.org</a>.
-                        </p>
-                    </div>
-                </section>
-
-                <!-- Version Information -->
-                <section class="about-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Version Information</h2>
-                        </div>
-
-                        <div class="version-info">
-                            <div class="version-item">
-                                <strong>Current Version:</strong> 1.0.0
-                            </div>
-                            <div class="version-item">
-                                <strong>Release Date:</strong> December 30, 2025
-                            </div>
-                            <div class="version-item">
-                                <strong>Last Updated:</strong> December 30, 2025
-                            </div>
-                            <div class="version-item">
-                                <strong>Content Language:</strong> English
-                            </div>
-                        </div>
-
-                        <h3>What's New in Version 1.0.0</h3>
-                        <ul>
-                            <li>Complete Alma 31 scripture text with verse-by-verse organization</li>
-                            <li>Comprehensive thematic analysis and commentary</li>
-                            <li>Visual gallery with artistic interpretations</li>
-                            <li>Interactive study applications and activities</li>
-                            <li>Progressive Web App capabilities</li>
-                            <li>Full responsive design for all devices</li>
-                            <li>Search functionality across all content</li>
-                            <li>Printable resources for offline use</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Navigation -->
-                <div class="chapter-navigation">
-                    <div class="nav-buttons">
-                        <a href="../index.html" class="btn btn-primary">← Back to Home</a>
-                    </div>
-                </div>
-            </section>
-        </main>
+    <div class="chapter-navigation">
+      <a href="applications.html" class="btn btn-ghost">&larr; Applications</a>
+      <a href="../alma31.html" class="btn btn-primary">Back to Alma 31 &rarr;</a>
     </div>
+  </section>
+</main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Alma 31 Study App. Created for educational and spiritual enrichment.</p>
-            <p><a href="../index.html">Home</a> | <a href="scripture.html">Scripture</a> | <a href="analysis.html">Analysis</a> | <a href="gallery.html">Gallery</a> | <a href="applications.html">Applications</a></p>
-        </div>
-    </footer>
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward</span>
+    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+  </div>
+</footer>
 
-    <!-- JavaScript -->
-    <script src="../js/main.js"></script>
-    <script src="../js/search.js"></script>
-
-    <style>
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
+<script>
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
         }
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 
-        .feature-item {
-            background: var(--gray-light);
-            padding: var(--spacing-lg);
-            border-radius: 8px;
-            border-left: 4px solid var(--church-blue);
-        }
-
-        .feature-item h3 {
-            margin-bottom: var(--spacing-sm);
-            color: var(--church-blue);
-        }
-
-        .about-section {
-            margin-bottom: var(--spacing-2xl);
-        }
-
-        .values-list,
-        .tech-stack {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-        }
-
-        .value-item,
-        .tech-item {
-            background: var(--white);
-            padding: var(--spacing-lg);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px var(--shadow);
-        }
-
-        .value-item h4,
-        .tech-item h4 {
-            color: var(--church-blue);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .feedback-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-        }
-
-        .feedback-item {
-            text-align: center;
-            padding: var(--spacing-lg);
-            background: var(--gray-light);
-            border-radius: 8px;
-        }
-
-        .feedback-item h4 {
-            color: var(--church-blue);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .version-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-md);
-            background: var(--gray-light);
-            padding: var(--spacing-lg);
-            border-radius: 8px;
-            margin: var(--spacing-lg) 0;
-        }
-
-        .version-item {
-            text-align: center;
-        }
-    </style>
 </body>
 </html>

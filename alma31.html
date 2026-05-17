@@ -3,243 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interactive study companion for Alma 31 from the Book of Mormon. Deep analysis, visuals, and study applications inspired by churchofjesuschrist.org.">
-    <meta name="keywords" content="Alma 31, Book of Mormon, scripture study, LDS, church, Rameumptom, prayer, pride">
-    <meta name="author" content="Alma 31 Study App">
-
-    <!-- Open Graph / Social Media -->
+    <meta name="description" content="Interactive study companion for Alma 31 from the Book of Mormon. Deep analysis, visuals, and study applications.">
+    <meta name="theme-color" content="#1d4ed8">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Alma 31 Study - Interactive Scripture Study">
+    <meta property="og:title" content="Alma 31 — Scott Soward">
     <meta property="og:description" content="Deep, interactive study of Alma 31 from the Book of Mormon with analysis, visuals, and applications.">
     <meta property="og:image" content="assets/images/og-image.jpg">
-    <meta property="og:url" content="https://alma31study.org">
 
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#002E5D">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Alma 31 Study">
-
-    <!-- Icons -->
     <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
     <link rel="manifest" href="manifest.json">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/site.css">
 
-    <title>Alma 31 Study - Interactive Scripture Study</title>
+    <title>Alma 31 — Scott Soward</title>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="alma31.html" class="logo">Alma 31 Study</a>
 
-            <nav class="nav">
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-                    ☰
-                </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="alma31.html" class="nav-link active">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/scripture.html" class="nav-link">Scripture</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/analysis.html" class="nav-link">Analysis</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/gallery.html" class="nav-link">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/applications.html" class="nav-link">Applications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="presentations/" class="nav-link">Presentations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="activities/" class="nav-link">Activities</a>
-                    </li>
-                </ul>
-            </nav>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="./">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="./">Home</a>
+      <a href="presentations/">Gospel</a>
+      <a href="tech-presentations/">Tech &amp; AI</a>
+      <a href="activities/">Activities</a>
+      <a href="conferences/">Conferences</a>
+      <a href="alma31.html" aria-current="page">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Scripture</p>
+    <h1 class="hero-title">Alma 31</h1>
+    <p class="hero-lede">The Rameumptom and true prayer. Alma encounters the prideful Zoramites and their tower of pride, leading to profound lessons about worship, the power of God's word, and compassion for the afflicted.</p>
+  </section>
+
+  <section class="section container" aria-labelledby="explore-heading">
+    <p class="section-eyebrow">Explore</p>
+    <h2 id="explore-heading" class="section-title">Study pages</h2>
+
+    <div class="card-grid">
+      <article class="card">
+        <div class="card-body">
+          <div class="card-chips"><span class="chip scripture">Scripture</span></div>
+          <h3 class="card-title">Full scripture text</h3>
+          <p class="card-text">Read Alma 31 verse by verse, with section headers and cross-references.</p>
         </div>
-    </header>
+        <div class="card-footer">
+          <a class="btn btn-primary" href="pages/scripture.html">Read &rarr;</a>
+          <span class="card-meta">38 verses</span>
+        </div>
+      </article>
 
-    <!-- Main Content -->
-    <div class="container">
-        <main class="main-content">
-            <!-- Sidebar Navigation -->
-            <aside class="sidebar">
-                <div class="search-container">
-                    <input type="search" class="search-input" placeholder="Search Alma 31..." id="searchInput">
-                </div>
+      <article class="card">
+        <div class="card-body">
+          <div class="card-chips"><span class="chip scripture">Analysis</span></div>
+          <h3 class="card-title">Deep analysis</h3>
+          <p class="card-text">Themes, historical context, and spiritual insights — pride, prayer, the word, and compassion.</p>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-primary" href="pages/analysis.html">View &rarr;</a>
+          <span class="card-meta">Thematic study</span>
+        </div>
+      </article>
 
-                <nav>
-                    <ul class="sidebar-nav">
-                        <li><a href="#overview" class="active">Overview</a></li>
-                        <li><a href="#key-themes">Key Themes</a></li>
-                        <li><a href="#featured-verse">Featured Verse</a></li>
-                        <li><a href="#quick-study">Quick Study</a></li>
-                        <li><a href="pages/scripture.html">Full Text</a></li>
-                        <li><a href="pages/analysis.html">Deep Analysis</a></li>
-                        <li><a href="pages/gallery.html">Visual Gallery</a></li>
-                        <li><a href="pages/applications.html">Study Ideas</a></li>
-                    </ul>
-                </nav>
-            </aside>
+      <article class="card">
+        <div class="card-body">
+          <div class="card-chips"><span class="chip scripture">Gallery</span></div>
+          <h3 class="card-title">Visual gallery</h3>
+          <p class="card-text">Artistic interpretations of the Rameumptom, the characters, and key scenes from the chapter.</p>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-primary" href="pages/gallery.html">View &rarr;</a>
+          <span class="card-meta">Artwork &amp; lightbox</span>
+        </div>
+      </article>
 
-            <!-- Main Content Area -->
-            <section class="content">
-                <!-- Hero Section -->
-                <div class="hero-section" id="overview">
-                    <h1>Alma 31: The Rameumptom and True Prayer</h1>
-                    <p class="lead">
-                        Explore one of the most powerful chapters in the Book of Mormon, where Alma encounters the prideful Zoramites and their tower of Rameumptom, leading to profound lessons about true worship, prayer, and the power of God's word.
-                    </p>
-                </div>
+      <article class="card">
+        <div class="card-body">
+          <div class="card-chips"><span class="chip scripture">Applications</span></div>
+          <h3 class="card-title">Study applications</h3>
+          <p class="card-text">Personal study ideas, family activities by age group, and teaching resources for educators.</p>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-primary" href="pages/applications.html">Get ideas &rarr;</a>
+          <span class="card-meta">All ages</span>
+        </div>
+      </article>
 
-                <!-- Key Themes Section -->
-                <div class="card" id="key-themes">
-                    <div class="card-header">
-                        <h2 class="card-title">Key Themes in Alma 31</h2>
-                    </div>
-                    <div class="themes-grid">
-                        <div class="theme-item">
-                            <h3>🙏 True vs. False Prayer</h3>
-                            <p>The contrast between the repetitive, prideful prayers of the Zoramites and Alma's heartfelt plea for the poor and afflicted.</p>
-                        </div>
-                        <div class="theme-item">
-                            <h3>⚡ Power of God's Word</h3>
-                            <p>Alma's faith in the power of the word to change hearts, demonstrated through his missionary approach to the apostate Zoramites.</p>
-                        </div>
-                        <div class="theme-item">
-                            <h3>💎 Dangers of Pride</h3>
-                            <p>The Rameumptom represents the ultimate expression of spiritual pride and separation from God and fellow beings.</p>
-                        </div>
-                        <div class="theme-item">
-                            <h3>❤️ Compassion for the Afflicted</h3>
-                            <p>Alma's heart is broken for those who are excluded and cast out, showing Christ-like compassion.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Featured Verse -->
-                <div class="card" id="featured-verse">
-                    <div class="card-header">
-                        <h2 class="card-title">Featured Verse</h2>
-                    </div>
-                    <div class="verse featured-verse">
-                        <span class="verse-number">Alma 31:5</span>
-                        <span class="verse-text">
-                            "And now, as the preaching of the word had a great tendency to lead the people to do that which was just—yea, it had had more powerful effect upon the minds of the people than the sword, or anything else, which had happened unto them—therefore Alma thought it was expedient that they should try the virtue of the word of God."
-                        </span>
-                    </div>
-                    <p class="verse-commentary">
-                        This verse establishes the central theme of the chapter: the power of God's word to transform hearts and minds more effectively than force or coercion.
-                    </p>
-                </div>
-
-                <!-- Quick Study Section -->
-                <div class="card" id="quick-study">
-                    <div class="card-header">
-                        <h2 class="card-title">Quick Study Guide</h2>
-                    </div>
-                    <div class="quick-study-content">
-                        <div class="study-column">
-                            <h3>Chapter Summary</h3>
-                            <ul>
-                                <li>Alma decides to try the power of God's word (vs. 1-5)</li>
-                                <li>Discovery of the Zoramite apostasy (vs. 6-11)</li>
-                                <li>The Rameumptom and repetitive prayer (vs. 12-23)</li>
-                                <li>Alma's prayer of anguish and compassion (vs. 24-35)</li>
-                                <li>Preparation for ministry (vs. 36-38)</li>
-                            </ul>
-                        </div>
-                        <div class="study-column">
-                            <h3>Questions for Reflection</h3>
-                            <ul>
-                                <li>How does true prayer differ from the Zoramite prayer?</li>
-                                <li>What does the Rameumptom represent in our modern world?</li>
-                                <li>Why did Alma choose words over force?</li>
-                                <li>How do we show compassion for the spiritually afflicted?</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation Cards -->
-                <div class="navigation-cards">
-                    <h2>Explore Alma 31</h2>
-                    <div class="gallery">
-                        <div class="card nav-card">
-                            <h3>📖 Full Scripture Text</h3>
-                            <p>Read Alma 31 verse by verse with cross-references and footnotes.</p>
-                            <a href="pages/scripture.html" class="btn btn-primary">Read Scripture</a>
-                        </div>
-                        <div class="card nav-card">
-                            <h3>🔍 Deep Analysis</h3>
-                            <p>Explore themes, historical context, and spiritual insights from Alma 31.</p>
-                            <a href="pages/analysis.html" class="btn btn-primary">View Analysis</a>
-                        </div>
-                        <div class="card nav-card">
-                            <h3>🎨 Visual Gallery</h3>
-                            <p>See artistic representations of the Rameumptom and key scenes.</p>
-                            <a href="pages/gallery.html" class="btn btn-primary">View Gallery</a>
-                        </div>
-                        <div class="card nav-card">
-                            <h3>💡 Study Applications</h3>
-                            <p>Personal study ideas, family activities, and teaching suggestions.</p>
-                            <a href="pages/applications.html" class="btn btn-primary">Get Ideas</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+      <article class="card">
+        <div class="card-body">
+          <div class="card-chips"><span class="chip scripture">About</span></div>
+          <h3 class="card-title">About this study app</h3>
+          <p class="card-text">Project background, sources, and feedback. Built as a personal scripture study tool.</p>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-primary" href="pages/about.html">About &rarr;</a>
+          <span class="card-meta">Project notes</span>
+        </div>
+      </article>
     </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Alma 31 Study App. Created for educational and spiritual enrichment.</p>
-            <p>Scripture text from the Book of Mormon. Design inspired by <a href="https://churchofjesuschrist.org">churchofjesuschrist.org</a>.</p>
-            <p><a href="pages/about.html">About</a> | <a href="#privacy">Privacy</a> | <a href="#feedback">Feedback</a></p>
-        </div>
-    </footer>
+  <section class="section container" aria-labelledby="themes-heading">
+    <p class="section-eyebrow">At a glance</p>
+    <h2 id="themes-heading" class="section-title">Key themes</h2>
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/search.js"></script>
-    <script>
-        // Register service worker for PWA with update handling
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registration successful');
+    <div class="card-grid">
+      <article class="card"><div class="card-body">
+        <h3 class="card-title">True vs. false prayer</h3>
+        <p class="card-text">The repetitive, prideful prayers of the Zoramites contrasted with Alma's heartfelt plea for the poor and afflicted.</p>
+      </div></article>
+      <article class="card"><div class="card-body">
+        <h3 class="card-title">Power of the word</h3>
+        <p class="card-text">Alma's faith in the power of the word to change hearts — demonstrated through his missionary approach to the apostate Zoramites.</p>
+      </div></article>
+      <article class="card"><div class="card-body">
+        <h3 class="card-title">Dangers of pride</h3>
+        <p class="card-text">The Rameumptom as the ultimate expression of spiritual pride and separation from God and from one another.</p>
+      </div></article>
+      <article class="card"><div class="card-body">
+        <h3 class="card-title">Compassion for the afflicted</h3>
+        <p class="card-text">Alma's heart breaks for those who are excluded and cast out — Christ-like compassion in the midst of apostasy.</p>
+      </div></article>
+    </div>
+  </section>
 
-                        // Check for updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // New content available, prompt user
-                                    if (confirm('New version available! Reload to get the latest updates?')) {
-                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                    }
-                                }
-                            });
-                        });
-                    })
-                    .catch(function(err) {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
+  <section class="section container" aria-labelledby="featured-heading">
+    <p class="section-eyebrow">Featured verse</p>
+    <h2 id="featured-heading" class="section-title">Alma 31:5</h2>
+    <div class="prose">
+      <blockquote>
+        And now, as the preaching of the word had a great tendency to lead the people to do that which was just — yea, it had had more powerful effect upon the minds of the people than the sword, or anything else, which had happened unto them — therefore Alma thought it was expedient that they should try the virtue of the word of God.
+      </blockquote>
+      <p>This verse establishes the central theme of the chapter: the power of God's word to transform hearts and minds more effectively than force or coercion.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward</span>
+    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
         }
-    </script>
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+
 </body>
 </html>

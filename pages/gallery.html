@@ -3,605 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Visual gallery of Alma 31 illustrations including the Rameumptom, Alma's mission, and key scenes from the Book of Mormon.">
-    <meta name="keywords" content="Alma 31 art, Rameumptom illustration, Book of Mormon art, Zoramites, visual study">
+    <meta name="description" content="Visual gallery for Alma 31 — artistic interpretations of the Rameumptom, characters, geography, and key scenes.">
+    <meta name="theme-color" content="#1d4ed8">
+    <title>Alma 31 · Gallery — Scott Soward</title>
 
-    <title>Alma 31 Visual Gallery - Illustrations & Art</title>
-
-    <!-- Icons and PWA -->
     <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
     <link rel="manifest" href="../manifest.json">
-    <meta name="theme-color" content="#002E5D">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/responsive.css">
-
-    <style>
-        /* Gallery-specific styles */
-        .gallery-hero {
-            text-align: center;
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
-            margin: var(--spacing-xl) 0;
-        }
-
-        .gallery-item {
-            background: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px var(--shadow);
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, var(--gray-light), var(--gray-medium));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gallery-image::before {
-            content: '🎨';
-            font-size: 3rem;
-            opacity: 0.3;
-        }
-
-        .gallery-caption {
-            padding: var(--spacing-lg);
-        }
-
-        .gallery-caption h3 {
-            margin-bottom: var(--spacing-sm);
-            color: var(--church-blue);
-        }
-
-        .gallery-caption p {
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-secondary);
-        }
-
-        .image-source {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
-        .category-filter {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: var(--spacing-sm) var(--spacing-lg);
-            background: var(--gray-light);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: var(--font-sans);
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--church-blue);
-            color: var(--white);
-            border-color: var(--church-blue);
-        }
-
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            cursor: pointer;
-        }
-
-        .lightbox-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: var(--spacing-lg);
-        }
-
-        .lightbox-image {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 8px;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: var(--spacing-lg);
-            right: var(--spacing-lg);
-            color: var(--white);
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        .image-placeholder {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            border: 2px dashed var(--church-blue);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: var(--spacing-lg);
-        }
-
-        .image-placeholder .icon {
-            font-size: 3rem;
-            margin-bottom: var(--spacing-md);
-            color: var(--church-blue);
-        }
-
-        .image-placeholder .title {
-            font-weight: 600;
-            color: var(--church-blue);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .image-placeholder .description {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-    </style>
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/alma31.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="../index.html" class="logo">Alma 31 Study</a>
 
-            <nav class="nav">
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-                    ☰
-                </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="../index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="scripture.html" class="nav-link">Scripture</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="analysis.html" class="nav-link">Analysis</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="gallery.html" class="nav-link active">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="applications.html" class="nav-link">Applications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../presentations/" class="nav-link">Presentations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../activities/" class="nav-link">Activities</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Main Content -->
-    <div class="container">
-        <main class="main-content">
-            <!-- Sidebar Navigation -->
-            <aside class="sidebar">
-                <div class="search-container">
-                    <input type="search" class="search-input" placeholder="Search gallery..." id="searchInput">
-                </div>
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../">Home</a>
+      <a href="../presentations/">Gospel</a>
+      <a href="../tech-presentations/">Tech &amp; AI</a>
+      <a href="../activities/">Activities</a>
+      <a href="../conferences/">Conferences</a>
+      <a href="../alma31.html" aria-current="page">Scripture</a>
+    </nav>
+  </div>
+</header>
 
-                <nav>
-                    <ul class="sidebar-nav">
-                        <li><a href="#gallery" class="active">Gallery Overview</a></li>
-                        <li><a href="#rameumptom">Rameumptom</a></li>
-                        <li><a href="#characters">Characters</a></li>
-                        <li><a href="#geography">Geography</a></li>
-                        <li><a href="#scenes">Key Scenes</a></li>
-                        <li><a href="#symbols">Symbolism</a></li>
-                        <li><a href="analysis.html">← Analysis</a></li>
-                        <li><a href="applications.html">Applications →</a></li>
-                    </ul>
-                </nav>
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Alma 31 · Gallery</p>
+    <h1 class="hero-title">Visual gallery</h1>
+    <p class="hero-lede">Artistic interpretations of key scenes, characters, and symbols from Alma 31. Click any image to view it in full size.</p>
+  </section>
 
-                <div class="card mt-lg">
-                    <h4>About the Art</h4>
-                    <p>All artwork is from public domain sources or created specifically for educational purposes. Click images to view in full size.</p>
-                </div>
-            </aside>
-
-            <!-- Gallery Content -->
-            <section class="content">
-                <div class="gallery-hero" id="gallery">
-                    <h1>Alma 31 Visual Gallery</h1>
-                    <p class="lead">
-                        Explore artistic interpretations and visual representations of key scenes, characters, and symbols from Alma 31. These images help bring the scriptural narrative to life and enhance understanding of the chapter's profound messages.
-                    </p>
-                </div>
-
-                <!-- Category Filters -->
-                <div class="category-filter">
-                    <button class="filter-btn active" data-category="all">All Images</button>
-                    <button class="filter-btn" data-category="rameumptom">Rameumptom</button>
-                    <button class="filter-btn" data-category="characters">Characters</button>
-                    <button class="filter-btn" data-category="geography">Geography</button>
-                    <button class="filter-btn" data-category="scenes">Key Scenes</button>
-                    <button class="filter-btn" data-category="symbols">Symbolism</button>
-                </div>
-
-                <!-- Gallery Grid -->
-                <div class="gallery-grid">
-                    <!-- Rameumptom Images -->
-                    <div class="gallery-item" data-category="rameumptom" data-lightbox="rameumptom-1">
-                        <img src="../assets/images/gallery/rameumptom-structure.svg" alt="The Rameumptom Structure" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>The Rameumptom Structure</h3>
-                            <p>An artist's interpretation of the elevated platform where Zoramites offered their repetitive prayers. The single-person design emphasizes the isolation and pride inherent in their worship.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="rameumptom" data-lightbox="rameumptom-prayer">
-                        <img src="../assets/images/gallery/zoramite-prayer.svg" alt="Zoramite Prayer on Rameumptom" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Prayer on the Rameumptom</h3>
-                            <p>Illustration showing a Zoramite offering the prescribed prayer from atop the holy stand, demonstrating the public and performative nature of their worship.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="rameumptom" data-lightbox="synagogue">
-                        <img src="../assets/images/gallery/synagogue-interior.svg" alt="Zoramite Synagogue Interior" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Zoramite Synagogue Interior</h3>
-                            <p>Architectural rendering of a Zoramite synagogue with the Rameumptom prominently placed in the center, surrounded by seating for the congregation.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="rameumptom" data-lightbox="walking-rameumptom">
-                        <img src="../assets/images/gallery/walking_into_the_rameumptom.jpeg" alt="Walking into the Rameumptom" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Walking into the Rameumptom</h3>
-                            <p>A powerful depiction of approaching the Zoramite place of worship, showing the imposing nature of the Rameumptom and the atmosphere surrounding this false form of prayer.</p>
-                            <div class="image-source">Artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="rameumptom" data-lightbox="rameumptom11">
-                        <img src="../assets/images/gallery/Rameumptom11.jpg" alt="Rameumptom Scene" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>The Rameumptom Experience</h3>
-                            <p>A detailed artistic interpretation of the Zoramite worship experience on the Rameumptom, capturing the essence of their prideful religious practices and the "holy stand" that separated them from their fellow beings.</p>
-                            <div class="image-source">Artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <!-- Character Images -->
-                    <div class="gallery-item" data-category="characters" data-lightbox="alma-portrait">
-                        <img src="../assets/images/gallery/alma-portrait.svg" alt="Alma the Younger Portrait" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Alma the Younger</h3>
-                            <p>Portrait depicting Alma during his missionary period, showing the wisdom and compassion that characterized his ministry to the Zoramites.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="characters" data-lightbox="missionary-companions">
-                        <div class="gallery-image image-placeholder">
-                            <div>
-                                <div class="icon">👥</div>
-                                <div class="title">Missionary Companions</div>
-                                <div class="description">Alma's missionary team</div>
-                            </div>
-                        </div>
-                        <div class="gallery-caption">
-                            <h3>Alma's Missionary Companions</h3>
-                            <p>Group illustration showing Alma with Ammon, Aaron, Omner, Amulek, Zeezrom, and his sons Shiblon and Corianton as they prepare for their mission.</p>
-                            <div class="image-source">Book of Mormon stories illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="characters" data-lightbox="zoramites">
-                        <div class="gallery-image image-placeholder">
-                            <div>
-                                <div class="icon">👑</div>
-                                <div class="title">Proud Zoramites</div>
-                                <div class="description">Wealthy Zoramite society</div>
-                            </div>
-                        </div>
-                        <div class="gallery-caption">
-                            <h3>The Wealthy Zoramites</h3>
-                            <p>Depiction of Zoramites in their costly apparel and ornaments, illustrating the material prosperity that contributed to their spiritual pride.</p>
-                            <div class="image-source">Historical artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <!-- Geography Images -->
-                    <div class="gallery-item" data-category="geography" data-lightbox="antionum-map">
-                        <img src="../assets/images/gallery/antionum-map.svg" alt="Map of Antionum and Surrounding Lands" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Map of Antionum and Surrounding Lands</h3>
-                            <p>Geographic map showing the land of Antionum in relation to Zarahemla, Jershon, and Lamanite territories, illustrating the strategic importance of the Zoramite position.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="geography" data-lightbox="landscape">
-                        <div class="gallery-image image-placeholder">
-                            <div>
-                                <div class="icon">🏔️</div>
-                                <div class="title">Antionum Landscape</div>
-                                <div class="description">Artistic landscape view</div>
-                            </div>
-                        </div>
-                        <div class="gallery-caption">
-                            <h3>Antionum Landscape</h3>
-                            <p>Artist's conception of the land of Antionum, showing the terrain and environment where the Zoramites had established their cities and synagogues.</p>
-                            <div class="image-source">Landscape artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <!-- Key Scenes -->
-                    <div class="gallery-item" data-category="scenes" data-lightbox="alma-praying">
-                        <img src="../assets/images/gallery/alma-prayer.svg" alt="Alma's Heartfelt Prayer" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Alma's Heartfelt Prayer</h3>
-                            <p>Powerful scene depicting Alma in fervent prayer for the Zoramites, showing the contrast between his sincere supplication and their empty ritual.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="scenes" data-lightbox="poor-zoramites">
-                        <img src="../assets/images/gallery/speaking_to_the_poor_zoramites.jpeg" alt="Speaking to the Poor Zoramites" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Speaking to the Poor Zoramites</h3>
-                            <p>A moving depiction of Alma and his companions ministering to the poor Zoramites who had been cast out from their synagogues. This scene bridges Alma 31 with the great discourse on faith in Alma 32.</p>
-                            <div class="image-source">Artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="scenes" data-lightbox="poor-zoramites-2">
-                        <img src="../assets/images/gallery/speaking_to_the_poor_zoramites (1).jpeg" alt="Ministry to the Cast Out" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Ministry to the Cast Out</h3>
-                            <p>Another perspective on Alma's compassionate ministry to the poor Zoramites. This artistic interpretation emphasizes the humble circumstances of those who were excluded from worship and how they became receptive to the word of God.</p>
-                            <div class="image-source">Artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="scenes" data-lightbox="alma-speaking-zoramites">
-                        <img src="../assets/images/gallery/alam_the_younger_speaking_to_the_zoramites.jpeg" alt="Alma the Younger Speaking to the Zoramites" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Alma the Younger Speaking to the Zoramites</h3>
-                            <p>A powerful depiction of Alma delivering God's word to the Zoramites, demonstrating the principle from Alma 31:5 that the preaching of the word has more power to change hearts than force or coercion.</p>
-                            <div class="image-source">Artistic interpretation</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="scenes" data-lightbox="witnessing-worship">
-                        <div class="gallery-image image-placeholder">
-                            <div>
-                                <div class="icon">👀</div>
-                                <div class="title">Witnessing False Worship</div>
-                                <div class="description">Alma observes Zoramite worship</div>
-                            </div>
-                        </div>
-                        <div class="gallery-caption">
-                            <h3>Alma Witnesses Zoramite Worship</h3>
-                            <p>Scene showing Alma and his companions observing the Zoramite worship ritual for the first time, capturing their astonishment at what they witnessed.</p>
-                            <div class="image-source">Book of Mormon narrative art</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="scenes" data-lightbox="holy-spirit">
-                        <div class="gallery-image image-placeholder">
-                            <div>
-                                <div class="icon">✨</div>
-                                <div class="title">Filled with the Holy Spirit</div>
-                                <div class="description">Divine preparation scene</div>
-                            </div>
-                        </div>
-                        <div class="gallery-caption">
-                            <h3>Filled with the Holy Spirit</h3>
-                            <p>Illustration of Alma clapping his hands upon his companions, after which they were all filled with the Holy Spirit and prepared for their ministry.</p>
-                            <div class="image-source">Spiritual art interpretation</div>
-                        </div>
-                    </div>
-
-                    <!-- Symbolism Images -->
-                    <div class="gallery-item" data-category="symbols" data-lightbox="pride-tower">
-                        <img src="../assets/images/gallery/rameumptom-structure.svg" alt="The Tower of Pride" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>The Tower of Pride</h3>
-                            <p>Symbolic artwork depicting the Rameumptom as a representation of human pride that separates us from God and from our fellow beings.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="symbols" data-lightbox="two-prayers">
-                        <img src="../assets/images/gallery/contrasting-prayers.svg" alt="Contrasting Prayers" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>Contrasting Prayers</h3>
-                            <p>Symbolic artwork contrasting the prideful, repetitive prayer of the Zoramites with Alma's heartfelt, compassionate intercession.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-item" data-category="symbols" data-lightbox="word-power">
-                        <img src="../assets/images/gallery/power-of-word.svg" alt="The Power of God's Word" class="gallery-image">
-                        <div class="gallery-caption">
-                            <h3>The Power of God's Word</h3>
-                            <p>Artistic representation of Alma 31:5, showing how the word of God has more power to change hearts than the sword or any other force.</p>
-                            <div class="image-source">Educational illustration</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gallery Information -->
-                <div class="card mt-xl">
-                    <div class="card-header">
-                        <h2>About These Images</h2>
-                    </div>
-                    <div class="image-info">
-                        <h3>Artistic Interpretation</h3>
-                        <p>
-                            These visual representations are artistic interpretations based on the scriptural text of Alma 31. While we don't have historical photographs or exact archaeological evidence of these specific events, these images help us visualize and better understand the narrative and its spiritual lessons.
-                        </p>
-
-                        <h3>Educational Purpose</h3>
-                        <p>
-                            All images are used for educational and spiritual enrichment purposes. They are designed to enhance scripture study and help readers connect more deeply with the stories and principles found in the Book of Mormon.
-                        </p>
-
-                        <h3>Sources and Attribution</h3>
-                        <ul>
-                            <li><strong>LDS Media Library:</strong> Official artwork from The Church of Jesus Christ of Latter-day Saints</li>
-                            <li><strong>Public Domain Art:</strong> Historical religious artwork available for educational use</li>
-                            <li><strong>Educational Illustrations:</strong> Custom artwork created specifically for scripture study</li>
-                            <li><strong>Archaeological Interpretations:</strong> Renderings based on archaeological evidence from similar time periods</li>
-                        </ul>
-
-                        <h3>Usage Guidelines</h3>
-                        <p>
-                            These images are provided for personal and educational use. For other usage, please respect copyright and attribution requirements. When in doubt, contact the original source for permission.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Navigation -->
-                <div class="chapter-navigation">
-                    <div class="nav-buttons">
-                        <a href="analysis.html" class="btn btn-secondary">← Analysis</a>
-                        <a href="applications.html" class="btn btn-primary">Continue to Applications →</a>
-                    </div>
-                </div>
-            </section>
-        </main>
+  <section class="section container">
+    <div class="gallery-filters" role="group" aria-label="Filter by category">
+      <button class="btn btn-ghost" aria-pressed="true" data-category="all">All</button>
+      <button class="btn btn-ghost" aria-pressed="false" data-category="rameumptom">Rameumptom</button>
+      <button class="btn btn-ghost" aria-pressed="false" data-category="characters">Characters</button>
+      <button class="btn btn-ghost" aria-pressed="false" data-category="geography">Geography</button>
+      <button class="btn btn-ghost" aria-pressed="false" data-category="scenes">Scenes</button>
+      <button class="btn btn-ghost" aria-pressed="false" data-category="symbols">Symbolism</button>
     </div>
 
-    <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-close" onclick="closeLightbox()">&times;</div>
-        <div class="lightbox-content">
-            <div class="lightbox-image" id="lightboxImage">
-                <div class="image-placeholder">
-                    <div>
-                        <div class="icon">🖼️</div>
-                        <div class="title">Full Size Image</div>
-                        <div class="description">Click outside to close</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="gallery-grid" id="gallery-grid">
+
+      <a class="gallery-item" href="../assets/images/gallery/rameumptom-structure.svg" data-category="rameumptom" data-caption="The Rameumptom Structure — an elevated single-person platform.">
+        <img src="../assets/images/gallery/rameumptom-structure.svg" alt="The Rameumptom Structure" loading="lazy">
+        <span class="gallery-item-caption">The Rameumptom Structure</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/zoramite-prayer.svg" data-category="rameumptom" data-caption="Zoramite offering the prescribed prayer atop the holy stand.">
+        <img src="../assets/images/gallery/zoramite-prayer.svg" alt="Zoramite Prayer on Rameumptom" loading="lazy">
+        <span class="gallery-item-caption">Prayer on the Rameumptom</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/synagogue-interior.svg" data-category="rameumptom" data-caption="Zoramite synagogue interior with the Rameumptom in the center.">
+        <img src="../assets/images/gallery/synagogue-interior.svg" alt="Zoramite Synagogue Interior" loading="lazy">
+        <span class="gallery-item-caption">Synagogue interior</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/walking_into_the_rameumptom.jpeg" data-category="rameumptom" data-caption="Walking into the Rameumptom — approaching the Zoramite place of worship.">
+        <img src="../assets/images/gallery/walking_into_the_rameumptom.jpeg" alt="Walking into the Rameumptom" loading="lazy">
+        <span class="gallery-item-caption">Walking into the Rameumptom</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/Rameumptom11.jpg" data-category="rameumptom" data-caption="The Rameumptom experience — Zoramite worship on the holy stand.">
+        <img src="../assets/images/gallery/Rameumptom11.jpg" alt="Rameumptom Scene" loading="lazy">
+        <span class="gallery-item-caption">The Rameumptom experience</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/alma-portrait.svg" data-category="characters" data-caption="Alma the Younger during his missionary period.">
+        <img src="../assets/images/gallery/alma-portrait.svg" alt="Alma the Younger Portrait" loading="lazy">
+        <span class="gallery-item-caption">Alma the Younger</span>
+      </a>
+
+      <div class="gallery-item" data-category="characters" aria-label="Missionary companions — placeholder">
+        <span class="placeholder">Alma's missionary companions (placeholder)</span>
+        <span class="gallery-item-caption">Alma's missionary companions</span>
+      </div>
+
+      <div class="gallery-item" data-category="characters" aria-label="Wealthy Zoramites — placeholder">
+        <span class="placeholder">Wealthy Zoramites (placeholder)</span>
+        <span class="gallery-item-caption">The wealthy Zoramites</span>
+      </div>
+
+      <a class="gallery-item" href="../assets/images/gallery/antionum-map.svg" data-category="geography" data-caption="Antionum and surrounding lands — Zarahemla, Jershon, Lamanite territory.">
+        <img src="../assets/images/gallery/antionum-map.svg" alt="Map of Antionum and Surrounding Lands" loading="lazy">
+        <span class="gallery-item-caption">Map of Antionum</span>
+      </a>
+
+      <div class="gallery-item" data-category="geography" aria-label="Antionum landscape — placeholder">
+        <span class="placeholder">Antionum landscape (placeholder)</span>
+        <span class="gallery-item-caption">Antionum landscape</span>
+      </div>
+
+      <a class="gallery-item" href="../assets/images/gallery/alma-prayer.svg" data-category="scenes" data-caption="Alma in fervent prayer for the Zoramites.">
+        <img src="../assets/images/gallery/alma-prayer.svg" alt="Alma's Heartfelt Prayer" loading="lazy">
+        <span class="gallery-item-caption">Alma's heartfelt prayer</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/speaking_to_the_poor_zoramites.jpeg" data-category="scenes" data-caption="Alma and companions ministering to the poor Zoramites cast out from their synagogues.">
+        <img src="../assets/images/gallery/speaking_to_the_poor_zoramites.jpeg" alt="Speaking to the Poor Zoramites" loading="lazy">
+        <span class="gallery-item-caption">Speaking to the poor Zoramites</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/speaking_to_the_poor_zoramites (1).jpeg" data-category="scenes" data-caption="Ministry to the cast out — humble Zoramites receptive to the word.">
+        <img src="../assets/images/gallery/speaking_to_the_poor_zoramites (1).jpeg" alt="Ministry to the Cast Out" loading="lazy">
+        <span class="gallery-item-caption">Ministry to the cast out</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/alam_the_younger_speaking_to_the_zoramites.jpeg" data-category="scenes" data-caption="Alma the Younger delivering God's word to the Zoramites.">
+        <img src="../assets/images/gallery/alam_the_younger_speaking_to_the_zoramites.jpeg" alt="Alma the Younger Speaking to the Zoramites" loading="lazy">
+        <span class="gallery-item-caption">Alma speaking to the Zoramites</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/rameumptom-structure.svg" data-category="symbols" data-caption="The tower of pride — Rameumptom as symbol of human elevation above others.">
+        <img src="../assets/images/gallery/rameumptom-structure.svg" alt="The Tower of Pride" loading="lazy">
+        <span class="gallery-item-caption">The tower of pride</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/contrasting-prayers.svg" data-category="symbols" data-caption="Zoramite vs. Alma — contrasting prayers, side by side.">
+        <img src="../assets/images/gallery/contrasting-prayers.svg" alt="Contrasting Prayers" loading="lazy">
+        <span class="gallery-item-caption">Contrasting prayers</span>
+      </a>
+
+      <a class="gallery-item" href="../assets/images/gallery/power-of-word.svg" data-category="symbols" data-caption="The power of God's word — Alma 31:5.">
+        <img src="../assets/images/gallery/power-of-word.svg" alt="The Power of God's Word" loading="lazy">
+        <span class="gallery-item-caption">The power of God's word</span>
+      </a>
+
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Alma 31 Study App. Images used for educational purposes with proper attribution.</p>
-            <p><a href="../index.html">Home</a> | <a href="scripture.html">Scripture</a> | <a href="analysis.html">Analysis</a> | <a href="applications.html">Applications</a></p>
-        </div>
-    </footer>
+    <article class="prose" style="margin-top: var(--sp-12);">
+      <h2>About these images</h2>
+      <p>These visual representations are artistic interpretations based on the scriptural text of Alma 31. They are used for educational and spiritual enrichment purposes — designed to enhance scripture study and help readers connect with the narrative.</p>
+      <p>Sources include the LDS Media Library, public-domain religious artwork, and custom illustrations created specifically for scripture study. When in doubt about reuse, contact the original source for permission.</p>
+    </article>
 
-    <!-- JavaScript -->
-    <script src="../js/main.js"></script>
-    <script src="../js/search.js"></script>
-    <script>
-        // Gallery functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            setupGalleryFilters();
-            setupLightbox();
-        });
+    <div class="chapter-navigation">
+      <a href="analysis.html" class="btn btn-ghost">&larr; Analysis</a>
+      <a href="applications.html" class="btn btn-primary">Continue to applications &rarr;</a>
+    </div>
+  </section>
+</main>
 
-        function setupGalleryFilters() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" hidden>
+  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <figure>
+    <img id="lightbox-img" alt="" src="">
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+</div>
 
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Images used for educational purposes</span>
+    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+  </div>
+</footer>
 
-                    const category = this.getAttribute('data-category');
-
-                    galleryItems.forEach(item => {
-                        if (category === 'all' || item.getAttribute('data-category') === category) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            });
+<script>
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
         }
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-        function setupLightbox() {
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            const lightbox = document.getElementById('lightbox');
+  // Gallery filter
+  (function() {
+    const filterBtns = document.querySelectorAll('.gallery-filters [data-category]');
+    const items = document.querySelectorAll('#gallery-grid .gallery-item');
+    function apply(cat) {
+      items.forEach(it => {
+        const c = it.getAttribute('data-category');
+        it.style.display = (cat === 'all' || c === cat) ? '' : 'none';
+      });
+      filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.category === cat)));
+    }
+    filterBtns.forEach(b => b.addEventListener('click', () => apply(b.dataset.category)));
+  })();
 
-            galleryItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    openLightbox();
-                });
-            });
+  // Accessible lightbox
+  (function() {
+    const lb = document.getElementById('lightbox');
+    const closeBtn = lb.querySelector('.lightbox-close');
+    const img = document.getElementById('lightbox-img');
+    const cap = document.getElementById('lightbox-caption');
+    let lastFocus = null;
 
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) {
-                    closeLightbox();
-                }
-            });
-        }
+    function open(src, caption, alt) {
+      lastFocus = document.activeElement;
+      img.src = src;
+      img.alt = alt || caption || '';
+      cap.textContent = caption || '';
+      lb.hidden = false;
+      closeBtn.focus();
+      document.addEventListener('keydown', onKey);
+    }
+    function close() {
+      lb.hidden = true;
+      document.removeEventListener('keydown', onKey);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
+    }
+    closeBtn.addEventListener('click', close);
+    lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
 
-        function openLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
+    document.querySelectorAll('a.gallery-item').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const src = a.getAttribute('href');
+        const cap = a.getAttribute('data-caption') || '';
+        const alt = a.querySelector('img')?.getAttribute('alt') || cap;
+        open(src, cap, alt);
+      });
+    });
+  })();
+</script>
 
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Keyboard navigation for lightbox
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
-        });
-    </script>
 </body>
 </html>

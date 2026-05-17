@@ -1,0 +1,179 @@
+/* ============================================================
+   alma31.css — content-specific patterns for the Alma 31 study app
+   Used by pages/scripture.html, analysis.html, gallery.html,
+   applications.html, about.html. Loaded after site.css.
+   ============================================================ */
+
+/* Scripture verses */
+.scripture-header { margin-bottom: var(--sp-8); }
+.scripture-header .chapter-subtitle {
+  margin-top: var(--sp-3);
+  color: var(--ink-soft);
+  font-style: italic;
+  max-width: 68ch;
+}
+
+.verse-section { margin: var(--sp-12) 0; }
+.verse-section > h2 {
+  font-size: var(--fs-xl);
+  margin-bottom: var(--sp-6);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.verse {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--surface-2);
+  max-width: 68ch;
+}
+.verse:first-of-type { border-top: 0; }
+.verse-number {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  padding-top: 2px;
+}
+.verse-text { color: var(--ink); line-height: 1.7; }
+
+.verse.alma-prayer {
+  background: var(--accent-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-top: 0;
+}
+.verse.zoramite-prayer {
+  background: #fef2f2;
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-top: 0;
+}
+
+.verse mark, .verse .highlight {
+  background: #fef3c7;
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* Search */
+.search-container { margin-bottom: var(--sp-6); }
+.search-results-count {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+/* In-page TOC (replaces sidebar) */
+.page-toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-4) var(--sp-6);
+  margin-bottom: var(--sp-8);
+}
+.page-toc h2 {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-2);
+}
+.page-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+}
+.page-toc li { margin: 0; }
+.page-toc a {
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+.page-toc a:hover { color: var(--accent); }
+
+/* Themes grid (overview cards on inner pages) */
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-4);
+  margin: var(--sp-6) 0;
+}
+.theme-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+}
+.theme-item h3 { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
+.theme-item p { color: var(--ink-soft); font-size: var(--fs-sm); }
+
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--sp-4);
+}
+.gallery-item {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+.gallery-item img,
+.gallery-item .placeholder {
+  width: 100%; height: 100%; object-fit: cover;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface-2); color: var(--muted);
+  font-size: var(--fs-sm);
+}
+.gallery-item-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(0deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0) 100%);
+  color: #fff;
+  padding: var(--sp-6) var(--sp-3) var(--sp-3);
+  font-size: var(--fs-sm);
+}
+.gallery-filters {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  margin-bottom: var(--sp-6);
+}
+
+/* Applications page patterns */
+.app-section { margin: var(--sp-8) 0; }
+.tab-list, .age-tabs {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+}
+
+/* Chapter footer nav */
+.chapter-navigation,
+.nav-buttons {
+  display: flex; gap: var(--sp-3); flex-wrap: wrap;
+  margin: var(--sp-8) 0 0;
+}
+
+/* Featured verse (alma31 home) */
+.featured-verse {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--r-md);
+  padding: var(--sp-6);
+  font-size: var(--fs-md);
+  color: var(--ink);
+  max-width: 68ch;
+}
+
+/* Hide legacy patterns we no longer use */
+.audio-controls { display: none; } /* placeholder UI in legacy markup */

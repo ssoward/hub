@@ -3,1042 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Study applications, teaching ideas, and family activities for Alma 31 from the Book of Mormon.">
-    <meta name="keywords" content="Alma 31 study ideas, family home evening, teaching activities, scripture study applications">
+    <meta name="description" content="Study applications for Alma 31 — personal study, family activities, teaching ideas, and reflection.">
+    <meta name="theme-color" content="#1d4ed8">
+    <title>Alma 31 · Applications — Scott Soward</title>
 
-    <title>Alma 31 Study Applications - Teaching & Study Ideas</title>
-
-    <!-- Icons and PWA -->
     <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
     <link rel="manifest" href="../manifest.json">
-    <meta name="theme-color" content="#002E5D">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/responsive.css">
-
-    <style>
-        /* Application-specific styles */
-        .application-section {
-            margin-bottom: var(--spacing-2xl);
-        }
-
-        .activity-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-        }
-
-        .activity-card {
-            background: var(--white);
-            border-radius: 8px;
-            padding: var(--spacing-lg);
-            box-shadow: 0 2px 8px var(--shadow);
-            border-left: 4px solid var(--church-blue);
-            transition: var(--transition);
-        }
-
-        .activity-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px var(--shadow);
-        }
-
-        .activity-header {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .activity-icon {
-            font-size: 2rem;
-            background: var(--gray-light);
-            padding: var(--spacing-sm);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .activity-meta {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .difficulty-tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-right: var(--spacing-sm);
-        }
-
-        .difficulty-easy {
-            background: #e8f5e8;
-            color: #2d5a2d;
-        }
-
-        .difficulty-medium {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .difficulty-hard {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .materials-list {
-            background: var(--gray-light);
-            border-radius: 4px;
-            padding: var(--spacing-md);
-            margin: var(--spacing-md) 0;
-        }
-
-        .materials-list h5 {
-            margin-bottom: var(--spacing-sm);
-            color: var(--church-blue);
-        }
-
-        .step-list {
-            counter-reset: step-counter;
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .step-list li {
-            counter-increment: step-counter;
-            position: relative;
-            padding-left: 2.5rem;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .step-list li::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: var(--church-blue);
-            color: var(--white);
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .reflection-box {
-            background: linear-gradient(135deg, #f8f9ff, #e3f2fd);
-            border: 1px solid #bbdefb;
-            border-radius: 8px;
-            padding: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-        }
-
-        .reflection-box h4 {
-            color: var(--church-blue);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .interactive-demo {
-            background: var(--gray-light);
-            border-radius: 8px;
-            padding: var(--spacing-lg);
-            text-align: center;
-            margin: var(--spacing-lg) 0;
-            border: 2px dashed var(--church-blue);
-        }
-
-        .demo-rameumptom {
-            width: 150px;
-            height: 200px;
-            margin: 0 auto var(--spacing-md);
-            background: linear-gradient(to bottom, #8b4513, #a0522d);
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .demo-rameumptom:hover {
-            transform: scale(1.05);
-        }
-
-        .demo-rameumptom::after {
-            content: '👤';
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.5rem;
-        }
-
-        .demo-controls {
-            display: flex;
-            gap: var(--spacing-sm);
-            justify-content: center;
-            margin-top: var(--spacing-md);
-        }
-
-        .demo-btn {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: var(--church-blue);
-            color: var(--white);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.875rem;
-        }
-
-        .demo-btn:hover {
-            background: var(--church-blue-light);
-        }
-
-        .prayer-comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-        }
-
-        .prayer-box {
-            padding: var(--spacing-lg);
-            border-radius: 8px;
-            border: 2px solid;
-        }
-
-        .false-prayer {
-            border-color: #dc3545;
-            background: #f8d7da;
-        }
-
-        .true-prayer {
-            border-color: #28a745;
-            background: #d4edda;
-        }
-
-        .age-group-tabs {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
-            flex-wrap: wrap;
-        }
-
-        .age-tab {
-            padding: var(--spacing-sm) var(--spacing-lg);
-            background: var(--gray-light);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .age-tab:hover,
-        .age-tab.active {
-            background: var(--church-blue);
-            color: var(--white);
-            border-color: var(--church-blue);
-        }
-
-        .age-content {
-            display: none;
-        }
-
-        .age-content.active {
-            display: block;
-        }
-
-        .printable-section {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            padding: var(--spacing-lg);
-            margin: var(--spacing-lg) 0;
-            page-break-inside: avoid;
-        }
-
-        @media print {
-            .no-print {
-                display: none;
-            }
-            .printable-section {
-                box-shadow: none;
-                border: 1px solid #000;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/site.css">
+    <link rel="stylesheet" href="../css/alma31.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="../index.html" class="logo">Alma 31 Study</a>
 
-            <nav class="nav">
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-                    ☰
-                </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="../index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="scripture.html" class="nav-link">Scripture</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="analysis.html" class="nav-link">Analysis</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="gallery.html" class="nav-link">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="applications.html" class="nav-link active">Applications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../presentations/" class="nav-link">Presentations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../activities/" class="nav-link">Activities</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Main Content -->
-    <div class="container">
-        <main class="main-content">
-            <!-- Sidebar Navigation -->
-            <aside class="sidebar">
-                <div class="search-container">
-                    <input type="search" class="search-input" placeholder="Search activities..." id="searchInput">
-                </div>
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../">Home</a>
+      <a href="../presentations/">Gospel</a>
+      <a href="../tech-presentations/">Tech &amp; AI</a>
+      <a href="../activities/">Activities</a>
+      <a href="../conferences/">Conferences</a>
+      <a href="../alma31.html" aria-current="page">Scripture</a>
+    </nav>
+  </div>
+</header>
 
-                <nav>
-                    <ul class="sidebar-nav">
-                        <li><a href="#overview" class="active">Overview</a></li>
-                        <li><a href="#personal-study">Personal Study</a></li>
-                        <li><a href="#family-activities">Family Activities</a></li>
-                        <li><a href="#teaching-ideas">Teaching Ideas</a></li>
-                        <li><a href="#interactive-demo">Interactive Demo</a></li>
-                        <li><a href="#discussion-questions">Discussion</a></li>
-                        <li><a href="#printable-resources">Printables</a></li>
-                        <li><a href="gallery.html">← Gallery</a></li>
-                        <li><a href="../index.html">Home →</a></li>
-                    </ul>
-                </nav>
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Alma 31 · Applications</p>
+    <h1 class="hero-title">Study applications</h1>
+    <p class="hero-lede">Personal study ideas, family activities, and teaching resources — transforming the lessons of Alma 31 into meaningful practice.</p>
+  </section>
 
-                <div class="card mt-lg">
-                    <h4>Quick Tools</h4>
-                    <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Page</button>
-                    <a href="#interactive-demo" class="btn btn-secondary mt-sm">🎮 Try Demo</a>
-                </div>
-            </aside>
+  <section class="section container">
+    <nav class="page-toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#personal-study">Personal study</a></li>
+        <li><a href="#family-activities">Family activities</a></li>
+        <li><a href="#teaching-ideas">Teaching ideas</a></li>
+        <li><a href="#discussion-questions">Discussion questions</a></li>
+        <li><a href="#reflection">Self-reflection</a></li>
+      </ul>
+    </nav>
 
-            <!-- Applications Content -->
-            <section class="content">
-                <div class="applications-header" id="overview">
-                    <h1>Alma 31 Study Applications</h1>
-                    <p class="lead">
-                        Transform the powerful lessons of Alma 31 into meaningful personal study, engaging family activities, and effective teaching experiences. These applications help bring ancient truths into modern life.
-                    </p>
-                </div>
+    <article class="prose" id="personal-study">
+      <h2>Personal study</h2>
 
-                <!-- Personal Study Applications -->
-                <section id="personal-study" class="application-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Personal Study Applications</h2>
-                        </div>
+      <h3>1. Prayer self-assessment <small>(15–20 min)</small></h3>
+      <p>Compare your personal prayers to both the Zoramite prayer and Alma's prayer to identify areas for growth.</p>
+      <ol>
+        <li>Read Alma 31:15–18 (Zoramite prayer) and 31:26–35 (Alma's prayer).</li>
+        <li>Write down characteristics of each prayer.</li>
+        <li>Reflect on your recent prayers — which do they resemble more?</li>
+        <li>Identify two or three specific improvements.</li>
+        <li>Practice a new style of prayer this week incorporating those insights.</li>
+      </ol>
 
-                        <div class="activity-grid">
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">🪞</div>
-                                    <div>
-                                        <h3>Prayer Self-Assessment</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-easy">Easy</span>
-                                            15-20 minutes
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Compare your personal prayers to both the Zoramite prayer and Alma's prayer to identify areas for improvement.</p>
+      <h3>2. Pride inventory <small>(30–45 min)</small></h3>
+      <p>Honest self-examination to identify where pride may be affecting your spiritual growth and relationships.</p>
+      <ol>
+        <li>List the ways Zoramites showed pride (verses 24–28).</li>
+        <li>For each, honestly assess your own tendencies.</li>
+        <li>Identify your personal "Rameumptoms" — areas where you seek recognition.</li>
+        <li>Write specific goals for developing humility.</li>
+        <li>Plan concrete actions to implement these changes.</li>
+      </ol>
+      <p><strong>Pride indicators to consider:</strong> comparing yourself to others, difficulty accepting correction, seeking recognition for good deeds, judging others' spiritual worthiness, focusing on external religious performance.</p>
 
-                                <div class="materials-list">
-                                    <h5>Materials Needed:</h5>
-                                    <ul>
-                                        <li>Scripture journal or notebook</li>
-                                        <li>Quiet space for reflection</li>
-                                        <li>Pen or pencil</li>
-                                    </ul>
-                                </div>
+      <h3>3. Word power study <small>(25–35 min)</small></h3>
+      <p>Deep dive into Alma 31:5 and the power of God's word to transform hearts and minds.</p>
+      <ol>
+        <li>Study Alma 31:5 in depth.</li>
+        <li>Look up cross-references about God's word: Hebrews 4:12, Isaiah 55:11, Alma 32:28.</li>
+        <li>Journal about times God's word has changed your heart.</li>
+        <li>Identify someone who needs the power of God's word.</li>
+        <li>Plan how you can share appropriate scriptures with them.</li>
+      </ol>
 
-                                <h5>Steps:</h5>
-                                <ol class="step-list">
-                                    <li>Read Alma 31:15-18 (Zoramite prayer) and 31:26-35 (Alma's prayer)</li>
-                                    <li>Write down characteristics of each prayer</li>
-                                    <li>Reflect on your recent prayers - which do they resemble more?</li>
-                                    <li>Identify 2-3 specific improvements you can make</li>
-                                    <li>Practice a new style of prayer incorporating these insights</li>
-                                </ol>
+      <h3>4. Compassion challenge <small>(ongoing)</small></h3>
+      <p>Follow Alma's example by developing Christ-like compassion for those who have lost their way spiritually.</p>
+      <ol>
+        <li>Identify someone struggling with faith or making poor choices.</li>
+        <li>Study Alma's response to the Zoramites (verses 24–35).</li>
+        <li>Pray for that person daily using Alma's prayer as a model.</li>
+        <li>Look for opportunities to show love without judgment.</li>
+        <li>Journal about insights gained through this practice.</li>
+      </ol>
+    </article>
 
-                                <div class="reflection-box">
-                                    <h4>Reflection Questions:</h4>
-                                    <ul>
-                                        <li>What motivates my prayers - genuine need or habit?</li>
-                                        <li>How often do I pray for others versus myself?</li>
-                                        <li>Do I truly believe God hears and answers my prayers?</li>
-                                    </ul>
-                                </div>
-                            </div>
+    <article class="prose" id="family-activities">
+      <h2>Family activities</h2>
 
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">💎</div>
-                                    <div>
-                                        <h3>Pride Inventory</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-medium">Medium</span>
-                                            30-45 minutes
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Honest self-examination to identify areas where pride may be affecting your spiritual growth and relationships.</p>
+      <h3>For young children (ages 3–8)</h3>
+      <ul>
+        <li><strong>Build a Rameumptom and contrast.</strong> Use blocks to build a tall, narrow tower (Rameumptom) and a wide, low circle of chairs (family prayer). Talk about the difference between standing high alone vs. kneeling together.</li>
+        <li><strong>Drawing activity.</strong> Have children draw a picture of "kind prayer" vs. "showing-off prayer." Talk about the feelings each picture gives them.</li>
+        <li><strong>Caring hearts.</strong> Make paper hearts with names of friends, family, or neighbors who need extra love. Use them as prompts during family prayer.</li>
+      </ul>
 
-                                <h5>Steps:</h5>
-                                <ol class="step-list">
-                                    <li>List the ways Zoramites showed pride (verses 24-28)</li>
-                                    <li>For each area, honestly assess your own tendencies</li>
-                                    <li>Identify your personal "Rameumptoms" - areas where you seek recognition</li>
-                                    <li>Write specific goals for developing humility</li>
-                                    <li>Plan concrete actions to implement these changes</li>
-                                </ol>
+      <h3>For older children (ages 9–12)</h3>
+      <ul>
+        <li><strong>Compare-and-contrast game.</strong> Make a T-chart: "Zoramite prayer" vs. "Alma's prayer." Have children fill in differences. Discuss what each says about the person praying.</li>
+        <li><strong>Modern Rameumptoms.</strong> Discuss what modern "Rameumptoms" might look like — places people go to be seen rather than to draw closer to God.</li>
+        <li><strong>Word power experiment.</strong> Read a favorite gospel verse together. Pick one phrase. Talk for ten minutes about what it means to each family member.</li>
+      </ul>
 
-                                <div class="reflection-box">
-                                    <h4>Pride Indicators to Consider:</h4>
-                                    <ul>
-                                        <li>Comparing yourself to others</li>
-                                        <li>Difficulty accepting correction</li>
-                                        <li>Seeking recognition for good deeds</li>
-                                        <li>Judging others' spiritual worthiness</li>
-                                        <li>Focusing on external religious performance</li>
-                                    </ul>
-                                </div>
-                            </div>
+      <h3>For teens (ages 13–18)</h3>
+      <ul>
+        <li><strong>Pride and social media.</strong> Discuss how social media can become a Rameumptom — a place to be seen rather than to grow. What does authentic faith look like online?</li>
+        <li><strong>Compassion mapping.</strong> Identify one person in your life who feels excluded. Brainstorm specific, age-appropriate ways to include and minister to them this week.</li>
+        <li><strong>Personal prayer journal.</strong> Start a private prayer journal modeled after Alma's prayer: honest emotion, intercession for others, requests for strength.</li>
+      </ul>
+    </article>
 
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">📖</div>
-                                    <div>
-                                        <h3>Word Power Study</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-medium">Medium</span>
-                                            25-35 minutes
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Deep dive into Alma 31:5 and the power of God's word to transform hearts and minds.</p>
+    <article class="prose" id="teaching-ideas">
+      <h2>Teaching ideas</h2>
 
-                                <h5>Cross-Reference Study:</h5>
-                                <ol class="step-list">
-                                    <li>Study Alma 31:5 in depth</li>
-                                    <li>Look up cross-references about God's word (Heb. 4:12, Isa. 55:11, Alma 32:28)</li>
-                                    <li>Journal about times God's word has changed your heart</li>
-                                    <li>Identify someone who needs the power of God's word</li>
-                                    <li>Plan how you can share appropriate scriptures with them</li>
-                                </ol>
-                            </div>
+      <h3>For Primary teachers</h3>
+      <ul>
+        <li>Use simple visuals (tall tower vs. family circle) to teach the contrast between prideful and humble prayer.</li>
+        <li>Tell the story in age-appropriate language — emphasize that God hears all sincere prayers, no matter how simple.</li>
+        <li>End with a class prayer where children take turns adding one specific thing they're grateful for or one person they want to pray for.</li>
+      </ul>
 
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">❤️</div>
-                                    <div>
-                                        <h3>Compassion Challenge</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-medium">Medium</span>
-                                            Ongoing
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Follow Alma's example by developing Christ-like compassion for those who have lost their way spiritually.</p>
+      <h3>For Sunday School / Seminary</h3>
+      <ul>
+        <li>Open with the central question: "What's the difference between performing faith and living faith?"</li>
+        <li>Read verses 15–18 (Zoramite prayer) and 26–35 (Alma's prayer) side by side. Have students identify five contrasts between them.</li>
+        <li>Discuss verse 5 and the principle that the word of God is more powerful than the sword. Where do students see this principle proven (or not) in their own lives?</li>
+        <li>Close with a personal-application moment: "What would Alma pray about if he were standing where you stand today?"</li>
+      </ul>
 
-                                <h5>Weekly Challenge:</h5>
-                                <ol class="step-list">
-                                    <li>Identify someone struggling with faith or making poor choices</li>
-                                    <li>Study Alma's response to the Zoramites (verses 24-35)</li>
-                                    <li>Pray for that person daily using Alma's prayer as a model</li>
-                                    <li>Look for opportunities to show love without judgment</li>
-                                    <li>Journal about insights gained through this practice</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+      <h3>For Relief Society / Elders Quorum</h3>
+      <ul>
+        <li>Focus the discussion on Alma's compassion (verses 24–35). How does Alma respond to people who have rejected what we believe?</li>
+        <li>Explore "Behold, their souls are precious" (verse 35) as a framework for ministering to those who have stepped away from the faith.</li>
+        <li>Share experiences (anonymously if needed) of times people have shown Christ-like compassion in difficult situations.</li>
+      </ul>
+    </article>
 
-                <!-- Family Activities -->
-                <section id="family-activities" class="application-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Family Home Evening & Activities</h2>
-                        </div>
+    <article class="prose" id="discussion-questions">
+      <h2>Discussion questions</h2>
+      <ol>
+        <li>What motivates my prayers — genuine need, habit, or appearance?</li>
+        <li>How often do I pray for others versus myself?</li>
+        <li>Why did Alma choose the word over force? Where in my life could I do the same?</li>
+        <li>What does the Rameumptom look like today?</li>
+        <li>How do I show compassion for the spiritually afflicted without being condescending?</li>
+        <li>How is Alma's prayer different from prayers I've heard in church? From prayers I've offered?</li>
+        <li>What does verse 5 — "the virtue of the word" — mean in a moment when I feel powerless to change someone?</li>
+      </ol>
+    </article>
 
-                        <!-- Age Group Tabs -->
-                        <div class="age-group-tabs">
-                            <div class="age-tab active" data-age="all">All Ages</div>
-                            <div class="age-tab" data-age="young">Young Children (3-8)</div>
-                            <div class="age-tab" data-age="older">Older Children (9-12)</div>
-                            <div class="age-tab" data-age="teen">Teenagers (13-18)</div>
-                        </div>
+    <article class="prose" id="reflection">
+      <h2>Self-reflection prompts</h2>
+      <p>Use these for journaling, family discussion, or quiet reflection:</p>
+      <ul>
+        <li>Am I building Rameumptoms in my spiritual life — seeking elevation above others?</li>
+        <li>When I encounter people who have lost faith, is my first response judgment or compassion?</li>
+        <li>How does my faith influence my daily interactions, decisions, and priorities?</li>
+        <li>Do I truly believe in the power of God's word to change hearts, including my own?</li>
+        <li>What is one specific thing I can do this week to make my private worship more authentic?</li>
+      </ul>
+    </article>
 
-                        <!-- All Ages Content -->
-                        <div class="age-content active" id="all-ages">
-                            <div class="activity-grid">
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🏗️</div>
-                                        <div>
-                                            <h3>Build Your Own Rameumptom</h3>
-                                            <div class="activity-meta">
-                                                <span class="difficulty-tag difficulty-easy">Easy</span>
-                                                20-30 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>Physical object lesson using blocks or household items to build a "Rameumptom" and discuss its symbolism.</p>
-
-                                    <div class="materials-list">
-                                        <h5>Materials:</h5>
-                                        <ul>
-                                            <li>Building blocks, books, or boxes</li>
-                                            <li>Small figure or toy person</li>
-                                            <li>Timer (optional)</li>
-                                        </ul>
-                                    </div>
-
-                                    <h5>Activity:</h5>
-                                    <ol class="step-list">
-                                        <li>Read Alma 31:12-14 together</li>
-                                        <li>Build a tall structure that fits only one person on top</li>
-                                        <li>Have family members take turns standing on it</li>
-                                        <li>Discuss how it feels to be elevated above others</li>
-                                        <li>Compare to humble prayer on the ground</li>
-                                        <li>Talk about ways we might build "Rameumptoms" in our lives</li>
-                                    </ol>
-                                </div>
-
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🎭</div>
-                                        <div>
-                                            <h3>Prayer Drama</h3>
-                                            <div class="activity-meta">
-                                                <span class="difficulty-tag difficulty-medium">Medium</span>
-                                                15-25 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>Act out the contrast between Zoramite and Alma's prayers to understand the difference between true and false worship.</p>
-
-                                    <h5>Activity:</h5>
-                                    <ol class="step-list">
-                                        <li>Assign roles: Zoramites, Alma, narrator</li>
-                                        <li>Act out the Zoramite prayer (verses 15-18) with exaggerated pride</li>
-                                        <li>Contrast with Alma's heartfelt prayer (verses 26-35)</li>
-                                        <li>Discuss the differences in tone, content, and motivation</li>
-                                        <li>Practice family prayers using Alma's example</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Young Children Content -->
-                        <div class="age-content" id="young-children">
-                            <div class="activity-grid">
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🎨</div>
-                                        <div>
-                                            <h3>Coloring & Simple Crafts</h3>
-                                        </div>
-                                    </div>
-                                    <p>Simple activities to help young children understand basic concepts from Alma 31.</p>
-
-                                    <h5>Ideas:</h5>
-                                    <ul>
-                                        <li>Color pictures of people praying humbly vs. proudly</li>
-                                        <li>Make prayer cards with family member names</li>
-                                        <li>Create a "kindness tower" instead of a pride tower</li>
-                                        <li>Draw pictures of ways to help others</li>
-                                    </ul>
-                                </div>
-
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🎵</div>
-                                        <div>
-                                            <h3>Songs & Actions</h3>
-                                        </div>
-                                    </div>
-                                    <p>Use familiar Primary songs to reinforce lessons about prayer and humility.</p>
-
-                                    <h5>Song Suggestions:</h5>
-                                    <ul>
-                                        <li>"I Pray in Faith" - emphasize sincere prayer</li>
-                                        <li>"Help Me, Dear Father" - about asking for help with humility</li>
-                                        <li>"Jesus Said Love Everyone" - about loving all people</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Older Children Content -->
-                        <div class="age-content" id="older-children">
-                            <div class="activity-grid">
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🕵️</div>
-                                        <div>
-                                            <h3>Scripture Detective</h3>
-                                        </div>
-                                    </div>
-                                    <p>Become scripture detectives to find clues about the Zoramites' spiritual problems and Alma's solutions.</p>
-
-                                    <h5>Detective Work:</h5>
-                                    <ul>
-                                        <li>Find evidence of Zoramite pride in verses 24-28</li>
-                                        <li>Identify problems with their prayer (verses 15-18)</li>
-                                        <li>Discover Alma's feelings and responses (verses 24-35)</li>
-                                        <li>Make a "case file" with findings</li>
-                                    </ul>
-                                </div>
-
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🎯</div>
-                                        <div>
-                                            <h3>Modern Day Scenarios</h3>
-                                        </div>
-                                    </div>
-                                    <p>Discuss modern situations that parallel the pride and prayer issues in Alma 31.</p>
-
-                                    <h5>Discussion Topics:</h5>
-                                    <ul>
-                                        <li>Social media and showing off</li>
-                                        <li>Being proud of achievements vs. being grateful</li>
-                                        <li>Treating people differently based on their popularity or wealth</li>
-                                        <li>Saying prayers because you "have to" vs. really meaning them</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Teenager Content -->
-                        <div class="age-content" id="teenagers">
-                            <div class="activity-grid">
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">💬</div>
-                                        <div>
-                                            <h3>Deep Discussion Questions</h3>
-                                        </div>
-                                    </div>
-                                    <p>Thought-provoking questions for meaningful family discussions about pride, prayer, and spiritual authenticity.</p>
-
-                                    <h5>Discussion Questions:</h5>
-                                    <ul>
-                                        <li>How do social media and peer pressure create modern "Rameumptoms"?</li>
-                                        <li>What's the difference between confidence and pride?</li>
-                                        <li>How can we maintain sincere faith in a world that often mocks religion?</li>
-                                        <li>When have you felt judged by others for your beliefs or choices?</li>
-                                        <li>How do we help friends who are struggling with faith without being preachy?</li>
-                                    </ul>
-                                </div>
-
-                                <div class="activity-card">
-                                    <div class="activity-header">
-                                        <div class="activity-icon">🎬</div>
-                                        <div>
-                                            <h3>Media Analysis</h3>
-                                        </div>
-                                    </div>
-                                    <p>Analyze movies, TV shows, or social media through the lens of Alma 31's lessons about pride and authenticity.</p>
-
-                                    <h5>Analysis Points:</h5>
-                                    <ul>
-                                        <li>How do characters show pride or humility?</li>
-                                        <li>What motivates people to seek attention or status?</li>
-                                        <li>How are different social classes portrayed?</li>
-                                        <li>What messages about success and self-worth are promoted?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Teaching Ideas -->
-                <section id="teaching-ideas" class="application-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Teaching Ideas & Lesson Plans</h2>
-                        </div>
-
-                        <div class="activity-grid">
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">👩‍🏫</div>
-                                    <div>
-                                        <h3>Sunday School Lesson</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-medium">Medium</span>
-                                            40-50 minutes
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Complete lesson plan for teaching Alma 31 to youth or adult classes.</p>
-
-                                <h5>Lesson Outline:</h5>
-                                <ol class="step-list">
-                                    <li><strong>Opening (5 min):</strong> Show picture of a tower or tall building. Discuss why people build high structures.</li>
-                                    <li><strong>Context (10 min):</strong> Brief overview of Zoramite apostasy and Alma's concern.</li>
-                                    <li><strong>Rameumptom Activity (15 min):</strong> Have class analyze the Zoramite prayer and discuss problems.</li>
-                                    <li><strong>Contrast (15 min):</strong> Compare with Alma's prayer, highlighting differences.</li>
-                                    <li><strong>Application (15 min):</strong> Discuss modern applications and personal commitments.</li>
-                                </ol>
-
-                                <div class="materials-list">
-                                    <h5>Teaching Materials:</h5>
-                                    <ul>
-                                        <li>Pictures of towers/tall buildings</li>
-                                        <li>Handout comparing prayers</li>
-                                        <li>Whiteboard/markers</li>
-                                        <li>Small step stool or platform (optional)</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">🎯</div>
-                                    <div>
-                                        <h3>Seminary Lesson</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-hard">Advanced</span>
-                                            50 minutes
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>In-depth seminary lesson with scripture mastery, doctrine, and practical application.</p>
-
-                                <h5>Lesson Components:</h5>
-                                <ul>
-                                    <li><strong>Scripture Mastery:</strong> Alma 31:5 - Power of God's word</li>
-                                    <li><strong>Doctrinal Focus:</strong> True worship vs. false worship</li>
-                                    <li><strong>Application:</strong> Personal prayer assessment and improvement</li>
-                                    <li><strong>Cross-References:</strong> Matthew 6:5-6, James 1:27, Moroni 7:6-9</li>
-                                </ul>
-                            </div>
-
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">👶</div>
-                                    <div>
-                                        <h3>Primary Lesson</h3>
-                                        <div class="activity-meta">
-                                            <span class="difficulty-tag difficulty-easy">Easy</span>
-                                            20-30 minutes
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Age-appropriate lesson for Primary children focusing on humble prayer and kindness.</p>
-
-                                <h5>Simple Lesson Plan:</h5>
-                                <ol class="step-list">
-                                    <li>Tell story of proud people who forgot to be kind</li>
-                                    <li>Act out proud prayer vs. humble prayer</li>
-                                    <li>Practice saying sincere prayers together</li>
-                                    <li>Discuss ways to be kind to everyone</li>
-                                    <li>Sing a song about prayer or kindness</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Interactive Demo -->
-                <section id="interactive-demo" class="application-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Interactive Rameumptom Demo</h2>
-                        </div>
-
-                        <p>This interactive demonstration helps you understand the physical and spiritual symbolism of the Rameumptom.</p>
-
-                        <div class="interactive-demo">
-                            <h3>Build Your Digital Rameumptom</h3>
-                            <div class="demo-rameumptom" id="demoRameumptom" onclick="togglePrayer()">
-                                <div id="prayerBubble" style="display: none; position: absolute; top: -60px; left: -50px; background: white; border: 2px solid #002E5D; border-radius: 8px; padding: 10px; width: 200px; font-size: 0.8rem;">
-                                    "We thank thee that we are chosen..."
-                                </div>
-                            </div>
-                            <p><em>Click the Rameumptom to see the Zoramite prayer</em></p>
-
-                            <div class="demo-controls">
-                                <button class="demo-btn" onclick="showPride()">Show Pride</button>
-                                <button class="demo-btn" onclick="showHumility()">Show Humility</button>
-                                <button class="demo-btn" onclick="resetDemo()">Reset</button>
-                            </div>
-
-                            <div id="demoMessage" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; display: none;">
-                            </div>
-                        </div>
-
-                        <div class="prayer-comparison">
-                            <div class="prayer-box false-prayer">
-                                <h4>❌ Zoramite Prayer Problems</h4>
-                                <ul>
-                                    <li>Repetitive and formulaic</li>
-                                    <li>Self-congratulatory</li>
-                                    <li>Exclusive and judgmental</li>
-                                    <li>Once-weekly only</li>
-                                    <li>Denies Christ</li>
-                                </ul>
-                            </div>
-                            <div class="prayer-box true-prayer">
-                                <h4>✅ Alma's Prayer Qualities</h4>
-                                <ul>
-                                    <li>Personal and heartfelt</li>
-                                    <li>Concerned for others</li>
-                                    <li>Humble and honest</li>
-                                    <li>Spontaneous as needed</li>
-                                    <li>Christ-centered</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Discussion Questions -->
-                <section id="discussion-questions" class="application-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Discussion Questions</h2>
-                        </div>
-
-                        <div class="activity-grid">
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">💭</div>
-                                    <div>
-                                        <h3>Personal Reflection</h3>
-                                    </div>
-                                </div>
-                                <ul>
-                                    <li>What motivates my religious observance - love for God or desire for recognition?</li>
-                                    <li>How do I respond when others make different spiritual choices than I do?</li>
-                                    <li>In what ways might I be building my own "Rameumptoms"?</li>
-                                    <li>What would change if I truly believed in the power of God's word over human force?</li>
-                                </ul>
-                            </div>
-
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">👥</div>
-                                    <div>
-                                        <h3>Group Discussion</h3>
-                                    </div>
-                                </div>
-                                <ul>
-                                    <li>How does pride affect relationships within families and communities?</li>
-                                    <li>What are modern examples of using religion for social status rather than spiritual growth?</li>
-                                    <li>How can we maintain spiritual authenticity in a social media world?</li>
-                                    <li>What does it mean to see others' souls as "precious" even when we disagree with their choices?</li>
-                                </ul>
-                            </div>
-
-                            <div class="activity-card">
-                                <div class="activity-header">
-                                    <div class="activity-icon">🏛️</div>
-                                    <div>
-                                        <h3>Community Application</h3>
-                                    </div>
-                                </div>
-                                <ul>
-                                    <li>How can religious communities avoid becoming exclusive or prideful?</li>
-                                    <li>What practices help maintain focus on spiritual growth rather than social performance?</li>
-                                    <li>How do we balance teaching standards with showing love for all people?</li>
-                                    <li>What role should religious institutions play in addressing social inequality?</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Printable Resources -->
-                <section id="printable-resources" class="application-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Printable Resources</h2>
-                        </div>
-
-                        <p>These resources can be printed for personal study, family use, or teaching.</p>
-
-                        <div class="printable-section">
-                            <h3>Alma 31 Study Guide</h3>
-                            <h4>Key Verses to Remember:</h4>
-                            <ul>
-                                <li><strong>Alma 31:5</strong> - "The preaching of the word had a great tendency to lead the people to do that which was just"</li>
-                                <li><strong>Alma 31:21</strong> - "Now the place was called by them Rameumptom, which, being interpreted, is the holy stand"</li>
-                                <li><strong>Alma 31:35</strong> - "Behold, O Lord, their souls are precious, and many of them are our brethren"</li>
-                            </ul>
-
-                            <h4>Questions for Study:</h4>
-                            <ol>
-                                <li>What made the Zoramite prayer problematic?</li>
-                                <li>How did Alma show Christ-like compassion?</li>
-                                <li>What does the Rameumptom symbolize?</li>
-                                <li>How can I apply these lessons in my life?</li>
-                            </ol>
-
-                            <h4>Personal Application Goals:</h4>
-                            <ul>
-                                <li>□ Improve the sincerity of my prayers</li>
-                                <li>□ Show more compassion for those who struggle spiritually</li>
-                                <li>□ Examine my motivations for religious activity</li>
-                                <li>□ Focus on serving others rather than seeking recognition</li>
-                            </ul>
-                        </div>
-
-                        <div class="printable-section">
-                            <h3>Family Discussion Cards</h3>
-                            <p><em>Cut out these cards for family discussion activities:</em></p>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-                                <div style="border: 1px dashed #ccc; padding: 1rem; text-align: center;">
-                                    <strong>Pride Check</strong><br>
-                                    "Name one way you might be tempted to show off or seek attention."
-                                </div>
-                                <div style="border: 1px dashed #ccc; padding: 1rem; text-align: center;">
-                                    <strong>Prayer Improvement</strong><br>
-                                    "Share one thing you want to do differently in your prayers."
-                                </div>
-                                <div style="border: 1px dashed #ccc; padding: 1rem; text-align: center;">
-                                    <strong>Compassion Practice</strong><br>
-                                    "How can we show love to someone who has different beliefs?"
-                                </div>
-                                <div style="border: 1px dashed #ccc; padding: 1rem; text-align: center;">
-                                    <strong>Service Opportunity</strong><br>
-                                    "What's one way we can serve others without anyone knowing?"
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="no-print" style="text-align: center; margin-top: 2rem;">
-                            <button class="btn btn-primary" onclick="window.print()">🖨️ Print These Resources</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Navigation -->
-                <div class="chapter-navigation">
-                    <div class="nav-buttons">
-                        <a href="gallery.html" class="btn btn-secondary">← Gallery</a>
-                        <a href="../index.html" class="btn btn-primary">Back to Home →</a>
-                    </div>
-                </div>
-            </section>
-        </main>
+    <div class="chapter-navigation">
+      <a href="gallery.html" class="btn btn-ghost">&larr; Gallery</a>
+      <a href="about.html" class="btn btn-primary">About this study app &rarr;</a>
     </div>
+  </section>
+</main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Alma 31 Study App. Study applications for personal and educational use.</p>
-            <p><a href="../index.html">Home</a> | <a href="scripture.html">Scripture</a> | <a href="analysis.html">Analysis</a> | <a href="gallery.html">Gallery</a></p>
-        </div>
-    </footer>
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · For personal and educational use</span>
+    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+  </div>
+</footer>
 
-    <!-- JavaScript -->
-    <script src="../js/main.js"></script>
-    <script src="../js/search.js"></script>
-    <script>
-        // Age group tab functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            setupAgeTabs();
-            setupInteractiveDemo();
-        });
-
-        function setupAgeTabs() {
-            const tabs = document.querySelectorAll('.age-tab');
-            const contents = document.querySelectorAll('.age-content');
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active from all tabs and contents
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-
-                    // Add active to clicked tab
-                    this.classList.add('active');
-
-                    // Show corresponding content
-                    const targetAge = this.getAttribute('data-age');
-                    const targetContent = document.getElementById(targetAge + '-ages');
-                    if (targetContent) {
-                        targetContent.classList.add('active');
-                    } else {
-                        document.getElementById('all-ages').classList.add('active');
-                    }
-                });
-            });
+<script>
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
         }
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 
-        function setupInteractiveDemo() {
-            // Interactive demo is set up through individual functions
-        }
-
-        function togglePrayer() {
-            const bubble = document.getElementById('prayerBubble');
-            bubble.style.display = bubble.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function showPride() {
-            const rameumptom = document.getElementById('demoRameumptom');
-            const message = document.getElementById('demoMessage');
-
-            rameumptom.style.background = 'linear-gradient(to bottom, #ff6b6b, #ee5a24)';
-            message.innerHTML = '<strong>Pride Mode:</strong> Notice how the elevated position creates separation from others and focuses attention on the individual rather than on God or community.';
-            message.style.display = 'block';
-        }
-
-        function showHumility() {
-            const rameumptom = document.getElementById('demoRameumptom');
-            const message = document.getElementById('demoMessage');
-
-            rameumptom.style.background = 'linear-gradient(to bottom, #74b9ff, #0984e3)';
-            rameumptom.style.height = '50px';
-            message.innerHTML = '<strong>Humility Mode:</strong> True worship happens at ground level, where we are equal with our fellow beings and can focus on sincere communication with God.';
-            message.style.display = 'block';
-        }
-
-        function resetDemo() {
-            const rameumptom = document.getElementById('demoRameumptom');
-            const message = document.getElementById('demoMessage');
-            const bubble = document.getElementById('prayerBubble');
-
-            rameumptom.style.background = 'linear-gradient(to bottom, #8b4513, #a0522d)';
-            rameumptom.style.height = '200px';
-            message.style.display = 'none';
-            bubble.style.display = 'none';
-        }
-    </script>
 </body>
 </html>
