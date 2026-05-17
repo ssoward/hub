@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Word Guess — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .wg-grid { display: grid; grid-template-rows: repeat(6, 1fr); gap: 6px; }
+    .wg-row { display: grid; grid-template-columns: repeat(5, minmax(40px, 56px)); gap: 6px; }
+    .wg-tile {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; aspect-ratio: 1/1;
+      border: 2px solid var(--border); border-radius: var(--r-sm);
+      font-weight: 700; font-size: 1.4rem; text-transform: uppercase;
+      background: var(--bg);
+    }
+    .wg-tile.filled { border-color: var(--border-strong); }
+    .wg-tile.right { background: #15803d; color: #fff; border-color: #15803d; }
+    .wg-tile.near  { background: #d97706; color: #fff; border-color: #d97706; }
+    .wg-tile.miss  { background: #475569; color: #fff; border-color: #475569; }
+    .wg-keys { display: grid; gap: 4px; }
+    .wg-keys .row { display: flex; justify-content: center; gap: 4px; }
+    .wg-key {
+      font-family: inherit; font-weight: 600; min-width: 28px; padding: 10px 6px;
+      background: var(--surface); border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm); cursor: pointer; flex: 1; min-height: 44px;
+      text-transform: uppercase;
+    }
+    .wg-key.wide { flex: 1.4; font-size: var(--fs-xs); }
+    .wg-key.right { background: #15803d; color: #fff; border-color: #15803d; }
+    .wg-key.near  { background: #d97706; color: #fff; border-color: #d97706; }
+    .wg-key.miss  { background: #475569; color: #fff; border-color: #475569; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · word puzzle</p>
+    <h1 class="hero-title">Word Guess</h1>
+    <p class="hero-lede">Guess the five-letter word in six tries. Green = right letter, right spot. Orange = right letter, wrong spot. Gray = not in the word.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="wg-grid" id="grid"></div>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+      <div class="wg-keys" id="keys"></div>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New word</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const WORDS = ['apple','grape','peach','plumb','berry','lemon','melon','olive','onion','spice','sugar','flour','bread','toast','candy','honey','dough','syrup','cream','salty','crisp','sweet','baked','fresh','crust','crumb','cheer','dream','smile','heart','laugh','peace','grace','grand','quick','clean','clear','crisp','plant','green','beach','river','ocean','cloud','sunny','rainy','storm','breez','frost','rocky','flame','glory','noble','quiet','swift','bloom','glory','spire'];
+  const grid = document.getElementById('grid');
+  const keys = document.getElementById('keys');
+  const msg = document.getElementById('msg');
+  let target, row, col, board, keyState, over;
+
+  function start() {
+    target = WORDS[Math.floor(Math.random()*WORDS.length)].toUpperCase();
+    row = 0; col = 0; over = false;
+    board = Array.from({length: 6}, () => Array(5).fill(''));
+    keyState = {};
+    msg.textContent = ''; msg.className = 'message-line';
+    render(); renderKeys();
+  }
+  function render() {
+    grid.innerHTML = '';
+    for (let r = 0; r < 6; r++) {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'wg-row';
+      for (let c = 0; c < 5; c++) {
+        const t = document.createElement('div');
+        const ch = board[r][c];
+        t.className = 'wg-tile' + (ch ? ' filled' : '');
+        t.textContent = ch;
+        rowEl.appendChild(t);
+      }
+      grid.appendChild(rowEl);
+    }
+  }
+  function colorize(r) {
+    const guess = board[r].join('');
+    const tgt = target.split('');
+    const result = Array(5).fill('miss');
+    // first pass: greens
+    for (let i = 0; i < 5; i++) if (guess[i] === tgt[i]) { result[i] = 'right'; tgt[i] = null; }
+    // second pass: yellows
+    for (let i = 0; i < 5; i++) {
+      if (result[i] === 'right') continue;
+      const idx = tgt.indexOf(guess[i]);
+      if (idx >= 0) { result[i] = 'near'; tgt[idx] = null; }
+    }
+    const rowEl = grid.children[r];
+    for (let i = 0; i < 5; i++) {
+      rowEl.children[i].classList.add(result[i]);
+      const ch = guess[i];
+      const cur = keyState[ch];
+      // upgrade priority: right > near > miss
+      if (cur !== 'right' && (result[i] === 'right' || (result[i] === 'near' && cur !== 'near'))) keyState[ch] = result[i];
+      else if (!cur) keyState[ch] = result[i];
+    }
+    renderKeys();
+    return result.every(x => x === 'right');
+  }
+  function renderKeys() {
+    const rows = ['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
+    keys.innerHTML = '';
+    rows.forEach((r, ri) => {
+      const rowEl = document.createElement('div'); rowEl.className = 'row';
+      if (ri === 2) {
+        const enter = document.createElement('button');
+        enter.type = 'button'; enter.className = 'wg-key wide'; enter.textContent = 'Enter';
+        enter.addEventListener('click', () => press('Enter'));
+        rowEl.appendChild(enter);
+      }
+      r.split('').forEach(ch => {
+        const k = document.createElement('button');
+        k.type = 'button'; k.className = 'wg-key' + (keyState[ch] ? ' ' + keyState[ch] : '');
+        k.textContent = ch;
+        k.addEventListener('click', () => press(ch));
+        rowEl.appendChild(k);
+      });
+      if (ri === 2) {
+        const back = document.createElement('button');
+        back.type = 'button'; back.className = 'wg-key wide'; back.textContent = '⌫';
+        back.addEventListener('click', () => press('Backspace'));
+        rowEl.appendChild(back);
+      }
+      keys.appendChild(rowEl);
+    });
+  }
+  function press(k) {
+    if (over) return;
+    if (k === 'Enter') {
+      if (col !== 5) return;
+      const win = colorize(row);
+      if (win) { over = true; msg.textContent = 'Got it!'; msg.classList.add('win'); return; }
+      row++; col = 0;
+      if (row >= 6) { over = true; msg.textContent = `Out — the word was ${target}.`; msg.classList.add('lose'); }
+      return;
+    }
+    if (k === 'Backspace') { if (col > 0) { col--; board[row][col] = ''; render(); } return; }
+    if (col < 5 && /^[A-Z]$/.test(k)) { board[row][col] = k; col++; render(); }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Backspace' || e.key === 'Enter') { press(e.key); return; }
+    if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) press(e.key.toUpperCase());
+  });
+  document.getElementById('reset').addEventListener('click', start);
+  start();
+</script>
+
+</body>
+</html>

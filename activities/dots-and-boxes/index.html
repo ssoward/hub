@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Dots and Boxes — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .db-board { background: var(--bg); padding: var(--sp-4); }
+    .db-svg { display: block; max-width: 100%; height: auto; }
+    .db-line { stroke: #e2e8f0; stroke-width: 6; stroke-linecap: round; cursor: pointer; }
+    .db-line:hover { stroke: var(--accent); opacity: 0.65; }
+    .db-line.taken { stroke: #475569; cursor: default; opacity: 1; }
+    .db-dot { fill: #0f172a; }
+    .db-box { font-weight: 800; font-size: 16px; text-anchor: middle; dominant-baseline: central; }
+    .db-box.p1 { fill: #1d4ed8; }
+    .db-box.p2 { fill: #b91c1c; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · 2 players</p>
+    <h1 class="hero-title">Dots and Boxes</h1>
+    <p class="hero-lede">Take turns drawing a line between two adjacent dots. Complete the fourth side of a box to claim it — and go again. Most boxes wins.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="score-row">
+        <div class="score-card x"><div class="label">Player 1</div><div class="value" id="s1">0</div></div>
+        <div class="score-card o"><div class="label">Player 2</div><div class="value" id="s2">0</div></div>
+      </div>
+      <div class="game-status">
+        <span class="pill" id="turn-pill">Turn: <strong>Player 1</strong></span>
+      </div>
+      <div class="game-board db-board"><svg id="svg" class="db-svg" viewBox="0 0 360 360" aria-label="Dots and boxes"></svg></div>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New game</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const N = 5; // 5x5 dots = 4x4 boxes
+  const CELL = 70, MARGIN = 30;
+  const svg = document.getElementById('svg');
+  const turnPill = document.getElementById('turn-pill');
+  const msg = document.getElementById('msg');
+  const s1 = document.getElementById('s1'), s2 = document.getElementById('s2');
+  let h, v, boxes, player, scores;
+
+  function px(i) { return MARGIN + i * CELL; }
+
+  function start() {
+    h = Array.from({length: N}, () => Array(N-1).fill(false));    // h[row][col] for row in 0..N-1, col in 0..N-2
+    v = Array.from({length: N-1}, () => Array(N).fill(false));    // v[row][col] for row in 0..N-2, col in 0..N-1
+    boxes = Array.from({length: N-1}, () => Array(N-1).fill(0));
+    player = 1; scores = {1:0, 2:0};
+    s1.textContent = 0; s2.textContent = 0; msg.textContent = ''; msg.className = 'message-line';
+    turnPill.innerHTML = 'Turn: <strong>Player 1</strong>';
+    render();
+  }
+
+  function render() {
+    svg.innerHTML = '';
+    // boxes shading + label
+    for (let r = 0; r < N-1; r++) for (let c = 0; c < N-1; c++) if (boxes[r][c]) {
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x', px(c)+3); rect.setAttribute('y', px(r)+3);
+      rect.setAttribute('width', CELL-6); rect.setAttribute('height', CELL-6);
+      rect.setAttribute('fill', boxes[r][c] === 1 ? '#dbeafe' : '#fee2e2');
+      rect.setAttribute('rx','6');
+      svg.appendChild(rect);
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', px(c)+CELL/2); t.setAttribute('y', px(r)+CELL/2);
+      t.setAttribute('class', 'db-box ' + (boxes[r][c]===1?'p1':'p2'));
+      t.textContent = boxes[r][c]===1 ? '1' : '2';
+      svg.appendChild(t);
+    }
+    // horizontal lines
+    for (let r = 0; r < N; r++) for (let c = 0; c < N-1; c++) {
+      const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+      l.setAttribute('x1', px(c)); l.setAttribute('y1', px(r));
+      l.setAttribute('x2', px(c+1)); l.setAttribute('y2', px(r));
+      l.setAttribute('class', 'db-line' + (h[r][c] ? ' taken' : ''));
+      if (!h[r][c]) l.addEventListener('click', () => take('h', r, c));
+      svg.appendChild(l);
+    }
+    // vertical lines
+    for (let r = 0; r < N-1; r++) for (let c = 0; c < N; c++) {
+      const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+      l.setAttribute('x1', px(c)); l.setAttribute('y1', px(r));
+      l.setAttribute('x2', px(c)); l.setAttribute('y2', px(r+1));
+      l.setAttribute('class', 'db-line' + (v[r][c] ? ' taken' : ''));
+      if (!v[r][c]) l.addEventListener('click', () => take('v', r, c));
+      svg.appendChild(l);
+    }
+    // dots
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+      const d = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      d.setAttribute('cx', px(c)); d.setAttribute('cy', px(r));
+      d.setAttribute('r', 5); d.setAttribute('class','db-dot'); svg.appendChild(d);
+    }
+  }
+
+  function take(kind, r, c) {
+    if (kind === 'h') h[r][c] = true; else v[r][c] = true;
+    let claimed = 0;
+    // check adjacent boxes
+    const tryBox = (br, bc) => {
+      if (br < 0 || br >= N-1 || bc < 0 || bc >= N-1) return;
+      if (boxes[br][bc]) return;
+      if (h[br][bc] && h[br+1][bc] && v[br][bc] && v[br][bc+1]) {
+        boxes[br][bc] = player; scores[player]++; claimed++;
+      }
+    };
+    if (kind === 'h') { tryBox(r-1, c); tryBox(r, c); }
+    else { tryBox(r, c-1); tryBox(r, c); }
+
+    s1.textContent = scores[1]; s2.textContent = scores[2];
+    if (!claimed) player = player === 1 ? 2 : 1;
+    turnPill.innerHTML = `Turn: <strong>Player ${player}</strong>`;
+
+    const total = (N-1)*(N-1);
+    if (scores[1] + scores[2] === total) {
+      if (scores[1] > scores[2]) { msg.textContent = 'Player 1 wins!'; msg.classList.add('win'); }
+      else if (scores[2] > scores[1]) { msg.textContent = 'Player 2 wins!'; msg.classList.add('win'); }
+      else { msg.textContent = 'Draw.'; msg.classList.add('draw'); }
+    }
+    render();
+  }
+
+  document.getElementById('reset').addEventListener('click', start);
+  start();
+</script>
+
+</body>
+</html>

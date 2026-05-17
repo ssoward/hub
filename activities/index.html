@@ -5,7 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1d4ed8">
   <title>Activities — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
   <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .game-card-art {
+      aspect-ratio: 16 / 9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .game-card-art.blue   { background: linear-gradient(135deg, #dbeafe, #93c5fd); }
+    .game-card-art.red    { background: linear-gradient(135deg, #fee2e2, #fca5a5); }
+    .game-card-art.green  { background: linear-gradient(135deg, #d1fae5, #6ee7b7); }
+    .game-card-art.amber  { background: linear-gradient(135deg, #fef3c7, #fcd34d); }
+    .game-card-art.violet { background: linear-gradient(135deg, #ede9fe, #c4b5fd); }
+    .game-card-art.teal   { background: linear-gradient(135deg, #ccfbf1, #5eead4); }
+    .game-card-art.slate  { background: linear-gradient(135deg, #e2e8f0, #94a3b8); }
+    .game-card-art.rose   { background: linear-gradient(135deg, #ffe4e6, #fda4af); }
+  </style>
 </head>
 <body>
 
@@ -13,13 +31,8 @@
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand" href="../">
-      <span class="brand-name">Scott Soward</span>
-      <span class="brand-role">Engineer · Builder · Teacher</span>
-    </a>
-    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
-      <span aria-hidden="true">☰</span>
-    </button>
+    <a class="brand" href="../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <a href="../">Home</a>
       <a href="../presentations/">Gospel</a>
@@ -34,30 +47,202 @@
 <main id="main">
   <section class="site-hero container">
     <p class="hero-eyebrow">Activities</p>
-    <h1 class="hero-title">Interactive activities</h1>
-    <p class="hero-lede">Logic puzzles, brain teasers, and interactive learning tools — for teaching, family activities, and curious minds.</p>
+    <h1 class="hero-title">Games &amp; puzzles</h1>
+    <p class="hero-lede">A small arcade of classic games and logic puzzles — all keyboard-friendly, mobile-friendly, and playable in the browser with no install.</p>
   </section>
 
-  <section class="section container" aria-labelledby="activities-heading">
-    <p class="section-eyebrow">Activities</p>
-    <h2 id="activities-heading" class="section-title">All activities</h2>
+  <section class="section container" aria-labelledby="games-heading">
+    <p class="section-eyebrow">Browse</p>
+    <h2 id="games-heading" class="section-title">All activities</h2>
 
-    <div class="card-grid">
+    <div class="filter-bar" role="group" aria-label="Filter activities">
+      <button type="button" class="btn btn-ghost" aria-pressed="true" data-filter="all">All</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="classic">Classic</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="puzzle">Puzzle</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="arcade">Arcade</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="word">Word</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="card">Card</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="logic">Logic</button>
+    </div>
 
-      <article class="card">
+    <div class="card-grid" id="cards">
+
+      <article class="card" data-tags="classic logic">
+        <div class="game-card-art blue" aria-hidden="true">❌⭕</div>
         <div class="card-body">
           <div class="card-chips"><span class="chip activity">Activity</span></div>
-          <p class="card-meta">Youth · Family Home Evening · Teaching Moments</p>
+          <h3 class="card-title">Tic-Tac-Toe</h3>
+          <p class="card-text">Three in a row. Solo vs. computer or local two-player.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="tic-tac-toe/">Play &rarr;</a><span class="card-meta">2 players · CPU</span></div>
+      </article>
+
+      <article class="card" data-tags="classic logic">
+        <div class="game-card-art red" aria-hidden="true">🔴🟡</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Connect Four</h3>
+          <p class="card-text">Drop pieces in columns. First to four in a row wins.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="connect-four/">Play &rarr;</a><span class="card-meta">2 players · CPU</span></div>
+      </article>
+
+      <article class="card" data-tags="classic">
+        <div class="game-card-art green" aria-hidden="true">✊✋✌️</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Rock Paper Scissors</h3>
+          <p class="card-text">Best of however-many against the computer.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="rock-paper-scissors/">Play &rarr;</a><span class="card-meta">vs. CPU</span></div>
+      </article>
+
+      <article class="card" data-tags="word puzzle">
+        <div class="game-card-art amber" aria-hidden="true">🪢</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Hangman</h3>
+          <p class="card-text">Guess the word one letter at a time before the figure is complete.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="hangman/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="classic logic">
+        <div class="game-card-art slate" aria-hidden="true">▦</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Dots and Boxes</h3>
+          <p class="card-text">Take turns drawing lines. Close a box, claim a box, go again.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="dots-and-boxes/">Play &rarr;</a><span class="card-meta">2 players</span></div>
+      </article>
+
+      <article class="card" data-tags="puzzle">
+        <div class="game-card-art violet" aria-hidden="true">🎴</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Memory Match</h3>
+          <p class="card-text">Flip pairs and find the matches. 4×4 or 4×6.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="memory-match/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="puzzle logic">
+        <div class="game-card-art teal" aria-hidden="true">🔢</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Slide Puzzle</h3>
+          <p class="card-text">Slide numbered tiles into order. 3×3 to 5×5.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="slide-puzzle/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="puzzle logic">
+        <div class="game-card-art slate" aria-hidden="true">⬛</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Sudoku</h3>
+          <p class="card-text">Fill rows, columns, and boxes with 1–9. Easy and medium puzzles.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="sudoku/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="word puzzle">
+        <div class="game-card-art green" aria-hidden="true">🅰️</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Word Guess</h3>
+          <p class="card-text">Guess the five-letter word in six tries. Color hints after each guess.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="word-guess/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="puzzle">
+        <div class="game-card-art blue" aria-hidden="true">➕➖✖️</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Quick Math</h3>
+          <p class="card-text">60-second arithmetic drill. Easy / medium / hard.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="quick-math/">Play &rarr;</a><span class="card-meta">Solo · Timed</span></div>
+      </article>
+
+      <article class="card" data-tags="puzzle logic">
+        <div class="game-card-art rose" aria-hidden="true">💣</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Minesweeper</h3>
+          <p class="card-text">Clear the board without hitting a mine. Three difficulty sizes.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="minesweeper/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="card classic">
+        <div class="game-card-art green" aria-hidden="true">🃏</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Blackjack</h3>
+          <p class="card-text">Beat the dealer without going over 21.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="blackjack/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="arcade classic">
+        <div class="game-card-art slate" aria-hidden="true">🏓</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Pong</h3>
+          <p class="card-text">The classic. Mouse, touch, or arrow keys. First to 10.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="pong/">Play &rarr;</a><span class="card-meta">Solo · CPU</span></div>
+      </article>
+
+      <article class="card" data-tags="puzzle logic">
+        <div class="game-card-art violet" aria-hidden="true">🎯</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Code Breaker</h3>
+          <p class="card-text">Crack the 4-color secret in 10 tries. Mastermind-style.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="code-breaker/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="arcade">
+        <div class="game-card-art green" aria-hidden="true">🐍</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Snake</h3>
+          <p class="card-text">Eat fruit, don't crash into yourself. Arrow keys or the on-screen pad.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="snake/">Play &rarr;</a><span class="card-meta">Solo</span></div>
+      </article>
+
+      <article class="card" data-tags="arcade">
+        <div class="game-card-art amber" aria-hidden="true">🐹</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title">Whack-a-Mole</h3>
+          <p class="card-text">30 seconds of mole-bopping. They get faster as you score.</p>
+        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="whack-a-mole/">Play &rarr;</a><span class="card-meta">Solo · Timed</span></div>
+      </article>
+
+      <article class="card" data-tags="logic">
+        <div class="game-card-art teal" aria-hidden="true">👽</div>
+        <div class="card-body">
+          <div class="card-chips"><span class="chip activity">Activity</span></div>
           <h3 class="card-title">The Alien Hat Riddle</h3>
-          <p class="card-text">An interactive simulation of the famous hat riddle: an alien captures 10 humans and they must use a parity strategy to guarantee 9 out of 10 survive. Step through the reasoning and learn about logical thinking and teamwork.</p>
+          <p class="card-text">A logic puzzle with an interactive simulation. Step through the famous parity-strategy proof.</p>
         </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="./hat-riddle/">Launch &rarr;</a>
-          <span class="card-meta">Interactive simulation</span>
-        </div>
+        <div class="card-footer"><a class="btn btn-primary" href="hat-riddle/">Play &rarr;</a><span class="card-meta">Solo · Interactive</span></div>
       </article>
 
     </div>
+
+    <p class="card-meta" style="margin-top: var(--sp-8); text-align: center;">
+      Want more games? The full collection — including AI-powered games like Trivia, Riddles, and Storyteller — lives at
+      <a href="https://amorvivir.com">amorvivir.com</a>.
+    </p>
   </section>
 </main>
 
@@ -73,18 +258,21 @@
     const btn = document.querySelector('.nav-toggle');
     const nav = document.getElementById('primary-nav');
     if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
-        }
-      });
+      btn.addEventListener('click', () => { const o = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', String(o)); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.focus(); } });
     }
+  })();
+  (function() {
+    const buttons = document.querySelectorAll('.filter-bar [data-filter]');
+    const cards = document.querySelectorAll('#cards .card');
+    function apply(tag) {
+      cards.forEach(c => {
+        const tags = (c.getAttribute('data-tags') || '').split(/\s+/);
+        c.hidden = !(tag === 'all' || tags.includes(tag));
+      });
+      buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === tag)));
+    }
+    buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.filter)));
   })();
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>

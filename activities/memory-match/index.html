@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Memory Match — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .mm-grid { grid-template-columns: repeat(4, minmax(60px, 90px)); }
+    @media (min-width: 540px) { .mm-grid { grid-template-columns: repeat(6, minmax(60px, 90px)); } }
+    .mm-card { font-size: 1.8rem; perspective: 600px; padding: 0; background: transparent; border: 0; aspect-ratio: 1/1; cursor: pointer; }
+    .mm-card .face { position: relative; width: 100%; height: 100%; transition: transform 0.35s; transform-style: preserve-3d; }
+    .mm-card.flipped .face, .mm-card.matched .face { transform: rotateY(180deg); }
+    .mm-card .front, .mm-card .back {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); border-radius: var(--r-md); backface-visibility: hidden;
+    }
+    .mm-card .front { background: var(--accent); color: #fff; font-size: 1.6rem; }
+    .mm-card .back  { background: var(--bg); transform: rotateY(180deg); }
+    .mm-card.matched .back { background: #ecfdf5; border-color: #34d399; }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-card .face { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · solo puzzle</p>
+    <h1 class="hero-title">Memory Match</h1>
+    <p class="hero-lede">Flip two cards a turn and find the matching pairs. Match them all in as few moves as possible.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Moves: <strong id="moves">0</strong></span>
+        <span class="pill">Pairs: <strong id="pairs">0</strong>/<span id="total">12</span></span>
+        <label>Size <select id="size"><option value="4">4×4</option><option value="6" selected>4×6</option></select></label>
+      </div>
+      <div class="game-board mm-grid" id="board" role="grid" aria-label="Memory cards"></div>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New game</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const ICONS = ['🐶','🐱','🦊','🐼','🦁','🐯','🐸','🐵','🦄','🐝','🐙','🦋','🐢','🐬','🦉','🐧','🦒','🐞','🐷','🐠'];
+  const board = document.getElementById('board');
+  const movesEl = document.getElementById('moves'), pairsEl = document.getElementById('pairs'), totalEl = document.getElementById('total');
+  const msg = document.getElementById('msg');
+  const sizeSel = document.getElementById('size');
+  let cards, first, lock, moves, pairs, total;
+
+  function start() {
+    const cols = parseInt(sizeSel.value, 10);
+    const n = 4 * cols / 2;
+    const set = ICONS.slice(0, n);
+    const deck = [...set, ...set].sort(() => Math.random() - 0.5);
+    total = n; first = null; lock = false; moves = 0; pairs = 0;
+    movesEl.textContent = 0; pairsEl.textContent = 0; totalEl.textContent = total; msg.textContent = ''; msg.className = 'message-line';
+    board.style.gridTemplateColumns = `repeat(${cols}, minmax(60px, 90px))`;
+    board.innerHTML = ''; cards = [];
+    deck.forEach((icon, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'mm-card';
+      b.setAttribute('aria-label', `Card ${i+1}`);
+      b.innerHTML = `<span class="face"><span class="front">?</span><span class="back">${icon}</span></span>`;
+      b.dataset.icon = icon;
+      b.addEventListener('click', () => flip(b));
+      board.appendChild(b); cards.push(b);
+    });
+  }
+
+  function flip(b) {
+    if (lock || b.classList.contains('flipped') || b.classList.contains('matched')) return;
+    b.classList.add('flipped');
+    if (!first) { first = b; return; }
+    moves++; movesEl.textContent = moves;
+    if (first.dataset.icon === b.dataset.icon) {
+      first.classList.add('matched'); b.classList.add('matched');
+      pairs++; pairsEl.textContent = pairs; first = null;
+      if (pairs === total) { msg.textContent = `Done in ${moves} moves!`; msg.classList.add('win'); }
+    } else {
+      lock = true;
+      const a = first, c = b;
+      setTimeout(() => { a.classList.remove('flipped'); c.classList.remove('flipped'); first = null; lock = false; }, 700);
+    }
+  }
+  document.getElementById('reset').addEventListener('click', start);
+  sizeSel.addEventListener('change', start);
+  start();
+</script>
+
+</body>
+</html>

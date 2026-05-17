@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Rock Paper Scissors — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .rps-choices { display: flex; flex-wrap: wrap; gap: var(--sp-4); justify-content: center; }
+    .rps-btn {
+      appearance: none; background: var(--bg); border: 2px solid var(--border);
+      border-radius: var(--r-lg); padding: var(--sp-6); font-size: 2.4rem;
+      cursor: pointer; min-width: 110px; min-height: 110px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: border-color var(--t-fast), transform var(--t-fast), background var(--t-fast);
+    }
+    .rps-btn:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-2px); }
+    .rps-arena {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--sp-4);
+      align-items: center; max-width: 480px; width: 100%;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+      padding: var(--sp-6);
+    }
+    .rps-arena .you, .rps-arena .cpu { text-align: center; font-size: 3rem; }
+    .rps-arena .vs { font-size: var(--fs-sm); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+    .rps-arena .label { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: var(--sp-2); }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · vs. computer</p>
+    <h1 class="hero-title">Rock Paper Scissors</h1>
+    <p class="hero-lede">Best of however-many. Pick a hand and find out who wins. Rock beats scissors, scissors beat paper, paper beats rock.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="score-row">
+        <div class="score-card x"><div class="label">You</div><div class="value" id="score-you">0</div></div>
+        <div class="score-card"><div class="label">Ties</div><div class="value" id="score-t">0</div></div>
+        <div class="score-card o"><div class="label">CPU</div><div class="value" id="score-cpu">0</div></div>
+      </div>
+
+      <div class="rps-arena">
+        <div>
+          <div class="you" id="you-pick">❓</div>
+          <div class="label">You</div>
+        </div>
+        <div class="vs">vs.</div>
+        <div>
+          <div class="cpu" id="cpu-pick">❓</div>
+          <div class="label">CPU</div>
+        </div>
+      </div>
+
+      <p class="message-line" id="msg" aria-live="polite">Pick your hand.</p>
+
+      <div class="rps-choices">
+        <button type="button" class="rps-btn" data-pick="rock" aria-label="Rock">✊</button>
+        <button type="button" class="rps-btn" data-pick="paper" aria-label="Paper">✋</button>
+        <button type="button" class="rps-btn" data-pick="scissors" aria-label="Scissors">✌️</button>
+      </div>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-ghost" id="reset">Reset scores</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const emoji = { rock: '✊', paper: '✋', scissors: '✌️' };
+  const beats = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
+  const score = { you: 0, cpu: 0, tie: 0 };
+  const el = { you: document.getElementById('you-pick'), cpu: document.getElementById('cpu-pick'),
+               sy: document.getElementById('score-you'), sc: document.getElementById('score-cpu'), st: document.getElementById('score-t'),
+               msg: document.getElementById('msg') };
+
+  document.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => play(b.dataset.pick)));
+  document.getElementById('reset').addEventListener('click', () => {
+    score.you = score.cpu = score.tie = 0; render();
+    el.you.textContent = '❓'; el.cpu.textContent = '❓'; el.msg.textContent = 'Pick your hand.'; el.msg.className = 'message-line';
+  });
+
+  function play(p) {
+    const cpu = ['rock','paper','scissors'][Math.floor(Math.random()*3)];
+    el.you.textContent = emoji[p]; el.cpu.textContent = emoji[cpu];
+    if (p === cpu) { score.tie++; el.msg.textContent = 'Tie.'; el.msg.className = 'message-line draw'; }
+    else if (beats[p] === cpu) { score.you++; el.msg.textContent = 'You win.'; el.msg.className = 'message-line win'; }
+    else { score.cpu++; el.msg.textContent = 'CPU wins.'; el.msg.className = 'message-line lose'; }
+    render();
+  }
+  function render() { el.sy.textContent = score.you; el.sc.textContent = score.cpu; el.st.textContent = score.tie; }
+</script>
+
+</body>
+</html>

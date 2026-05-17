@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Minesweeper — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .ms-board { padding: 8px; gap: 2px; }
+    .ms-cell { aspect-ratio: 1/1; font-size: var(--fs-sm); font-weight: 700; min-width: 26px; padding: 0; }
+    .ms-cell.revealed { background: var(--surface-2); cursor: default; }
+    .ms-cell.flag { background: #fef3c7; color: #92400e; }
+    .ms-cell.boom { background: #fecaca; color: #b91c1c; }
+    .ms-cell[data-n="1"].revealed { color: #1d4ed8; }
+    .ms-cell[data-n="2"].revealed { color: #047857; }
+    .ms-cell[data-n="3"].revealed { color: #b91c1c; }
+    .ms-cell[data-n="4"].revealed { color: #6d28d9; }
+    .ms-cell[data-n="5"].revealed { color: #b45309; }
+    .ms-cell[data-n="6"].revealed { color: #0e7490; }
+    .ms-cell[data-n="7"].revealed { color: #4b5563; }
+    .ms-cell[data-n="8"].revealed { color: #111827; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · classic puzzle</p>
+    <h1 class="hero-title">Minesweeper</h1>
+    <p class="hero-lede">Click to reveal a cell. Right-click (or long-press / shift-click) to flag a mine. Numbers tell you how many mines are adjacent.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Mines: <strong id="mines">10</strong></span>
+        <span class="pill">Flags: <strong id="flags">0</strong></span>
+        <label>Difficulty <select id="diff">
+          <option value="easy" selected>Easy (9×9, 10)</option>
+          <option value="med">Medium (12×12, 25)</option>
+          <option value="hard">Hard (16×16, 50)</option>
+        </select></label>
+      </div>
+      <div class="game-board ms-board" id="board" role="grid" aria-label="Minesweeper board"></div>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New game</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const presets = { easy: [9,9,10], med: [12,12,25], hard: [16,16,50] };
+  const board = document.getElementById('board');
+  const minesEl = document.getElementById('mines'), flagsEl = document.getElementById('flags'), msg = document.getElementById('msg');
+  const diffSel = document.getElementById('diff');
+  let R, C, M, mines, revealed, flagged, cells, over, flags, firstMove;
+
+  function start() {
+    [R, C, M] = presets[diffSel.value];
+    minesEl.textContent = M; flagsEl.textContent = 0;
+    msg.textContent = ''; msg.className = 'message-line';
+    mines = Array.from({length: R}, () => Array(C).fill(false));
+    revealed = Array.from({length: R}, () => Array(C).fill(false));
+    flagged = Array.from({length: R}, () => Array(C).fill(false));
+    flags = 0; over = false; firstMove = true;
+    board.style.gridTemplateColumns = `repeat(${C}, minmax(26px, 32px))`;
+    board.innerHTML = ''; cells = [];
+    for (let r = 0; r < R; r++) {
+      cells.push([]);
+      for (let c = 0; c < C; c++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'cell ms-cell';
+        b.setAttribute('aria-label', `Row ${r+1} column ${c+1}`);
+        b.addEventListener('click', () => reveal(r, c));
+        b.addEventListener('contextmenu', e => { e.preventDefault(); toggleFlag(r, c); });
+        cells[r].push(b); board.appendChild(b);
+      }
+    }
+  }
+  function placeMines(avoidR, avoidC) {
+    let placed = 0;
+    while (placed < M) {
+      const r = Math.floor(Math.random()*R), c = Math.floor(Math.random()*C);
+      if (mines[r][c]) continue;
+      if (Math.abs(r-avoidR) <= 1 && Math.abs(c-avoidC) <= 1) continue;
+      mines[r][c] = true; placed++;
+    }
+  }
+  function adjCount(r, c) {
+    let n = 0;
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      if (!dr && !dc) continue;
+      const nr = r+dr, nc = c+dc;
+      if (nr<0||nr>=R||nc<0||nc>=C) continue;
+      if (mines[nr][nc]) n++;
+    }
+    return n;
+  }
+  function reveal(r, c) {
+    if (over || revealed[r][c] || flagged[r][c]) return;
+    if (firstMove) { placeMines(r, c); firstMove = false; }
+    revealed[r][c] = true;
+    const cell = cells[r][c];
+    cell.classList.add('revealed');
+    if (mines[r][c]) { cell.classList.add('boom'); cell.textContent = '💣'; return end(false); }
+    const n = adjCount(r, c);
+    if (n > 0) { cell.textContent = n; cell.dataset.n = n; }
+    else {
+      // flood fill
+      for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+        if (!dr && !dc) continue;
+        const nr = r+dr, nc = c+dc;
+        if (nr<0||nr>=R||nc<0||nc>=C) continue;
+        reveal(nr, nc);
+      }
+    }
+    if (checkWin()) end(true);
+  }
+  function toggleFlag(r, c) {
+    if (over || revealed[r][c]) return;
+    flagged[r][c] = !flagged[r][c];
+    const cell = cells[r][c];
+    if (flagged[r][c]) { cell.classList.add('flag'); cell.textContent = '🚩'; flags++; }
+    else { cell.classList.remove('flag'); cell.textContent = ''; flags--; }
+    flagsEl.textContent = flags;
+  }
+  function checkWin() {
+    for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+      if (!mines[r][c] && !revealed[r][c]) return false;
+    }
+    return true;
+  }
+  function end(win) {
+    over = true;
+    if (win) { msg.textContent = 'Cleared! 🎉'; msg.classList.add('win'); }
+    else { msg.textContent = 'Boom — you hit a mine.'; msg.classList.add('lose');
+      for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) if (mines[r][c] && !flagged[r][c]) { cells[r][c].textContent = '💣'; cells[r][c].classList.add('revealed'); }
+    }
+  }
+  document.getElementById('reset').addEventListener('click', start);
+  diffSel.addEventListener('change', start);
+  // Shift+click also flags (for trackpads without right-click)
+  board.addEventListener('click', e => {
+    if (!e.shiftKey) return;
+    const idx = Array.from(board.children).indexOf(e.target);
+    if (idx < 0) return;
+    const r = Math.floor(idx / C), c = idx % C;
+    e.preventDefault(); toggleFlag(r, c);
+  }, true);
+  start();
+</script>
+
+</body>
+</html>

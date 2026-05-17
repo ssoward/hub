@@ -1,0 +1,105 @@
+/* ============================================================
+   games.css — shared patterns for activity / game pages
+   Loaded after site.css. Pages under activities/<game>/ link this
+   to get a consistent game-board chrome.
+   ============================================================ */
+
+.game-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  padding-block: var(--sp-8);
+}
+
+.game-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3) var(--sp-6);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  min-height: 36px;
+  text-align: center;
+}
+.game-status strong { color: var(--ink); font-weight: 700; }
+.game-status .pill {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  padding: 4px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+}
+.game-status .pill.win { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+.game-status .pill.lose { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.game-status .pill.draw { background: var(--surface-2); color: var(--ink-soft); }
+
+.game-board {
+  display: grid;
+  gap: var(--sp-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  box-shadow: var(--shadow-1);
+}
+
+.game-controls {
+  display: flex; flex-wrap: wrap; gap: var(--sp-3); justify-content: center;
+}
+
+.cell {
+  appearance: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-family: inherit;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1 / 1;
+  transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+  color: var(--ink);
+}
+.cell:hover:not(:disabled) { background: var(--surface); border-color: var(--border-strong); }
+.cell:disabled { cursor: default; }
+.cell.is-win { background: #ecfdf5; border-color: #34d399; color: #047857; }
+
+.score-row {
+  display: flex; flex-wrap: wrap; gap: var(--sp-4); justify-content: center;
+}
+.score-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  text-align: center;
+  min-width: 88px;
+}
+.score-card .label { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.score-card .value { font-size: var(--fs-xl); font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.score-card.x .value { color: #1d4ed8; }
+.score-card.o .value { color: #b91c1c; }
+
+.message-line {
+  min-height: 1.5em;
+  text-align: center;
+  font-weight: 600;
+  color: var(--ink);
+}
+.message-line.win { color: #047857; }
+.message-line.lose { color: #b91c1c; }
+.message-line.draw { color: var(--muted); }
+
+/* Inline kbd hint */
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 2px 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}

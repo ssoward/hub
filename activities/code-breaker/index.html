@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Code Breaker — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .cb-rows { display: flex; flex-direction: column-reverse; gap: 6px; }
+    .cb-row { display: grid; grid-template-columns: repeat(4, 44px) 80px; gap: 6px; align-items: center; }
+    .cb-peg { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #475569; cursor: pointer; }
+    .cb-peg.empty { background: #f1f5f9; border-style: dashed; cursor: default; }
+    .cb-peg.locked { cursor: default; }
+    .cb-hint { display: grid; grid-template-columns: repeat(2, 14px); grid-template-rows: repeat(2, 14px); gap: 4px; padding: 4px; background: #f8fafc; border-radius: 6px; }
+    .cb-hint span { width: 14px; height: 14px; border-radius: 50%; background: #cbd5e1; }
+    .cb-hint span.black { background: #0f172a; }
+    .cb-hint span.white { background: #fff; border: 1px solid #cbd5e1; }
+    .cb-palette { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .cb-palette button { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #475569; cursor: pointer; }
+    .cb-palette button.active { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .col-0 { background: #ef4444; } .col-1 { background: #f59e0b; } .col-2 { background: #eab308; }
+    .col-3 { background: #22c55e; } .col-4 { background: #3b82f6; } .col-5 { background: #a855f7; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · code-breaking puzzle</p>
+    <h1 class="hero-title">Code Breaker</h1>
+    <p class="hero-lede">Crack the 4-color secret in 10 tries or fewer. Black peg = right color, right spot. White peg = right color, wrong spot.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Tries left: <strong id="tries">10</strong></span>
+      </div>
+      <div class="cb-rows" id="rows"></div>
+      <div class="cb-palette" id="palette" role="group" aria-label="Color palette"></div>
+      <p class="message-line" id="msg" aria-live="polite">Pick a color, then click pegs in the current row. Submit when full.</p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="submit">Submit guess</button>
+        <button type="button" class="btn btn-ghost" id="reset">New code</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const COLORS = 6, SLOTS = 4, TRIES = 10;
+  const rowsEl = document.getElementById('rows'), paletteEl = document.getElementById('palette'), msg = document.getElementById('msg'), triesEl = document.getElementById('tries');
+  let secret, rows, current, activeColor, over;
+
+  function start() {
+    secret = Array.from({length: SLOTS}, () => Math.floor(Math.random()*COLORS));
+    rows = Array.from({length: TRIES}, () => Array(SLOTS).fill(-1));
+    current = 0; activeColor = 0; over = false;
+    msg.textContent = 'Pick a color, then click pegs in the current row.'; msg.className = 'message-line';
+    triesEl.textContent = TRIES;
+    renderRows(); renderPalette();
+  }
+  function renderRows() {
+    rowsEl.innerHTML = '';
+    for (let i = 0; i < TRIES; i++) {
+      const row = document.createElement('div'); row.className = 'cb-row';
+      for (let s = 0; s < SLOTS; s++) {
+        const p = document.createElement('button');
+        p.type = 'button';
+        const v = rows[i][s];
+        p.className = 'cb-peg ' + (v < 0 ? 'empty' : 'col-' + v) + (i !== current ? ' locked' : '');
+        p.disabled = i !== current || over;
+        p.addEventListener('click', () => { if (i === current && !over) { rows[i][s] = activeColor; renderRows(); } });
+        row.appendChild(p);
+      }
+      // hints box
+      const h = document.createElement('div'); h.className = 'cb-hint';
+      // empty slots; populated after submit (we re-render with hints stored)
+      for (let k = 0; k < 4; k++) {
+        const sp = document.createElement('span');
+        if (rows[i].hint) sp.className = rows[i].hint[k] || '';
+        h.appendChild(sp);
+      }
+      row.appendChild(h);
+      rowsEl.appendChild(row);
+    }
+  }
+  function renderPalette() {
+    paletteEl.innerHTML = '';
+    for (let i = 0; i < COLORS; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'col-' + i + (i === activeColor ? ' active' : '');
+      b.setAttribute('aria-label', 'Color ' + (i+1));
+      b.addEventListener('click', () => { activeColor = i; renderPalette(); });
+      paletteEl.appendChild(b);
+    }
+  }
+  function evaluate() {
+    if (over) return;
+    if (rows[current].some(v => v < 0)) { msg.textContent = 'Fill all four pegs first.'; msg.className = 'message-line lose'; return; }
+    const guess = rows[current].slice();
+    const tgt = secret.slice();
+    let black = 0, white = 0;
+    for (let i = 0; i < SLOTS; i++) if (guess[i] === tgt[i]) { black++; guess[i] = -1; tgt[i] = -2; }
+    for (let i = 0; i < SLOTS; i++) {
+      if (guess[i] < 0) continue;
+      const idx = tgt.indexOf(guess[i]);
+      if (idx >= 0) { white++; tgt[idx] = -2; }
+    }
+    const hint = [];
+    for (let k = 0; k < black; k++) hint.push('black');
+    for (let k = 0; k < white; k++) hint.push('white');
+    while (hint.length < 4) hint.push('');
+    rows[current].hint = hint;
+    if (black === SLOTS) { over = true; msg.textContent = `Cracked in ${current+1} tries!`; msg.className = 'message-line win'; renderRows(); return; }
+    current++; triesEl.textContent = TRIES - current;
+    if (current >= TRIES) { over = true; msg.textContent = `Out of tries. Code was: ${secret.map(c => '●').join(' ')}`; msg.className = 'message-line lose'; renderRows();
+      // show secret in a final row visually — add a reveal
+      const reveal = document.createElement('div'); reveal.className = 'cb-row';
+      secret.forEach(c => { const sp = document.createElement('span'); sp.className = 'cb-peg col-' + c + ' locked'; reveal.appendChild(sp); });
+      rowsEl.appendChild(reveal);
+      return;
+    }
+    renderRows();
+  }
+  document.getElementById('submit').addEventListener('click', evaluate);
+  document.getElementById('reset').addEventListener('click', start);
+  start();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Tic-Tac-Toe — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .ttt-board { grid-template-columns: repeat(3, 80px); }
+    @media (min-width: 480px) { .ttt-board { grid-template-columns: repeat(3, 100px); } }
+    .ttt-cell.x { color: #1d4ed8; }
+    .ttt-cell.o { color: #b91c1c; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · 2 players</p>
+    <h1 class="hero-title">Tic-Tac-Toe</h1>
+    <p class="hero-lede">Three in a row wins. First click is X. Play a friend on the same device, or play against a simple computer opponent.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="score-row">
+        <div class="score-card x"><div class="label">X</div><div class="value" id="score-x">0</div></div>
+        <div class="score-card"><div class="label">Draws</div><div class="value" id="score-d">0</div></div>
+        <div class="score-card o"><div class="label">O</div><div class="value" id="score-o">0</div></div>
+      </div>
+
+      <div class="game-status">
+        <span class="pill" id="turn-pill">Turn: <strong>X</strong></span>
+        <label><input type="checkbox" id="ai-toggle"> Play vs. computer (O)</label>
+      </div>
+
+      <div class="game-board ttt-board" id="board" role="grid" aria-label="Tic-tac-toe board"></div>
+
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New round</button>
+        <button type="button" class="btn btn-ghost" id="reset-scores">Reset scores</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  // Nav toggle
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Game
+  const board = document.getElementById('board');
+  const turnPill = document.getElementById('turn-pill');
+  const msg = document.getElementById('msg');
+  const aiToggle = document.getElementById('ai-toggle');
+  const scoreEls = { X: document.getElementById('score-x'), O: document.getElementById('score-o'), D: document.getElementById('score-d') };
+  const scores = { X: 0, O: 0, D: 0 };
+  const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  let cells, current, over;
+
+  function render() {
+    board.innerHTML = '';
+    cells = [];
+    for (let i = 0; i < 9; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cell ttt-cell';
+      b.setAttribute('role','gridcell');
+      b.setAttribute('aria-label', `Cell ${i+1}, empty`);
+      b.addEventListener('click', () => play(i));
+      cells.push(b);
+      board.appendChild(b);
+    }
+  }
+  function start() {
+    current = 'X'; over = false; msg.textContent = ''; msg.className = 'message-line';
+    turnPill.innerHTML = 'Turn: <strong>X</strong>';
+    cells.forEach(c => { c.textContent = ''; c.disabled = false; c.classList.remove('x','o','is-win'); c.setAttribute('aria-label','Empty'); });
+  }
+  function winner() {
+    for (const [a,b,c] of lines) {
+      const v = cells[a].textContent;
+      if (v && v === cells[b].textContent && v === cells[c].textContent) return { who: v, line: [a,b,c] };
+    }
+    if (cells.every(c => c.textContent)) return { who: 'draw' };
+    return null;
+  }
+  function play(i) {
+    if (over || cells[i].textContent) return;
+    cells[i].textContent = current;
+    cells[i].classList.add(current.toLowerCase());
+    cells[i].setAttribute('aria-label', `${current}`);
+    const w = winner();
+    if (w) return end(w);
+    current = current === 'X' ? 'O' : 'X';
+    turnPill.innerHTML = `Turn: <strong>${current}</strong>`;
+    if (aiToggle.checked && current === 'O' && !over) setTimeout(aiMove, 220);
+  }
+  function aiMove() {
+    if (over) return;
+    // Win, block, center, corner, side
+    const find = mark => {
+      for (const [a,b,c] of lines) {
+        const t = [cells[a].textContent, cells[b].textContent, cells[c].textContent];
+        const idxs = [a,b,c];
+        const empty = idxs.filter((_,k) => !t[k]);
+        const marked = t.filter(v => v === mark).length;
+        if (empty.length === 1 && marked === 2) return empty[0];
+      }
+      return -1;
+    };
+    let m = find('O'); if (m < 0) m = find('X');
+    if (m < 0) {
+      const pref = [4, 0, 2, 6, 8, 1, 3, 5, 7];
+      m = pref.find(i => !cells[i].textContent);
+    }
+    play(m);
+  }
+  function end(w) {
+    over = true;
+    if (w.who === 'draw') {
+      msg.textContent = "It's a draw."; msg.classList.add('draw');
+      scores.D++;
+    } else {
+      msg.textContent = `${w.who} wins!`; msg.classList.add('win');
+      scores[w.who]++;
+      w.line.forEach(i => cells[i].classList.add('is-win'));
+    }
+    scoreEls.X.textContent = scores.X; scoreEls.O.textContent = scores.O; scoreEls.D.textContent = scores.D;
+    cells.forEach(c => c.disabled = true);
+  }
+
+  document.getElementById('reset').addEventListener('click', start);
+  document.getElementById('reset-scores').addEventListener('click', () => {
+    scores.X = scores.O = scores.D = 0;
+    scoreEls.X.textContent = 0; scoreEls.O.textContent = 0; scoreEls.D.textContent = 0;
+    start();
+  });
+  aiToggle.addEventListener('change', () => start());
+
+  render(); start();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Blackjack — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .bj-table { background: #064e3b; border: 1px solid #052e16; border-radius: var(--r-lg); padding: var(--sp-6); color: #ecfdf5; min-width: min(420px, 100%); }
+    .bj-hand { display: flex; flex-wrap: wrap; gap: 6px; min-height: 88px; }
+    .bj-card {
+      background: #fff; color: #111; width: 56px; height: 80px; border-radius: 6px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25); font-weight: 700; font-size: 1.1rem;
+      padding: 4px; user-select: none;
+    }
+    .bj-card.red { color: #b91c1c; }
+    .bj-card.back { background: #1d4ed8; color: #fff; background-image: repeating-linear-gradient(45deg, #1e40af 0 8px, #1d4ed8 8px 16px); }
+    .bj-row { margin-bottom: var(--sp-4); }
+    .bj-row .label { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · card game</p>
+    <h1 class="hero-title">Blackjack</h1>
+    <p class="hero-lede">Get as close to 21 as you can without going over. Beat the dealer — they must hit on 16 and stand on 17.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="score-row">
+        <div class="score-card x"><div class="label">Wins</div><div class="value" id="w">0</div></div>
+        <div class="score-card"><div class="label">Pushes</div><div class="value" id="p">0</div></div>
+        <div class="score-card o"><div class="label">Losses</div><div class="value" id="l">0</div></div>
+      </div>
+
+      <div class="bj-table">
+        <div class="bj-row">
+          <div class="label">Dealer <span id="d-val"></span></div>
+          <div class="bj-hand" id="d-hand"></div>
+        </div>
+        <div class="bj-row">
+          <div class="label">You <span id="y-val"></span></div>
+          <div class="bj-hand" id="y-hand"></div>
+        </div>
+      </div>
+
+      <p class="message-line" id="msg" aria-live="polite">Click Deal to start.</p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="deal">Deal</button>
+        <button type="button" class="btn btn-ghost" id="hit" disabled>Hit</button>
+        <button type="button" class="btn btn-ghost" id="stand" disabled>Stand</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const SUITS = [{s:'♠',r:'black'},{s:'♥',r:'red'},{s:'♦',r:'red'},{s:'♣',r:'black'}];
+  const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+  const score = { w: 0, p: 0, l: 0 };
+  const els = { wins: document.getElementById('w'), pushes: document.getElementById('p'), losses: document.getElementById('l'),
+                dHand: document.getElementById('d-hand'), yHand: document.getElementById('y-hand'),
+                dVal: document.getElementById('d-val'), yVal: document.getElementById('y-val'),
+                msg: document.getElementById('msg'),
+                deal: document.getElementById('deal'), hit: document.getElementById('hit'), stand: document.getElementById('stand') };
+  let deck, dealer, player, holeHidden, over;
+
+  function fresh() {
+    deck = [];
+    for (const s of SUITS) for (const r of RANKS) deck.push({s: s.s, r, color: s.r});
+    for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [deck[i],deck[j]] = [deck[j],deck[i]]; }
+  }
+  function val(hand) {
+    let total = 0, aces = 0;
+    for (const c of hand) {
+      if (c.r === 'A') { total += 11; aces++; }
+      else if (c.r === 'K' || c.r === 'Q' || c.r === 'J') total += 10;
+      else total += parseInt(c.r,10);
+    }
+    while (total > 21 && aces > 0) { total -= 10; aces--; }
+    return total;
+  }
+  function renderCard(c, hidden) {
+    const d = document.createElement('div');
+    d.className = 'bj-card' + (hidden ? ' back' : (c.color === 'red' ? ' red' : ''));
+    if (!hidden) d.innerHTML = `<span>${c.r}</span><span>${c.s}</span>`;
+    return d;
+  }
+  function render() {
+    els.yHand.innerHTML = ''; player.forEach(c => els.yHand.appendChild(renderCard(c, false)));
+    els.dHand.innerHTML = '';
+    dealer.forEach((c, i) => els.dHand.appendChild(renderCard(c, i === 1 && holeHidden)));
+    els.yVal.textContent = `(${val(player)})`;
+    els.dVal.textContent = holeHidden ? `(${val([dealer[0]])} + ?)` : `(${val(dealer)})`;
+  }
+  function deal() {
+    fresh(); dealer = [deck.pop(), deck.pop()]; player = [deck.pop(), deck.pop()];
+    holeHidden = true; over = false;
+    els.msg.textContent = 'Hit or stand?'; els.msg.className = 'message-line';
+    els.hit.disabled = false; els.stand.disabled = false; els.deal.disabled = true;
+    render();
+    if (val(player) === 21) stand();
+  }
+  function hit() {
+    if (over) return;
+    player.push(deck.pop()); render();
+    if (val(player) > 21) end('lose', 'Busted.');
+  }
+  function stand() {
+    if (over) return;
+    holeHidden = false; render();
+    while (val(dealer) < 17) { dealer.push(deck.pop()); }
+    render();
+    const yv = val(player), dv = val(dealer);
+    if (dv > 21 || yv > dv) end('win', dv > 21 ? 'Dealer busts — you win.' : 'You win.');
+    else if (yv < dv) end('lose', 'Dealer wins.');
+    else end('push', 'Push.');
+  }
+  function end(result, message) {
+    over = true; els.hit.disabled = true; els.stand.disabled = true; els.deal.disabled = false;
+    if (result === 'win') { score.w++; els.msg.textContent = message; els.msg.className = 'message-line win'; }
+    else if (result === 'lose') { score.l++; els.msg.textContent = message; els.msg.className = 'message-line lose'; }
+    else { score.p++; els.msg.textContent = message; els.msg.className = 'message-line draw'; }
+    els.wins.textContent = score.w; els.pushes.textContent = score.p; els.losses.textContent = score.l;
+  }
+  els.deal.addEventListener('click', deal);
+  els.hit.addEventListener('click', hit);
+  els.stand.addEventListener('click', stand);
+</script>
+
+</body>
+</html>

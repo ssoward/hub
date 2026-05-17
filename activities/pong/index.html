@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Pong — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .pong-wrap { width: 100%; max-width: 720px; }
+    canvas#pong { width: 100%; height: auto; aspect-ratio: 5 / 3; background: #0f172a; border-radius: var(--r-md); border: 1px solid var(--border); touch-action: none; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · arcade</p>
+    <h1 class="hero-title">Pong</h1>
+    <p class="hero-lede">The classic. Mouse / touch / arrow keys move the left paddle. First to 10 wins.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">You: <strong id="ps">0</strong></span>
+        <span class="pill">CPU: <strong id="cs">0</strong></span>
+      </div>
+      <div class="pong-wrap">
+        <canvas id="pong" width="500" height="300" aria-label="Pong game"></canvas>
+      </div>
+      <p class="message-line" id="msg" aria-live="polite">Press Start.</p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="start">Start</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const canvas = document.getElementById('pong');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const PAD_H = 60, PAD_W = 10, BALL = 10;
+  const psEl = document.getElementById('ps'), csEl = document.getElementById('cs'), msg = document.getElementById('msg');
+  let p1y, p2y, ball, vel, running, p1s, p2s, raf;
+
+  function reset(serve = 'right') {
+    p1y = H/2 - PAD_H/2; p2y = H/2 - PAD_H/2;
+    ball = { x: W/2, y: H/2 };
+    const dir = serve === 'right' ? 1 : -1;
+    vel = { x: dir * 4, y: (Math.random()*4-2) };
+  }
+  function fullReset() { p1s = 0; p2s = 0; psEl.textContent = 0; csEl.textContent = 0; msg.textContent = 'Press Start.'; msg.className = 'message-line'; reset(); draw(); }
+
+  function tick() {
+    ball.x += vel.x; ball.y += vel.y;
+    if (ball.y < BALL/2 || ball.y > H - BALL/2) vel.y *= -1;
+    // CPU paddle follows ball with slight lag
+    const cpuCenter = p2y + PAD_H/2;
+    if (cpuCenter < ball.y - 8) p2y += 4;
+    else if (cpuCenter > ball.y + 8) p2y -= 4;
+    p2y = Math.max(0, Math.min(H - PAD_H, p2y));
+    // collision with paddles
+    if (vel.x < 0 && ball.x - BALL/2 < PAD_W && ball.y > p1y && ball.y < p1y + PAD_H) {
+      vel.x = -vel.x * 1.05;
+      vel.y += ((ball.y - (p1y + PAD_H/2)) / (PAD_H/2)) * 2;
+    }
+    if (vel.x > 0 && ball.x + BALL/2 > W - PAD_W && ball.y > p2y && ball.y < p2y + PAD_H) {
+      vel.x = -vel.x * 1.05;
+      vel.y += ((ball.y - (p2y + PAD_H/2)) / (PAD_H/2)) * 2;
+    }
+    // scoring
+    if (ball.x < 0) { p2s++; csEl.textContent = p2s; check('right'); }
+    else if (ball.x > W) { p1s++; psEl.textContent = p1s; check('left'); }
+    draw();
+    if (running) raf = requestAnimationFrame(tick);
+  }
+  function check(serve) {
+    if (p1s >= 10 || p2s >= 10) {
+      running = false; cancelAnimationFrame(raf);
+      msg.textContent = p1s > p2s ? 'You win!' : 'CPU wins.';
+      msg.className = 'message-line ' + (p1s > p2s ? 'win' : 'lose');
+    } else { reset(serve); }
+  }
+  function draw() {
+    ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    for (let y = 8; y < H; y += 16) ctx.fillRect(W/2 - 1, y, 2, 8);
+    ctx.fillStyle = '#1d4ed8'; ctx.fillRect(0, p1y, PAD_W, PAD_H);
+    ctx.fillStyle = '#dc2626'; ctx.fillRect(W - PAD_W, p2y, PAD_W, PAD_H);
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ball.x, ball.y, BALL/2, 0, Math.PI*2); ctx.fill();
+  }
+  function ptToY(e) {
+    const r = canvas.getBoundingClientRect();
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+    const scale = H / r.height;
+    return y * scale - PAD_H/2;
+  }
+  canvas.addEventListener('mousemove', e => { p1y = Math.max(0, Math.min(H-PAD_H, ptToY(e))); if (!running) draw(); });
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); p1y = Math.max(0, Math.min(H-PAD_H, ptToY(e))); }, { passive: false });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowUp') { p1y = Math.max(0, p1y - 20); if (!running) draw(); }
+    if (e.key === 'ArrowDown') { p1y = Math.min(H-PAD_H, p1y + 20); if (!running) draw(); }
+  });
+  document.getElementById('start').addEventListener('click', () => {
+    if (running) return;
+    if (p1s >= 10 || p2s >= 10) fullReset();
+    running = true; msg.textContent = ''; msg.className = 'message-line';
+    raf = requestAnimationFrame(tick);
+  });
+  document.getElementById('reset').addEventListener('click', () => { running = false; cancelAnimationFrame(raf); fullReset(); });
+  fullReset();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Quick Math — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .qm-q { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; letter-spacing: 0.04em; }
+    .qm-input { font: inherit; font-size: 2rem; font-weight: 700; width: 160px; text-align: center; padding: 12px; border: 2px solid var(--border-strong); border-radius: var(--r-md); background: var(--bg); color: var(--ink); }
+    .qm-input:focus-visible { border-color: var(--accent); outline: none; }
+    .qm-input.right { border-color: #15803d; background: #ecfdf5; }
+    .qm-input.wrong { border-color: #b91c1c; background: #fef2f2; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · mental math</p>
+    <h1 class="hero-title">Quick Math</h1>
+    <p class="hero-lede">Answer as many as you can in 60 seconds. Type the answer and hit Enter.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Time: <strong id="time">60</strong>s</span>
+        <span class="pill">Score: <strong id="score">0</strong></span>
+        <span class="pill">High: <strong id="high">0</strong></span>
+        <label>Level <select id="level">
+          <option value="easy">Easy (+ −)</option>
+          <option value="med" selected>Medium (+ − ×)</option>
+          <option value="hard">Hard (+ − × ÷)</option>
+        </select></label>
+      </div>
+      <div class="qm-q" id="question">Press Start</div>
+      <label for="ans" class="visually-hidden">Answer</label>
+      <input type="number" inputmode="numeric" class="qm-input" id="ans" disabled>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="start">Start</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const qEl = document.getElementById('question');
+  const ans = document.getElementById('ans');
+  const timeEl = document.getElementById('time');
+  const scoreEl = document.getElementById('score');
+  const highEl = document.getElementById('high');
+  const levelSel = document.getElementById('level');
+  const msg = document.getElementById('msg');
+  const startBtn = document.getElementById('start');
+
+  let answer, score, timer, time;
+  const HIGH_KEY = 'quickmath.high';
+  highEl.textContent = localStorage.getItem(HIGH_KEY) || 0;
+
+  function rand(a, b) { return a + Math.floor(Math.random()*(b-a+1)); }
+  function newQ() {
+    const ops = { easy: ['+','-'], med: ['+','-','×'], hard: ['+','-','×','÷'] }[levelSel.value];
+    const op = ops[Math.floor(Math.random()*ops.length)];
+    let a, b;
+    if (op === '+') { a = rand(2,49); b = rand(2,49); answer = a+b; }
+    else if (op === '-') { a = rand(10,60); b = rand(1, a-1); answer = a-b; }
+    else if (op === '×') { a = rand(2,12); b = rand(2,12); answer = a*b; }
+    else { b = rand(2,12); answer = rand(2,12); a = b*answer; }
+    qEl.textContent = `${a} ${op} ${b}`;
+    ans.value = ''; ans.className = 'qm-input'; ans.focus();
+  }
+  function tick() {
+    time--; timeEl.textContent = time;
+    if (time <= 0) end();
+  }
+  function start() {
+    score = 0; scoreEl.textContent = 0; time = 60; timeEl.textContent = 60;
+    msg.textContent = ''; msg.className = 'message-line';
+    ans.disabled = false; startBtn.disabled = true; startBtn.textContent = 'Running…';
+    newQ();
+    timer = setInterval(tick, 1000);
+  }
+  function end() {
+    clearInterval(timer);
+    ans.disabled = true; startBtn.disabled = false; startBtn.textContent = 'Play again';
+    qEl.textContent = 'Time!';
+    const high = parseInt(localStorage.getItem(HIGH_KEY) || '0', 10);
+    if (score > high) { localStorage.setItem(HIGH_KEY, score); highEl.textContent = score; msg.textContent = `New high score: ${score}`; msg.classList.add('win'); }
+    else { msg.textContent = `Final score: ${score}`; }
+  }
+  ans.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const v = parseInt(ans.value, 10);
+    if (isNaN(v)) return;
+    if (v === answer) { score++; scoreEl.textContent = score; ans.classList.add('right'); setTimeout(newQ, 120); }
+    else { ans.classList.add('wrong'); setTimeout(() => { ans.value = ''; ans.className = 'qm-input'; ans.focus(); }, 240); }
+  });
+  startBtn.addEventListener('click', start);
+</script>
+
+</body>
+</html>

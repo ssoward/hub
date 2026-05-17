@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Connect Four — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .c4-board { grid-template-columns: repeat(7, minmax(36px, 56px)); background: #1d4ed8; padding: 10px; gap: 6px; border-color: #1e3a8a; }
+    .c4-cell { background: #fff; border: 0; border-radius: 50%; aspect-ratio: 1 / 1; padding: 0; cursor: pointer; transition: background var(--t-fast); }
+    .c4-cell:hover:not(:disabled) { background: #e5e7eb; }
+    .c4-cell.r { background: #dc2626; }
+    .c4-cell.y { background: #fbbf24; }
+    .c4-cell.is-win { box-shadow: 0 0 0 3px #ffffff inset; }
+    .c4-cell:disabled { cursor: default; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · 2 players or vs. CPU</p>
+    <h1 class="hero-title">Connect Four</h1>
+    <p class="hero-lede">Click a column to drop a piece. First to four in a row — horizontally, vertically, or diagonally — wins.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill" id="turn-pill">Turn: <strong>Red</strong></span>
+        <label><input type="checkbox" id="ai-toggle"> Play vs. computer (yellow)</label>
+      </div>
+
+      <div class="game-board c4-board" id="board" role="grid" aria-label="Connect four board"></div>
+
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New game</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const ROWS = 6, COLS = 7;
+  const board = document.getElementById('board');
+  const turnPill = document.getElementById('turn-pill');
+  const msg = document.getElementById('msg');
+  const aiToggle = document.getElementById('ai-toggle');
+  let grid, cells, current, over;
+
+  function render() {
+    board.innerHTML = ''; cells = [];
+    for (let r = 0; r < ROWS; r++) {
+      cells.push([]);
+      for (let c = 0; c < COLS; c++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'cell c4-cell';
+        b.setAttribute('aria-label', `Row ${r+1} column ${c+1}, empty`);
+        b.addEventListener('click', () => play(c));
+        cells[r].push(b); board.appendChild(b);
+      }
+    }
+  }
+  function start() {
+    grid = Array.from({length: ROWS}, () => Array(COLS).fill(null));
+    current = 'r'; over = false; msg.textContent = ''; msg.className = 'message-line';
+    turnPill.innerHTML = 'Turn: <strong>Red</strong>';
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      cells[r][c].className = 'cell c4-cell'; cells[r][c].disabled = false;
+    }
+  }
+  function dropRow(c) { for (let r = ROWS-1; r >= 0; r--) if (!grid[r][c]) return r; return -1; }
+  function check(r0, c0, who) {
+    const dirs = [[0,1],[1,0],[1,1],[1,-1]];
+    for (const [dr,dc] of dirs) {
+      const line = [[r0,c0]];
+      for (let s of [1,-1]) {
+        for (let k = 1; k < 4; k++) {
+          const r = r0 + s*dr*k, c = c0 + s*dc*k;
+          if (r<0||r>=ROWS||c<0||c>=COLS||grid[r][c]!==who) break;
+          line.push([r,c]);
+        }
+      }
+      if (line.length >= 4) return line.slice(0,4);
+    }
+    return null;
+  }
+  function play(c) {
+    if (over) return;
+    const r = dropRow(c); if (r < 0) return;
+    grid[r][c] = current;
+    cells[r][c].classList.add(current);
+    cells[r][c].setAttribute('aria-label', `Row ${r+1} column ${c+1}, ${current==='r'?'red':'yellow'}`);
+    const w = check(r,c,current);
+    if (w) { over = true; w.forEach(([r,c]) => cells[r][c].classList.add('is-win')); msg.textContent = `${current==='r'?'Red':'Yellow'} wins!`; msg.classList.add('win'); cells.flat().forEach(b => b.disabled = true); return; }
+    if (grid.every(row => row.every(v => v))) { over = true; msg.textContent = 'Draw.'; msg.classList.add('draw'); return; }
+    current = current === 'r' ? 'y' : 'r';
+    turnPill.innerHTML = `Turn: <strong>${current==='r'?'Red':'Yellow'}</strong>`;
+    if (aiToggle.checked && current === 'y' && !over) setTimeout(aiMove, 280);
+  }
+  function aiMove() {
+    if (over) return;
+    // 1) win if possible 2) block opponent 3) prefer center
+    const tryWin = who => {
+      for (let c = 0; c < COLS; c++) {
+        const r = dropRow(c); if (r < 0) continue;
+        grid[r][c] = who;
+        const w = check(r,c,who);
+        grid[r][c] = null;
+        if (w) return c;
+      }
+      return -1;
+    };
+    let c = tryWin('y'); if (c < 0) c = tryWin('r');
+    if (c < 0) {
+      const order = [3,2,4,1,5,0,6];
+      c = order.find(c => dropRow(c) >= 0);
+    }
+    play(c);
+  }
+  document.getElementById('reset').addEventListener('click', start);
+  aiToggle.addEventListener('change', start);
+  render(); start();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Hangman — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .hm-word { font-family: var(--font-mono); font-size: clamp(1.4rem, 5vw, 2.4rem); letter-spacing: 0.4em; padding-left: 0.4em; }
+    .hm-figure { width: 200px; height: 220px; }
+    .hm-figure line { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; fill: none; }
+    .hm-figure circle { stroke: var(--ink); stroke-width: 4; fill: none; }
+    .hm-keys { display: grid; grid-template-columns: repeat(7, minmax(36px, 44px)); gap: 6px; }
+    @media (min-width: 520px) { .hm-keys { grid-template-columns: repeat(9, minmax(36px, 44px)); } }
+    @media (min-width: 720px) { .hm-keys { grid-template-columns: repeat(13, minmax(36px, 44px)); } }
+    .hm-key { font-family: inherit; font-weight: 700; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-md); aspect-ratio: 1 / 1; cursor: pointer; }
+    .hm-key:hover:not(:disabled) { background: var(--surface); border-color: var(--accent); }
+    .hm-key.hit { background: #ecfdf5; color: #047857; border-color: #34d399; }
+    .hm-key.miss { background: #fef2f2; color: #b91c1c; border-color: #fca5a5; }
+    .hm-key:disabled { cursor: default; opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · word puzzle</p>
+    <h1 class="hero-title">Hangman</h1>
+    <p class="hero-lede">Guess the secret word one letter at a time. Six wrong guesses and the stick figure is finished.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <svg class="hm-figure" viewBox="0 0 200 220" aria-label="Hangman figure" role="img">
+        <line x1="20" y1="200" x2="180" y2="200"/>
+        <line x1="50" y1="200" x2="50" y2="20"/>
+        <line x1="50" y1="20"  x2="130" y2="20"/>
+        <line x1="130" y1="20" x2="130" y2="40"/>
+        <circle id="p-head"  cx="130" cy="60"  r="20"/>
+        <line   id="p-body"  x1="130" y1="80"  x2="130" y2="140"/>
+        <line   id="p-arm-l" x1="130" y1="95"  x2="100" y2="120"/>
+        <line   id="p-arm-r" x1="130" y1="95"  x2="160" y2="120"/>
+        <line   id="p-leg-l" x1="130" y1="140" x2="110" y2="175"/>
+        <line   id="p-leg-r" x1="130" y1="140" x2="150" y2="175"/>
+      </svg>
+
+      <p class="hm-word" id="word" aria-live="polite"></p>
+
+      <div class="game-status">
+        <span class="pill">Misses: <strong id="misses">0</strong> / 6</span>
+        <span class="pill">Wins: <strong id="wins">0</strong></span>
+      </div>
+
+      <div class="hm-keys" id="keys" role="group" aria-label="Letter keys"></div>
+
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="reset">New word</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const WORDS = ['programming','sandwich','arcade','elephant','journey','library','xylophone','quizzed','jukebox','firework','helicopter','symphony','vacation','adventure','blueberry','keyboard','sunshine','treasure','dinosaur','volcano','beautiful','pumpkin','airplane','snowflake','butterfly','umbrella','penguin','rainbow','mountain','telescope','cinnamon','laughter','garden','holiday','musical','curious','ocean','planet','wisdom','energy'];
+  const parts = ['p-head','p-body','p-arm-l','p-arm-r','p-leg-l','p-leg-r'];
+  const wordEl = document.getElementById('word');
+  const keysEl = document.getElementById('keys');
+  const missEl = document.getElementById('misses');
+  const winEl = document.getElementById('wins');
+  const msg = document.getElementById('msg');
+  let word, revealed, misses, over, wins = 0;
+
+  function start() {
+    word = WORDS[Math.floor(Math.random()*WORDS.length)].toUpperCase();
+    revealed = Array(word.length).fill(false);
+    misses = 0; over = false;
+    msg.textContent = ''; msg.className = 'message-line';
+    parts.forEach(id => document.getElementById(id).style.opacity = '0');
+    missEl.textContent = '0';
+    renderWord();
+    renderKeys();
+  }
+  function renderWord() {
+    wordEl.textContent = word.split('').map((c, i) => revealed[i] ? c : '_').join(' ');
+  }
+  function renderKeys() {
+    keysEl.innerHTML = '';
+    for (let c = 65; c <= 90; c++) {
+      const ch = String.fromCharCode(c);
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'hm-key';
+      b.textContent = ch;
+      b.addEventListener('click', () => guess(ch, b));
+      keysEl.appendChild(b);
+    }
+  }
+  function guess(ch, b) {
+    if (over || b.disabled) return;
+    b.disabled = true;
+    if (word.includes(ch)) {
+      b.classList.add('hit');
+      word.split('').forEach((c, i) => { if (c === ch) revealed[i] = true; });
+      renderWord();
+      if (revealed.every(Boolean)) { over = true; wins++; winEl.textContent = wins; msg.textContent = 'You got it!'; msg.classList.add('win'); }
+    } else {
+      b.classList.add('miss');
+      misses++; missEl.textContent = misses;
+      document.getElementById(parts[misses-1]).style.opacity = '1';
+      if (misses >= parts.length) { over = true; msg.textContent = `Out of guesses — word was ${word}.`; msg.classList.add('lose'); revealed.fill(true); renderWord(); }
+    }
+  }
+  document.getElementById('reset').addEventListener('click', start);
+  document.addEventListener('keydown', e => {
+    if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+      const ch = e.key.toUpperCase();
+      const btn = Array.from(keysEl.children).find(b => b.textContent === ch);
+      if (btn && !btn.disabled) guess(ch, btn);
+    }
+  });
+  start();
+</script>
+
+</body>
+</html>

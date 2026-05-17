@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Snake — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .snake-wrap { width: 100%; max-width: 480px; }
+    canvas#snake { width: 100%; height: auto; aspect-ratio: 1 / 1; background: #0f172a; border-radius: var(--r-md); border: 1px solid var(--border); touch-action: none; }
+    .snake-pad { display: grid; grid-template-columns: repeat(3, 60px); grid-template-rows: repeat(3, 60px); gap: 4px; justify-content: center; }
+    .snake-pad button { font-size: 1.4rem; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--r-md); cursor: pointer; }
+    .snake-pad .pu { grid-column: 2; grid-row: 1; }
+    .snake-pad .pl { grid-column: 1; grid-row: 2; }
+    .snake-pad .pr { grid-column: 3; grid-row: 2; }
+    .snake-pad .pd { grid-column: 2; grid-row: 3; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · arcade</p>
+    <h1 class="hero-title">Snake</h1>
+    <p class="hero-lede">Eat the fruit, grow longer, don't hit yourself or the walls. Arrow keys or the on-screen pad.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Score: <strong id="score">0</strong></span>
+        <span class="pill">High: <strong id="high">0</strong></span>
+      </div>
+      <div class="snake-wrap"><canvas id="snake" width="400" height="400" aria-label="Snake game"></canvas></div>
+
+      <div class="snake-pad" aria-label="Direction controls">
+        <button type="button" class="pu" data-dir="up" aria-label="Up">▲</button>
+        <button type="button" class="pl" data-dir="left" aria-label="Left">◀</button>
+        <button type="button" class="pr" data-dir="right" aria-label="Right">▶</button>
+        <button type="button" class="pd" data-dir="down" aria-label="Down">▼</button>
+      </div>
+
+      <p class="message-line" id="msg" aria-live="polite">Press Start.</p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="start">Start</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const canvas = document.getElementById('snake');
+  const ctx = canvas.getContext('2d');
+  const N = 20, SIZE = canvas.width / N;
+  const scoreEl = document.getElementById('score'), highEl = document.getElementById('high'), msg = document.getElementById('msg');
+  const HIGH_KEY = 'snake.high';
+  highEl.textContent = localStorage.getItem(HIGH_KEY) || 0;
+
+  let snake, dir, queued, food, score, running, timer;
+
+  function reset() {
+    snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+    dir = {x:1,y:0}; queued = null;
+    food = newFood();
+    score = 0; scoreEl.textContent = 0;
+    msg.textContent = ''; msg.className = 'message-line';
+    draw();
+  }
+  function newFood() {
+    while (true) {
+      const p = {x: Math.floor(Math.random()*N), y: Math.floor(Math.random()*N)};
+      if (!snake.some(s => s.x === p.x && s.y === p.y)) return p;
+    }
+  }
+  function step() {
+    if (queued) { dir = queued; queued = null; }
+    const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+    if (head.x < 0 || head.x >= N || head.y < 0 || head.y >= N || snake.some(s => s.x === head.x && s.y === head.y)) return end();
+    snake.unshift(head);
+    if (head.x === food.x && head.y === food.y) { score++; scoreEl.textContent = score; food = newFood(); }
+    else snake.pop();
+    draw();
+  }
+  function draw() {
+    ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#dc2626'; ctx.fillRect(food.x*SIZE+2, food.y*SIZE+2, SIZE-4, SIZE-4);
+    snake.forEach((s, i) => {
+      ctx.fillStyle = i === 0 ? '#22c55e' : '#16a34a';
+      ctx.fillRect(s.x*SIZE+1, s.y*SIZE+1, SIZE-2, SIZE-2);
+    });
+  }
+  function end() {
+    running = false; clearInterval(timer);
+    const high = parseInt(localStorage.getItem(HIGH_KEY) || '0', 10);
+    if (score > high) { localStorage.setItem(HIGH_KEY, score); highEl.textContent = score; msg.textContent = `New high score: ${score}!`; msg.className = 'message-line win'; }
+    else { msg.textContent = `Game over — score ${score}.`; msg.className = 'message-line lose'; }
+  }
+  function setDir(d) {
+    const m = { up:{x:0,y:-1}, down:{x:0,y:1}, left:{x:-1,y:0}, right:{x:1,y:0} }[d];
+    if (!m) return;
+    if (m.x === -dir.x && m.y === -dir.y) return; // no instant 180
+    queued = m;
+  }
+  document.addEventListener('keydown', e => {
+    const k = { ArrowUp:'up', ArrowDown:'down', ArrowLeft:'left', ArrowRight:'right' }[e.key];
+    if (k) { e.preventDefault(); setDir(k); }
+  });
+  document.querySelectorAll('.snake-pad [data-dir]').forEach(b => b.addEventListener('click', () => setDir(b.dataset.dir)));
+  document.getElementById('start').addEventListener('click', () => {
+    if (running) return;
+    reset(); running = true;
+    timer = setInterval(step, 120);
+  });
+  reset();
+</script>
+
+</body>
+</html>

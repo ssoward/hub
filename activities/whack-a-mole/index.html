@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Whack-a-Mole — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .wam-board { grid-template-columns: repeat(3, minmax(90px, 130px)); padding: var(--sp-6); background: #064e3b; border-color: #052e16; }
+    .hole {
+      aspect-ratio: 1/1; background: #1a2e05; border: 0; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; cursor: pointer; padding: 0;
+      box-shadow: inset 0 -8px 16px rgba(0,0,0,0.6);
+    }
+    .hole .mole { transform: scale(0); transition: transform 0.15s ease-out; }
+    .hole.up .mole { transform: scale(1); }
+    .hole.hit .mole { animation: hit 0.25s; }
+    @keyframes hit { 0%{transform:scale(1)} 50%{transform:scale(1.3) rotate(-12deg)} 100%{transform:scale(0)} }
+    @media (prefers-reduced-motion: reduce) {
+      .hole .mole { transition: none; }
+      .hole.hit .mole { animation: none; transform: scale(0); }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · reaction</p>
+    <h1 class="hero-title">Whack-a-Mole</h1>
+    <p class="hero-lede">Tap the moles as they pop up. You have 30 seconds.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Time: <strong id="time">30</strong>s</span>
+        <span class="pill">Score: <strong id="score">0</strong></span>
+        <span class="pill">High: <strong id="high">0</strong></span>
+      </div>
+      <div class="game-board wam-board" id="board" role="grid" aria-label="Mole holes"></div>
+      <p class="message-line" id="msg" aria-live="polite">Press Start.</p>
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="start">Start</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const HOLES = 9;
+  const board = document.getElementById('board');
+  const scoreEl = document.getElementById('score'), timeEl = document.getElementById('time'), highEl = document.getElementById('high'), msg = document.getElementById('msg');
+  const HIGH_KEY = 'wam.high';
+  highEl.textContent = localStorage.getItem(HIGH_KEY) || 0;
+
+  let holes = [];
+  let score, time, running, popTimer, tickTimer, current = -1;
+
+  function build() {
+    board.innerHTML = '';
+    holes = [];
+    for (let i = 0; i < HOLES; i++) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'hole';
+      b.setAttribute('aria-label', `Hole ${i+1}`);
+      b.innerHTML = '<span class="mole" aria-hidden="true">🐹</span>';
+      b.addEventListener('click', () => whack(i, b));
+      holes.push(b); board.appendChild(b);
+    }
+  }
+  function whack(i, b) {
+    if (!running) return;
+    if (i === current) {
+      score++; scoreEl.textContent = score;
+      b.classList.remove('up'); b.classList.add('hit');
+      current = -1;
+      setTimeout(() => b.classList.remove('hit'), 250);
+    }
+  }
+  function pop() {
+    if (!running) return;
+    if (current >= 0) holes[current].classList.remove('up');
+    let n; do { n = Math.floor(Math.random()*HOLES); } while (n === current);
+    current = n;
+    holes[n].classList.add('up');
+    popTimer = setTimeout(() => { if (current === n && running) { holes[n].classList.remove('up'); current = -1; pop(); } }, 700 - Math.min(400, score*10));
+  }
+  function tick() {
+    time--; timeEl.textContent = time;
+    if (time <= 0) end();
+  }
+  function start() {
+    if (running) return;
+    score = 0; scoreEl.textContent = 0; time = 30; timeEl.textContent = 30; msg.textContent = ''; msg.className = 'message-line';
+    running = true;
+    tickTimer = setInterval(tick, 1000);
+    pop();
+  }
+  function end() {
+    running = false; clearInterval(tickTimer); clearTimeout(popTimer);
+    if (current >= 0) holes[current].classList.remove('up'); current = -1;
+    const high = parseInt(localStorage.getItem(HIGH_KEY) || '0', 10);
+    if (score > high) { localStorage.setItem(HIGH_KEY, score); highEl.textContent = score; msg.textContent = `New high: ${score}!`; msg.className = 'message-line win'; }
+    else { msg.textContent = `Final score: ${score}`; }
+  }
+  document.getElementById('start').addEventListener('click', start);
+  build();
+</script>
+
+</body>
+</html>
