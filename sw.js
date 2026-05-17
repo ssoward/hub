@@ -3,15 +3,18 @@
  * Provides offline functionality and improved performance through caching
  */
 
-const CACHE_NAME = 'alma31-study-v1.2.0';
-const STATIC_CACHE_NAME = 'alma31-static-v1.2.0';
-const DYNAMIC_CACHE_NAME = 'alma31-dynamic-v1.2.0';
+const CACHE_NAME = 'alma31-study-v1.3.0';
+const STATIC_CACHE_NAME = 'alma31-static-v1.3.0';
+const DYNAMIC_CACHE_NAME = 'alma31-dynamic-v1.3.0';
 
 // Static files to cache immediately
 const STATIC_ASSETS = [
     '/',
     '/index.html',
     '/manifest.json',
+    '/css/site.css',
+    '/css/alma31.css',
+    '/css/reveal-site-theme.css',
     '/css/main.css',
     '/css/responsive.css',
     '/js/main.js',
