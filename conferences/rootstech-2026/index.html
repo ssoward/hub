@@ -1344,12 +1344,13 @@
   })();
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Accessible primary tablist (Dashboard / Schedule / Videos / Logistics)
+  // Accessible primary tablist (Dashboard / Schedule / Videos / Logistics) + URL hash state
   (function() {
     const list = document.querySelector('.nav-tabs[role="tablist"]');
     if (!list) return;
     const tabs = Array.from(list.querySelectorAll('[role="tab"]'));
     const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+    const ids = tabs.map(t => t.id);
     function activate(i, setFocus) {
       tabs.forEach((t, j) => {
         const sel = j === i;
@@ -1360,6 +1361,11 @@
       });
       if (setFocus) tabs[i].focus();
     }
+    function fromHash() {
+      const h = (location.hash || '').slice(1);
+      const idx = ids.indexOf(h);
+      if (idx >= 0) activate(idx, false);
+    }
     list.addEventListener('keydown', (e) => {
       const i = tabs.indexOf(document.activeElement);
       if (i < 0) return;
@@ -1368,9 +1374,14 @@
       if (e.key === 'ArrowLeft')  next = (i - 1 + tabs.length) % tabs.length;
       if (e.key === 'Home') next = 0;
       if (e.key === 'End')  next = tabs.length - 1;
-      if (next >= 0) { e.preventDefault(); activate(next, true); }
+      if (next >= 0) { e.preventDefault(); activate(next, true); history.replaceState(null, '', '#' + ids[next]); }
     });
-    tabs.forEach((t, i) => t.addEventListener('click', () => activate(i, false)));
+    tabs.forEach((t, i) => t.addEventListener('click', () => {
+      activate(i, false);
+      history.replaceState(null, '', '#' + ids[i]);
+    }));
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
   })();
 
   // Day picker inside schedule tab (legacy showDay JS preserved as DOM-bound handler)

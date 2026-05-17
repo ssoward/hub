@@ -191,10 +191,11 @@
   })();
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Gallery filter
+  // Gallery filter (with URL hash state)
   (function() {
     const filterBtns = document.querySelectorAll('.gallery-filters [data-category]');
     const items = document.querySelectorAll('#gallery-grid .gallery-item');
+    const valid = new Set(Array.from(filterBtns).map(b => b.dataset.category));
     function apply(cat) {
       items.forEach(it => {
         const c = it.getAttribute('data-category');
@@ -202,7 +203,18 @@
       });
       filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.category === cat)));
     }
-    filterBtns.forEach(b => b.addEventListener('click', () => apply(b.dataset.category)));
+    function fromHash() {
+      const tag = (location.hash || '').slice(1).toLowerCase();
+      apply(valid.has(tag) ? tag : 'all');
+    }
+    filterBtns.forEach(b => b.addEventListener('click', () => {
+      const t = b.dataset.category;
+      const url = t === 'all' ? location.pathname + location.search : '#' + t;
+      history.replaceState(null, '', url);
+      apply(t);
+    }));
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
   })();
 
   // Accessible lightbox

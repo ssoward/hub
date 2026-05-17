@@ -265,6 +265,7 @@
   (function() {
     const buttons = document.querySelectorAll('.filter-bar [data-filter]');
     const cards = document.querySelectorAll('#cards .card');
+    const valid = new Set(Array.from(buttons).map(b => b.dataset.filter));
     function apply(tag) {
       cards.forEach(c => {
         const tags = (c.getAttribute('data-tags') || '').split(/\s+/);
@@ -272,7 +273,18 @@
       });
       buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === tag)));
     }
-    buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.filter)));
+    function fromHash() {
+      const tag = (location.hash || '').slice(1).toLowerCase();
+      apply(valid.has(tag) ? tag : 'all');
+    }
+    buttons.forEach(b => b.addEventListener('click', () => {
+      const t = b.dataset.filter;
+      const url = t === 'all' ? location.pathname + location.search : '#' + t;
+      history.replaceState(null, '', url);
+      apply(t);
+    }));
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
   })();
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
