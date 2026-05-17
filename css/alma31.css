@@ -150,6 +150,8 @@
   margin-bottom: var(--sp-6);
 }
 
+.gallery-about { margin-top: var(--sp-12); }
+
 /* Applications page patterns */
 .app-section { margin: var(--sp-8) 0; }
 .tab-list, .age-tabs {

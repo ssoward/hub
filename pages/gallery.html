@@ -23,7 +23,7 @@
       <span class="brand-name">Scott Soward</span>
       <span class="brand-role">Engineer · Builder · Teacher</span>
     </a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
       <span aria-hidden="true">☰</span>
     </button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
@@ -46,12 +46,12 @@
 
   <section class="section container">
     <div class="gallery-filters" role="group" aria-label="Filter by category">
-      <button class="btn btn-ghost" aria-pressed="true" data-category="all">All</button>
-      <button class="btn btn-ghost" aria-pressed="false" data-category="rameumptom">Rameumptom</button>
-      <button class="btn btn-ghost" aria-pressed="false" data-category="characters">Characters</button>
-      <button class="btn btn-ghost" aria-pressed="false" data-category="geography">Geography</button>
-      <button class="btn btn-ghost" aria-pressed="false" data-category="scenes">Scenes</button>
-      <button class="btn btn-ghost" aria-pressed="false" data-category="symbols">Symbolism</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="true" data-category="all">All</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-category="rameumptom">Rameumptom</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-category="characters">Characters</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-category="geography">Geography</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-category="scenes">Scenes</button>
+      <button type="button" class="btn btn-ghost" aria-pressed="false" data-category="symbols">Symbolism</button>
     </div>
 
     <div class="gallery-grid" id="gallery-grid">
@@ -86,12 +86,12 @@
         <span class="gallery-item-caption">Alma the Younger</span>
       </a>
 
-      <div class="gallery-item" data-category="characters" aria-label="Missionary companions — placeholder">
+      <div class="gallery-item" data-category="characters" role="img" aria-label="Missionary companions — placeholder">
         <span class="placeholder">Alma's missionary companions (placeholder)</span>
         <span class="gallery-item-caption">Alma's missionary companions</span>
       </div>
 
-      <div class="gallery-item" data-category="characters" aria-label="Wealthy Zoramites — placeholder">
+      <div class="gallery-item" data-category="characters" role="img" aria-label="Wealthy Zoramites — placeholder">
         <span class="placeholder">Wealthy Zoramites (placeholder)</span>
         <span class="gallery-item-caption">The wealthy Zoramites</span>
       </div>
@@ -101,7 +101,7 @@
         <span class="gallery-item-caption">Map of Antionum</span>
       </a>
 
-      <div class="gallery-item" data-category="geography" aria-label="Antionum landscape — placeholder">
+      <div class="gallery-item" data-category="geography" role="img" aria-label="Antionum landscape — placeholder">
         <span class="placeholder">Antionum landscape (placeholder)</span>
         <span class="gallery-item-caption">Antionum landscape</span>
       </div>
@@ -143,7 +143,7 @@
 
     </div>
 
-    <article class="prose" style="margin-top: var(--sp-12);">
+    <article class="prose gallery-about">
       <h2>About these images</h2>
       <p>These visual representations are artistic interpretations based on the scriptural text of Alma 31. They are used for educational and spiritual enrichment purposes — designed to enhance scripture study and help readers connect with the narrative.</p>
       <p>Sources include the LDS Media Library, public-domain religious artwork, and custom illustrations created specifically for scripture study. When in doubt about reuse, contact the original source for permission.</p>
@@ -157,9 +157,9 @@
 </main>
 
 <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" hidden>
-  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
   <figure>
-    <img id="lightbox-img" alt="" src="">
+    <img id="lightbox-img" alt="" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%2F%3E">
     <figcaption id="lightbox-caption"></figcaption>
   </figure>
 </div>
