@@ -3,334 +3,156 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gospel — Hub</title>
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --blue: #003087;
-      --blue-light: #0073CF;
-      --gold: #C9A84C;
-      --gold-light: #e8c97a;
-      --cream: #f5f0e8;
-      --dark: #1a1a2e;
-      --gray: #6b7280;
-    }
-
-    html { scroll-behavior: smooth; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Georgia, sans-serif; background: #fafaf8; color: var(--dark); min-height: 100vh; }
-
-    /* ===== HEADER ===== */
-    header {
-      background: linear-gradient(160deg, var(--blue) 0%, #001a4d 100%);
-      color: white; padding: 28px 24px 24px; text-align: left; position: relative; overflow: hidden;
-    }
-    header::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .header-inner { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; }
-    .header-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-    header h1 { font-size: clamp(1.3rem, 2vw, 1.75rem); font-weight: 700; line-height: 1.2; color: white; margin-bottom: 6px; }
-    header .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
-
-    /* ===== SITE NAV ===== */
-    .site-nav {
-      background: white; border-bottom: 1px solid #e5e7eb; padding: 12px 24px;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-    .site-nav-link {
-      padding: 5px 16px; border-radius: 20px; border: 1.5px solid #d1d5db;
-      background: white; color: var(--gray); font-size: 0.8rem; font-weight: 500;
-      text-decoration: none; transition: all 0.2s;
-    }
-    .site-nav-link:hover { border-color: var(--blue); color: var(--blue); }
-    .site-nav-link.active { background: var(--blue); border-color: var(--blue); color: white; }
-
-    /* ===== MAIN ===== */
-    main { max-width: 1140px; margin: 0 auto; padding: 48px 24px 80px; }
-    .section-heading { font-size: 0.72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
-    .section-heading::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
-
-    /* ===== CARD ===== */
-    .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid rgba(0,0,0,0.06); }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,48,135,0.12), 0 1px 3px rgba(0,0,0,0.08); }
-    .card-banner { height: 7px; background: linear-gradient(90deg, var(--blue) 0%, var(--blue-light) 100%); }
-    .card-banner.gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%); }
-    .card-banner.teal { background: linear-gradient(90deg, #0f766e 0%, #14b8a6 100%); }
-    .card-banner.warm { background: linear-gradient(90deg, #92400e 0%, #d97706 100%); }
-    .card-body { padding: 22px 22px 14px; flex: 1; }
-
-    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-    .tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-    .tag.stake { background: #eff6ff; color: #1d4ed8; }
-    .tag.ward { background: #f0fdf4; color: #166534; }
-    .tag.youth { background: #fef3c7; color: #92400e; }
-    .tag.teaching { background: #f5f0ff; color: #6d28d9; }
-    .tag.leadership { background: #fff1f2; color: #be123c; }
-    .tag.technology { background: #f0fdfa; color: #0f766e; }
-
-    .card-date { font-size: 0.7rem; color: var(--gray); margin-bottom: 7px; display: flex; align-items: center; gap: 5px; }
-    .card h2 { font-size: 1.06rem; font-weight: 700; color: var(--blue); line-height: 1.3; margin-bottom: 5px; }
-    .card .card-sub { font-size: 0.8rem; color: var(--gold); font-weight: 600; margin-bottom: 9px; }
-    .card p { font-size: 0.82rem; color: #4b5563; line-height: 1.6; }
-    .card-audience { margin-top: 11px; font-size: 0.7rem; color: var(--gray); display: flex; align-items: center; gap: 5px; }
-
-    .card-footer { padding: 14px 22px 18px; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .btn-open { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: var(--blue); color: white; text-decoration: none; border-radius: 7px; font-size: 0.8rem; font-weight: 600; transition: background 0.2s, transform 0.15s; }
-    .btn-open:hover { background: #001a5c; transform: translateX(1px); }
-    .slides-count { font-size: 0.7rem; color: #9ca3af; }
-
-    /* ===== FOOTER ===== */
-    footer { background: var(--dark); color: rgba(255,255,255,0.5); text-align: center; padding: 26px 24px; font-size: 0.76rem; line-height: 1.7; }
-    footer a { color: var(--gold); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    @media (max-width: 600px) {
-      header { padding: 20px 16px 18px; }
-      main { padding: 32px 16px 60px; }
-      .cards-grid { grid-template-columns: 1fr; gap: 18px; }
-    }
-  </style>
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Gospel — Scott Soward</title>
+  <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="header-badge">Hub &nbsp;&middot;&nbsp; Gospel</div>
-    <h1>Gospel Presentations</h1>
-    <p class="subtitle">Teaching resources, training materials, and gospel study presentations</p>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../">Home</a>
+      <a href="./" aria-current="page">Gospel</a>
+      <a href="../tech-presentations/">Tech &amp; AI</a>
+      <a href="../activities/">Activities</a>
+      <a href="../conferences/">Conferences</a>
+      <a href="../alma31.html">Scripture</a>
+    </nav>
   </div>
 </header>
 
-<nav class="site-nav">
-  <a href="../" class="site-nav-link">Home</a>
-  <a href="./" class="site-nav-link active">Gospel</a>
-  <a href="../tech-presentations/" class="site-nav-link">Tech & AI</a>
-  <a href="../activities/" class="site-nav-link">Activities</a>
-  <a href="../conferences/" class="site-nav-link">Conferences</a>
-</nav>
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Gospel</p>
+    <h1 class="hero-title">Gospel presentations</h1>
+    <p class="hero-lede">Teaching resources, training materials, and gospel study presentations prepared for stake, ward, and youth audiences.</p>
+  </section>
 
+  <section class="section container" aria-labelledby="gospel-heading">
+    <p class="section-eyebrow">Presentations</p>
+    <h2 id="gospel-heading" class="section-title">All gospel work</h2>
 
-<main>
-  <div class="section-heading">Presentations</div>
+    <div class="card-grid">
 
-  <div class="cards-grid" id="cards-grid">
-
-    <!-- ============================================================ -->
-    <!-- CARD: WARD SS PRESIDENTS TRAINING                            -->
-    <!-- To add a new presentation: copy one card block, update       -->
-    <!-- the data-tags, title, description, href, and banner color.   -->
-    <!-- ============================================================ -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag stake">Stake</span>
-            <span class="tag teaching">Teaching</span>
-            <span class="tag leadership">Leadership</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            March 22, 2026 · 7:00 PM
-          </div>
-          <h2>Ward Sunday School Presidents Training</h2>
-          <div class="card-sub">Teaching in the Savior's Way</div>
-          <p>An inspired discussion on elevating gospel teaching across the stake — covering handbook roles, teacher council meetings, ministering to the one, and President Nelson's witness about the miracles of our day.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: Ward Sunday School Presidencies · Israel Canyon Stake
-          </div>
+          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <p class="card-meta">March 22, 2026 · 7:00 PM · Israel Canyon Stake</p>
+          <h3 class="card-title">Ward Sunday School Presidents Training</h3>
+          <p class="card-text">Teaching in the Savior's Way — an inspired discussion on elevating gospel teaching across the stake. Handbook roles, teacher council meetings, ministering to the one.</p>
         </div>
         <div class="card-footer">
-          <a href="./stake-ss-presidents-training/" class="btn-open">
-            Open Presentation
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">23 slides · Reveal.js</span>
+          <a class="btn btn-primary" href="./stake-ss-presidents-training/">Open &rarr;</a>
+          <span class="card-meta">23 slides · Reveal.js</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: WARD CONFERENCE 2026 -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner warm"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag ward">Ward</span>
-            <span class="tag teaching">Teaching</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            2026
-          </div>
-          <h2>Ward Conference 2026</h2>
-          <div class="card-sub">PMG vs. Teaching in the Savior's Way</div>
-          <p>A comparison of Preach My Gospel and Teaching in the Savior's Way, exploring how both resources work together to strengthen gospel teaching at home and in the Church.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: Ward Members
-          </div>
+          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <p class="card-meta">2026 · Ward Members</p>
+          <h3 class="card-title">Ward Conference 2026</h3>
+          <p class="card-text">PMG vs. Teaching in the Savior's Way — a comparison of how both resources strengthen gospel teaching at home and in the Church.</p>
         </div>
         <div class="card-footer">
-          <a href="./ward-conference-2026/" class="btn-open">
-            Open Presentation
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">Reveal.js</span>
+          <a class="btn btn-primary" href="./ward-conference-2026/">Open &rarr;</a>
+          <span class="card-meta">Reveal.js</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: CONFIDENCE IN THE PRESENCE OF GOD -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner gold"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag stake">Stake</span>
-            <span class="tag teaching">Teaching</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            2025–2026
-          </div>
-          <h2>Confidence in the Presence of God</h2>
-          <div class="card-sub">Based on President Russell M. Nelson's Talk</div>
-          <p>An exploration of what it means to stand with confidence before Heavenly Father — drawing from President Nelson's teachings on worthiness, the Atonement, and our relationship with God.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: General Membership
-          </div>
+          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <p class="card-meta">2025–2026 · General Membership</p>
+          <h3 class="card-title">Confidence in the Presence of God</h3>
+          <p class="card-text">Based on President Russell M. Nelson's talk — what it means to stand with confidence before Heavenly Father. Worthiness, the Atonement, and our relationship with God.</p>
         </div>
         <div class="card-footer">
-          <a href="./confidence-in-presence-of-god/confidence-presentation.html" class="btn-open">
-            Open Presentation
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">Reveal.js</span>
+          <a class="btn btn-primary" href="./confidence-in-presence-of-god/confidence-presentation.html">Open &rarr;</a>
+          <span class="card-meta">Presentation</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: AI IN THE TECH INDUSTRY -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner teal"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag youth">Youth</span>
-            <span class="tag technology">Technology</span>
-            <span class="tag stake">Stake</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            2025–2026
-          </div>
-          <h2>AI in the Tech Industry</h2>
-          <div class="card-sub">The Majesty of the Moment — BYU Idaho Students</div>
-          <p>A presentation for BYU Idaho students on navigating artificial intelligence in the tech industry — grounded in gospel principles and President Nelson's call to not miss the majesty of our moment.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: BYU Idaho Students
-          </div>
+          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <p class="card-meta">2025–2026 · BYU Idaho Students</p>
+          <h3 class="card-title">AI in the Tech Industry</h3>
+          <p class="card-text">The Majesty of the Moment — navigating artificial intelligence in tech, grounded in gospel principles and President Nelson's call to not miss the majesty of our moment.</p>
         </div>
         <div class="card-footer">
-          <a href="./ai-students-byuideo/" class="btn-open">
-            Open Presentation
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">Reveal.js</span>
+          <a class="btn btn-primary" href="./ai-students-byuideo/">Open &rarr;</a>
+          <span class="card-meta">Reveal.js</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: EASTER WEEK ART DISPLAY -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner" style="background: linear-gradient(90deg, #1a1008 0%, #3d2a10 40%, #c8a96e 100%);"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag ward">Ward</span>
-            <span class="tag teaching">Teaching</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            Easter Week · 8 Days
-          </div>
-          <h2>Easter Week Art Display</h2>
-          <div class="card-sub">Sacred Artwork &amp; Scripture · Brad Young</div>
-          <p>Eight days following the Savior's final week — Palm Sunday through the Resurrection. Each day pairs sacred artwork with KJV scripture, from the Triumphal Entry to "He Is Risen."</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: General Membership
-          </div>
+          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <p class="card-meta">Easter Week · 8 Days</p>
+          <h3 class="card-title">Easter Week Art Display</h3>
+          <p class="card-text">Eight days following the Savior's final week — Palm Sunday through the Resurrection. Each day pairs sacred artwork with KJV scripture, from the Triumphal Entry to "He Is Risen."</p>
         </div>
         <div class="card-footer">
-          <a href="./easter-week/" class="btn-open">
-            View All 8 Days
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">8 presentations · 56 slides</span>
+          <a class="btn btn-primary" href="./easter-week/">View all 8 days &rarr;</a>
+          <span class="card-meta">8 presentations · 56 slides</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: ALL WHO HAVE ENDURED VALIANTLY -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner" style="background: linear-gradient(90deg, #7b1b2e 0%, #c0392b 100%);"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag ward">Ward</span>
-            <span class="tag teaching">Teaching</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            2025–2026
-          </div>
-          <h2>All Who Have Endured Valiantly</h2>
-          <div class="card-sub">Elder David A. Bednar · D&amp;C 121:29</div>
-          <p>A study of Elder Bednar's address elevating "endure to the end" beyond mere persistence — exploring charity as the pure love of Christ, the spiritual gift that ultimately possesses us and defines what we are becoming as new creatures in Christ.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 116 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: General Membership
-          </div>
+          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <p class="card-meta">2025–2026 · General Membership</p>
+          <h3 class="card-title">All Who Have Endured Valiantly</h3>
+          <p class="card-text">Elder David A. Bednar — endure to the end as more than persistence. Charity as the pure love of Christ, the spiritual gift that defines what we are becoming. D&amp;C 121:29.</p>
         </div>
         <div class="card-footer">
-          <a href="./all-who-have-endured-valiantly/" class="btn-open">
-            Open Presentation
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">12 slides · Reveal.js</span>
+          <a class="btn btn-primary" href="./all-who-have-endured-valiantly/">Open &rarr;</a>
+          <span class="card-meta">12 slides · Reveal.js</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-  </div>
+    </div>
+  </section>
 </main>
 
-<footer>
-  <div>Israel Canyon Saratoga Springs Stake &nbsp;&middot;&nbsp; The Church of Jesus Christ of Latter-day Saints</div>
-  <div style="margin-top:6px;">
-    <a href="../">Home</a>
-    &nbsp;&middot;&nbsp;
-    <a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener">ChurchofJesusChrist.org</a>
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward</span>
+    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
   </div>
 </footer>
 
 <script>
- else {
-        card.classList.add('hidden');
-      }
-    });
-  }
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+
 </body>
 </html>

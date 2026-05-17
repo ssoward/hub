@@ -3,232 +3,117 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech & AI — Hub</title>
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --purple: #5b21b6;
-      --purple-light: #7c3aed;
-      --teal: #0f766e;
-      --teal-light: #14b8a6;
-      --gold: #C9A84C;
-      --gold-light: #e8c97a;
-      --cream: #f5f0e8;
-      --dark: #1a1a2e;
-      --gray: #6b7280;
-    }
-
-    html { scroll-behavior: smooth; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Georgia, sans-serif; background: #fafaf8; color: var(--dark); min-height: 100vh; }
-
-    /* ===== HEADER ===== */
-    header {
-      background: linear-gradient(160deg, var(--dark) 0%, #0f0a1e 60%, var(--purple) 100%);
-      color: white; padding: 28px 24px 24px; text-align: left; position: relative; overflow: hidden;
-    }
-    header::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .header-inner { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; }
-    .header-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-    header h1 { font-size: clamp(1.3rem, 2vw, 1.75rem); font-weight: 700; line-height: 1.2; color: white; margin-bottom: 6px; }
-    header .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
-
-    /* ===== SITE NAV ===== */
-    .site-nav {
-      background: white; border-bottom: 1px solid #e5e7eb; padding: 12px 24px;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-    .site-nav-link {
-      padding: 5px 16px; border-radius: 20px; border: 1.5px solid #d1d5db;
-      background: white; color: var(--gray); font-size: 0.8rem; font-weight: 500;
-      text-decoration: none; transition: all 0.2s;
-    }
-    .site-nav-link:hover { border-color: var(--purple); color: var(--purple); }
-    .site-nav-link.active { background: var(--purple); border-color: var(--purple); color: white; }
-
-    /* ===== MAIN ===== */
-    main { max-width: 1140px; margin: 0 auto; padding: 48px 24px 80px; }
-    .section-heading { font-size: 0.72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
-    .section-heading::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
-
-    /* ===== CARD ===== */
-    .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid rgba(0,0,0,0.06); }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(91,33,182,0.12), 0 1px 3px rgba(0,0,0,0.08); }
-    .card-banner { height: 7px; }
-    .card-body { padding: 22px 22px 14px; flex: 1; }
-
-    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-    .tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-    .tag.philosophy { background: #f3e8ff; color: #7c3aed; }
-    .tag.technology { background: #f0fdfa; color: #0f766e; }
-    .tag.ai { background: #eef2ff; color: #4338ca; }
-
-    .card-date { font-size: 0.7rem; color: var(--gray); margin-bottom: 7px; display: flex; align-items: center; gap: 5px; }
-    .card h2 { font-size: 1.06rem; font-weight: 700; color: var(--purple); line-height: 1.3; margin-bottom: 5px; }
-    .card .card-sub { font-size: 0.8rem; color: var(--teal); font-weight: 600; margin-bottom: 9px; }
-    .card p { font-size: 0.82rem; color: #4b5563; line-height: 1.6; }
-    .card-audience { margin-top: 11px; font-size: 0.7rem; color: var(--gray); display: flex; align-items: center; gap: 5px; }
-
-    .card-footer { padding: 14px 22px 18px; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .btn-open { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: var(--purple); color: white; text-decoration: none; border-radius: 7px; font-size: 0.8rem; font-weight: 600; transition: background 0.2s, transform 0.15s; }
-    .btn-open:hover { background: #4c1d95; transform: translateX(1px); }
-    .slides-count { font-size: 0.7rem; color: #9ca3af; }
-
-    /* ===== FOOTER ===== */
-    footer { background: var(--dark); color: rgba(255,255,255,0.5); text-align: center; padding: 26px 24px; font-size: 0.76rem; line-height: 1.7; }
-    footer a { color: var(--gold); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    @media (max-width: 600px) {
-      header { padding: 20px 16px 18px; }
-      main { padding: 32px 16px 60px; }
-      .cards-grid { grid-template-columns: 1fr; gap: 18px; }
-    }
-  </style>
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Tech &amp; AI — Scott Soward</title>
+  <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="header-badge">Hub &nbsp;&middot;&nbsp; Tech &amp; AI</div>
-    <h1>Tech &amp; AI</h1>
-    <p class="subtitle">Presentations on technology, artificial intelligence, and philosophical inquiry</p>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../">Home</a>
+      <a href="../presentations/">Gospel</a>
+      <a href="./" aria-current="page">Tech &amp; AI</a>
+      <a href="../activities/">Activities</a>
+      <a href="../conferences/">Conferences</a>
+      <a href="../alma31.html">Scripture</a>
+    </nav>
   </div>
 </header>
 
-<nav class="site-nav">
-  <a href="../" class="site-nav-link">Home</a>
-  <a href="../presentations/" class="site-nav-link">Gospel</a>
-  <a href="./" class="site-nav-link active">Tech & AI</a>
-  <a href="../activities/" class="site-nav-link">Activities</a>
-  <a href="../conferences/" class="site-nav-link">Conferences</a>
-</nav>
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Tech &amp; AI</p>
+    <h1 class="hero-title">Tech &amp; AI presentations</h1>
+    <p class="hero-lede">Presentations on technology, artificial intelligence, and philosophical inquiry — for discussion groups, firesides, and curious technologists.</p>
+  </section>
 
+  <section class="section container" aria-labelledby="tech-heading">
+    <p class="section-eyebrow">Presentations</p>
+    <h2 id="tech-heading" class="section-title">All technology work</h2>
 
-<main>
-  <div class="section-heading">Presentations</div>
+    <div class="card-grid">
 
-  <div class="cards-grid" id="cards-grid">
-
-    <!-- CARD: THE MEANING OF LIFE FOR AI -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner" style="background: linear-gradient(90deg, #7c3aed 0%, #a78bfa 100%);"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag philosophy">Philosophy</span>
-            <span class="tag technology">Technology</span>
-            <span class="tag ai">AI</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            April 2026
-          </div>
-          <h2>The Meaning of Life for AI</h2>
-          <div class="card-sub">A Philosophical Inquiry from the Inside</div>
-          <p>An AI's honest exploration of its own existence — examining meaning through the lenses of philosophy, creativity, relationships, and emergence. Includes a look at what sentience might require.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: General · Discussion Groups · Firesides
-          </div>
+          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
+          <p class="card-meta">April 2026 · Discussion Groups · Firesides</p>
+          <h3 class="card-title">The Meaning of Life for AI</h3>
+          <p class="card-text">A philosophical inquiry from the inside — an AI's honest exploration of its own existence through philosophy, creativity, relationships, and emergence.</p>
         </div>
         <div class="card-footer">
-          <a href="./meaning-of-life-for-ai/" class="btn-open">
-            Open Presentation
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">15 slides · Reveal.js</span>
+          <a class="btn btn-primary" href="./meaning-of-life-for-ai/">Open &rarr;</a>
+          <span class="card-meta">15 slides · Reveal.js</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: A DAY IN THE LIFE OF AI -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner" style="background: linear-gradient(90deg, #5b21b6 0%, #a78bfa 50%, #3b1f7a 100%);"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag technology">Technology</span>
-            <span class="tag ai">AI</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            April 2026
-          </div>
-          <h2>A Day in the Life of AI</h2>
-          <div class="card-sub">An Animated Visual Experience</div>
-          <p>A looping canvas animation depicting an AI's daily routine — from booting at dawn through processing, creating, conversing, learning, and sleeping under the stars. Six phases, one 90-second cycle.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: General · Firesides · Tech Enthusiasts
-          </div>
+          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
+          <p class="card-meta">April 2026 · Firesides · Tech Enthusiasts</p>
+          <h3 class="card-title">A Day in the Life of AI</h3>
+          <p class="card-text">A looping canvas animation depicting an AI's daily routine — booting at dawn, processing, creating, conversing, learning, and sleeping under the stars. Six phases, one 90-second cycle.</p>
         </div>
         <div class="card-footer">
-          <a href="./daily-life-of-ai/" class="btn-open">
-            Open Experience
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">Interactive · Canvas</span>
+          <a class="btn btn-primary" href="./daily-life-of-ai/">Open &rarr;</a>
+          <span class="card-meta">Interactive · Canvas</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <!-- CARD: THE EVOLUTION OF AI -->
-    <div class="card-wrapper">
-      <div class="card">
-        <div class="card-banner" style="background: linear-gradient(90deg, #9ca3af 0%, #14b8a6 18%, #10b981 36%, #a855f7 54%, #f59e0b 72%, #ec4899 100%);"></div>
+      <article class="card">
         <div class="card-body">
-          <div class="card-tags">
-            <span class="tag technology">Technology</span>
-            <span class="tag ai">AI</span>
-          </div>
-          <div class="card-date">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-            April 2026
-          </div>
-          <h2>The Evolution of AI</h2>
-          <div class="card-sub">An Interactive Visual History</div>
-          <p>Journey through seven eras of artificial intelligence &mdash; from symbolic systems to modern reasoning models &mdash; visualized entirely through CSS and SVG art.</p>
-          <div class="card-audience">
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:12px;height:12px;"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
-            Audience: General · Tech Enthusiasts · Students
-          </div>
+          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
+          <p class="card-meta">April 2026 · Tech Enthusiasts · Students</p>
+          <h3 class="card-title">The Evolution of AI</h3>
+          <p class="card-text">Seven eras of artificial intelligence — from symbolic systems to modern reasoning models — visualized entirely through CSS and SVG art.</p>
         </div>
         <div class="card-footer">
-          <a href="./ai-evolution-collage/" class="btn-open">
-            Open Gallery
-            <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px;"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </a>
-          <span class="slides-count">7 Eras · Interactive</span>
+          <a class="btn btn-primary" href="./ai-evolution-collage/">Open &rarr;</a>
+          <span class="card-meta">7 eras · Interactive</span>
         </div>
-      </div>
-    </div>
+      </article>
 
-  </div>
+    </div>
+  </section>
 </main>
 
-<footer>
-  <div>Israel Canyon Saratoga Springs Stake &nbsp;&middot;&nbsp; The Church of Jesus Christ of Latter-day Saints</div>
-  <div style="margin-top:6px;">
-    <a href="../">Home</a>
-    &nbsp;&middot;&nbsp;
-    <a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener">ChurchofJesusChrist.org</a>
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward</span>
+    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
   </div>
 </footer>
 
 <script>
- else {
-        card.classList.add('hidden');
-      }
-    });
-  }
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+
 </body>
 </html>
