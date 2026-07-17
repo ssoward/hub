@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Management Hub — Industry Analysis</title>
+    <meta name="description" content="A Reveal.js overview of utility management workflows, ACH payments, the AI pipeline, the Capturis acquisition, and the competitive landscape.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <link rel="stylesheet" href="../../css/reveal-site-theme.css">
+    <style>
+        :root {
+            --accent: #38bdf8;
+            --accent-warm: #fbbf24;
+            --accent-green: #34d399;
+        }
+        .reveal h1, .reveal h2, .reveal h3 { color: #e2e8f0; letter-spacing: -0.01em; }
+        .reveal h1 { font-size: 2.5rem; }
+        .reveal .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .reveal .lede { color: #94a3b8; font-size: 1.05rem; }
+        .reveal .highlight { color: var(--accent); font-weight: 600; }
+        .reveal .warm { color: var(--accent-warm); font-weight: 600; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+        .tile {
+            background: rgba(148, 163, 184, 0.08);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+            text-align: left;
+        }
+        .tile h4 { margin: 0 0 0.35rem; color: #e2e8f0; font-size: 1.05rem; }
+        .tile p { margin: 0; color: #94a3b8; font-size: 0.85rem; line-height: 1.35; }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .stat .num { font-size: 2.6rem; font-weight: 800; color: var(--accent); line-height: 1; }
+        .stat .lbl { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.4rem; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; margin-top: 1rem; }
+        .two-col h4 { color: var(--accent); margin-bottom: 0.5rem; }
+        .reveal ul { display: block; }
+        .reveal .col ul { font-size: 0.95rem; }
+
+        .pipeline { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; }
+        .pipeline .step {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+        }
+        .pipeline .arrow { color: var(--accent); font-weight: 700; }
+
+        .players { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .player {
+            background: rgba(148, 163, 184, 0.08);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 8px;
+            padding: 0.65rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+        .player.us { border-color: var(--accent-warm); background: rgba(251, 191, 36, 0.1); }
+        .footnote { color: #64748b; font-size: 0.75rem; margin-top: 1.5rem; }
+        .reveal a { color: var(--accent); }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <!-- 1. Title -->
+        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+            <p class="eyebrow">Educational Platform · Industry Analysis</p>
+            <h1>Utility Management Hub</h1>
+            <p class="lede">Workflows, payment integrations, the competitive landscape,<br>and how AI is reshaping utility management.</p>
+            <p class="footnote">Press <strong>S</strong> for notes · <strong>F</strong> for fullscreen · arrow keys to navigate</p>
+            <aside class="notes">A tour of the utility management domain — from how a utility invoice becomes a resident bill, through ACH payments, to the AI pipeline and competitive landscape. Roughly 10 minutes.</aside>
+        </section>
+
+        <!-- 2. The Domain -->
+        <section>
+            <p class="eyebrow">The Domain</p>
+            <h2>Seven core workflows</h2>
+            <div class="grid">
+                <div class="tile"><h4>Invoice Processing</h4><p>Automated utility invoice collection and processing.</p></div>
+                <div class="tile"><h4>Resident Billing</h4><p>Generate and manage resident billing statements.</p></div>
+                <div class="tile"><h4>ACH Integration</h4><p>Automated payment processing and disbursement.</p></div>
+                <div class="tile"><h4>Meter Management</h4><p>Sub-meter reading and maintenance tracking.</p></div>
+                <div class="tile"><h4>Analytics &amp; Reporting</h4><p>Comprehensive reporting and data insights.</p></div>
+                <div class="tile"><h4>Energy Procurement</h4><p>Strategic energy purchasing and contract management.</p></div>
+                <div class="tile"><h4>System Integrations</h4><p>Connect with property management and ERP systems.</p></div>
+            </div>
+            <aside class="notes">These seven workflows are the backbone of the platform. Everything else — payments, AI, integrations — hangs off these.</aside>
+        </section>
+
+        <!-- 3. Workflow -->
+        <section>
+            <p class="eyebrow">End to End</p>
+            <h2>From utility bill to resident statement</h2>
+            <div class="pipeline">
+                <span class="step">Capture invoice</span><span class="arrow">→</span>
+                <span class="step">Validate &amp; allocate</span><span class="arrow">→</span>
+                <span class="step">Sub-meter reads</span><span class="arrow">→</span>
+                <span class="step">Generate resident bill</span><span class="arrow">→</span>
+                <span class="step">Collect via ACH</span><span class="arrow">→</span>
+                <span class="step">Reconcile &amp; report</span>
+            </div>
+            <p class="lede" style="margin-top:1.5rem">Integration and automation connect each step to property-management and ERP systems — reducing manual handling and implementation friction.</p>
+            <aside class="notes">The workflow page frames this as an interactive diagram with integration/automation and implementation considerations. The key idea: a single utility invoice fans out into many resident bills, then folds back into one reconciliation.</aside>
+        </section>
+
+        <!-- 4. ACH -->
+        <section>
+            <p class="eyebrow">Payments</p>
+            <h2>ACH payment processing</h2>
+            <div class="two-col">
+                <div class="col">
+                    <h4>Benefits</h4>
+                    <ul>
+                        <li>Low per-transaction cost vs. cards</li>
+                        <li>Automated disbursement &amp; collection</li>
+                        <li>NACHA / CTX file generation</li>
+                        <li>Automated SFTP upload</li>
+                        <li>Real-time status tracking</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h4>Challenges &amp; solutions</h4>
+                    <ul>
+                        <li>Returns &amp; retries → status tracking</li>
+                        <li>Reconciliation → unique-ID matching</li>
+                        <li>Compliance → NACHA formatting</li>
+                        <li>Scale → batch file automation</li>
+                    </ul>
+                </div>
+            </div>
+            <aside class="notes">ACH is the payment rail of choice because it's cheap and batchable. The hard parts are returns handling and reconciliation, both solved with automation.</aside>
+        </section>
+
+        <!-- 5. AI Pipeline -->
+        <section>
+            <p class="eyebrow">AI Pipeline</p>
+            <h2>The invoice processing pipeline</h2>
+            <div class="pipeline">
+                <span class="step">Ingest</span><span class="arrow">→</span>
+                <span class="step">Extract (OCR/AI)</span><span class="arrow">→</span>
+                <span class="step">Validate</span><span class="arrow">→</span>
+                <span class="step">Urgency scoring</span><span class="arrow">→</span>
+                <span class="step">Payment &amp; NetSuite</span><span class="arrow">→</span>
+                <span class="step">Reconcile</span>
+            </div>
+            <ul style="margin-top:1.25rem; font-size:0.95rem;">
+                <li>API-driven AP/AR posting with <span class="highlight">unique-ID reconciliation</span></li>
+                <li>Intelligent <span class="highlight">urgency scoring</span> and automated prioritization</li>
+                <li>Automated record updates across PM-system integrations</li>
+            </ul>
+            <aside class="notes">This is the AI pipeline page: the invoice moves through extraction, validation, urgency scoring, then payment/NetSuite posting and reconciliation. AI mainly adds extraction accuracy and prioritization.</aside>
+        </section>
+
+        <!-- 6. AI Transformation -->
+        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #14532d 100%)">
+            <p class="eyebrow">AI Transformation</p>
+            <h2>Where AI moves the needle</h2>
+            <div class="grid">
+                <div class="tile"><h4>Fraud detection</h4><p>High-accuracy anomaly detection on invoice and payment data.</p></div>
+                <div class="tile"><h4>Prioritization</h4><p>Urgency scoring routes the right invoices first.</p></div>
+                <div class="tile"><h4>Extraction</h4><p>AI/OCR pulls structured data from unstructured bills.</p></div>
+                <div class="tile"><h4>Reconciliation</h4><p>Automated matching reduces manual back-office work.</p></div>
+            </div>
+            <aside class="notes">The AI transformation narrative: detection, prioritization, extraction, reconciliation. The value is less about flashy automation and more about removing manual toil at scale.</aside>
+        </section>
+
+        <!-- 7. Capturis -->
+        <section>
+            <p class="eyebrow">Strategy</p>
+            <h2>The Capturis acquisition</h2>
+            <p class="lede">Absorbing an invoice-capture provider brings an <span class="warm">integration portfolio</span> that must be migrated onto the platform over a multi-month timeline.</p>
+            <div class="two-col">
+                <div class="col">
+                    <h4>Core integration types</h4>
+                    <ul>
+                        <li>Utility provider feeds</li>
+                        <li>Property-management systems</li>
+                        <li>Payment / ERP endpoints</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h4>Migration requirements</h4>
+                    <ul>
+                        <li>Phased timeline (months)</li>
+                        <li>Mapping &amp; revalidation per integration</li>
+                        <li>Strategic benefits vs. migration risk</li>
+                    </ul>
+                </div>
+            </div>
+            <aside class="notes">Capturis is framed as an acquisition: the prize is the integration portfolio, the cost is a phased migration with per-integration mapping and revalidation.</aside>
+        </section>
+
+        <!-- 8. Competitive landscape -->
+        <section>
+            <p class="eyebrow">Market</p>
+            <h2>Competitive landscape</h2>
+            <div class="players">
+                <div class="player us">Utility Management Hub</div>
+                <div class="player">Zego</div>
+                <div class="player">Enertiv</div>
+                <div class="player">AppFolio</div>
+                <div class="player">RealPage</div>
+                <div class="player">Yardi</div>
+                <div class="player">Entrata</div>
+                <div class="player">Capturis <em>(acquired)</em></div>
+            </div>
+            <p class="lede" style="margin-top:1.25rem">Compared across utility billing, ACH processing, sub-metering, energy procurement, AI/ML capability, and API integration.</p>
+            <aside class="notes">The competitors page benchmarks players on billing, ACH, sub-metering, procurement, AI/ML, and API integration. Yardi, RealPage, AppFolio and Entrata are the property-management incumbents; Zego and Enertiv are the specialists.</aside>
+        </section>
+
+        <!-- 9. Close -->
+        <section data-background-gradient="linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%)">
+            <p class="eyebrow">Explore</p>
+            <h2>See the full platform</h2>
+            <p class="lede">Interactive diagrams, detailed analysis, and the full workflow, ACH, AI pipeline, Capturis, and competitor pages.</p>
+            <p style="margin-top:1.5rem"><a href="https://utility-management.vercel.app/">utility-management.vercel.app</a></p>
+            <p class="footnote">An educational analysis of utility management workflows and the industry landscape.</p>
+            <aside class="notes">Close by pointing to the live interactive platform, which goes far deeper than this summary deck.</aside>
+        </section>
+
+    </div>
+</div>
+
+<script type="module">
+    import Reveal from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.esm.js';
+    import Notes from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.esm.js';
+
+    Reveal.initialize({
+        hash: true,
+        transition: 'fade',
+        transitionSpeed: 'default',
+        backgroundTransition: 'fade',
+        center: true,
+        width: 1200,
+        height: 800,
+        margin: 0.04,
+        progress: true,
+        controls: true,
+        plugins: [ Notes ],
+    });
+</script>
+</body>
+</html>
