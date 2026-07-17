@@ -1,0 +1,631 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Do Not Miss the Majesty of This Moment — Temple Growth &amp; Spiritual Preparation</title>
+
+    <link rel="stylesheet" href="../reveal/dist/reset.css">
+    <link rel="stylesheet" href="../reveal/dist/reveal.css">
+    <link rel="stylesheet" href="../reveal/dist/theme/white.css">
+    <link rel="stylesheet" href="../../css/reveal-site-theme.css">
+
+    <style>
+        :root {
+            --temple-blue: #1e3a8a;
+            --temple-gold: #f59e0b;
+            --temple-light: #f8fafc;
+            --temple-green: #10b981;
+        }
+
+        .reveal {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        .reveal .slides section {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .temple-title {
+            color: var(--temple-blue);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .temple-subtitle {
+            color: var(--temple-gold);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, var(--temple-blue), #3730a3);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .quote-text {
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .quote-source {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--temple-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--temple-blue);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--temple-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .timeline-year {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--temple-blue);
+            min-width: 100px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            text-align: left;
+            margin-left: 1rem;
+        }
+
+        .highlight {
+            background: var(--temple-gold);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .danger-text {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .success-text {
+            color: var(--temple-green);
+            font-weight: 600;
+        }
+
+        .progress-visual {
+            background: #e5e7eb;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--temple-green);
+            transition: width 2s ease;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .section-break {
+            height: 4px;
+            background: linear-gradient(90deg, var(--temple-blue), var(--temple-gold));
+            margin: 2rem auto;
+            width: 200px;
+            border-radius: 2px;
+        }
+
+        .big-number {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--temple-blue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comparison-box {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .vs-text {
+            font-size: 2rem;
+            color: #6b7280;
+            margin: 0 2rem;
+        }
+
+        .call-to-action {
+            background: var(--temple-gold);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Counter animation will be handled by JavaScript */
+        .counter {
+            opacity: 0;
+        }
+
+        .counter.animate {
+            opacity: 1;
+            animation: countUp 2s ease;
+        }
+
+        @keyframes countUp {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section data-background-gradient="linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%)">
+                <h1 class="temple-title" style="color: white;">Do Not Miss the Majesty of This Moment</h1>
+                <h2 class="temple-subtitle" style="color: #f59e0b;">Temple Growth & Spiritual Preparation</h2>
+                <div class="section-break" style="background: white;"></div>
+                <p style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">Understanding the unprecedented temple expansion under President Nelson</p>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Welcome and opening (30 seconds)</li>
+                        <li>This is about seeing the divine hand in statistical realities</li>
+                        <li>Press S for speaker notes, F for fullscreen</li>
+                        <li>Total presentation: 15-18 minutes</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 2: The Hook -->
+            <section>
+                <div class="quote-box">
+                    <div class="quote-text">"Do you see what is happening right before our eyes? I pray that we will not miss the majesty of this moment!"</div>
+                    <div class="quote-source">— President Russell M. Nelson, October 2024</div>
+                </div>
+
+                <div class="fragment">
+                    <h3 style="color: var(--temple-blue); margin-top: 2rem;">What is President Nelson seeing that he's so urgent about?</h3>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Start with President Nelson's urgent plea (1 minute)</li>
+                        <li>This isn't casual observation - this is prophetic urgency</li>
+                        <li>Something unprecedented is happening RIGHT NOW</li>
+                        <li>Personal story: Anna's birth - I could have missed the majesty</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 3: Personal Story -->
+            <section>
+                <h2 class="temple-title">Missing the Majesty</h2>
+
+                <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+                    <p style="font-size: 1.3rem; line-height: 1.6;">Anna's birth... St. George Temple... I was there, but was I really <em>present</em>?</p>
+
+                    <div class="fragment">
+                        <p style="font-size: 1.2rem; margin-top: 2rem;">Sometimes the most magnificent moments happen right in front of us, but we're spiritually asleep.</p>
+                    </div>
+                </div>
+
+                <div class="fragment">
+                    <div class="call-to-action">
+                        <h3>Are WE on spiritual autopilot?</h3>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Personal vulnerability - share the Anna story (1-2 minutes)</li>
+                        <li>Connect to spiritual sleepiness</li>
+                        <li>Transition: "What will be said about us in 100 years?"</li>
+                        <li>Set up the data revelation</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 4: The Statistical Dashboard -->
+            <section data-auto-animate>
+                <h2 class="temple-title">What's Happening Right Before Our Eyes</h2>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number counter" data-target="282">0</div>
+                        <div class="stat-label">Total Temples</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number counter" data-target="186">0</div>
+                        <div class="stat-label">Operating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number counter" data-target="90">0</div>
+                        <div class="stat-label">In Pipeline</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number counter" data-target="32">0</div>
+                        <div class="stat-label">Announced in 2024</div>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Let the numbers sink in (1 minute)</li>
+                        <li>These aren't just statistics - this is prophetic preparation</li>
+                        <li>32 temples announced in ONE YEAR</li>
+                        <li>Transition to historical context</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 5: Historical Acceleration -->
+            <section>
+                <h2 class="temple-title">Unprecedented Acceleration</h2>
+
+                <div class="comparison-box">
+                    <div>
+                        <div class="big-number">0.12</div>
+                        <p>Temples/year<br><small>(1836-1980)</small></p>
+                    </div>
+                    <div class="vs-text">vs</div>
+                    <div>
+                        <div class="big-number highlight">17.4</div>
+                        <p>Temples/year<br><small>(Nelson Era)</small></p>
+                    </div>
+                </div>
+
+                <div class="fragment">
+                    <h3 class="success-text">That's a 4x acceleration over previous modern eras!</h3>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>This is the key insight - 145x faster than pioneer era (1.5 minutes)</li>
+                        <li>This isn't gradual improvement - this is exponential</li>
+                        <li>Something fundamental has changed</li>
+                        <li>Connect to "hastening the work"</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 6: Global Explosion -->
+            <section>
+                <h2 class="temple-title">Global Temple Explosion</h2>
+
+                <div class="two-column">
+                    <div>
+                        <h3>Geographic Distribution</h3>
+                        <ul style="text-align: left; font-size: 1.2rem;">
+                            <li><strong>North America:</strong> 140 temples (50%)</li>
+                            <li><strong>Latin America:</strong> 65 temples (23%)</li>
+                            <li><strong>Asia-Pacific:</strong> 35 temples (12%)</li>
+                            <li><strong>Europe:</strong> 15 temples (5%)</li>
+                            <li><strong>Africa:</strong> 10 temples (4%)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Accessibility Improvement</h3>
+                        <div class="stat-card">
+                            <div style="font-size: 2rem; color: var(--temple-blue);">3x Better</div>
+                            <p>Temple accessibility since 1980</p>
+                        </div>
+                        <p><small>From 235,000 members per temple to 86,683 members per temple</small></p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Show the global reach (1 minute)</li>
+                        <li>Emphasize accessibility improvement</li>
+                        <li>This is about gathering Israel on both sides of veil</li>
+                        <li>Connect to Nelson's quote about gathering</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 7: Future Projections -->
+            <section data-auto-animate>
+                <h2 class="temple-title">Looking Forward</h2>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-content">
+                        <strong>282 temples</strong> (current status)
+                    </div>
+                </div>
+
+                <div class="timeline-item fragment">
+                    <div class="timeline-year">2030</div>
+                    <div class="timeline-content">
+                        <strong>360-375 temples</strong> (high confidence)
+                    </div>
+                </div>
+
+                <div class="timeline-item fragment">
+                    <div class="timeline-year">2035</div>
+                    <div class="timeline-content">
+                        <strong>425-450 temples</strong> (moderate confidence)
+                    </div>
+                </div>
+
+                <div class="fragment">
+                    <p style="font-size: 1.3rem; margin-top: 2rem;">At current pace: <span class="highlight">Nearly doubling temples in 10 years</span></p>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Show the trajectory - this isn't slowing down (1 minute)</li>
+                        <li>These are conservative estimates</li>
+                        <li>The pipeline ensures growth through 2030</li>
+                        <li>Transition to Satan's strategy</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 8: Satan's Strategy -->
+            <section data-background-color="#dc2626">
+                <h2 style="color: white;">Satan's Strategy</h2>
+
+                <div class="quote-box" style="background: rgba(0,0,0,0.3);">
+                    <div class="quote-text">"And it came to pass that the people began to forget those signs and wonders... and began to be less and less astonished."</div>
+                    <div class="quote-source">— 3 Nephi 2:1</div>
+                </div>
+
+                <div class="fragment">
+                    <h3 style="color: white;">Make miracles feel ordinary.</h3>
+                    <p style="color: white; font-size: 1.2rem;">He wants the majesty of this moment to feel common and unremarkable.</p>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>This is Satan's primary tactic (1 minute)</li>
+                        <li>Not denial of miracles - making them feel ordinary</li>
+                        <li>"Yeah, another temple announcement..."</li>
+                        <li>We need spiritual rumble strips to wake us up</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 9: The Temple Solution -->
+            <section>
+                <h2 class="temple-title">The Temple Solution</h2>
+
+                <div class="quote-box">
+                    <div class="quote-text">"Nothing will help you more to prepare for the Second Coming than increasing your time in the temple, where you will gain greater virtue, greater charity, and greater confidence before the Lord."</div>
+                    <div class="quote-source">— President Nelson, October 2024</div>
+                </div>
+
+                <div class="fragment">
+                    <div class="stat-grid" style="margin-top: 2rem;">
+                        <div class="action-item" style="background: var(--temple-light);">
+                            <h4>Greater Virtue</h4>
+                            <p>Unfailing cleanliness in thought, word, action</p>
+                        </div>
+                        <div class="action-item" style="background: var(--temple-light);">
+                            <h4>Greater Charity</h4>
+                            <p>Begin to love as Christ loves</p>
+                        </div>
+                        <div class="action-item" style="background: var(--temple-light);">
+                            <h4>Greater Confidence</h4>
+                            <p>Unshaken assurance before the Lord</p>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>This is HOW we stay awake (2 minutes)</li>
+                        <li>Not just temple attendance - temple transformation</li>
+                        <li>Share Maggie's story here if time allows</li>
+                        <li>Connect to charity - be kind to each other</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 10: Personal Story - Maggie's Miracle -->
+            <section>
+                <h2 class="temple-title">Maggie's Miracle</h2>
+
+                <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+                    <p style="font-size: 1.3rem; line-height: 1.6;">"That's the potato that got her..."</p>
+
+                    <div class="fragment">
+                        <p style="font-size: 1.2rem; margin-top: 2rem;">Sometimes temple blessings come through the smallest acts of service and love.</p>
+                    </div>
+                </div>
+
+                <div class="fragment">
+                    <div class="highlight" style="padding: 1rem; margin-top: 2rem;">
+                        <p>Temple covenants transform how we see and serve others.</p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Develop Maggie's story (2-3 minutes)</li>
+                        <li>Connect to charity and temple service</li>
+                        <li>Show how temple time changes us</li>
+                        <li>Transition to call to action</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 11: Call to Action -->
+            <section data-background-gradient="linear-gradient(135deg, #f59e0b 0%, #d97706 100%)">
+                <h2 style="color: white;">Do Not Miss the Majesty</h2>
+
+                <div class="call-to-action" style="background: rgba(255,255,255,0.2);">
+                    <h3>This Week's Invitation:</h3>
+                    <div class="action-item">
+                        <strong>1.</strong> Schedule one extra temple session before the end of 2025
+                    </div>
+                    <div class="action-item">
+                        <strong>2.</strong> Renew your recommend today if needed
+                    </div>
+                    <div class="action-item">
+                        <strong>3.</strong> Bring a family name to your next session
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Specific, actionable commitments (1 minute)</li>
+                        <li>End of 2025 - time urgency</li>
+                        <li>Family history connection</li>
+                        <li>Build toward testimony close</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <!-- Slide 12: Final Testimony -->
+            <section data-background-gradient="linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%)">
+                <div class="quote-box" style="background: rgba(255,255,255,0.1);">
+                    <div class="quote-text">"My dear brothers and sisters, in a coming day, Jesus Christ will return to the earth as the millennial Messiah. So today I call upon you to rededicate your lives to Jesus Christ."</div>
+                    <div class="quote-source">— President Russell M. Nelson</div>
+                </div>
+
+                <div class="fragment">
+                    <h3 style="color: white; margin-top: 2rem;">The Lord is hastening His work.</h3>
+                    <h3 style="color: #f59e0b;">Do not miss the majesty of this moment.</h3>
+                </div>
+
+                <aside class="notes">
+                    <ul>
+                        <li>Close with testimony (1 minute)</li>
+                        <li>Return to opening theme</li>
+                        <li>Prophetic call to rededication</li>
+                        <li>End with conviction and urgency</li>
+                        <li>Total: 15-18 minutes</li>
+                    </ul>
+                </aside>
+            </section>
+        </div>
+    </div>
+
+    <script src="../reveal/dist/reveal.js"></script>
+    <script src="../reveal/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+
+            plugins: [ RevealNotes ],
+
+            // Presentation size
+            width: 1280,
+            height: 720,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 1.5
+        });
+
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                let current = 0;
+                const increment = target / 50; // 50 steps
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 40); // Update every 40ms
+
+                counter.classList.add('animate');
+            });
+        }
+
+        // Trigger counter animation when slide is shown
+        Reveal.on('slidechanged', event => {
+            if (event.currentSlide.querySelector('.counter')) {
+                setTimeout(animateCounters, 500);
+            }
+        });
+
+        // Auto-start counter animation if on first counter slide
+        Reveal.on('ready', event => {
+            if (event.currentSlide.querySelector('.counter')) {
+                setTimeout(animateCounters, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
