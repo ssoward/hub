@@ -10,388 +10,390 @@
     <link rel="stylesheet" href="../../css/reveal-site-theme.css">
     <style>
         :root {
-            --accent: #38bdf8;
-            --accent-warm: #fbbf24;
-            --accent-green: #34d399;
+            --bg0: #0b1220;
+            --bg1: #0f1c30;
+            --ink: #e8eefb;
+            --muted: #94a3b8;
+            --line: rgba(148,163,184,0.16);
+            --cyan: #38bdf8;
+            --cyan-deep: #0ea5e9;
+            --amber: #fbbf24;
+            --emerald: #34d399;
+            --violet: #a78bfa;
         }
-        .reveal h1, .reveal h2, .reveal h3 { color: #e2e8f0; letter-spacing: -0.01em; }
-        .reveal h1 { font-size: 2.5rem; }
-        .reveal h2 { font-size: 1.9rem; }
-        .reveal .eyebrow {
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+
+        .reveal { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--ink); }
+        .reveal .slides { text-align: left; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--ink); letter-spacing: -0.015em; font-weight: 800; }
+        .reveal h1 { font-size: 3.1rem; line-height: 1.05; }
+        .reveal h2 { font-size: 2.05rem; margin: 0 0 0.15em; }
+        .reveal p { line-height: 1.5; }
+        .reveal strong { color: var(--ink); }
+        .reveal a { color: var(--cyan); text-decoration: none; }
+
+        .kicker {
+            display: inline-block; text-transform: uppercase; letter-spacing: 0.22em;
+            font-size: 0.72rem; font-weight: 700; color: var(--cyan);
+            padding: 0.3em 0.9em; border: 1px solid var(--line); border-radius: 999px;
+            background: rgba(56,189,248,0.06); margin-bottom: 0.9rem;
         }
-        .reveal .lede { color: #94a3b8; font-size: 1.02rem; line-height: 1.45; }
-        .reveal .highlight { color: var(--accent); font-weight: 600; }
-        .reveal .warm { color: var(--accent-warm); font-weight: 600; }
-        .reveal .green { color: var(--accent-green); font-weight: 600; }
+        .lede { color: var(--muted); font-size: 1.08rem; max-width: 28ch; }
+        .lede.wide { max-width: 44ch; }
+        .hl { color: var(--cyan); font-weight: 700; }
+        .hl.amber { color: var(--amber); }
+        .hl.em { color: var(--emerald); }
+        .foot { color: #64748b; font-size: 0.72rem; margin-top: 1.4rem; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1.25rem;
+        /* Section divider */
+        .divider .idx { font-size: 6rem; font-weight: 900; line-height: 1;
+            background: linear-gradient(120deg, var(--cyan), var(--violet));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .divider h2 { font-size: 2.8rem; margin-top: 0.2rem; }
+        .divider .sub { color: var(--muted); font-size: 1.05rem; margin-top: 0.4rem; }
+
+        /* Hero stats */
+        .hero-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; margin-top: 1.4rem; }
+        .hero-stat .n { font-size: 3.4rem; font-weight: 900; line-height: 1; color: var(--cyan); letter-spacing: -0.03em; }
+        .hero-stat .n.amber { color: var(--amber); }
+        .hero-stat .n.em { color: var(--emerald); }
+        .hero-stat .k { color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.5rem; }
+
+        /* Bar chart */
+        .bars { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 1.3rem; }
+        .bar { display: grid; grid-template-columns: 150px 1fr auto; align-items: center; gap: 1rem; }
+        .bar .name { text-align: right; color: var(--muted); font-size: 0.82rem; }
+        .bar .name b { color: var(--ink); font-weight: 700; }
+        .bar .track { background: rgba(148,163,184,0.1); border: 1px solid var(--line); border-radius: 7px; height: 30px; overflow: hidden; }
+        .bar .fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--cyan-deep), var(--cyan)); }
+        .bar .fill.amber { background: linear-gradient(90deg, #d97706, var(--amber)); }
+        .bar .fill.em { background: linear-gradient(90deg, #059669, var(--emerald)); }
+        .bar .fill.violet { background: linear-gradient(90deg, #7c3aed, var(--violet)); }
+        .bar .val { color: var(--ink); font-weight: 800; font-size: 0.9rem; min-width: 4.5ch; }
+
+        /* Cards */
+        .cards { display: grid; gap: 1rem; margin-top: 1.3rem; }
+        .cards.c2 { grid-template-columns: 1fr 1fr; }
+        .cards.c3 { grid-template-columns: repeat(3, 1fr); }
+        .cards.c4 { grid-template-columns: repeat(4, 1fr); }
+        .cardx {
+            background: linear-gradient(180deg, rgba(148,163,184,0.09), rgba(148,163,184,0.03));
+            border: 1px solid var(--line); border-radius: 14px; padding: 1.05rem 1.15rem;
+            position: relative; overflow: hidden;
         }
-        .tile {
-            background: rgba(148, 163, 184, 0.08);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            border-left: 3px solid var(--accent);
-            border-radius: 10px;
-            padding: 0.9rem 1.05rem;
-            text-align: left;
-        }
-        .tile h4 { margin: 0 0 0.35rem; color: #e2e8f0; font-size: 1rem; }
-        .tile p { margin: 0; color: #94a3b8; font-size: 0.82rem; line-height: 1.35; }
-        .tile.warm { border-left-color: var(--accent-warm); }
-        .tile.green { border-left-color: var(--accent-green); }
+        .cardx::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--cyan); }
+        .cardx.amber::before { background: var(--amber); }
+        .cardx.em::before { background: var(--emerald); }
+        .cardx.violet::before { background: var(--violet); }
+        .cardx .badge { font-size: 0.7rem; font-weight: 800; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase; }
+        .cardx.amber .badge { color: var(--amber); } .cardx.em .badge { color: var(--emerald); } .cardx.violet .badge { color: var(--violet); }
+        .cardx h4 { margin: 0.2rem 0 0.35rem; font-size: 1.02rem; }
+        .cardx p { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
 
-        .stat-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .stat .num { font-size: 2.6rem; font-weight: 800; color: var(--accent); line-height: 1; }
-        .stat .num.warm { color: var(--accent-warm); }
-        .stat .num.green { color: var(--accent-green); }
-        .stat .lbl { color: #94a3b8; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.4rem; }
+        /* Flow */
+        .flow { display: flex; align-items: stretch; gap: 0.5rem; margin-top: 1.4rem; flex-wrap: wrap; }
+        .node { flex: 1 1 0; min-width: 120px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.3);
+            border-radius: 12px; padding: 0.75rem 0.6rem; text-align: center; }
+        .node .s { font-size: 0.68rem; color: var(--cyan); font-weight: 800; }
+        .node .t { font-size: 0.82rem; color: var(--ink); margin-top: 0.2rem; line-height: 1.2; }
 
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; margin-top: 1rem; }
-        .two-col h4 { color: var(--accent); margin-bottom: 0.5rem; }
-        .reveal ul { display: block; }
-        .reveal .col ul { font-size: 0.9rem; line-height: 1.5; }
+        /* two-column bullets */
+        .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 1.2rem; }
+        .cols h4 { color: var(--cyan); font-size: 0.95rem; margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; }
+        .cols.amber h4:last-of-type { }
+        .reveal .cols ul { margin: 0; padding-left: 1.1em; }
+        .reveal .cols li { color: #cbd5e1; font-size: 0.86rem; line-height: 1.55; margin-bottom: 0.15em; }
+        .reveal .cols li b { color: var(--ink); }
 
-        .pipeline { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; }
-        .pipeline .step {
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            border-radius: 8px;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.82rem;
-            color: #e2e8f0;
-        }
-        .pipeline .arrow { color: var(--accent); font-weight: 700; }
+        .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .pill { border: 1px solid var(--line); border-radius: 999px; padding: 0.35em 0.85em; font-size: 0.78rem; color: #cbd5e1; background: rgba(148,163,184,0.05); }
+        .pill.us { border-color: var(--amber); color: var(--amber); background: rgba(251,191,36,0.08); font-weight: 700; }
 
-        .players { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; margin-top: 1.25rem; }
-        .player {
-            background: rgba(148, 163, 184, 0.08);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            border-radius: 8px;
-            padding: 0.6rem;
-            font-size: 0.85rem;
-            color: #e2e8f0;
-        }
-        .player.us { border-color: var(--accent-warm); background: rgba(251, 191, 36, 0.1); }
-
-        table.cmp { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.8rem; }
-        table.cmp th, table.cmp td { border: 1px solid rgba(148,163,184,0.2); padding: 0.4rem 0.6rem; text-align: center; color: #cbd5e1; }
-        table.cmp th { color: #e2e8f0; background: rgba(56,189,248,0.1); }
-        table.cmp td:first-child, table.cmp th:first-child { text-align: left; color: #94a3b8; }
-
-        .footnote { color: #64748b; font-size: 0.72rem; margin-top: 1.25rem; }
-        .reveal a { color: var(--accent); }
-        .reveal em.tm { font-style: normal; color: var(--accent-warm); }
+        .slide-tag { position: absolute; top: 18px; right: 24px; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: #475569; }
     </style>
 </head>
 <body>
 <div class="reveal">
     <div class="slides">
 
-        <!-- 1. Title -->
-        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-            <p class="eyebrow">Educational Platform · Industry Analysis</p>
-            <h1>Utility Management Hub</h1>
-            <p class="lede">How a utility invoice becomes a resident bill — and how payments,<br>AI, ESG compliance, and integrations reshape the workflow behind it.</p>
-            <p class="footnote">Press <strong>S</strong> for speaker notes · <strong>F</strong> for fullscreen · arrow keys / space to navigate</p>
-            <aside class="notes">This deck summarizes the Utility Management Hub — an educational platform analyzing the utility management industry. We'll walk from the core workflows, through ACH payments and the AI invoice pipeline, into ESG compliance, the Capturis acquisition, and the competitive landscape. Roughly 12–15 minutes. Figures shown are the platform's illustrative industry data.</aside>
+        <!-- 1. TITLE -->
+        <section data-background-gradient="radial-gradient(120% 120% at 15% 10%, #12314f 0%, #0b1220 60%)">
+            <span class="kicker">Educational Platform · Industry Analysis</span>
+            <h1>Utility<br>Management Hub</h1>
+            <p class="lede wide" style="margin-top:1.1rem; font-size:1.2rem;">
+                How a utility invoice becomes a resident bill — and how payments, AI,
+                ESG compliance, and integrations reshape the workflow behind it.</p>
+            <p class="foot"><b style="color:var(--muted)">S</b> speaker notes &nbsp;·&nbsp; <b style="color:var(--muted)">F</b> fullscreen &nbsp;·&nbsp; <b style="color:var(--muted)">→</b> navigate</p>
+            <aside class="notes">This deck summarizes the Utility Management Hub — an educational platform analyzing the utility management industry. We walk from the core workflows through ACH payments, the AI invoice pipeline, ESG compliance, the Capturis acquisition, and the competitive landscape. Roughly 12–15 minutes. Figures are the platform's illustrative industry data.</aside>
         </section>
 
-        <!-- 2. What is utility management -->
-        <section>
-            <p class="eyebrow">Orientation</p>
-            <h2>What is utility management?</h2>
-            <p class="lede">Property managers rarely bill utilities directly. A specialized platform sits
-            between the <span class="highlight">utility providers</span> and the <span class="highlight">residents</span> —
-            capturing invoices, allocating cost, generating resident statements, collecting payment,
-            and reconciling it all back to the ledger.</p>
-            <p class="lede" style="margin-top:1rem">The core challenge: <span class="warm">one utility invoice fans out into many resident bills</span>,
-            then must fold back into a single, auditable reconciliation — at the scale of thousands of properties.</p>
-            <aside class="notes">Frame the domain before the details. The platform is the intermediary between utility companies and residents at multi-family properties. The recurring theme of the whole deck is fan-out (one invoice → many bills) and fold-back (many payments → one reconciliation).</aside>
+        <!-- 2. CONCEPT -->
+        <section data-background-gradient="linear-gradient(135deg, #0b1220 0%, #0f1c30 100%)">
+            <span class="slide-tag">Orientation</span>
+            <h2>One invoice → many bills → one reconciliation</h2>
+            <p class="lede wide">A specialized platform sits between <span class="hl">utility providers</span> and <span class="hl">residents</span> — capturing invoices, allocating cost, billing residents, collecting payment, and reconciling it all.</p>
+            <div class="flow" style="margin-top:1.6rem">
+                <div class="node"><div class="s">SUPPLY</div><div class="t">Utility providers</div></div>
+                <div class="node" style="background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.35)"><div class="s" style="color:var(--amber)">PLATFORM</div><div class="t">Capture · Allocate · Bill · Collect · Reconcile</div></div>
+                <div class="node"><div class="s">DEMAND</div><div class="t">Residents</div></div>
+            </div>
+            <p class="foot">The recurring theme: <span class="hl amber">fan-out</span> (one invoice → many resident bills), then <span class="hl amber">fold-back</span> (many payments → one auditable reconciliation) — at the scale of thousands of properties.</p>
+            <aside class="notes">Frame the domain before details. The platform is the intermediary between utility companies and residents at multi-family properties. The whole deck returns to fan-out and fold-back.</aside>
         </section>
 
-        <!-- 3. Seven core workflows -->
+        <!-- 3. DIVIDER: workflow -->
+        <section class="divider" data-background-gradient="radial-gradient(120% 120% at 80% 20%, #1a2c1f 0%, #0b1220 65%)">
+            <div class="idx">01</div>
+            <h2>The Workflow</h2>
+            <p class="sub">Seven core functions, one end-to-end pipeline.</p>
+            <aside class="notes">Section one: the operational backbone.</aside>
+        </section>
+
+        <!-- 4. SEVEN WORKFLOWS -->
         <section>
-            <p class="eyebrow">The Domain</p>
+            <span class="slide-tag">The Domain</span>
             <h2>Seven core workflows</h2>
-            <div class="grid">
-                <div class="tile"><h4>Invoice Processing</h4><p>Automated utility invoice collection, extraction, and expense management.</p></div>
-                <div class="tile"><h4>Resident Billing</h4><p>Generate and manage resident billing statements from allocated costs.</p></div>
-                <div class="tile"><h4>ACH Integration</h4><p>Automated payment processing, collection, and disbursement.</p></div>
-                <div class="tile"><h4>Meter Management</h4><p>Sub-meter reading, anomaly detection, and maintenance tracking.</p></div>
-                <div class="tile"><h4>Analytics &amp; Reporting</h4><p>Comprehensive reporting and data insights across the portfolio.</p></div>
-                <div class="tile"><h4>Energy Procurement</h4><p>Strategic energy purchasing and contract management.</p></div>
-                <div class="tile"><h4>System Integrations</h4><p>Connect with property-management and ERP/accounting systems.</p></div>
+            <div class="cards c4" style="margin-top:1.1rem">
+                <div class="cardx"><div class="badge">01</div><h4>Invoice Processing</h4><p>Automated collection, extraction &amp; expense management.</p></div>
+                <div class="cardx"><div class="badge">02</div><h4>Resident Billing</h4><p>Generate statements from allocated costs.</p></div>
+                <div class="cardx em"><div class="badge">03</div><h4>ACH Integration</h4><p>Automated collection &amp; disbursement.</p></div>
+                <div class="cardx"><div class="badge">04</div><h4>Meter Management</h4><p>Sub-meter reads, anomalies &amp; maintenance.</p></div>
+                <div class="cardx"><div class="badge">05</div><h4>Analytics</h4><p>Portfolio reporting &amp; data insights.</p></div>
+                <div class="cardx amber"><div class="badge">06</div><h4>Energy Procurement</h4><p>Strategic purchasing &amp; contracts.</p></div>
+                <div class="cardx violet"><div class="badge">07</div><h4>Integrations</h4><p>PM &amp; ERP / accounting systems.</p></div>
+                <div class="cardx" style="background:rgba(56,189,248,0.05);display:flex;flex-direction:column;justify-content:center"><h4 style="color:var(--cyan)">Fan-out → Fold-back</h4><p>Billing fans out; ACH &amp; analytics fold back.</p></div>
             </div>
-            <aside class="notes">These seven workflows are the backbone. Everything else — payments, AI, ESG, integrations — hangs off them. Note that invoice processing and resident billing are the fan-out; ACH and analytics are the fold-back.</aside>
+            <aside class="notes">These seven workflows are the backbone. Everything else — payments, AI, ESG, integrations — hangs off them. Invoice processing and resident billing are the fan-out; ACH and analytics are the fold-back.</aside>
         </section>
 
-        <!-- 4. End-to-end workflow -->
+        <!-- 5. END TO END -->
         <section>
-            <p class="eyebrow">End to End</p>
+            <span class="slide-tag">End to End</span>
             <h2>From utility bill to resident statement</h2>
-            <div class="pipeline">
-                <span class="step">Capture invoice</span><span class="arrow">→</span>
-                <span class="step">Validate &amp; allocate</span><span class="arrow">→</span>
-                <span class="step">Sub-meter reads</span><span class="arrow">→</span>
-                <span class="step">Generate resident bill</span><span class="arrow">→</span>
-                <span class="step">Collect via ACH</span><span class="arrow">→</span>
-                <span class="step">Reconcile &amp; report</span>
+            <div class="flow">
+                <div class="node"><div class="s">01</div><div class="t">Capture invoice</div></div>
+                <div class="node"><div class="s">02</div><div class="t">Validate &amp; allocate</div></div>
+                <div class="node"><div class="s">03</div><div class="t">Sub-meter reads</div></div>
+                <div class="node"><div class="s">04</div><div class="t">Generate bill</div></div>
+                <div class="node" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.35)"><div class="s" style="color:var(--emerald)">05</div><div class="t">Collect via ACH</div></div>
+                <div class="node" style="background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.35)"><div class="s" style="color:var(--amber)">06</div><div class="t">Reconcile &amp; report</div></div>
             </div>
-            <div class="two-col" style="margin-top:1.5rem">
-                <div class="col">
-                    <h4>Integration &amp; automation</h4>
-                    <ul>
-                        <li>Feeds from utility providers &amp; PM systems</li>
-                        <li>Automated cost allocation rules</li>
-                        <li>ERP / accounting posting</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Implementation considerations</h4>
-                    <ul>
-                        <li>Data quality at the point of capture</li>
-                        <li>Handling exceptions &amp; disputes</li>
-                        <li>Auditability of every allocation</li>
-                    </ul>
-                </div>
+            <div class="cols" style="margin-top:1.5rem">
+                <div><h4>Integration &amp; automation</h4><ul><li>Feeds from utility providers &amp; PM systems</li><li>Automated cost-allocation rules</li><li>ERP / accounting posting</li></ul></div>
+                <div><h4>Implementation reality</h4><ul><li><b>Data quality at capture</b> drives everything</li><li>Exceptions &amp; disputes handling</li><li>Auditability of every allocation</li></ul></div>
             </div>
-            <aside class="notes">The workflow page presents this as an interactive diagram with integration/automation on one side and implementation considerations on the other. Emphasize that data quality at capture determines everything downstream — garbage in, garbage billed.</aside>
+            <aside class="notes">The workflow page presents this as an interactive diagram — integration/automation on one side, implementation considerations on the other. Data quality at capture determines everything downstream: garbage in, garbage billed.</aside>
         </section>
 
-        <!-- 5. ACH by the numbers -->
-        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-            <p class="eyebrow">Payments · Scale</p>
+        <!-- 6. DIVIDER: payments -->
+        <section class="divider" data-background-gradient="radial-gradient(120% 120% at 20% 30%, #10233a 0%, #0b1220 65%)">
+            <div class="idx">02</div>
+            <h2>Payments</h2>
+            <p class="sub">Why ACH is the rail — at scale, and on cost.</p>
+            <aside class="notes">Section two: the money movement.</aside>
+        </section>
+
+        <!-- 7. ACH SCALE -->
+        <section data-background-gradient="linear-gradient(135deg, #0b1220 0%, #10233a 100%)">
+            <span class="slide-tag">Payments · Scale</span>
             <h2>ACH by the numbers</h2>
-            <div class="stat-row">
-                <div class="stat"><div class="num">29B+</div><div class="lbl">Annual ACH transactions</div></div>
-                <div class="stat"><div class="num green">$72T+</div><div class="lbl">Annual dollar volume</div></div>
-                <div class="stat"><div class="num warm">99.9%</div><div class="lbl">System reliability</div></div>
+            <div class="hero-grid">
+                <div class="hero-stat"><div class="n">29B+</div><div class="k">Annual ACH transactions</div></div>
+                <div class="hero-stat"><div class="n em">$72T+</div><div class="k">Annual dollar volume</div></div>
+                <div class="hero-stat"><div class="n amber">99.9%</div><div class="k">System reliability</div></div>
             </div>
-            <p class="lede" style="margin-top:1.5rem">ACH is the backbone of U.S. bill payment. Transactions are <span class="highlight">batched and cleared through the Federal Reserve's ACH network</span>, typically settling in 1–3 business days.</p>
-            <aside class="notes">Context for why ACH matters: it's the dominant rail by both count and dollar volume, and it's extremely reliable. The tradeoff versus cards is speed — 1–3 day settlement instead of instant — which the next slide quantifies against cost.</aside>
+            <p class="lede wide" style="margin-top:1.6rem">ACH is the backbone of U.S. bill payment — <span class="hl">batched and cleared through the Federal Reserve's ACH network</span>, typically settling in 1–3 business days.</p>
+            <aside class="notes">ACH is the dominant rail by both count and dollar volume, and extremely reliable. The tradeoff vs. cards is speed — 1–3 day settlement instead of instant — which the next slide weighs against cost.</aside>
         </section>
 
-        <!-- 6. ACH economics -->
+        <!-- 8. ACH ECONOMICS (bar chart) -->
         <section>
-            <p class="eyebrow">Payments · Economics</p>
-            <h2>Why ACH for utility billing</h2>
-            <div class="stat-row">
-                <div class="stat"><div class="num green">$0.25–$1.50</div><div class="lbl">Per ACH transaction</div></div>
-                <div class="stat"><div class="num">$15–$45</div><div class="lbl">Per credit-card transaction</div></div>
-                <div class="stat"><div class="num warm">70–90%</div><div class="lbl">Cost reduction</div></div>
+            <span class="slide-tag">Payments · Economics</span>
+            <h2>The economic case for ACH</h2>
+            <p class="lede wide">Cost per transaction — ACH vs. credit cards:</p>
+            <div class="bars">
+                <div class="bar"><div class="name"><b>ACH</b></div><div class="track"><div class="fill em" style="width:4%"></div></div><div class="val">$0.25–1.50</div></div>
+                <div class="bar"><div class="name"><b>Credit card</b></div><div class="track"><div class="fill amber" style="width:100%"></div></div><div class="val">$15–45</div></div>
             </div>
-            <div class="stat-row" style="margin-top:1rem">
-                <div class="stat"><div class="num">95%</div><div class="lbl">Automation rate</div></div>
-                <div class="stat"><div class="num">99.5%</div><div class="lbl">Processing accuracy</div></div>
-                <div class="stat"><div class="num">80%</div><div class="lbl">Staff time savings</div></div>
+            <div class="hero-grid" style="margin-top:1.8rem">
+                <div class="hero-stat"><div class="n em">70–90%</div><div class="k">Cost reduction</div></div>
+                <div class="hero-stat"><div class="n">95%</div><div class="k">Automation rate</div></div>
+                <div class="hero-stat"><div class="n">80%</div><div class="k">Staff time saved</div></div>
             </div>
-            <aside class="notes">This is the core economic argument. At portfolio scale, moving collections from cards to ACH cuts payment costs by 70–90%, and automation removes most of the manual handling. The accuracy and time-savings figures are what make it defensible operationally, not just financially.</aside>
+            <aside class="notes">The core economic argument. At portfolio scale, moving collections from cards to ACH cuts payment costs 70–90%, and automation removes most manual handling. The bar chart makes the gap visceral: ACH is a rounding error next to card fees.</aside>
         </section>
 
-        <!-- 7. ACH benefits & challenges -->
+        <!-- 9. ACH OPS -->
         <section>
-            <p class="eyebrow">Payments · Operations</p>
+            <span class="slide-tag">Payments · Operations</span>
             <h2>Benefits, challenges &amp; solutions</h2>
-            <div class="two-col">
-                <div class="col">
-                    <h4>Benefits</h4>
-                    <ul>
-                        <li>Low, flat per-transaction cost</li>
-                        <li>Automated disbursement &amp; collection</li>
-                        <li><span class="highlight">NACHA / CTX</span> file generation</li>
-                        <li>Automated SFTP upload to banks</li>
-                        <li>Real-time status tracking</li>
-                        <li>Multi-bank support</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Challenges → solutions</h4>
-                    <ul>
-                        <li>Returns &amp; retries → status tracking</li>
-                        <li>Reconciliation → <span class="highlight">unique-ID matching</span></li>
-                        <li>Compliance → NACHA formatting</li>
-                        <li>Scale → batch file automation</li>
-                        <li>Settlement lag → predictable 1–3 day windows</li>
-                    </ul>
-                </div>
+            <div class="cols">
+                <div><h4 style="color:var(--emerald)">Benefits</h4><ul>
+                    <li>Low, flat per-transaction cost</li>
+                    <li>Automated disbursement &amp; collection</li>
+                    <li><b>NACHA / CTX</b> file generation</li>
+                    <li>Automated SFTP upload to banks</li>
+                    <li>Real-time status tracking · multi-bank</li>
+                </ul></div>
+                <div><h4 style="color:var(--amber)">Challenges → solutions</h4><ul>
+                    <li>Returns &amp; retries → status tracking</li>
+                    <li>Reconciliation → <b>unique-ID matching</b></li>
+                    <li>Compliance → NACHA formatting</li>
+                    <li>Scale → batch-file automation</li>
+                    <li>Settlement lag → predictable 1–3 day windows</li>
+                </ul></div>
             </div>
-            <aside class="notes">The hard parts of ACH are returns handling and reconciliation. The platform's answer is unique-ID matching and NACHA-formatted batch files uploaded automatically via SFTP, with multi-bank support so a large portfolio isn't tied to one institution.</aside>
+            <aside class="notes">The hard parts of ACH are returns handling and reconciliation. The platform's answer is unique-ID matching and NACHA-formatted batch files auto-uploaded via SFTP, with multi-bank support so a large portfolio isn't tied to one institution.</aside>
         </section>
 
-        <!-- 8. AI invoice pipeline -->
+        <!-- 10. DIVIDER: intelligence -->
+        <section class="divider" data-background-gradient="radial-gradient(120% 120% at 75% 25%, #1c1636 0%, #0b1220 65%)">
+            <div class="idx">03</div>
+            <h2>Intelligence</h2>
+            <p class="sub">Where AI removes toil across the operation.</p>
+            <aside class="notes">Section three: the AI layer.</aside>
+        </section>
+
+        <!-- 11. AI PIPELINE -->
         <section>
-            <p class="eyebrow">AI Pipeline</p>
+            <span class="slide-tag">AI Pipeline</span>
             <h2>The invoice processing pipeline</h2>
-            <div class="pipeline">
-                <span class="step">Ingest</span><span class="arrow">→</span>
-                <span class="step">Extract (OCR/AI)</span><span class="arrow">→</span>
-                <span class="step">Validate</span><span class="arrow">→</span>
-                <span class="step">Urgency scoring</span><span class="arrow">→</span>
-                <span class="step">Payment &amp; NetSuite</span><span class="arrow">→</span>
-                <span class="step">Reconcile</span>
+            <div class="flow">
+                <div class="node"><div class="s">INGEST</div><div class="t">Receive bill</div></div>
+                <div class="node" style="background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.4)"><div class="s" style="color:var(--violet)">AI</div><div class="t">Extract (OCR)</div></div>
+                <div class="node"><div class="s">CHECK</div><div class="t">Validate</div></div>
+                <div class="node" style="background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.4)"><div class="s" style="color:var(--violet)">AI</div><div class="t">Urgency scoring</div></div>
+                <div class="node"><div class="s">PAY</div><div class="t">Payment &amp; NetSuite</div></div>
+                <div class="node" style="background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.35)"><div class="s" style="color:var(--amber)">CLOSE</div><div class="t">Reconcile</div></div>
             </div>
-            <div class="two-col" style="margin-top:1.5rem">
-                <div class="col">
-                    <h4>Payment &amp; NetSuite integration</h4>
-                    <ul>
-                        <li>API-driven AP/AR posting</li>
-                        <li>Multi-bank payment support</li>
-                        <li>Unique-ID reconciliation</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Prioritization</h4>
-                    <ul>
-                        <li>Intelligent urgency scoring</li>
-                        <li><em class="tm">First Due, First Through®</em></li>
-                        <li>Late-fee prevention</li>
-                    </ul>
-                </div>
+            <div class="cols" style="margin-top:1.5rem">
+                <div><h4>Payment &amp; NetSuite</h4><ul><li>API-driven AP/AR posting</li><li>Multi-bank payment support</li><li>Unique-ID reconciliation</li></ul></div>
+                <div><h4>Prioritization</h4><ul><li>Intelligent urgency scoring</li><li><b style="color:var(--amber)">First Due, First Through®</b></li><li>Late-fee prevention</li></ul></div>
             </div>
-            <aside class="notes">The AI pipeline page centers on this flow. AI adds value at two points: extraction (turning unstructured bills into structured data) and urgency scoring, branded "First Due, First Through" — pay what's due soonest first to prevent late fees. NetSuite is the ERP posting target.</aside>
+            <aside class="notes">AI adds value at two points: extraction (unstructured bills → structured data) and urgency scoring, branded "First Due, First Through" — pay what's due soonest first to prevent late fees. NetSuite is the ERP posting target.</aside>
         </section>
 
-        <!-- 9. AI impact metrics -->
-        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #14532d 100%)">
-            <p class="eyebrow">AI · Impact</p>
-            <h2>Expected impact of AI integration</h2>
-            <div class="stat-row">
-                <div class="stat"><div class="num green">85%</div><div class="lbl">Faster processing</div></div>
-                <div class="stat"><div class="num">99.5%</div><div class="lbl">Data accuracy</div></div>
-                <div class="stat"><div class="num warm">30%</div><div class="lbl">Less manual effort</div></div>
+        <!-- 12. AI IMPACT -->
+        <section data-background-gradient="linear-gradient(135deg, #0b1220 0%, #14231b 100%)">
+            <span class="slide-tag">AI · Impact</span>
+            <h2>Expected impact of AI</h2>
+            <div class="hero-grid">
+                <div class="hero-stat"><div class="n em">85%</div><div class="k">Faster processing</div></div>
+                <div class="hero-stat"><div class="n">99.5%</div><div class="k">Data accuracy</div></div>
+                <div class="hero-stat"><div class="n amber">30%</div><div class="k">Less manual effort</div></div>
             </div>
-            <p class="lede" style="margin-top:1.5rem">AI-assisted extraction delivers a <span class="highlight">95% accuracy improvement</span> over manual data entry, with multi-format support for the messy reality of utility invoices.</p>
-            <aside class="notes">These are the headline "expected impact" metrics from the pipeline page. The story: faster, more accurate, less manual. The 95% extraction improvement is what unlocks the downstream automation — you can't automate billing on data you don't trust.</aside>
+            <p class="lede wide" style="margin-top:1.6rem">AI-assisted extraction delivers a <span class="hl">95% accuracy improvement</span> over manual entry, with multi-format support for the messy reality of utility invoices.</p>
+            <aside class="notes">Headline "expected impact" metrics from the pipeline page. Faster, more accurate, less manual. The 95% extraction improvement unlocks downstream automation — you can't automate billing on data you don't trust.</aside>
         </section>
 
-        <!-- 10. AI across operations -->
+        <!-- 13. AI ACROSS OPS -->
         <section>
-            <p class="eyebrow">AI · Breadth</p>
+            <span class="slide-tag">AI · Breadth</span>
             <h2>AI across the operation</h2>
-            <div class="grid">
-                <div class="tile"><h4>Invoice extraction</h4><p>95% accuracy improvement · reduced manual entry · multi-format support.</p></div>
-                <div class="tile green"><h4>Resident chatbot</h4><p>24/7 availability · 80% query resolution · 60% fewer support tickets · 15% better on-time payments.</p></div>
-                <div class="tile warm"><h4>Metering &amp; anomalies</h4><p>99.8% reading accuracy · 40% lower maintenance cost · 90% faster anomaly detection.</p></div>
-                <div class="tile"><h4>Self-service &amp; satisfaction</h4><p>70% self-service adoption · 25% increase in resident satisfaction.</p></div>
+            <div class="cards c2">
+                <div class="cardx violet"><div class="badge">Extraction</div><h4>Invoice capture</h4><p>95% accuracy improvement · reduced manual entry · multi-format support.</p></div>
+                <div class="cardx em"><div class="badge">Residents</div><h4>Support chatbot</h4><p>24/7 · 80% query resolution · 60% fewer support tickets · 15% better on-time payments.</p></div>
+                <div class="cardx amber"><div class="badge">Metering</div><h4>Anomaly detection</h4><p>99.8% reading accuracy · 40% lower maintenance cost · 90% faster anomaly detection.</p></div>
+                <div class="cardx"><div class="badge">Adoption</div><h4>Self-service</h4><p>70% self-service adoption · 25% increase in resident satisfaction.</p></div>
             </div>
-            <aside class="notes">AI isn't just the invoice pipeline. It shows up in a resident-facing chatbot (deflecting support load and improving on-time payment), in sub-meter anomaly detection (catching leaks and faults early), and in driving self-service adoption. Each has its own concrete metrics on the AI pipeline page.</aside>
+            <aside class="notes">AI isn't just the invoice pipeline. It shows up in a resident chatbot (deflecting support load, improving on-time payment), sub-meter anomaly detection (catching leaks and faults early), and driving self-service adoption. Each has concrete metrics on the AI pipeline page.</aside>
         </section>
 
-        <!-- 11. ESG compliance -->
-        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #134e4a 100%)">
-            <p class="eyebrow">Compliance</p>
+        <!-- 14. DIVIDER: responsibility & strategy -->
+        <section class="divider" data-background-gradient="radial-gradient(120% 120% at 25% 25%, #0f2a26 0%, #0b1220 65%)">
+            <div class="idx">04</div>
+            <h2>Responsibility &amp; Strategy</h2>
+            <p class="sub">ESG compliance, and growth by acquisition.</p>
+            <aside class="notes">Section four: compliance and corporate strategy.</aside>
+        </section>
+
+        <!-- 15. ESG -->
+        <section data-background-gradient="linear-gradient(135deg, #0b1220 0%, #0f2a26 100%)">
+            <span class="slide-tag">Compliance</span>
             <h2>ESG compliance dashboard</h2>
-            <p class="lede">Environmental, Social &amp; Governance metrics tracked against regulatory frameworks — with a likelihood/impact risk matrix and five-year trend analysis.</p>
-            <div class="grid" style="margin-top:1rem">
-                <div class="tile green"><h4>Environmental</h4><p>Carbon 2.5M t CO2e → net zero (Scope 1/2/3) · 45% renewable → 80% · water &amp; waste intensity.</p></div>
-                <div class="tile"><h4>Social</h4><p>Affordability programs (12% → 15%) · workforce diversity 42% → 50% · safety TRIR 1.2 · community investment.</p></div>
-                <div class="tile warm"><h4>Governance</h4><p>Board diversity 33% · 0 cybersecurity incidents · 97% regulatory compliance · exec ESG-linked pay.</p></div>
+            <p class="lede wide">Environmental, Social &amp; Governance metrics tracked against regulatory frameworks — with a likelihood/impact risk matrix and five-year trends.</p>
+            <div class="cards c3" style="margin-top:1.1rem">
+                <div class="cardx em"><div class="badge">Environmental</div><h4>Carbon → net zero</h4><p>2.5M t CO2e (Scope 1/2/3) · 45% renewable → 80% · water &amp; waste intensity.</p></div>
+                <div class="cardx"><div class="badge">Social</div><h4>People &amp; safety</h4><p>Affordability 12% → 15% · workforce diversity 42% → 50% · TRIR 1.2.</p></div>
+                <div class="cardx amber"><div class="badge">Governance</div><h4>Trust &amp; controls</h4><p>Board diversity 33% · 0 cyber incidents · 97% regulatory compliance.</p></div>
             </div>
-            <p class="footnote">Frameworks: SEC Climate Disclosure Rules · TCFD · SASB Utilities Standard · GRI · 47+ tracked metrics</p>
-            <aside class="notes">ESG is now a headline capability. Environmental, Social, and Governance metrics are tracked against SEC, TCFD, SASB, and GRI — 47+ metrics with a risk matrix and five-year trends. Concrete anchors: 2.5M tons CO2e targeting net zero by 2050, 45% renewable heading to 80% by 2030, 97% regulatory compliance score, zero cyber incidents. Figures are illustrative platform data.</aside>
+            <p class="foot">Frameworks: SEC Climate Disclosure · TCFD · SASB Utilities Standard · GRI &nbsp;·&nbsp; 47+ tracked metrics</p>
+            <aside class="notes">ESG is now a headline capability — 47+ metrics tracked against SEC, TCFD, SASB, and GRI with a risk matrix and five-year trends. Anchors: 2.5M t CO2e targeting net zero by 2050, 45% renewable heading to 80% by 2030, 97% regulatory compliance, zero cyber incidents. Figures are illustrative.</aside>
         </section>
 
-        <!-- 12. Capturis acquisition -->
+        <!-- 16. CAPTURIS -->
         <section>
-            <p class="eyebrow">Strategy</p>
+            <span class="slide-tag">Strategy · M&amp;A</span>
             <h2>The Capturis acquisition</h2>
-            <div class="stat-row" style="margin-bottom:0.5rem">
-                <div class="stat"><div class="num warm">15,000+</div><div class="lbl">Additional properties served</div></div>
-                <div class="stat"><div class="num">Portfolio</div><div class="lbl">Integration library acquired</div></div>
-                <div class="stat"><div class="num green">Months</div><div class="lbl">Phased migration timeline</div></div>
+            <div class="hero-grid" style="margin-top:0.6rem">
+                <div class="hero-stat"><div class="n amber">15,000+</div><div class="k">Properties added</div></div>
+                <div class="hero-stat"><div class="n">Portfolio</div><div class="k">Integration library acquired</div></div>
+                <div class="hero-stat"><div class="n em">Months</div><div class="k">Phased migration</div></div>
             </div>
-            <div class="two-col">
-                <div class="col">
-                    <h4>Why acquire</h4>
-                    <ul>
-                        <li>15,000+ properties &amp; client base</li>
-                        <li>Deep invoice-capture experience</li>
-                        <li>Ready-made integration portfolio</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Migration requirements</h4>
-                    <ul>
-                        <li>Map each integration type</li>
-                        <li>Revalidate against the platform</li>
-                        <li>Phased rollout to manage risk</li>
-                    </ul>
-                </div>
+            <div class="cols" style="margin-top:1.5rem">
+                <div><h4>Why acquire</h4><ul><li>15,000+ properties &amp; client base</li><li>Deep invoice-capture experience</li><li>Ready-made integration portfolio</li></ul></div>
+                <div><h4 style="color:var(--amber)">Migration requirements</h4><ul><li>Map each integration type</li><li>Revalidate against the platform</li><li>Phased rollout to manage risk</li></ul></div>
             </div>
-            <aside class="notes">Capturis is framed as a strategic acquisition. The prize: 15,000+ properties and a mature integration portfolio (invoice-capture expertise the platform would otherwise build from scratch). The cost: a multi-month, phased migration where every integration type is mapped and revalidated. Classic build-vs-buy where buy wins on time-to-scale.</aside>
+            <aside class="notes">A strategic acquisition. The prize: 15,000+ properties and a mature integration portfolio the platform would otherwise build from scratch. The cost: a multi-month phased migration where every integration is mapped and revalidated. Classic build-vs-buy where buy wins on time-to-scale.</aside>
         </section>
 
-        <!-- 13. Competitive landscape -->
+        <!-- 17. DIVIDER: market -->
+        <section class="divider" data-background-gradient="radial-gradient(120% 120% at 80% 30%, #10233a 0%, #0b1220 65%)">
+            <div class="idx">05</div>
+            <h2>The Market</h2>
+            <p class="sub">Who else plays — and where this platform fits.</p>
+            <aside class="notes">Section five: competitive landscape and positioning.</aside>
+        </section>
+
+        <!-- 18. COMPETITORS (bar chart) -->
         <section>
-            <p class="eyebrow">Market</p>
+            <span class="slide-tag">Market</span>
             <h2>Competitive landscape</h2>
-            <div class="players">
-                <div class="player us">Utility Mgmt Hub</div>
-                <div class="player">Zego</div>
-                <div class="player">Enertiv</div>
-                <div class="player">Capturis <em>(acq.)</em></div>
-                <div class="player">AppFolio</div>
-                <div class="player">RealPage</div>
-                <div class="player">Yardi</div>
-                <div class="player">Entrata</div>
+            <div class="pills">
+                <span class="pill us">Utility Mgmt Hub</span>
+                <span class="pill">Zego</span><span class="pill">Enertiv</span>
+                <span class="pill">Capturis (acq.)</span><span class="pill">AppFolio</span>
+                <span class="pill">RealPage</span><span class="pill">Yardi</span><span class="pill">Entrata</span>
             </div>
-            <table class="cmp">
-                <tr><th>Metric</th><th>AppFolio</th><th>RealPage</th><th>Yardi</th><th>Entrata</th></tr>
-                <tr><td>Properties served</td><td>7K+</td><td>20K+</td><td>40K+</td><td>8K+</td></tr>
-                <tr><td>Units managed</td><td>750K+</td><td>4M+</td><td>8M+</td><td>2M+</td></tr>
-            </table>
-            <aside class="notes">Two tiers of competitor. The property-management incumbents — Yardi, RealPage, AppFolio, Entrata — are huge (Yardi manages 8M+ units) and bundle utility features into broader suites. Zego and Enertiv are the specialists. The platform competes on depth in utility management specifically, and integrates with several of these PM systems rather than replacing them.</aside>
+            <p class="lede wide" style="margin-top:1.3rem; font-size:0.9rem">PM incumbents by units managed:</p>
+            <div class="bars">
+                <div class="bar"><div class="name"><b>Yardi</b></div><div class="track"><div class="fill" style="width:100%"></div></div><div class="val">8M+</div></div>
+                <div class="bar"><div class="name"><b>RealPage</b></div><div class="track"><div class="fill" style="width:50%"></div></div><div class="val">4M+</div></div>
+                <div class="bar"><div class="name"><b>Entrata</b></div><div class="track"><div class="fill" style="width:25%"></div></div><div class="val">2M+</div></div>
+                <div class="bar"><div class="name"><b>AppFolio</b></div><div class="track"><div class="fill" style="width:9%"></div></div><div class="val">750K+</div></div>
+            </div>
+            <aside class="notes">Two tiers. The PM incumbents — Yardi, RealPage, AppFolio, Entrata — are huge (Yardi 8M+ units) and bundle utility features into broader suites. Zego and Enertiv are specialists. The platform competes on utility-management depth and integrates with these PM systems rather than replacing them.</aside>
         </section>
 
-        <!-- 14. Where the platform fits -->
+        <!-- 19. POSITIONING -->
         <section>
-            <p class="eyebrow">Positioning</p>
-            <h2>Where the platform fits</h2>
-            <div class="two-col">
-                <div class="col">
-                    <h4>Differentiators</h4>
-                    <ul>
-                        <li>Utility-billing depth, not a bolt-on</li>
-                        <li>ACH-first payment economics</li>
-                        <li>AI extraction + urgency scoring</li>
-                        <li>ESG compliance built in</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Benchmarked on</h4>
-                    <ul>
-                        <li>Utility billing &amp; sub-metering</li>
-                        <li>ACH processing</li>
-                        <li>Energy procurement</li>
-                        <li>AI/ML capability &amp; API integration</li>
-                    </ul>
-                </div>
+            <span class="slide-tag">Positioning</span>
+            <h2>Where this platform fits</h2>
+            <div class="cols">
+                <div><h4>Differentiators</h4><ul>
+                    <li><b>Utility-billing depth</b>, not a bolt-on</li>
+                    <li>ACH-first payment economics</li>
+                    <li>AI extraction + urgency scoring</li>
+                    <li>ESG compliance built in</li>
+                </ul></div>
+                <div><h4>Benchmarked on</h4><ul>
+                    <li>Utility billing &amp; sub-metering</li>
+                    <li>ACH processing</li>
+                    <li>Energy procurement</li>
+                    <li>AI/ML capability &amp; API integration</li>
+                </ul></div>
             </div>
-            <aside class="notes">Synthesize the positioning: the platform wins by being deep in utility management specifically — billing, sub-metering, ACH economics, AI, and now ESG — while integrating with the big PM suites rather than trying to displace them. The competitors page benchmarks exactly these dimensions.</aside>
+            <p class="foot">Wins by being deep in utility management specifically — while integrating with the big PM suites rather than displacing them.</p>
+            <aside class="notes">Synthesize positioning: win by depth in utility management — billing, sub-metering, ACH economics, AI, and now ESG — while integrating with the big PM suites. The competitors page benchmarks exactly these dimensions.</aside>
         </section>
 
-        <!-- 15. Close -->
-        <section data-background-gradient="linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%)">
-            <p class="eyebrow">Explore</p>
-            <h2>See the full platform</h2>
-            <p class="lede">Interactive diagrams and detailed analysis across workflow, ACH, the AI pipeline,
-            ESG compliance, the Capturis migration, and every competitor — far deeper than this summary.</p>
-            <p style="margin-top:1.5rem"><a href="https://utility-management.vercel.app/">utility-management.vercel.app</a></p>
-            <p class="footnote">An educational analysis of utility management workflows and the industry landscape. Metrics shown are illustrative platform data.</p>
-            <aside class="notes">Close by pointing to the live interactive platform. Reiterate that this deck is a summary — the site has the interactive diagrams (Mermaid, ReactFlow, D3), the full ESG dashboard with the risk matrix, and per-competitor detail pages.</aside>
+        <!-- 20. CLOSE -->
+        <section data-background-gradient="radial-gradient(120% 120% at 50% 20%, #12314f 0%, #0b1220 65%)">
+            <span class="kicker">Explore</span>
+            <h2 style="font-size:2.4rem">See the full platform</h2>
+            <p class="lede wide" style="margin-top:0.8rem">Interactive diagrams and detailed analysis across workflow, ACH, the AI pipeline, ESG compliance, the Capturis migration, and every competitor — far deeper than this summary.</p>
+            <p style="margin-top:1.4rem; font-size:1.25rem"><a href="https://utility-management.vercel.app/">utility-management.vercel.app</a></p>
+            <p class="foot">An educational analysis of utility management workflows and the industry landscape. Metrics shown are illustrative platform data.</p>
+            <aside class="notes">Close by pointing to the live interactive platform — Mermaid/ReactFlow/D3 diagrams, the full ESG dashboard with risk matrix, and per-competitor detail pages.</aside>
         </section>
 
     </div>
@@ -401,19 +403,21 @@
     import Reveal from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.esm.js';
     import Notes from 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.esm.js';
 
-    Reveal.initialize({
+    const deck = new Reveal({
         hash: true,
-        transition: 'fade',
+        slideNumber: 'c/t',
+        transition: 'slide',
         transitionSpeed: 'default',
         backgroundTransition: 'fade',
-        center: true,
-        width: 1200,
-        height: 800,
-        margin: 0.04,
+        center: false,
+        width: 1280,
+        height: 820,
+        margin: 0.06,
         progress: true,
         controls: true,
         plugins: [ Notes ],
     });
+    deck.initialize();
 </script>
 </body>
 </html>
