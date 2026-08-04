@@ -283,10 +283,12 @@
     }
     function fromHash() {
       const tag = (location.hash || '').slice(1).toLowerCase();
+      if (tag === 'activity') { location.replace('activities/'); return; }
       apply(valid.has(tag) ? tag : 'all');
     }
     buttons.forEach(b => b.addEventListener('click', () => {
       const t = b.dataset.filter;
+      if (t === 'activity') { location.href = 'activities/'; return; }
       const url = t === 'all' ? location.pathname + location.search : '#' + t;
       history.replaceState(null, '', url);
       apply(t);
