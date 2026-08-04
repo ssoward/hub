@@ -18,6 +18,9 @@ A static web application serving as a personal hub for gospel study, tech presen
 
 ### Gospel Presentations
 Stake and ward-level teaching resources built with Reveal.js:
+- Maggie's Miracle — But Did You Die? (family testimony; cardiac arrest, CPR, and recovery — photos from butdidyoudie.life)
+- Throwing the Door Wide Open (Camille N. Johnson)
+- Do Not Miss the Majesty of This Moment (temple growth under Pres. Nelson)
 - Ward Sunday School Presidents Training
 - Ward Conference 2026 (PMG vs. Teaching in the Savior's Way)
 - Confidence in the Presence of God (Pres. Nelson)
@@ -27,13 +30,16 @@ Stake and ward-level teaching resources built with Reveal.js:
 
 ### Tech & Philosophy
 Interactive presentations on technology and AI:
+- Utility Management Hub (industry data & platform deck)
 - The Meaning of Life for AI (15-slide Reveal.js)
 - A Day in the Life of AI (canvas animation)
 - The Evolution of AI (7-era interactive gallery)
 
 ### Activities
-Logic puzzles and interactive learning tools:
+Logic puzzles, arcade games, and interactive learning tools — 17 in all, including:
 - The Alien Hat Riddle (step-by-step simulation)
+- Sudoku, Minesweeper, Connect Four, Dots and Boxes, Slide Puzzle, Code Breaker
+- Snake, Pong, Whack-a-Mole, Blackjack, Memory Match, Hangman, Word Guess, Quick Math, Tic-Tac-Toe, Rock Paper Scissors
 
 ### Scripture
 - Alma 31 Study App — full text, analysis, gallery, and study tools

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maggie's Miracle | But Did You Die?</title>
+  <meta name="description" content="Maggie Soward's cardiac arrest on Thanksgiving Day 2024 — 26 minutes without a pulse, a 5% survival rate, and the family, first responders, and faith that brought her back.">
+  <link rel="stylesheet" href="../reveal/dist/reset.css">
+  <link rel="stylesheet" href="../reveal/dist/reveal.css">
+  <link rel="stylesheet" href="../reveal/dist/theme/white.css">
+  <link rel="stylesheet" href="../../css/reveal-site-theme.css">
+  <style>
+    :root {
+      --church-navy: #0A2540;
+      --church-navy-mid: #0F3A5F;
+      --church-gold: #C9A227;
+      --church-gold-light: #E8C547;
+      --off-white: #F8F6F1;
+      --text-dark: #1A2B3C;
+    }
+
+    /* Base type scale for the 1280x720 canvas declared in Reveal.initialize. */
+    .reveal {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 26px;
+    }
+
+    .reveal .slides section {
+      text-align: left;
+      padding: 30px 44px;
+      box-sizing: border-box;
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: "Georgia", serif;
+      text-transform: none;
+      letter-spacing: -0.01em;
+      font-weight: 700;
+    }
+
+    .reveal h1 { font-size: 2.6em; color: white; }
+    .reveal h2 { font-size: 1.7em; color: var(--church-navy); margin-bottom: 0.4em; }
+    .reveal h3 { font-size: 1.15em; color: var(--church-gold); }
+
+    .reveal p, .reveal li {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.85em;
+      line-height: 1.55;
+      color: #2c3e50;
+    }
+
+    .reveal .eyebrow {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.55em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--church-gold);
+      font-weight: 600;
+      margin-bottom: 0.6em;
+    }
+
+    .reveal .rule {
+      width: 60px;
+      height: 3px;
+      background: var(--church-gold);
+      margin: 0.8em 0 1.2em;
+    }
+
+    .reveal .rule-center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Dark slides paint their background via Reveal's data-background-gradient
+       so the fill covers the whole slide, not just the content box. */
+    .reveal .title-slide {
+      color: white;
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .reveal .title-slide h2,
+    .reveal .title-slide p,
+    .reveal .title-slide li { color: white; }
+
+    .reveal .title-slide h1 {
+      font-size: 2.8em;
+      margin-bottom: 0.15em;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    }
+
+    .reveal .title-slide .subtitle {
+      font-size: 1.35em;
+      font-style: italic;
+      color: var(--church-gold-light);
+      margin-bottom: 1em;
+    }
+
+    .reveal .title-slide .meta {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7em;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+    }
+
+    .reveal .dark-slide {
+      color: white;
+    }
+
+    .reveal .dark-slide h2, .reveal .dark-slide p, .reveal .dark-slide li {
+      color: white;
+    }
+
+    .reveal .dark-slide .eyebrow {
+      color: var(--church-gold);
+    }
+
+    /* Photo slides: full-bleed background with scrim */
+    .reveal .photo-slide {
+      color: white;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .reveal .photo-slide h2,
+    .reveal .photo-slide p,
+    .reveal .photo-slide li { color: white; }
+
+    .reveal .scrim {
+      background: linear-gradient(180deg, rgba(6,20,35,0) 0%, rgba(6,20,35,0.55) 45%, rgba(6,20,35,0.92) 100%);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .reveal .photo-caption {
+      position: relative;
+      z-index: 2;
+      max-width: 78%;
+    }
+
+    .reveal .photo-caption h2 {
+      color: white;
+      font-size: 1.5em;
+      margin-bottom: 0.3em;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.6);
+    }
+
+    .reveal .photo-slide .eyebrow { margin-bottom: 0.4em; }
+
+    .reveal .photo-caption p {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .reveal .credit {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.45em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-top: 0.8em;
+    }
+
+    /* Image + text split */
+    .reveal .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6em;
+      align-items: center;
+      margin-top: 0.6em;
+    }
+
+    .reveal .split.tight { gap: 1.2em; }
+
+    /* Photos are a mix of portrait and landscape; cap the height so a tall
+       portrait never pushes a slide past the 720px canvas. */
+    .reveal .split img,
+    .reveal .photo-frame img {
+      width: auto;
+      max-width: 100%;
+      max-height: 400px;
+      margin: 0 auto;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    /* Compact secondary photo: crop to a landscape band so a portrait source
+       doesn't render as a narrow stamp. */
+    .reveal .split.mini { grid-template-columns: 1.5fr 1fr; align-items: start; }
+    .reveal .split.mini img {
+      width: 100%;
+      height: 215px;
+      max-height: none;
+      object-fit: cover;
+      object-position: center 34%;
+    }
+
+    .reveal .figcap {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.5em;
+      color: #7c8b9a;
+      margin-top: 0.5em;
+      line-height: 1.4;
+    }
+
+    .reveal .dark-slide .figcap { color: rgba(255,255,255,0.6); }
+
+    .reveal .photo-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9em;
+      margin-top: 1em;
+    }
+
+    .reveal .photo-row img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.3);
+    }
+
+    .reveal .quote-block {
+      background: rgba(255,255,255,0.08);
+      border-left: 4px solid var(--church-gold);
+      padding: 0.9em 1.2em;
+      font-style: italic;
+      font-size: 0.95em;
+      line-height: 1.5;
+      margin: 1em 0;
+    }
+
+    .reveal .attrib {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-style: normal;
+      font-size: 0.62em;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--church-gold);
+      margin-top: 0.7em;
+      display: block;
+    }
+
+    .reveal .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8em;
+      margin: 1.2em 0;
+    }
+
+    .reveal .stat-card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1em 0.6em;
+      text-align: center;
+      border-top: 3px solid var(--church-gold);
+    }
+
+    .reveal .stat-card .num {
+      font-size: 1.6em;
+      font-weight: 700;
+      color: var(--church-gold);
+      display: block;
+      margin-bottom: 0.2em;
+    }
+
+    .reveal .stat-card .label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.55em;
+      color: rgba(255,255,255,0.85);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .reveal .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1em;
+      margin-top: 1em;
+    }
+
+    .reveal .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.1em 1em;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border-top: 3px solid var(--church-gold);
+    }
+
+    .reveal .card h3 {
+      margin: 0 0 0.4em;
+      font-size: 0.95em;
+      color: var(--church-navy);
+    }
+
+    .reveal .card p {
+      margin: 0;
+      font-size: 0.72em;
+      color: #5a6a7a;
+      line-height: 1.45;
+    }
+
+    .reveal .timeline-item {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 0.95em;
+      align-items: flex-start;
+    }
+
+    .reveal .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--church-gold);
+      flex-shrink: 0;
+      margin-top: 0.35em;
+    }
+
+    .reveal .timeline-content h4 {
+      margin: 0 0 0.2em;
+      font-size: 0.9em;
+      color: var(--church-navy);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .reveal .dark-slide .timeline-content h4 { color: var(--church-gold-light); }
+
+    .reveal .timeline-content p {
+      margin: 0;
+      font-size: 0.78em;
+    }
+
+    .reveal .lesson-row {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 0.9em;
+      align-items: flex-start;
+    }
+
+    .reveal .lesson-num {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--church-gold);
+      min-width: 1.8em;
+      font-family: Georgia, serif;
+    }
+
+    .reveal .footer-note {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.55em;
+      color: #8899aa;
+      margin-top: 1.5em;
+    }
+
+    .reveal .center-text {
+      text-align: center !important;
+    }
+
+    .reveal a {
+      color: var(--church-gold);
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 1. Title -->
+      <section class="photo-slide"
+               data-background-image="images/emts-at-work.jpg"
+               data-background-size="cover"
+               data-background-position="center"
+               data-background-color="#06263f">
+        <div class="scrim" style="background:linear-gradient(180deg, rgba(6,20,35,0.72) 0%, rgba(6,20,35,0.78) 50%, rgba(6,20,35,0.95) 100%);"></div>
+        <div class="photo-caption center-text" style="max-width:100%; margin-bottom:1.5em;">
+          <div class="eyebrow" style="letter-spacing:0.22em;">A Family Testimony</div>
+          <h1 style="font-size:2.5em; margin-bottom:0.1em;">Maggie&rsquo;s Miracle</h1>
+          <div style="font-size:1.3em; font-style:italic; color:var(--church-gold-light); font-family:Georgia,serif;">But Did You Die?</div>
+          <div class="rule rule-center" style="margin:1em auto;"></div>
+          <p style="font-size:0.8em; color:rgba(255,255,255,0.85);">
+            November 28, 2024 &middot; Thanksgiving Day &middot; Saratoga Springs, Utah
+          </p>
+          <p style="font-size:0.65em; color:rgba(255,255,255,0.6); margin-top:0.4em;">
+            26 minutes without a pulse &middot; A 5% chance &middot; A family, a community, and the grace of God
+          </p>
+          <p style="margin-top:1.4em; font-size:0.62em; color:var(--church-gold);">butdidyoudie.life</p>
+        </div>
+      </section>
+
+      <!-- 2. Thanksgiving morning -->
+      <section>
+        <div class="eyebrow">The Setting</div>
+        <h2>An Ordinary Thanksgiving Morning</h2>
+        <div class="rule"></div>
+        <div class="split">
+          <div>
+            <p style="margin-top:0;">
+              Scott and Isaac spent the morning at Israel Canyon for Isaac&rsquo;s rifle practice, then came home to
+              prepare Thanksgiving dinner and pack for a Goblin Valley campout with the boys. Scott was in the
+              kitchen researching Dutch oven soup recipes.
+            </p>
+            <p>
+              Around noon Maggie joined him in the pantry to pick out three large potatoes. Her Fitbit history would
+              later show an elevated heart rate during those very minutes.
+            </p>
+          </div>
+          <div class="photo-frame">
+            <img src="images/pantry.jpeg" alt="The Soward family pantry where Maggie collapsed">
+            <div class="figcap">The pantry. Maggie handed Scott the third potato here &mdash; one still sits on the shelf.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. The collapse -->
+      <section>
+        <div class="eyebrow">12:20 PM</div>
+        <h2>&ldquo;I feel like I&rsquo;m going to pass out.&rdquo;</h2>
+        <div class="rule"></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>12:20 PM</h4>
+            <p>Maggie hands Scott the third potato, speaks those seven words, and collapses onto his left shoe.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Seconds later</h4>
+            <p>Her fingers and toes twist in a seizure. Her face turns gray, her eyes roll back. Sudden cardiac arrest &mdash;
+              ventricular tachycardia that became a full arrest within seconds.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>12:21 PM</h4>
+            <p>Scott tells her over and over, &ldquo;Breathe, Maggie.&rdquo; He starts CPR and mouth-to-mouth and realizes
+              there is no breath and no heartbeat.</p>
+          </div>
+        </div>
+        <p class="footer-note">
+          Brain injury can begin within 4&ndash;6 minutes without circulation. From this moment, everything depended on
+          what the people in that house did next.
+        </p>
+      </section>
+
+      <!-- 4. Five minutes, five children -->
+      <section>
+        <div class="eyebrow">12:21 &ndash; 12:25 PM</div>
+        <h2>Four Minutes That Saved Her Life</h2>
+        <div class="rule"></div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Isaac &mdash; the call</h3>
+            <p>Calls 911, hands Scott the phone so the dispatcher can count compressions, then shouts
+              &ldquo;She&rsquo;s in here!&rdquo; to guide responders to the pantry.</p>
+          </div>
+          <div class="card">
+            <h3>Noah &mdash; the prayer</h3>
+            <p>Yells &ldquo;Eliza, Mom needs CPR!&rdquo; then texts hundreds of people: <em>&ldquo;Please pray for my mom,
+              we think she just had a heart attack.&rdquo;</em> He also gives Eliza the shirt off his back.</p>
+          </div>
+          <div class="card">
+            <h3>Eliza (17) &mdash; the hands</h3>
+            <p>Runs downstairs in a towel from her shower, checks for pulse and breath, finds neither, and begins
+              chest compressions &mdash; nearly five minutes of them.</p>
+          </div>
+        </div>
+        <div class="quote-block" style="background:var(--church-navy); color:white; margin-top:1.2em; font-size:0.85em;">
+          Downstairs, Noah gathered the younger girls and had each of them pray for their mother. Anna, 12, watched
+          over her little sisters through the chaos.
+        </div>
+      </section>
+
+      <!-- 5. Eliza's preparation -->
+      <section>
+        <div class="eyebrow">Prepared Six Days Earlier</div>
+        <h2>Eliza&rsquo;s Third CPR Certification</h2>
+        <div class="rule"></div>
+        <div class="split">
+          <div>
+            <div class="quote-block" style="background:var(--church-navy); color:white; margin-top:0;">
+              Six days before Thanksgiving, Eliza finished her third round of CPR training at MTECH. She mentioned it
+              casually to her dad in the car. That offhand conversation is the reason Scott knew to call for her.
+            </div>
+            <p>
+              Her compressions kept oxygenated blood moving to her mother&rsquo;s brain through the most critical window
+              of all &mdash; the minutes before anyone else arrived.
+            </p>
+          </div>
+          <div class="photo-frame">
+            <img src="images/eliza-award.jpeg" alt="Eliza Jane Soward holding her Life Saving Award">
+            <div class="figcap">Eliza Jane Soward with the Life Saving Award later presented by Saratoga Springs Fire &amp; Rescue.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Photo: responders at work -->
+      <section class="photo-slide"
+               data-background-image="images/emts-at-work.jpg"
+               data-background-size="cover"
+               data-background-position="center"
+               data-background-color="#06263f">
+        <div class="scrim"></div>
+        <div class="photo-caption">
+          <div class="eyebrow">12:25 &ndash; 12:50 PM</div>
+          <h2>Nine Responders in the Kitchen</h2>
+          <p>
+            Nine first responders &mdash; EMTs, firefighters, and police &mdash; arrived within five minutes on a holiday.
+            They slid Maggie from the pantry to the kitchen, moved the dining table, took turns on compressions, and
+            delivered three shocks from the defibrillator while Scott and Eliza waited in the front room.
+          </p>
+          <div class="credit">Home camera footage &middot; The Soward residence, Thanksgiving Day 2024</div>
+        </div>
+      </section>
+
+      <!-- 7. The numbers -->
+      <section class="dark-slide" data-background-gradient="linear-gradient(135deg, #0A2540 0%, #0F3A5F 100%)">
+        <div class="eyebrow">The Numbers</div>
+        <h2 style="color:white;">Twenty-Six Minutes</h2>
+        <div class="rule"></div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="num">26</span>
+            <span class="label">Minutes to a Pulse</span>
+          </div>
+          <div class="stat-card">
+            <span class="num">9</span>
+            <span class="label">First Responders</span>
+          </div>
+          <div class="stat-card">
+            <span class="num">3</span>
+            <span class="label">Defibrillator Shocks</span>
+          </div>
+          <div class="stat-card">
+            <span class="num">5%</span>
+            <span class="label">Chance of Survival</span>
+          </div>
+        </div>
+        <p style="font-size:0.82em; color:rgba(255,255,255,0.9);">
+          At 12:50 PM they found a weak pulse. Maggie was loaded onto a gurney, given an IV through the femoral artery,
+          and rushed to Holy Cross Hospital &ndash; Mountain Point in Lehi.
+        </p>
+        <p style="font-size:0.7em; color:rgba(255,255,255,0.65); margin-top:0.6em;">
+          Roughly 6% of out-of-hospital cardiac arrest victims survive to discharge without neurological impairment.
+          Twenty-six minutes without a detectable pulse is far beyond typical survival times.
+        </p>
+      </section>
+
+      <!-- 8. The nine -->
+      <section>
+        <div class="eyebrow">Angels in Uniform</div>
+        <h2>The Ones Who Came on a Holiday</h2>
+        <div class="rule"></div>
+        <div class="split tight">
+          <div>
+            <p style="margin-top:0;">
+              Paramedic <strong>Abby Walz</strong> (lead) &middot; Captain <strong>Ryan Rackman</strong> &middot;
+              Captain <strong>Seis Wetherell</strong> &middot; Firefighter/AEMT <strong>Alec Olsen</strong> &middot;
+              Engineer <strong>Ivan Radcliff</strong> &middot; Engineer <strong>David Perry</strong> &middot;
+              Critical Care Paramedic <strong>Isaac Ostler</strong> &middot; Firefighter/EMT <strong>Josh Cluff</strong>
+              &mdash; with Deputy Chief <strong>Kenny Johnson</strong> and Saratoga Springs Police.
+            </p>
+            <p>
+              On a day most families are together at home, they were positioned, trained, and ready to answer
+              the call in under six minutes.
+            </p>
+          </div>
+          <div class="photo-frame">
+            <img src="images/first-responders.jpeg" alt="Saratoga Springs Fire &amp; Rescue crew members at the station">
+            <div class="figcap">Members of Saratoga Springs Fire &amp; Rescue.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. The ICU week -->
+      <section class="dark-slide" data-background-gradient="linear-gradient(135deg, #0A2540 0%, #0F3A5F 100%)">
+        <div class="eyebrow">Nov 28 &ndash; Dec 5, 2024</div>
+        <h2 style="color:white;">Seven Days</h2>
+        <div class="rule"></div>
+        <div class="split tight">
+          <div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Nov 28 &mdash; ICU, ventilated</h4>
+                <p style="color:rgba(255,255,255,0.9);">Bishop Clint Nelson meets the family at the hospital. Scott anoints; the bishop seals the blessing with Ron.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Nov 29 &mdash; &ldquo;She&rsquo;s still in there&rdquo;</h4>
+                <p style="color:rgba(255,255,255,0.9);">Maggie raises her eyebrows, squeezes hands, and wiggles her toes on command.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Nov 29&ndash;30 &mdash; Awake</h4>
+                <p style="color:rgba(255,255,255,0.9);">Sedated and stubborn, she pulls out her own breathing tube, damaging her windpipe. She would whisper for weeks.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h4>Dec 4&ndash;5 &mdash; ICD and home</h4>
+                <p style="color:rgba(255,255,255,0.9);">Defibrillator implanted at St. Mark&rsquo;s. Discharged the next day. Eliza drove up to bring her parents home.</p>
+              </div>
+            </div>
+          </div>
+          <div class="photo-frame">
+            <img src="images/icu-ventilator.jpeg" alt="Maggie on a ventilator in the ICU">
+            <div class="figcap">Holy Cross Hospital &ndash; Mountain Point. Three days in the ICU.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. The medical picture -->
+      <section>
+        <div class="eyebrow">The Medical Picture</div>
+        <h2>What the Doctors Found</h2>
+        <div class="rule"></div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>The cause</h3>
+            <p>Sudden ventricular tachycardia progressing to cardiac arrest. MRI and echo later confirmed
+              takotsubo cardiomyopathy.</p>
+          </div>
+          <div class="card">
+            <h3>The heart recovers</h3>
+            <p>The akinetic region &mdash; the part of the heart that had stopped working &mdash; shrank over the week.
+              An ICD was implanted December 4 by Dr. Nannapaneni.</p>
+          </div>
+          <div class="card">
+            <h3>The rare part</h3>
+            <p>No significant neurological damage after 26 minutes without circulation. Physicians attribute that
+              directly to immediate, continuous bystander CPR.</p>
+          </div>
+        </div>
+        <div class="split tight mini" style="margin-top:1.0em;">
+          <div>
+            <p style="font-size:0.78em;">
+              The cost was real: cracked ribs, a damaged arm, a damaged windpipe, a sling for weeks, and a new
+              cocktail of heart medications. Scott&rsquo;s note on day two was simply, <em>&ldquo;I think she&rsquo;s gonna be OK.&rdquo;</em>
+            </p>
+          </div>
+          <div class="photo-frame">
+            <img src="images/icu-andrew.jpeg" alt="Maggie in her hospital bed with Andrew, her ICU nurse">
+            <div class="figcap">Maggie with Andrew, one of her ICU nurses at Mountain Point.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. The other side of the veil -->
+      <section class="dark-slide" data-background-gradient="linear-gradient(135deg, #0A2540 0%, #0F3A5F 100%)">
+        <div class="eyebrow">What Maggie Remembers</div>
+        <h2 style="color:white;">&ldquo;I know I died and I know I saw my mom.&rdquo;</h2>
+        <div class="rule"></div>
+        <p style="color:rgba(255,255,255,0.92);">
+          The first real conversation Maggie had after waking was with her sister Ingrid. She said she had spoken with
+          her mother, Becky, who had died years before. She said she saw her brother Lars in the room with her. And she
+          said she kept having the same dream &mdash; that she had died, and that she was told to go back.
+        </p>
+        <div class="quote-block">
+          I know I died and I know I saw my mom. And I know I was sent back. I am blown away and humbled by God&rsquo;s
+          grace and mercy in allowing me to stay.
+          <span class="attrib">Maggie Soward</span>
+        </div>
+        <p style="font-size:0.72em; color:rgba(255,255,255,0.7);">
+          Maggie attributes much of the help she received from the other side of the veil to those whose temple
+          ordinances she had researched and performed.
+        </p>
+      </section>
+
+      <!-- 12. Eliza Jane -->
+      <section>
+        <div class="eyebrow">The Thread That Ties It Together</div>
+        <h2>The Name Eliza Jane</h2>
+        <div class="rule"></div>
+        <div class="split">
+          <div>
+            <p style="margin-top:0; font-size:0.8em;">
+              When Maggie was five or six, her mother gave birth to a stillborn baby. Years later a sister told Maggie
+              the rest of the story: her mother had sat in the temple, overwhelmed with grief, and felt a spirit sit
+              beside her and comfort her. She knew distinctly that the child&rsquo;s name was <strong>Eliza Jane</strong>.
+            </p>
+            <p style="font-size:0.8em;">
+              Years after that, pregnant with her fourth daughter and already settled on the name Anna, Maggie sat
+              across the table from her mother, who asked: <em>&ldquo;What about Eliza Jane?&rdquo;</em> Maggie knew
+              instantly &mdash; without knowing the story &mdash; that this was her daughter&rsquo;s name.
+            </p>
+            <div class="quote-block" style="background:var(--church-navy); color:white; font-size:0.85em;">
+              That same Eliza Jane that comforted my mom in the temple gave me CPR and saved my life.
+              <span class="attrib">Maggie Soward</span>
+            </div>
+          </div>
+          <div class="photo-frame">
+            <img src="images/temple-family.jpeg" alt="The Soward family at the temple">
+            <div class="figcap">The Soward family at the temple for Lala and Declan&rsquo;s sealing &mdash; the eternal bonds
+              that carried them through.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. Divine orchestration -->
+      <section>
+        <div class="eyebrow">Divine Orchestration</div>
+        <h2>The Details That Had to Line Up</h2>
+        <div class="rule"></div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>A mother&rsquo;s prayer</h3>
+            <p>All through 2024 Maggie prayed two things: that if she died she would be allowed to come back, and that
+              she would live to raise her children.</p>
+          </div>
+          <div class="card">
+            <h3>The pantry</h3>
+            <p>She got up from bed and walked to the pantry, then fell directly onto Scott&rsquo;s left shoe. Alone
+              anywhere else in the house, no one would have known.</p>
+          </div>
+          <div class="card">
+            <h3>Eliza&rsquo;s training</h3>
+            <p>Third CPR certification finished six days earlier &mdash; and mentioned in the car, so Scott knew to
+              call for her.</p>
+          </div>
+          <div class="card">
+            <h3>Isaac at home</h3>
+            <p>Present at that exact moment to call 911, relay the dispatcher, and guide nine responders to the
+              right room.</p>
+          </div>
+          <div class="card">
+            <h3>Noah&rsquo;s text</h3>
+            <p>Hundreds of people praying within minutes, in a network of faith that stretched across states.</p>
+          </div>
+          <div class="card">
+            <h3>Responders on a holiday</h3>
+            <p>Close, available, and on scene in five to six minutes on Thanksgiving Day.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14. The blessing / testimony -->
+      <section class="dark-slide" data-background-gradient="linear-gradient(135deg, #0A2540 0%, #0F3A5F 100%)">
+        <div class="eyebrow">One Week Later</div>
+        <h2 style="color:white;">&ldquo;Declare Bold Testimony&rdquo;</h2>
+        <div class="rule"></div>
+        <p style="color:rgba(255,255,255,0.9);">
+          Waking in the ICU, Maggie knew there was something she was supposed to remember and could not. Before her
+          defibrillator surgery, she asked Scott for a blessing. He said:
+        </p>
+        <div class="quote-block">
+          Use this experience to declare bold testimony of Jesus Christ, of His mercy and love.
+          <span class="attrib">Scott Soward, priesthood blessing before surgery</span>
+        </div>
+        <p style="color:rgba(255,255,255,0.9);">
+          She knew instantly that was what she had been trying to remember. She texted her bishopric from the hospital
+          and asked to speak in sacrament meeting &mdash; and one week after her heart stopped, in a whisper, she did.
+        </p>
+      </section>
+
+      <!-- 15. Community -->
+      <section>
+        <div class="eyebrow">A Community of Angels</div>
+        <h2>The People Who Carried Them</h2>
+        <div class="rule"></div>
+        <p style="font-size:0.8em;">
+          Neighbors Heather Jordan, Kirsten Hall, and Tiffany Bryant came straight in and cared for the children while
+          others waited outside. Hundreds fasted and prayed. Meals arrived, children were watched, cards were signed,
+          and a ward that had once fasted for Maggie&rsquo;s brother forty years earlier did it again for her.
+        </p>
+        <div class="photo-row">
+          <img src="images/gratitude-card.jpeg" alt="A card signed by neighbors and friends">
+          <img src="images/recovery-poster.jpeg" alt="Maggie in her hospital bed holding a poster made by children">
+          <img src="images/icu-family.jpeg" alt="Family gathered around Maggie's hospital bed">
+        </div>
+        <p class="footer-note">
+          &ldquo;Every prayer offered, every meal brought, every child cared for, every tear shed, and every act of
+          service became part of the miracle that brought Maggie back to us.&rdquo;
+        </p>
+      </section>
+
+      <!-- 16. Eliza honored -->
+      <section class="photo-slide"
+               data-background-image="images/award-ceremony.jpeg"
+               data-background-size="cover"
+               data-background-position="center"
+               data-background-color="#06263f">
+        <div class="scrim"></div>
+        <div class="photo-caption">
+          <div class="eyebrow">July 2025</div>
+          <h2>The Life Saving Award</h2>
+          <p>
+            Saratoga Springs Fire &amp; Rescue and the city council recognized Eliza Jane Soward
+            &ldquo;in recognition for your outstanding contribution in demonstrating exceptional bravery and skill in
+            saving the life of a family member within our community.&rdquo; The crew who worked on her mother stood
+            beside her.
+          </p>
+          <div class="credit">Saratoga Springs City Council chambers</div>
+        </div>
+      </section>
+
+      <!-- 17. Media -->
+      <section>
+        <div class="eyebrow">Beyond the Family</div>
+        <h2>The Story Traveled</h2>
+        <div class="rule"></div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Herald Extra</h3>
+            <p>July 31, 2025 &mdash; &ldquo;Miraculous recovery: Saratoga Springs family recounts mother&rsquo;s medical
+              emergency, daughter praised for life-saving efforts.&rdquo;</p>
+          </div>
+          <div class="card">
+            <h3>EMS World</h3>
+            <p>&ldquo;Daughter&rsquo;s Bystander CPR Saves Mother Thanksgiving Day&rdquo; &mdash; featured in a professional
+              medical publication as a model of bystander intervention.</p>
+          </div>
+          <div class="card">
+            <h3>The Mirror</h3>
+            <p>&ldquo;Hero daughter saves mom Thanksgiving&rdquo; &mdash; international coverage carrying the story
+              worldwide.</p>
+          </div>
+        </div>
+        <div class="split tight mini" style="margin-top:1.0em;">
+          <div>
+            <p style="font-size:0.78em;">
+              The family built <strong>butdidyoudie.life</strong> to honor everyone who participated in the miracle,
+              to thank the community, and to press one point: <strong>learn CPR</strong>.
+            </p>
+          </div>
+          <div class="photo-frame">
+            <img src="images/icu-vigil.jpeg" alt="The Soward family keeping vigil in the hospital room">
+            <div class="figcap">The family kept vigil in the room for a week.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 18. Lessons -->
+      <section>
+        <div class="eyebrow">What We Learned</div>
+        <h2>Lessons from the Floor of the Pantry</h2>
+        <div class="rule"></div>
+        <div class="lesson-row">
+          <div class="lesson-num">01</div>
+          <div>
+            <h3 style="margin:0 0 0.15em; color:var(--church-navy);">Get certified &mdash; and stay certified</h3>
+            <p style="margin:0;">Eliza&rsquo;s third recertification was six days old. Brain damage begins in 4&ndash;6
+              minutes. You may be the only person between someone you love and death.</p>
+          </div>
+        </div>
+        <div class="lesson-row">
+          <div class="lesson-num">02</div>
+          <div>
+            <h3 style="margin:0 0 0.15em; color:var(--church-navy);">God works in the details</h3>
+            <p style="margin:0;">A conversation in a car. A shoe. A son at home. A daughter&rsquo;s name chosen in a
+              temple decades earlier. None of it looked like preparation at the time.</p>
+          </div>
+        </div>
+        <div class="lesson-row">
+          <div class="lesson-num">03</div>
+          <div>
+            <h3 style="margin:0 0 0.15em; color:var(--church-navy);">Pray immediately, and ask others to</h3>
+            <p style="margin:0;">Noah&rsquo;s text took ten seconds and mobilized hundreds. Prayer was the family&rsquo;s
+              first response, not their last resort.</p>
+          </div>
+        </div>
+        <div class="lesson-row">
+          <div class="lesson-num">04</div>
+          <div>
+            <h3 style="margin:0 0 0.15em; color:var(--church-navy);">Let people serve you</h3>
+            <p style="margin:0;">Neighbors in the house, meals at the door, a ward on its knees. The miracle was
+              carried by ordinary people doing ordinary things immediately.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 19. Testimony close -->
+      <section class="title-slide" data-background-gradient="linear-gradient(145deg, #06263f 0%, #0a3a5c 50%, #0d4a75 100%)">
+        <div class="eyebrow">Her Testimony</div>
+        <div class="quote-block" style="background:rgba(255,255,255,0.08); border-left:none; border-top:3px solid var(--church-gold); text-align:center; max-width:82%; margin:1.2em auto; font-size:0.95em;">
+          I know that Jesus Christ is our Savior. I know He lives, that He loves us and that He is aware of us. He knows
+          our struggles and our heartache. He has mercy and grace.
+          <span class="attrib" style="display:block; text-align:center;">Maggie Soward &middot; Saratoga Springs Ward, December 2024</span>
+        </div>
+        <div class="rule rule-center" style="margin:1.2em auto;"></div>
+        <p style="font-size:0.85em; color:rgba(255,255,255,0.85);">
+          Learn CPR. Share the story. Seek and expect miracles.
+        </p>
+        <p style="margin-top:1.2em; font-size:0.7em; color:var(--church-gold);">
+          Full story, photos, videos and testimonies &rarr;
+          <a href="https://www.butdidyoudie.life">butdidyoudie.life</a>
+        </p>
+      </section>
+
+      <!-- 20. Closing -->
+      <section class="photo-slide"
+               data-background-image="images/temple-family.jpeg"
+               data-background-size="cover"
+               data-background-position="center"
+               data-background-color="#06263f">
+        <div class="scrim" style="background:linear-gradient(180deg, rgba(6,20,35,0.55) 0%, rgba(6,20,35,0.75) 45%, rgba(6,20,35,0.95) 100%);"></div>
+        <div class="photo-caption center-text" style="max-width:100%; margin-bottom:1.2em;">
+          <h1 style="font-size:2.1em;">Maggie&rsquo;s Miracle</h1>
+          <div style="font-size:1.1em; font-style:italic; color:var(--church-gold-light); font-family:Georgia,serif;">But Did You Die?</div>
+          <div class="rule rule-center" style="margin:1em auto;"></div>
+          <p style="font-size:0.78em; color:rgba(255,255,255,0.9); max-width:72%; margin:0 auto;">
+            Scott, Maggie, Declan, Isabel, Isaac, Atziri, Noah, Eliza, Anna, Violet, and Sophia
+          </p>
+          <p style="margin-top:1.2em; font-size:0.62em; color:var(--church-gold);">
+            Thank you for being part of Maggie&rsquo;s miracle.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../reveal/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      transition: 'fade',
+      backgroundTransition: 'fade',
+      width: 1280,
+      height: 720,
+      // margin 0 so full-bleed photo slides and their scrims reach the edges;
+      // per-slide breathing room comes from section padding instead.
+      margin: 0
+    });
+  </script>
+</body>
+</html>
