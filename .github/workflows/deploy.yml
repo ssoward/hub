@@ -11,9 +11,12 @@ permissions:
   pages: write
   id-token: write
 
+# Allow one concurrent deployment. Do NOT cancel a run already in progress —
+# cancelling mid-publish can abort a production deployment partway through.
+# This matches GitHub's own Pages starter workflow.
 concurrency:
   group: 'pages'
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -22,17 +25,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup Node
-        uses: actions/setup-node@v5
-        with:
-          node-version: '24'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build static site
-        run: npm run build
+      # No build step: this is a pure static site with zero npm dependencies
+      # (package.json declares none, and "npm run build" is an echo). The
+      # previous setup-node + npm ci + npm run build steps did no work and
+      # only added failure surface.
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v5
