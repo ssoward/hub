@@ -1,7 +1,7 @@
 {
-  "name": "alma31-study",
+  "name": "hub",
   "version": "1.0.0",
-  "description": "A responsive web application for studying Alma 31 from the Book of Mormon, inspired by churchofjesuschrist.org",
+  "description": "Gospel study, tech presentations, interactive activities, and conference schedules — a static site hub",
   "main": "index.html",
   "scripts": {
     "start": "python3 -m http.server 8080",
@@ -19,9 +19,9 @@
   ],
   "author": "Church Study App",
   "license": "MIT",
-  "homepage": "https://alma31study.org",
+  "homepage": "https://ssoward.github.io/hub/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/username/alma31-study.git"
+    "url": "https://github.com/ssoward/hub.git"
   }
 }

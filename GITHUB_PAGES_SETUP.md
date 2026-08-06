@@ -1,16 +1,15 @@
-# GitHub Pages Setup for Alma 31 Study App
+# GitHub Pages Setup for the Gospel Study & Presentations Hub
 
-## 🎉 Repository Successfully Created!
+> **Note:** GitHub Pages is already enabled for this repository — the steps below are
+> kept as reference. The repository was renamed `church` → `hub`; GitHub permanently
+> redirects the old path, so any bookmark to `ssoward/church` still resolves.
 
-Your Alma 31 Study web application has been successfully pushed to:
-**https://github.com/ssoward/church**
+Repository: **https://github.com/ssoward/hub**
 
 ## 🚀 Enable GitHub Pages (Free Hosting)
 
-Follow these simple steps to make your app live on the web:
-
 ### Step 1: Enable GitHub Pages
-1. Go to your repository: https://github.com/ssoward/church
+1. Go to your repository: https://github.com/ssoward/hub
 2. Click on **Settings** (in the repository menu)
 3. Scroll down to **Pages** in the left sidebar
 4. Under **Source**, select **"Deploy from a branch"**
@@ -19,7 +18,7 @@ Follow these simple steps to make your app live on the web:
 
 ### Step 2: Access Your Live App
 After 1-2 minutes, your app will be live at:
-**https://ssoward.github.io/church/**
+**https://ssoward.github.io/hub/**
 
 ### Step 3: Test Your App
 Once live, test these features:
@@ -46,7 +45,7 @@ vercel
 1. Go to [netlify.com](https://netlify.com)
 2. Click "New site from Git"
 3. Connect your GitHub account
-4. Select the `ssoward/church` repository
+4. Select the `ssoward/hub` repository
 5. Deploy settings:
    - Build command: (leave empty)
    - Publish directory: `/` (root)
@@ -101,18 +100,8 @@ git push
 # For Vercel/Netlify, they auto-deploy on git push too
 ```
 
-## 🏆 Congratulations!
-
-Your Alma 31 Study app is now:
-- ✅ Built and tested
-- ✅ Pushed to GitHub
-- ✅ Ready for deployment
-- ✅ Accessible worldwide (once deployed)
-
-The app includes comprehensive scripture study resources, interactive features, and works offline - making it a valuable tool for personal study, family activities, and teaching!
-
 ---
 
-**Repository**: https://github.com/ssoward/church
-**Live Site** (once Pages enabled): https://ssoward.github.io/church/
-**Features**: Full Alma 31 study with analysis, activities, and PWA capabilities
+**Repository**: https://github.com/ssoward/hub
+**Live Site**: https://ssoward.github.io/hub/
+**Features**: Gospel presentations, tech talks, activities, conference schedules, and the Alma 31 study app — with PWA/offline support
