@@ -26,7 +26,7 @@ The frequency table is not trivia. It maps the section's obsessions: **light**, 
 
 ## Historical Frame
 
-The revelation was received at a conference of high priests in Kirtland, three days after Section 87 — the **prophecy on war**, which named South Carolina and forecast the pouring out of war upon all nations. Section 88 is deliberately positioned as the answer to Section 87.
+The revelation was received at a conference of high priests in Kirtland, two days after Section 87 — the **prophecy on war**, given Christmas Day 1832, which named South Carolina and forecast the pouring out of war upon all nations. Section 88 is deliberately positioned as the answer to Section 87.
 
 The title is the interpretive key. In Genesis 8:11, Noah's dove returns with an olive leaf: proof that the waters of judgment are receding and that living things exist again. Joseph Smith is claiming that this revelation performs the same office.
 
