@@ -102,9 +102,30 @@
     .vessel .jar.quart { height: 104px; }
     .vessel .lbl { font-size: 0.42em; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.5em; opacity: 0.85; }
 
+    /* hotkey legend — title slide only */
+    .hotkeys {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0.5em 1.15em; flex-wrap: wrap;
+      margin-top: 1.7em; font-size: 0.33em; letter-spacing: 0.05em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+    .hotkeys span { display: inline-flex; align-items: center; gap: 0.4em; white-space: nowrap; }
+    .hotkeys kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 0.16em 0.44em;
+      color: rgba(255,255,255,0.88);
+      text-transform: none;
+      line-height: 1;
+    }
+
     @media (max-width: 768px) {
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
       .stack { max-width: 92%; }
+      .hotkeys { font-size: 0.4em; gap: 0.4em 0.8em; }
     }
   </style>
 </head>
@@ -122,6 +143,14 @@
       </div>
       <div style="font-size: 0.72em; color: rgba(255,255,255,0.92); font-weight: 600;">Richard D. Draper</div>
       <div style="font-size: 0.5em; color: rgba(255,255,255,0.55); margin-top: 0.25em;">Professor of Ancient Scripture, Brigham Young University</div>
+      <div class="hotkeys">
+        <span><kbd>S</kbd> speaker notes</span>
+        <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> navigate</span>
+        <span><kbd>Esc</kbd> overview</span>
+        <span><kbd>F</kbd> full screen</span>
+        <span><kbd>B</kbd> blank screen</span>
+        <span><kbd>?</kbd> all keys</span>
+      </div>
       <aside class="notes">
         Welcome. Tonight we work through Richard D. Draper's 2009 BYU devotional, "Light, Truth, and Grace: Three Interrelated Principles Necessary for Exaltation."
 
