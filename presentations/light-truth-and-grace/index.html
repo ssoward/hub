@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Light, Truth, and Grace — Richard D. Draper</title>
+  <link rel="stylesheet" href="../reveal/dist/reset.css">
+  <link rel="stylesheet" href="../reveal/dist/reveal.css">
+  <link rel="stylesheet" href="../reveal/dist/theme/white.css">
+  <link rel="stylesheet" href="../../css/reveal-site-theme.css">
+  <link rel="stylesheet" href="./theme/church.css">
+  <style>
+    :root {
+      --radiance: #d9a441;
+      --radiance-deep: #a97722;
+      --radiance-pale: #fdf6e6;
+      --night: #10182b;
+      --night-2: #1d2a48;
+      --indigo: #2f3f6b;
+    }
+
+    .reveal .slides > section { text-align: center; }
+
+    .eyebrow {
+      font-size: 0.46em; color: var(--radiance); letter-spacing: 0.16em;
+      text-transform: uppercase; font-weight: 600; margin-bottom: 0.45em;
+    }
+    .rule { width: 60px; height: 2px; background: var(--radiance); margin: 0 auto 1em; }
+
+    .scripture-block {
+      background: rgba(255,255,255,0.12);
+      border-left: 4px solid var(--radiance);
+      padding: 0.65em 1em;
+      font-style: italic;
+      font-size: 0.76em;
+      line-height: 1.55;
+      text-align: left;
+      margin: 0.5em auto;
+    }
+    .scripture-block.light {
+      background: var(--radiance-pale);
+      border-left-color: var(--radiance-deep);
+      color: #33291a;
+    }
+    .scripture-ref {
+      font-size: 0.68em; color: var(--radiance);
+      font-style: normal; font-weight: 600; text-align: right; margin-top: 0.3em;
+    }
+    .scripture-block.light .scripture-ref { color: var(--radiance-deep); }
+
+    .card {
+      background: rgba(255,255,255,0.1); border-radius: 10px; padding: 0.75em 0.9em;
+      border-top: 3px solid var(--radiance); text-align: left;
+    }
+    .card.light { background: #fff; border-top-color: var(--radiance-deep); box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+    .card h3 {
+      color: var(--radiance); font-size: 0.72em; text-transform: uppercase;
+      letter-spacing: 0.07em; margin: 0 0 0.3em;
+    }
+    .card.light h3 { color: var(--radiance-deep); }
+    .card p { color: #fff; line-height: 1.45; margin: 0; font-size: 0.78em; }
+    .card.light p { color: #444; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9em; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9em; }
+
+    .lede { font-size: 0.7em; line-height: 1.5; max-width: 84%; margin: 0.3em auto 0.7em; }
+
+    .chain {
+      display: flex; align-items: center; justify-content: center; gap: 0.5em;
+      flex-wrap: wrap; font-size: 0.58em; font-weight: 600; letter-spacing: 0.04em;
+    }
+    .chain .arrow { color: var(--radiance); }
+
+    /* vertical architecture diagram */
+    .stack { max-width: 62%; margin: 0.4em auto 0; font-size: 0.56em; text-align: left; }
+    .stack .row {
+      display: grid; grid-template-columns: 5.5em 1fr; gap: 0.8em; align-items: baseline;
+      padding: 0.3em 0.6em; border-left: 3px solid rgba(255,255,255,0.25);
+    }
+    .stack .row.hit { border-left-color: var(--radiance); background: rgba(217,164,65,0.12); }
+    .stack .k { color: var(--radiance); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .stack .v { color: rgba(255,255,255,0.88); line-height: 1.4; }
+    .stack .down { color: rgba(255,255,255,0.35); padding-left: 1.4em; font-size: 1.1em; line-height: 1; }
+
+    .defn { font-size: 0.62em; line-height: 1.6; max-width: 84%; margin: 0.4em auto; text-align: left; }
+    .defn b { color: var(--radiance-deep); }
+
+    .reveal table.lex { font-size: 0.5em; width: 72%; margin: 0.4em auto; }
+    .reveal table.lex th { background: var(--indigo); }
+    .reveal table.lex tr:nth-child(even) { background: var(--radiance-pale); }
+    .reveal table.lex td:first-child { font-weight: 700; color: var(--radiance-deep); width: 3em; }
+
+    .pintquart { display: flex; justify-content: center; align-items: flex-end; gap: 2.4em; margin: 0.7em 0 0.3em; }
+    .vessel { text-align: center; }
+    .vessel .jar {
+      width: 62px; border: 3px solid var(--radiance); border-top: none;
+      border-radius: 0 0 10px 10px; margin: 0 auto;
+      background: linear-gradient(to top, rgba(217,164,65,0.55), rgba(217,164,65,0.12));
+    }
+    .vessel .jar.pint { height: 58px; }
+    .vessel .jar.quart { height: 104px; }
+    .vessel .lbl { font-size: 0.42em; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.5em; opacity: 0.85; }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .stack { max-width: 92%; }
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1. Title -->
+    <section style="background: radial-gradient(circle at 50% 30%, #3a4a7a 0%, #1d2a48 45%, #10182b 100%); color: white; padding: 40px 40px 80px;">
+      <div class="eyebrow">BYU Devotional · July 7, 2009</div>
+      <div class="rule"></div>
+      <h1 style="color: white; font-size: 2.15em; line-height: 1.12; text-shadow: 0 2px 16px rgba(0,0,0,0.6); margin-bottom: 0.35em; font-family: Georgia, serif;">Light, Truth,<br>and Grace</h1>
+      <div style="font-size: 0.58em; color: rgba(255,255,255,0.85); font-style: italic; margin-bottom: 1.3em;">
+        Three Interrelated Principles Necessary for Exaltation
+      </div>
+      <div style="font-size: 0.72em; color: rgba(255,255,255,0.92); font-weight: 600;">Richard D. Draper</div>
+      <div style="font-size: 0.5em; color: rgba(255,255,255,0.55); margin-top: 0.25em;">Professor of Ancient Scripture, Brigham Young University</div>
+      <aside class="notes">
+        Welcome. Tonight we work through Richard D. Draper's 2009 BYU devotional, "Light, Truth, and Grace: Three Interrelated Principles Necessary for Exaltation."
+
+        WHY THIS TALK
+        Draper takes three words that ordinary gospel conversation treats as near-synonyms for "goodness" — light, truth, grace — and shows they are three distinct things standing in a fixed causal order. By the end you should be able to say what each one is and how they connect.
+
+        THE THESIS IN ONE SENTENCE
+        Grace flows universally and unconditionally; it carries light, which is not information but capacity; capacity is what makes truth receivable; and truth — not light — is what glorifies.
+
+        SPEAKER
+        Richard D. Draper was a professor of Ancient Scripture at BYU and served in Religious Education there. This is a summer devotional address, so the register is scholarly but personal.
+
+        A NOTE ON DIFFICULTY
+        Be honest with your class up front: this is an abstract talk, and Draper himself says so. He opens by admitting he could not understand the scriptures at its center. That admission is the doorway — use it.
+
+        Press 'S' for speaker notes. Arrow keys to navigate.
+      </aside>
+    </section>
+
+    <!-- 2. The bafflement -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">How the talk opens</div>
+      <h2 style="color: var(--indigo);">Two Baffling Scriptures</h2>
+      <div class="grid-2" style="max-width: 88%; margin: 0.5em auto 0; font-size: 0.7em;">
+        <div class="card light">
+          <h3>D&amp;C 88:6–7</h3>
+          <p>&ldquo;He descended below all things… that he might be in all and through all things, the light of truth; <em>which truth shineth</em>.&rdquo;<br><br><strong>Just how does truth <em>shine</em>?</strong></p>
+        </div>
+        <div class="card light">
+          <h3>D&amp;C 93:42</h3>
+          <p>The Lord rebukes Frederick G. Williams for &ldquo;not [having] taught [his] children light and truth.&rdquo;<br><br><strong>I can teach truth — but how do I teach <em>light</em>?</strong></p>
+        </div>
+      </div>
+      <div style="font-size: 0.58em; color: #666; max-width: 82%; margin: 0.9em auto 0; line-height: 1.5;">
+        &ldquo;I have read [some] over and over, and I still don&rsquo;t understand what they are saying.&rdquo;
+      </div>
+      <aside class="notes">
+        Draper opens with an admission that a lot of teachers would not make: there are scriptures he has read over and over and still does not understand.
+
+        THE TWO PUZZLES
+        • D&amp;C 88:6–7 — Christ descended below all things so He might be "in all and through all things, the light of truth; which truth shineth." Draper's question is grammatical and sincere: light shines, obviously. But how does TRUTH shine? What kind of thing is truth, that it can radiate?
+        • D&amp;C 93:42 — the Lord's rebuke to Frederick G. Williams, one of his counselors in the First Presidency: "You have not taught your children light and truth." Draper's question: I know how to teach my children truth. What would it even mean to teach them light?
+
+        WHY START HERE
+        Both puzzles have the same shape. Each treats light as though it were a THING that can be possessed, transmitted, and taught — not merely a metaphor for understanding. The rest of the talk is an answer to "what kind of thing?"
+
+        HISTORICAL NOTE
+        Frederick G. Williams was Second Counselor in the First Presidency when section 93 was given (May 1833). Verses 41–50 rebuke, in turn, Joseph Smith, Sidney Rigdon, Newel K. Whitney, and Williams — a reminder that the section's soaring Christology lands in very domestic correction about how men were raising their families.
+
+        TEACHING TIP
+        Ask the class Draper's second question before you go on: "How would you teach a child light?" Let the silence sit. The talk is the answer.
+      </aside>
+    </section>
+
+    <!-- 3. The Laundromat -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 30px 40px 58px;">
+      <div class="eyebrow">Where understanding came</div>
+      <h2 style="color: white;">A Laundromat in Tempe</h2>
+      <div class="rule"></div>
+      <div class="lede" style="color: rgba(255,255,255,0.9);">
+        Waiting for his clothes to dry between sessions of a symposium, he read Doctrine and Covenants 93.
+        <br><br>
+        &ldquo;A number of scriptures <strong style="color: var(--radiance);">slotted themselves into place</strong> and I understood.&rdquo;
+      </div>
+      <div style="font-size: 0.56em; color: rgba(255,255,255,0.62); max-width: 78%; margin: 0.5em auto 0; line-height: 1.5;">
+        Years after he first puzzled over the verses as a junior at BYU.
+      </div>
+      <aside class="notes">
+        This detail is not filler, and I would not skip it.
+
+        THE SETTING
+        Draper was in Tempe, Arizona, presenting at a week-long Church Educational System symposium. He went to a nearby Laundromat to do washing, and while waiting for the dryer he read section 93. That is where it landed — years after first hitting the problem as a junior at BYU.
+
+        WHY IT MATTERS STRUCTURALLY
+        The setting performs the doctrine he is about to teach. If light is capacity granted by grace, rather than a reward earned by scholarly effort, then it should be expected to arrive unearned, in an undignified place, to a man who had already given up on the question. A Laundromat is exactly the right place for this talk's thesis to be proven.
+
+        THE COMPANION MOVE
+        Just before this he makes the "wavicle" joke — he took astronomy as a sophomore, learned light is neither particle nor wave but a "wavicle," and says "I have no idea what that is." Self-deprecation right before an abstract lecture. He knows he is about to be difficult, and he is buying goodwill.
+
+        PASTORAL USE
+        For anyone in the class who feels that spiritual understanding belongs to scholars and not to them: a religion professor could not crack this for years, and then it came to him in a laundromat. That is the talk's implicit promise.
+      </aside>
+    </section>
+
+    <!-- 4. The thesis verse -->
+    <section style="background: linear-gradient(150deg, #2f3f6b 0%, #1d2a48 100%); color: white; padding: 34px 40px 62px;">
+      <div class="eyebrow">The verse everything hangs on</div>
+      <h2 style="color: white; font-size: 1.7em;">D&amp;C 93:36</h2>
+      <div class="rule"></div>
+      <div style="font-size: 1.0em; line-height: 1.5; max-width: 86%; margin: 0.4em auto 0.7em; font-style: italic; font-family: Georgia, serif;">
+        &ldquo;The <strong style="color: var(--radiance);">glory of God</strong> is <strong style="color: var(--radiance);">intelligence</strong>, or, in other words, <strong style="color: var(--radiance);">light and truth</strong>.&rdquo;
+      </div>
+      <div style="font-size: 0.58em; color: rgba(255,255,255,0.78); max-width: 80%; margin: 0 auto; line-height: 1.5;">
+        Familiar enough to be a campus slogan — and, Draper admits, baffling.
+        <br>To read it as a <em>definition</em> rather than a saying, you must first know what <strong>glory</strong> means.
+      </div>
+      <aside class="notes">
+        Here is the verse the entire talk is organized around. Most people at BYU can recite it. Draper's point is that reciting it and understanding it are different things.
+
+        WHY IT IS BAFFLING
+        Read it as a chain of equations: glory = intelligence = light and truth. Every term in that chain is doing unfamiliar work. "Intelligence" does not obviously mean IQ. "Light" does not obviously mean photons. And "glory" — if glory means praise or approval, which is how most of Christian history has read it — then the verse says God's approval is intelligence, which is nearly nonsense.
+
+        THE METHOD
+        Draper's move is to treat the verse as a DEFINITION rather than an aphorism. Definitions can be unpacked term by term. So the next several slides do exactly that, starting with the term that unlocks the rest: glory.
+
+        SET THE EXPECTATION
+        Tell the class we are going to spend three slides on the word "glory" before we get to light. That patience is what makes the payoff work.
+      </aside>
+    </section>
+
+    <!-- 5. What is glory? The lexical argument -->
+    <section style="padding: 18px 40px 42px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">The lexical argument</div>
+      <h2 style="color: var(--indigo);">Glory: Approval, or Radiance?</h2>
+      <div class="lede" style="color: #444; font-size: 0.62em; margin-bottom: 0.4em;">
+        Milton, Johnson, Aquinas, and C. S. Lewis all read scriptural <em>glory</em> as <strong>approbation</strong> — honor, renown, God&rsquo;s favor. Draper turns instead to the dictionary available to <strong>Joseph Smith</strong>.
+      </div>
+      <table class="lex">
+        <thead><tr><th colspan="2">Webster&rsquo;s 1828 — &ldquo;glory&rdquo; (noun)</th></tr></thead>
+        <tbody>
+          <tr><td>1.</td><td><strong>&ldquo;Brightness; luster; splendor.&rdquo;</strong></td></tr>
+          <tr><td>2.</td><td>&ldquo;Splendor; magnificence.&rdquo;</td></tr>
+          <tr><td>3.</td><td>The halo of rays around a figure&rsquo;s head in art</td></tr>
+          <tr><td>4.</td><td>Praise and honor in worship</td></tr>
+          <tr><td>5.</td><td>Renown, fame, celebrity</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size: 0.54em; color: #666; max-width: 82%; margin: 0.5em auto 0; line-height: 1.5;">
+        Radiance is not merely primary — it occupies the <strong>first three entries</strong>. Fame is fifth.
+      </div>
+      <aside class="notes">
+        This slide is the hinge of the first half. If it does not land, nothing after it works.
+
+        THE TRADITION
+        Draper names Milton, Samuel Johnson, Thomas Aquinas, and C. S. Lewis as representatives of the dominant Christian reading: scriptural "glory" means approbation — praise, honor, renown, the favor God grants or receives. On that reading, "the glory of God" is about esteem.
+
+        THE COUNTER-ARGUMENT
+        He turns to Webster's 1828 dictionary — the one in Joseph Smith's linguistic world — where "glory" is FIRST "brightness; luster; splendor," and only later fame or praise. He notes the 1828 edition also says that in a scriptural sense, glory is a manifestation of the presence of God.
+
+        VERIFIED, AND STRONGER THAN HE CLAIMS
+        I checked the 1828 entry. Draper says fame and praise are "secondary." They are actually fourth and fifth. Radiance occupies the first three entries outright. His case is stronger than he states it.
+
+        WHY THE STAKES ARE HIGH
+        If glory means approval, D&amp;C 93:36 is unintelligible — approval is not intelligence. If glory means radiance, and light is a constituent of glory, then the verse becomes a definition you can actually unpack. This single lexical move is what makes the rest of the talk possible.
+
+        METHOD NOTE FOR THE CLASS
+        This is a good moment to show what careful scripture study looks like: when a verse resists you, one legitimate move is to ask what the words meant to the person who received them.
+      </aside>
+    </section>
+
+    <!-- 6. Glory as capacitating agent — Moses -->
+    <section style="background: linear-gradient(135deg, #2f3f6b 0%, #1d2a48 100%); color: white; padding: 24px 40px 50px;">
+      <div class="eyebrow">Moses 1:2–5</div>
+      <h2 style="color: white;">Glory Is What Made Moses Able</h2>
+      <div class="scripture-block" style="max-width: 86%;">
+        &ldquo;And he saw God face to face, and he talked with him, and the glory of God was upon Moses; <strong style="color: var(--radiance);">therefore Moses could endure his presence</strong>.&rdquo;
+        <div class="scripture-ref">— Moses 1:2</div>
+      </div>
+      <div class="lede" style="color: rgba(255,255,255,0.88); font-size: 0.64em;">
+        Glory is not the <em>reward</em> for the interview. It is the <strong>equipment that made the interview survivable</strong>.
+      </div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.66em; border-left-color: rgba(255,255,255,0.35);">
+        &ldquo;No man can behold all my works, except he behold all my glory; … and afterwards remain in the flesh on the earth.&rdquo;
+        <div class="scripture-ref">— Moses 1:5</div>
+      </div>
+      <aside class="notes">
+        This is the strongest scriptural evidence for reading glory as enabling power rather than conferred honor, and it turns on one word.
+
+        THE LOAD-BEARING WORD
+        "The glory of God was upon Moses; THEREFORE Moses could endure his presence." Therefore. The glory is the cause; the enduring is the effect. Moses was certainly under God's favor — but favor is not what the verse says made the encounter survivable. Glory did.
+
+        THE SECOND WITNESS (Moses 1:4–5)
+        God tells Moses He will show him the workmanship of His hands, "but not all, for my works are without end." Why not all? "No man can behold all my works, except he behold all my glory… and afterwards remain in the flesh." Beholding all of God's works requires beholding all His glory — and that would require such a change in a person's constitution that he could no longer remain mortal.
+
+        DRAPER'S INFERENCE
+        It is God's glory that gives Him the capacity to be all-seeing. Glory is not decoration on omniscience; it is the substrate of it.
+
+        THE STRUCTURAL RHYME — POINT THIS OUT
+        Glory capacitates Moses to endure God's presence. In four slides, light will capacitate the mind to receive truth. Same mechanism, two scales. Draper has found one pattern operating at both, and that is why the talk holds together.
+      </aside>
+    </section>
+
+    <!-- 7. Glory as radiance across scripture -->
+    <section style="padding: 20px 40px 44px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">The witness of scripture</div>
+      <h2 style="color: var(--indigo);">Glory Appears as Burning Light</h2>
+      <div class="grid-3" style="max-width: 90%; margin: 0.5em auto 0; font-size: 0.62em;">
+        <div class="card light"><h3>Israel</h3><p>Sinai like a devouring fire (Ex. 24:17). &ldquo;The Lord thy God is a consuming fire&rdquo; (Deut. 4:24). The pillar of fire; the cloud filling the tabernacle.</p></div>
+        <div class="card light"><h3>Joseph Smith</h3><p>&ldquo;A pillar of light… above the brightness of the sun.&rdquo; Two Personages &ldquo;whose brightness and glory defy all description&rdquo; (JS—H 1:16–17).</p></div>
+        <div class="card light"><h3>Kirtland &amp; the future</h3><p>&ldquo;His eyes were as a flame of fire; … his countenance shone above the brightness of the sun&rdquo; (D&amp;C 110:3). He comes &ldquo;clothed in the brightness of his glory&rdquo; (D&amp;C 65:5).</p></div>
+      </div>
+      <div style="font-size: 0.56em; color: #666; max-width: 84%; margin: 0.8em auto 0; line-height: 1.5;">
+        Past, present, and future: wherever God&rsquo;s presence is manifest, it is manifest as <strong>radiance</strong>.
+      </div>
+      <aside class="notes">
+        Having made the lexical case, Draper piles up the scriptural witness. Move briskly here — the point is cumulative weight, not close reading of any one text.
+
+        ANCIENT ISRAEL
+        • Sinai: the display on the mountain was "like devouring fire" (Exodus 24:17).
+        • Moses: "The Lord thy God is a consuming fire" (Deuteronomy 4:24).
+        • The pillar of fire, which "gave light" to Israel but troubled the Egyptians (Exodus 13:21; 14:24).
+        • The cloud of glory on the tabernacle, its radiance filling the court (Exodus 40:34).
+
+        THE RESTORATION
+        • First Vision: "a pillar of light… above the brightness of the sun"; and in another account, "surrounded with a brilliant light which eclipsed the sun at noon day."
+        • Kirtland Temple, D&amp;C 110:3: "His eyes were as a flame of fire… his countenance shone above the brightness of the sun."
+
+        STILL FUTURE
+        • D&amp;C 84:5 — a house shall be built, and "a cloud shall rest upon it, which cloud shall be even the glory of the Lord, which shall fill the house."
+        • D&amp;C 65:5 — at the Second Coming He comes "clothed in the brightness of his glory."
+
+        THE CONCLUSION
+        This is not a poetic convention that happened to persist. Across three dispensations and into the future, the manifest presence of God is radiance. Which means "the glory of God is… light and truth" is describing something real, not paying a compliment.
+      </aside>
+    </section>
+
+    <!-- 8. What is light? -->
+    <section style="background: radial-gradient(circle at 50% 25%, #3a4a7a 0%, #1d2a48 50%, #10182b 100%); color: white; padding: 22px 40px 48px;">
+      <div class="eyebrow">D&amp;C 88:11–13</div>
+      <h2 style="color: white;">So What <em>Is</em> Light?</h2>
+      <div class="scripture-block" style="max-width: 88%; font-size: 0.68em;">
+        &ldquo;The light which shineth, which giveth you light, is through him who enlighteneth your eyes, which is the same light that <strong style="color: var(--radiance);">quickeneth your understandings</strong>.&rdquo;<br>
+        &ldquo;…the light which is <strong style="color: var(--radiance);">in all things</strong>, which <strong style="color: var(--radiance);">giveth life</strong> to all things, which is <strong style="color: var(--radiance);">the law</strong> by which all things are governed.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:11, 13</div>
+      </div>
+      <div style="font-size: 0.72em; color: var(--radiance); font-weight: 600; margin: 0.7em 0 0.3em; letter-spacing: 0.03em;">
+        &ldquo;Living and capacitating energy&rdquo;
+      </div>
+      <div style="font-size: 0.56em; color: rgba(255,255,255,0.8); max-width: 82%; margin: 0 auto; line-height: 1.5;">
+        Not merely luminosity — an ever-present power that <em>enlightens, organizes, capacitates, and quickens</em> as it radiates out from God.
+      </div>
+      <aside class="notes">
+        Now the payoff of the first half. Draper builds his definition inductively from D&amp;C 88 — the section we studied in the companion presentation.
+
+        WHAT THE VERSES ACTUALLY SAY
+        • v. 11 — light makes vision possible AND "quickeneth your understandings." It activates the intellect.
+        • v. 13 — light "is in all things," "giveth life to all things," and "is the law by which all things are governed."
+        • v. 12 — it "proceedeth forth from the presence of God to fill the immensity of space."
+
+        THE DEFINITION HE LANDS ON
+        "An ever-present, life- and law-inducing power that manifests itself, among other ways, as natural light, intellectual activity, and the living energy in all things." Compressed: LIVING AND CAPACITATING ENERGY.
+
+        KEY TERM
+        • Quicken — to make alive, to enliven. Not "speed up." Light does not merely illuminate what is already there; it makes the perceiver alive to it.
+
+        THE GROWTH PROMISE (D&amp;C 50:24)
+        "That which is of God is light; and he that receiveth light, AND CONTINUETH IN GOD, receiveth more light; and that light groweth brighter and brighter until the perfect day." Note the middle clause — we come back to it when we deal with obedience.
+
+        AND THE DESTINATION (D&amp;C 88:67)
+        "If your eye be single to my glory, your whole bodies shall be filled with light… and that body which is filled with light comprehendeth all things." As one increases in light, one increases in ABILITY, until able to comprehend all things.
+      </aside>
+    </section>
+
+    <!-- 9. Pint and quart -->
+    <section style="padding: 20px 40px 44px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">The talk&rsquo;s central analogy</div>
+      <h2 style="color: var(--indigo);">The Pint and the Quart</h2>
+      <div class="pintquart">
+        <div class="vessel"><div class="jar pint"></div><div class="lbl" style="color: #666;">A pint of truth</div></div>
+        <div style="font-size: 1.6em; color: var(--radiance); align-self: center; padding-bottom: 1.2em;">&rarr;</div>
+        <div class="vessel"><div class="jar quart"></div><div class="lbl" style="color: #666;">A quart of truth</div></div>
+      </div>
+      <div class="defn" style="text-align: center; color: #444; font-size: 0.64em; max-width: 80%;">
+        &ldquo;If my spiritual mind is pint-sized, I can only hold a pint of truth… If God wants to give me a quart of truth, He sends the <b>light that enlarges my capacity</b>.&rdquo;
+      </div>
+      <div style="font-size: 0.58em; color: var(--radiance-deep); font-weight: 600; margin-top: 0.5em;">
+        Light is not the water. Light is what makes the jar bigger.
+      </div>
+      <aside class="notes">
+        This is the single most portable thing in the talk. If your class remembers one image, make it this one.
+
+        THE ANALOGY
+        "If my spiritual mind is pint-sized, I can only hold a pint of truth. If God is to give me more, the capacity of my mind must be expanded. Light does the expansion. It enlarges, as it were, my mind. Thus if God wants to give me a quart of truth, He sends the light that enlarges my capacity."
+
+        THE DISTINCTION IT PROTECTS
+        Light is not the contents. Light is the container's capacity. Almost every casual use of "light and truth" collapses the two into synonyms for knowledge — and once you do that, the whole architecture of this talk becomes invisible.
+
+        THE PASTORAL PAYOFF — DO NOT SKIP THIS
+        If light were information, spiritual growth would be an accumulation problem: read more, study harder, know more. If light is CAPACITY, spiritual growth is a container problem — and the container is enlarged by God, not by effort.
+
+        So to the person who says "I read the scriptures and I just don't get it" — the answer is not "try harder." The answer is that they have accurately described a capacity, and God has undertaken to expand it. That reframes discouragement completely.
+
+        DISCUSSION
+        Ask: can you name a time when a passage that meant nothing to you at twenty meant everything at forty? Same words. Different jar.
+      </aside>
+    </section>
+
+    <!-- 10. Light vs truth -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 24px 40px 50px;">
+      <div class="eyebrow">D&amp;C 93:28, 24</div>
+      <h2 style="color: white;">Truth Is What Glorifies</h2>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.7em;">
+        &ldquo;He that keepeth his commandments receiveth truth and light, until he is <strong style="color: var(--radiance);">glorified in truth</strong> and knoweth all things.&rdquo;
+        <div class="scripture-ref">— D&amp;C 93:28</div>
+      </div>
+      <div class="grid-2" style="max-width: 86%; margin: 0.5em auto 0; font-size: 0.68em;">
+        <div class="card"><h3>Light</h3><p>The <em>means</em>. Capacity, power, the enlarged container.</p></div>
+        <div class="card"><h3>Truth</h3><p>The <em>end</em>. &ldquo;Knowledge of things as they are, and as they were, and as they are to come&rdquo; (93:24) — the sum of existence.</p></div>
+      </div>
+      <aside class="notes">
+        A crucial correction that is easy to miss, because we habitually pair the two words and stop thinking.
+
+        THE CLAIM
+        "One is not, however, glorified in light — or, as here defined, in power or energy. Exaltation is contingent upon the reception of the other, all-important element of which glory is composed, namely, truth."
+
+        You are not exalted by capacity. You are exalted by what fills it. D&amp;C 93:28 says it precisely: keep the commandments, receive truth and light, "until he is GLORIFIED IN TRUTH."
+
+        THE DEFINITION OF TRUTH (93:24)
+        "Knowledge of things as they are, and as they were, and as they are to come." Past, present, future — the whole of what is.
+
+        THE HYMN
+        Draper glosses this with a Latter-day Saint hymn: "the sum of existence." That is "Oh Say, What Is Truth?" — "Truth is the sum of existence." Worth quoting or even singing a line, because it makes the abstract definition memorable.
+
+        WHY THE ORDER MATTERS
+        Light without truth is an empty jar, however large. Truth without light is water with nowhere to go. The talk needs both, in that order, and this slide is where the order is fixed.
+      </aside>
+    </section>
+
+    <!-- 11. Obedience -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">D&amp;C 84:44–47</div>
+      <h2 style="color: var(--indigo);">Why Obedience Is Required</h2>
+      <div class="scripture-block light" style="max-width: 86%; font-size: 0.68em;">
+        &ldquo;For the word of the Lord is <strong>truth</strong>, and whatsoever is truth is <strong>light</strong>, and whatsoever is light is <strong>Spirit</strong>, even the Spirit of Jesus Christ.&rdquo;
+        <div class="scripture-ref">— D&amp;C 84:45</div>
+      </div>
+      <div class="chain" style="color: var(--indigo); margin: 0.7em 0;">
+        <span>Word</span><span class="arrow">=</span><span>Truth</span><span class="arrow">=</span><span>Light</span><span class="arrow">=</span><span>Spirit</span>
+      </div>
+      <div style="font-size: 0.6em; color: #444; max-width: 84%; margin: 0 auto; line-height: 1.5;">
+        Because Christ alone controls their dissemination, He may set the terms. Draper&rsquo;s ordering:
+        <strong style="color: var(--radiance-deep);">first obedience to the word, then light, and finally truth.</strong>
+      </div>
+      <aside class="notes">
+        Why should obedience have anything to do with an increase in capacity? Draper's answer runs through a chain of identities.
+
+        THE CHAIN (D&amp;C 84:45)
+        "The word of the Lord is truth, and whatsoever is truth is light, and whatsoever is light is Spirit, even the Spirit of Jesus Christ." Word = truth = light = Spirit. These are not four analogies; they are one thing under four names.
+
+        DRAPER'S GLOSS
+        "They are inseparably welded together so that a person cannot be touched by one without being touched by all."
+
+        THE ARGUMENT FOR OBEDIENCE
+        D&amp;C 84:44 — "you shall live by every word that proceedeth forth from the mouth of God." If you want quality of life, be obedient. And because Christ alone controls the dissemination of light and truth, through the bestowal of His Spirit, He is entitled to stipulate the terms on which they are granted.
+
+        THE ORDERING
+        "But first comes obedience to the word, then light, and finally truth."
+
+        FLAG THIS NOW — WE RETURN TO IT
+        Hold that ordering loosely. In the summary, Draper will say light is "freely manifest unto all" through grace, prior to any obedience. Those two statements are reconcilable, and slide 21 does the reconciling. If someone in your class is sharp, they will catch it here — tell them we will come back.
+
+        A SUPPORT DRAPER DOESN'T CITE
+        D&amp;C 93:39 is his strongest proof text and he never quotes it: "that wicked one cometh and taketh away light and truth, THROUGH DISOBEDIENCE, from the children of men." That is the obedience link stated flatly, in the very section he is expounding.
+      </aside>
+    </section>
+
+    <!-- 12. All spirit is matter -->
+    <section style="background: linear-gradient(150deg, #3a4a7a 0%, #1d2a48 60%, #10182b 100%); color: white; padding: 28px 40px 54px;">
+      <div class="eyebrow">D&amp;C 131:7–8</div>
+      <h2 style="color: white;">Light Is Substance, Not Metaphor</h2>
+      <div class="rule"></div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.7em;">
+        &ldquo;All spirit is matter.&rdquo; &nbsp;Therefore the bestowal of the Spirit is
+        &ldquo;an impartation of <strong style="color: var(--radiance);">actual celestial substance</strong> — actual elements of spirit producing higher power, higher capacity, higher life.&rdquo;
+        <div class="scripture-ref">— D&amp;C 131:7–8, with Draper&rsquo;s gloss</div>
+      </div>
+      <div style="font-size: 0.58em; color: rgba(255,255,255,0.82); max-width: 84%; margin: 0.6em auto 0; line-height: 1.55;">
+        Most Christian theology reads light-language as figurative. Joseph Smith&rsquo;s <strong>material monism</strong> makes it literal: to receive the Spirit is to receive <em>something</em>.
+      </div>
+      <aside class="notes">
+        This is the moment the talk becomes distinctively Restoration theology, and it is worth marking explicitly.
+
+        THE SCRIPTURE
+        D&amp;C 131:7–8: "There is no such thing as immaterial matter. All spirit is matter, but it is more fine or pure, and can only be discerned by purer eyes."
+
+        DRAPER'S INFERENCE
+        If the Spirit of Christ is included in "all spirit," then its bestowal on a person is "an impartation of actual celestial substance — actual elements of spirit producing higher power, higher capacity, higher life."
+
+        WHY THIS IS A BIG DEAL
+        Almost all of Christian theology treats light-language about God as figurative — beautiful metaphor for understanding or holiness. Joseph Smith's material monism refuses the immaterial altogether. On this view, the capacity enlargement we have been discussing is not a figure of speech. Something is actually added to you.
+
+        This is the point at which Draper's argument stops being available to most of Christendom. Say so — it helps a class understand what is distinctive about Restoration doctrine rather than assuming everyone teaches this.
+
+        THE WELD (D&amp;C 88:66)
+        "My voice is Spirit; my Spirit is truth; truth abideth and hath no end; and if it be in you it shall abound." Note "if it be IN you" — spatial language, appropriate to substance.
+
+        CAUTION
+        Do not let this collapse into a crude physicalism. Draper's point is that the categories of spirit and matter are not opposites in Restoration thought, not that grace is a fluid.
+      </aside>
+    </section>
+
+    <!-- 13. Two intelligences -->
+    <section style="padding: 18px 40px 42px;">
+      <div class="eyebrow" style="color: #7a3b2b;">The hardest passage · D&amp;C 93:29–30</div>
+      <h2 style="color: var(--indigo);">Two Meanings of &ldquo;Intelligence&rdquo;</h2>
+      <div class="lede" style="color: #444; font-size: 0.6em; margin-bottom: 0.4em;">
+        The puzzle: &ldquo;All truth is <strong>independent</strong> in that sphere in which God has placed it, <strong>to act for itself</strong>.&rdquo; But knowledge cannot <em>act</em>. So &ldquo;truth&rdquo; must mean more than knowledge.
+      </div>
+      <div class="grid-2" style="max-width: 88%; margin: 0.3em auto 0; font-size: 0.62em;">
+        <div class="card light"><h3>Abstract</h3><p>Intelligence = &ldquo;light and truth&rdquo; (93:36). Mental acuity — the faculty by which existence is <em>cognized</em>.</p></div>
+        <div class="card light"><h3>Concrete</h3><p>Intelligence = &ldquo;the light of truth&rdquo; (93:29). The uncreated <em>substance</em> from which spirits are made — which <em>can</em> act.</p></div>
+      </div>
+      <div style="font-size: 0.54em; color: #666; max-width: 86%; margin: 0.7em auto 0; line-height: 1.5;">
+        If <em>intelligence</em> has two senses, so may <em>truth</em>: alongside &ldquo;knowledge of things as they are,&rdquo; truth can denote <strong>the things themselves</strong> — existence itself. Then &ldquo;all truth… to act for itself&rdquo; makes sense.
+      </div>
+      <aside class="notes">
+        This is the most technical stretch of the talk. Go slowly, and give the class permission to find it hard — Draper calls it "another baffling scripture" himself.
+
+        THE PUZZLE (D&amp;C 93:30)
+        "All truth is independent in that sphere in which God has placed it, TO ACT FOR ITSELF, as all intelligence also; otherwise there is no existence."
+        Draper's objection is fair and precise: knowledge cannot act. It would make sense if the verse said truth IMPELS righteous action — but that is not what it says. Truth itself acts.
+
+        THE SOLUTION — TWO SENSES OF "INTELLIGENCE"
+        • Abstract: intelligence = "light and truth" (93:36). Mental acuity; the faculty by which existence is known.
+        • Concrete: intelligence = "the light of truth" (93:29), which "was not created or made, neither indeed can be" — the uncreated spiritual substance from which our spirits are made.
+        Verse 30, he argues, uses the CONCRETE sense. Substance can act. Knowledge cannot.
+
+        THE EXTENSION — TWO SENSES OF "TRUTH"
+        If intelligence has two senses, truth may too. Alongside "knowledge of things as they are," truth can denote the things themselves — existence. Then "all truth is independent… to act for itself" means everything that exists has a measure of independent agency. And the verse's closing clause follows naturally: "otherwise there is no existence."
+
+        HIS SUMMARY
+        "'All intelligence' identifies a component of the spirit aspect of existence. The phrase 'all truth' defines the whole of that existence."
+
+        IF THE CLASS IS LOST
+        Give them the one takeaway and move on: agency is not a privilege granted to humans; it goes all the way down, built into the fabric of what exists. That is enough. The technical exegesis is for the second reading.
+      </aside>
+    </section>
+
+    <!-- 14. Agency and condemnation -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 26px 40px 52px;">
+      <div class="eyebrow">D&amp;C 93:31–32 · Where agency operates</div>
+      <h2 style="color: white;">They Receive Not the Light</h2>
+      <div class="scripture-block" style="max-width: 88%; font-size: 0.68em;">
+        &ldquo;Behold, here is the <strong style="color: var(--radiance);">agency</strong> of man, and here is the <strong style="color: var(--radiance);">condemnation</strong> of man; because that which was from the beginning is plainly manifest unto them, and <strong style="color: var(--radiance);">they receive not the light</strong>.
+        And every man whose spirit receiveth not the light is under condemnation.&rdquo;
+        <div class="scripture-ref">— D&amp;C 93:31–32</div>
+      </div>
+      <div style="font-size: 0.6em; color: rgba(255,255,255,0.85); max-width: 84%; margin: 0.6em auto 0; line-height: 1.5;">
+        &ldquo;Intelligence is free to choose or reject light. When it willfully rejects light, it also rejects truth, and condemnation follows.&rdquo;
+      </div>
+      <aside class="notes">
+        This is where the whole architecture gets its hinge. Everything upstream is given; everything downstream follows. The one place a human decision enters is here.
+
+        THE VERSES
+        "Here is the agency of man, and here is the condemnation of man; because that which was from the beginning is plainly manifest unto them, and they receive not the light."
+
+        Note what is NOT the failure. Truth is "plainly manifest" — the problem is not that God hid anything. The failure is refusing the light, which is the capacity to take in what is already plainly there.
+
+        THE MECHANISM OF CONDEMNATION
+        Refusing light is not merely declining an upgrade. Because light is what makes truth receivable, refusing light forecloses truth — and truth is what glorifies. So the refusal is self-executing. Condemnation here is less a sentence imposed than a consequence entailed.
+
+        CONNECT BACK TO D&amp;C 88 IF YOU TAUGHT IT
+        This is the same doctrine as D&amp;C 88:32–33, the gift refused: "they were not willing to enjoy that which they might have received… what doth it profit a man if a gift is bestowed upon him, and he receive not the gift?" Same structure — universal offer, particular refusal, self-inflicted loss.
+
+        KEY TERM
+        • Condemnation — in this usage, being brought under judgment; the state of one who has foreclosed his own progress, rather than a punishment applied from outside.
+      </aside>
+    </section>
+
+    <!-- 15. Christ as the way -->
+    <section style="padding: 24px 40px 46px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">John 14:6 · D&amp;C 132:11–12</div>
+      <h2 style="color: var(--indigo);">Only Through Him — and by Law</h2>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.72em;">
+        &ldquo;I am the way, the truth, and the life: no man cometh unto the Father, but by me.&rdquo;
+        <div class="scripture-ref">— John 14:6</div>
+      </div>
+      <div class="lede" style="color: #444; font-size: 0.62em;">
+        And the reason: He appoints nothing unto man &ldquo;except it be <strong>by law</strong>, even as I and my Father ordained unto you, before the world was&rdquo; — &ldquo;no man shall come unto the Father but by me <strong>or by my word, which is my law</strong>.&rdquo;
+      </div>
+      <div style="font-size: 0.58em; color: var(--radiance-deep); font-weight: 600; max-width: 82%; margin: 0.3em auto 0;">
+        His word <em>is</em> Spirit, light, and truth. To receive the word is to receive light and truth.
+      </div>
+      <aside class="notes">
+        Having built the machinery, Draper now names its source. This slide keeps the talk Christ-centered rather than abstract, and that matters — an argument this conceptual can drift.
+
+        THE CLAIM
+        John 14:6, "I am the way, the truth, and the life: no man cometh unto the Father, but by me." Note that Christ names Himself THE TRUTH — which, given everything we have established, is not a modest claim.
+
+        THE REASON (D&amp;C 132:11–12)
+        He appoints nothing unto man "except it be by law, even as I and my Father ordained unto you, before the world was." And: "no man shall come unto the Father but by me or by my word, which is my law."
+
+        THE LINK THAT CLOSES THE CIRCUIT
+        We already established (D&amp;C 84:45) that His word is equated with Spirit, light, and truth. Therefore receiving the word IS receiving light and truth. The exclusivity of Christ is not an arbitrary gatekeeping arrangement; He is the medium itself.
+
+        THE PATTERN CLAIM
+        "The Savior's objective is to bring obedient souls to a fulness of glory. He knows how, for He followed the way set down by the Father. And if man receives glory, it will be in the same way through which Christ received it." That sets up the next two slides, which are the heart of the talk.
+      </aside>
+    </section>
+
+    <!-- 16. Grace for grace -->
+    <section style="background: radial-gradient(circle at 50% 30%, #3a4a7a 0%, #1d2a48 50%, #10182b 100%); color: white; padding: 22px 40px 48px;">
+      <div class="eyebrow">D&amp;C 93:12–13 · Two distinct motions</div>
+      <h2 style="color: white;">Grace <em>for</em> Grace · Grace <em>to</em> Grace</h2>
+      <div class="scripture-block" style="max-width: 88%; font-size: 0.66em;">
+        &ldquo;He received not of the fulness at the first, but received <strong style="color: var(--radiance);">grace for grace</strong>; …but continued <strong style="color: var(--radiance);">from grace to grace</strong>, until he received a fulness.&rdquo;
+        <div class="scripture-ref">— D&amp;C 93:12–13</div>
+      </div>
+      <div class="grid-2" style="max-width: 88%; margin: 0.5em auto 0; font-size: 0.66em;">
+        <div class="card"><h3>Grace for grace</h3><p>An <em>exchange</em>. &ldquo;To receive assistance on the condition of giving assistance.&rdquo; The favor received obligates the receiver to extend it.</p></div>
+        <div class="card"><h3>From grace to grace</h3><p>An <em>ascent</em>. The repeated exchange compounds — &ldquo;until he received a fulness.&rdquo;</p></div>
+      </div>
+      <aside class="notes">
+        Draper does something exegetically careful here that most readers skate past: he treats the two phrases as naming two DIFFERENT motions, not as poetic repetition.
+
+        THE TWO MOTIONS
+        • "Grace for grace" — reciprocal exchange. You receive on condition of giving. "Thus the extension of favor is meant to obligate the recipient so that she or he will extend the same. As they meet this condition, more grace is extended to them, which further obligates them to greater assistance to others."
+        • "From grace to grace" — progressive ascent. The repeated exchange produces increase until fulness.
+
+        HIS DEFINITION OF GRACE — NOTE THE PRECISION
+        The word denotes favor, kindness, goodwill; theologically, "the free unmerited love and favor of God." But then he specifies what makes assistance into GRACE rather than mere help: "the kindness and favor felt by the giver that is extended to the receiver WHEN SUCH SERVICE MAY NOT EVEN BE DESERVED."
+        So grace = help + disposition + undeservedness. All three. Help given grudgingly is not grace; help given to the deserving is closer to wages.
+
+        THE ENGINE
+        This is the loop that drives the entire ascent: receive grace → extend grace → receive more grace → extend more. It is not a ladder you climb alone. It is a circuit, and other people are in it.
+
+        DISCUSSION
+        Ask: if grace received obligates me to extend it, who is currently owed grace by me?
+      </aside>
+    </section>
+
+    <!-- 17. Christ saved by grace -->
+    <section style="background: linear-gradient(135deg, var(--radiance-deep) 0%, #6d4a12 55%, #2a1d06 100%); color: white; padding: 34px 40px 62px;">
+      <div class="eyebrow" style="color: #ffe3a6;">The talk&rsquo;s most arresting sentence</div>
+      <h2 style="color: white; font-size: 1.55em;">&ldquo;In a very real way, Christ Himself was saved by grace.&rdquo;</h2>
+      <div class="rule" style="background: #ffe3a6;"></div>
+      <div style="font-size: 0.62em; color: rgba(255,255,255,0.92); max-width: 84%; margin: 0.4em auto 0; line-height: 1.6;">
+        He received grace from the Father, extended it to His brethren, and received more — &ldquo;until He eventually received a fulness of the glory of the Father.&rdquo;
+        <br><br>
+        <strong style="color: #ffe3a6;">The path is not a lesser accommodation for weak people. It is the road the Savior walked, offered on the same terms.</strong>
+      </div>
+      <aside class="notes">
+        Let this one sit before you explain it. It is the sentence people will remember, and it will startle some of them.
+
+        WHY IT IS NOT HERESY
+        It follows necessarily from D&amp;C 93:12–13, which Draper has just read. If Christ "received not of the fulness at the first" and progressed by receiving and extending grace until He received a fulness, then the mechanism of His glorification is the same mechanism as ours. Draper is not diminishing Christ; he is taking seriously what section 93 actually says about His progression.
+
+        THE CAREFUL QUALIFIER
+        Note "in a very real way" — Draper is not claiming Christ needed redemption from sin. He is claiming Christ advanced by the grace-for-grace process. The parallel is about the METHOD of glorification, not about a need for forgiveness.
+
+        THE VERSE THAT MAKES THE PARALLEL EXPLICIT
+        D&amp;C 93:20 — "if you keep my commandments you shall receive of his fulness, and be glorified in me as I am in the Father; therefore, I say unto you, you shall receive grace for grace." The same phrase applied to Christ in verse 12 is applied to us in verse 20. That repetition is deliberate.
+
+        THE PASTORAL FORCE
+        This is the emotional center of the talk. The way of grace is not a concession designed for people who could not manage holiness on their own. It is the actual road the Savior walked, and we are invited onto it on identical terms.
+      </aside>
+    </section>
+
+    <!-- 18. The inversion -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--radiance-deep);">The surprising claim</div>
+      <h2 style="color: var(--indigo);">You Cannot Reject Grace</h2>
+      <div class="scripture-block light" style="max-width: 86%; font-size: 0.7em;">
+        &ldquo;The agency of man is expressed in accepting or rejecting <strong>light</strong>. But <strong>he is not free to accept or reject grace</strong>. Grace comes to all men freely, as it is the unmerited favor that God holds for all His children.&rdquo;
+        <div class="scripture-ref">— Draper, summary</div>
+      </div>
+      <div class="grid-2" style="max-width: 86%; margin: 0.5em auto 0; font-size: 0.64em;">
+        <div class="card light"><h3>Not on the table</h3><p><strong>Grace.</strong> God&rsquo;s standing disposition toward every one of His children. It is not offered for approval.</p></div>
+        <div class="card light" style="border-top-color: var(--indigo);"><h3>On the table</h3><p><strong>Light.</strong> What grace delivers. This — and only this — is where agency operates.</p></div>
+      </div>
+      <aside class="notes">
+        This is the claim I would build a lesson around, because it quietly inverts how we usually talk.
+
+        THE COMMON FRAMING
+        In ordinary devotional usage, grace is something you "access," "qualify for," "receive through faith," or "apply in your life." Grace is treated as conditional and as something we opt into.
+
+        DRAPER'S FRAMING
+        Grace is upstream of human choice entirely. It is God's standing disposition toward all His children, and it is not on the table. "Grace allows light to flow unto each person. Thus light, through grace, is freely manifest unto all."
+
+        WHAT IS ACTUALLY CHOSEN
+        The light that grace carries. That is the only decision point in the whole architecture — which is exactly what D&amp;C 93:31–32 said two slides ago: "here is the agency of man… they receive not the light."
+
+        THE CONSEQUENCE HE DRAWS
+        "When people reject light, they reject God's favor and cut themselves off from truth. Thus they stand under condemnation." You cannot decline grace. You can only decline what it delivers — and in declining the delivery you have functionally declined the favor.
+
+        WHY THIS IS GOOD NEWS
+        Nobody in your class is outside the reach of grace, and nobody has to earn their way into its range. It is already there, on all of them, right now. The only question is a much smaller and more manageable one: will I take what it is carrying today?
+      </aside>
+    </section>
+
+    <!-- 19. The architecture -->
+    <section style="background: linear-gradient(160deg, #1d2a48 0%, #10182b 100%); color: white; padding: 20px 40px 46px;">
+      <div class="eyebrow">The whole argument, assembled</div>
+      <h2 style="color: white;">The Architecture</h2>
+      <div class="stack">
+        <div class="row"><span class="k">Grace</span><span class="v">Universal, unconditional, not subject to agency</span></div>
+        <div class="down">&darr;</div>
+        <div class="row hit"><span class="k">Light</span><span class="v">Living, capacitating energy — actual celestial substance<br><em style="color: var(--radiance);">← agency operates here: accept or reject (93:31–32)</em></span></div>
+        <div class="down">&darr;</div>
+        <div class="row"><span class="k">Capacity</span><span class="v">The enlarged container — retained and increased by obedience (50:24)</span></div>
+        <div class="down">&darr;</div>
+        <div class="row"><span class="k">Truth</span><span class="v">Knowledge of things as they are, were, and are to come</span></div>
+        <div class="down">&darr;</div>
+        <div class="row"><span class="k">Glory</span><span class="v">&ldquo;Glorified in truth&rdquo; (93:28)</span></div>
+      </div>
+      <aside class="notes">
+        This slide is the one to photograph. It is the entire talk on a single card.
+
+        WALK IT DOWNWARD, SLOWLY
+        • GRACE — universal, unconditional, not subject to agency. God's disposition toward all His children.
+        • LIGHT — living, capacitating energy; actual celestial substance. And this is the ONE place agency operates: accept or reject (93:31–32).
+        • CAPACITY — the enlarged container. The pint becomes a quart. Retained and increased by obedience (D&amp;C 50:24, "he that receiveth light, AND CONTINUETH IN GOD, receiveth more light").
+        • TRUTH — knowledge of things as they are, and as they were, and as they are to come.
+        • GLORY — "glorified in truth" (93:28).
+
+        THE PARALLEL LOOP
+        Running alongside the whole descent is the reciprocal engine: receive grace → extend grace → receive more grace → and so on. "Grace for grace" becomes "from grace to grace." The vertical chain describes what you receive; the loop describes what makes it keep coming.
+
+        THE ONE-SENTENCE VERSION
+        Grace is the disposition. Light is the capacity it delivers. Truth is what the capacity can then hold. Glory is what holding it makes you.
+
+        TEACHING TIP
+        Have someone in the class say the chain back to you in their own words before moving on. If they can do that, the lesson has worked.
+      </aside>
+    </section>
+
+    <!-- 20. A seam worth naming -->
+    <section style="padding: 20px 40px 44px;">
+      <div class="eyebrow" style="color: #7a3b2b;">Reading honestly</div>
+      <h2 style="color: var(--indigo);">A Seam in the Argument</h2>
+      <div class="grid-2" style="max-width: 88%; margin: 0.4em auto 0; font-size: 0.6em;">
+        <div class="card light" style="border-top-color: #7a3b2b;"><h3>Section 6 says</h3><p>&ldquo;First comes <strong>obedience</strong> to the word, then light, and finally truth.&rdquo; Obedience <em>precedes</em> light.</p></div>
+        <div class="card light" style="border-top-color: #7a3b2b;"><h3>The summary says</h3><p>&ldquo;Light, through grace, is <strong>freely manifest unto all</strong>.&rdquo; Light comes <em>before</em> any obedience.</p></div>
+      </div>
+      <div class="scripture-block light" style="max-width: 88%; font-size: 0.62em; margin-top: 0.7em;">
+        <strong>The reconciliation:</strong> light is <strong>offered</strong> freely to everyone (D&amp;C 84:46) — that is grace. Light is <strong>retained and increased</strong> through obedience: &ldquo;he that receiveth light, <em>and continueth in God</em>, receiveth more light.&rdquo;
+        <div class="scripture-ref">— D&amp;C 50:24</div>
+      </div>
+      <div style="font-size: 0.56em; color: var(--radiance-deep); font-weight: 600; margin-top: 0.5em;">
+        The first portion is given. Every portion after that is a response.
+      </div>
+      <aside class="notes">
+        I have included this slide because a careful reader in your class may notice the tension, and it is better to name it than to have it noticed and left hanging. Drop the slide if your audience is not that kind of room.
+
+        THE TENSION
+        • In the obedience section, Draper writes: "But first comes obedience to the word, then light, and finally truth." Obedience precedes light.
+        • In the summary he writes: "Grace comes to all men freely… Grace allows light to flow unto each person. Thus light, through grace, is freely manifest unto all." Light precedes obedience, and agency consists in accepting or rejecting it.
+
+        These cannot both be the whole story as stated.
+
+        THE RECONCILIATION
+        They describe different STAGES of one process.
+        • Light is OFFERED to everyone freely, prior to any obedience. That is grace, and D&amp;C 84:46 states it: "the Spirit giveth light to every man that cometh into the world."
+        • Light is RETAINED AND INCREASED through obedience. D&amp;C 50:24 puts the condition in the middle of the sentence: "he that receiveth light, AND CONTINUETH IN GOD, receiveth more light."
+
+        So obedience is not the price of admission. It is the condition of continuance. The first portion is given; every portion after that is a response.
+
+        WHY SAY THIS OUT LOUD
+        Because it protects the doctrine on both sides. It keeps grace genuinely free — nobody has to earn their way into God's favor — while keeping obedience genuinely necessary. Naming the seam makes the talk stronger, not weaker, and it models honest reading for your class.
+      </aside>
+    </section>
+
+    <!-- 21. Conclusion -->
+    <section style="background: radial-gradient(circle at 50% 35%, #d9a441 0%, #6d4a12 40%, #1d2a48 75%, #10182b 100%); color: white; padding: 32px 40px 60px;">
+      <div class="eyebrow" style="color: #ffe3a6;">His closing prayer</div>
+      <h2 style="color: white;">Unto the Perfect Day</h2>
+      <div class="rule" style="background: #ffe3a6;"></div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.7em; border-left-color: #ffe3a6;">
+        &ldquo;It is my prayer that we may <strong style="color: #ffe3a6;">grow in light and truth</strong> as we <strong style="color: #ffe3a6;">extend loving service to others</strong> unto the perfect day.&rdquo;
+      </div>
+      <div style="font-size: 0.6em; color: rgba(255,255,255,0.9); max-width: 84%; margin: 0.7em auto 0; line-height: 1.6;">
+        You are not asked to generate any of this.<br>
+        You are asked to <strong style="color: #ffe3a6;">accept the first link and pass it on</strong>. The rest compounds.
+      </div>
+      <aside class="notes">
+        Land it.
+
+        HIS CLOSING
+        "It is my prayer that we may grow in light and truth as we extend loving service to others unto the perfect day." Notice how compact that is — it contains the whole architecture. Growth in light and truth (the vertical chain), by extending service to others (the grace-for-grace loop), unto the perfect day (D&amp;C 50:24's language, the destination).
+
+        THE CLOSING THE TALK NEVER MAKES — CONSIDER ADDING IT
+        Draper opened with two questions and answered only one explicitly. He asked, of D&amp;C 93:42, "how do I teach my children light?" He never returns to it.
+
+        The answer is available from everything he built: you teach a child light by extending grace to them, because grace is what light flows through. Not by explaining light — by being the channel of it. And D&amp;C 93:40, two verses before the rebuke he quoted, is the commandment itself: "I have commanded you to bring up your children in light and truth."
+
+        That closes his loop, and it lands the abstract argument in a kitchen.
+
+        THE TAKEAWAY
+        The quiet gift of this talk is that almost none of the work is yours. Grace is already extended. Light is already offered. You accept the first link and pass it on, and the rest compounds.
+
+        COMPANION STUDY
+        If your class has studied D&amp;C 88 — Draper's opening puzzle is D&amp;C 88:6–7, and he leans on 88:11–13, 66, and 67 throughout. This talk answers the question section 88 raises but never defines: what IS light?
+
+        Bear testimony and close.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="../reveal/dist/reveal.js"></script>
+<script src="../reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    progress: true,
+    controls: true,
+    center: true,
+    margin: 0.08,
+    transition: 'fade',
+    backgroundTransition: 'fade',
+    transitionSpeed: 'slow',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>

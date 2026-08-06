@@ -18,6 +18,7 @@ A static web application serving as a personal hub for gospel study, tech presen
 
 ### Gospel Presentations
 Stake and ward-level teaching resources built with Reveal.js:
+- Light, Truth, and Grace (Richard D. Draper, BYU 2009 — light as capacity, truth as the glorifying principle, grace as unconditional)
 - The Olive Leaf — Doctrine and Covenants 88 (deep scripture study; light, law, kingdoms, the seven trumps, the house of learning)
 - Maggie's Miracle — But Did You Die? (family testimony; cardiac arrest, CPR, and recovery — photos from butdidyoudie.life)
 - Throwing the Door Wide Open (Camille N. Johnson)
@@ -47,6 +48,7 @@ Logic puzzles, arcade games, and interactive learning tools — 17 in all, inclu
 
 ### Study Analyses
 Long-form written analyses in `analyses/`, used as source material for the decks:
+- `draper-light-truth-grace-analysis.md` — Richard D. Draper, "Light, Truth, and Grace": the grace → light → truth → glory architecture, the Webster's 1828 lexical argument, and an interpretive seam in the talk
 - `dc-88-olive-leaf-analysis.md` — Doctrine and Covenants 88: textual profile, five-movement structure, primary/secondary/tertiary points, literary devices, teaching applications
 - `bednar-endure-valiantly-analysis.md` — Elder Bednar, "All Who Have Endured Valiantly"
 
