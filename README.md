@@ -18,6 +18,7 @@ A static web application serving as a personal hub for gospel study, tech presen
 
 ### Gospel Presentations
 Stake and ward-level teaching resources built with Reveal.js:
+- The Olive Leaf — Doctrine and Covenants 88 (deep scripture study; light, law, kingdoms, the seven trumps, the house of learning)
 - Maggie's Miracle — But Did You Die? (family testimony; cardiac arrest, CPR, and recovery — photos from butdidyoudie.life)
 - Throwing the Door Wide Open (Camille N. Johnson)
 - Do Not Miss the Majesty of This Moment (temple growth under Pres. Nelson)
@@ -44,6 +45,11 @@ Logic puzzles, arcade games, and interactive learning tools — 17 in all, inclu
 ### Scripture
 - Alma 31 Study App — full text, analysis, gallery, and study tools
 
+### Study Analyses
+Long-form written analyses in `analyses/`, used as source material for the decks:
+- `dc-88-olive-leaf-analysis.md` — Doctrine and Covenants 88: textual profile, five-movement structure, primary/secondary/tertiary points, literary devices, teaching applications
+- `bednar-endure-valiantly-analysis.md` — Elder Bednar, "All Who Have Endured Valiantly"
+
 ### Conferences
 Hub for professional and family conference schedules and coordination tools:
 - **Atlassian Team '26** (May 5–7, 2026 · Anaheim) — personalized 3-day agenda, day tabs, priority ratings, conflict warnings, tips, interactive venue map (Leaflet/OSM) with markers for convention center, hotel, and pickleball courts
@@ -68,6 +74,7 @@ church/
 │   ├── atlassian-team-26/        # Atlassian Team '26 personal agenda + map
 │   └── rootstech-2026/           # RootsTech 2026 coordination dashboard
 ├── pages/                        # Alma 31 study sub-pages
+├── analyses/                     # Long-form study analyses (Markdown)
 ├── css/                          # Shared stylesheets
 ├── js/                           # Shared JavaScript
 ├── assets/                       # Images and icons

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Olive Leaf — Doctrine and Covenants 88</title>
+  <link rel="stylesheet" href="../reveal/dist/reset.css">
+  <link rel="stylesheet" href="../reveal/dist/reveal.css">
+  <link rel="stylesheet" href="../reveal/dist/theme/white.css">
+  <link rel="stylesheet" href="../../css/reveal-site-theme.css">
+  <link rel="stylesheet" href="./theme/church.css">
+  <style>
+    :root {
+      --olive: #6d7f3f;
+      --olive-dark: #47542a;
+      --olive-light: #f0f3e6;
+      --night: #0b1a28;
+      --night-2: #12314b;
+    }
+
+    .reveal .slides > section { text-align: center; }
+
+    .eyebrow {
+      font-size: 0.46em; color: var(--church-gold); letter-spacing: 0.16em;
+      text-transform: uppercase; font-weight: 600; margin-bottom: 0.45em;
+    }
+    .rule { width: 60px; height: 2px; background: var(--church-gold); margin: 0 auto 1em; }
+
+    .scripture-block {
+      background: rgba(255,255,255,0.12);
+      border-left: 4px solid var(--church-gold);
+      padding: 0.65em 1em;
+      font-style: italic;
+      font-size: 0.78em;
+      line-height: 1.55;
+      text-align: left;
+      margin: 0.5em auto;
+    }
+    .scripture-block.light {
+      background: var(--olive-light);
+      border-left-color: var(--olive);
+      color: #2c3320;
+    }
+    .scripture-ref {
+      font-size: 0.68em; color: var(--church-gold);
+      font-style: normal; font-weight: 600; text-align: right; margin-top: 0.3em;
+    }
+    .scripture-block.light .scripture-ref { color: var(--olive-dark); }
+
+    .card {
+      background: rgba(255,255,255,0.1); border-radius: 10px; padding: 0.75em 0.9em;
+      border-top: 3px solid var(--church-gold); text-align: left;
+    }
+    .card.light { background: #fff; border-top-color: var(--olive); box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+    .card h3 {
+      color: var(--church-gold); font-size: 0.72em; text-transform: uppercase;
+      letter-spacing: 0.07em; margin: 0 0 0.3em;
+    }
+    .card.light h3 { color: var(--olive-dark); }
+    .card p { color: #fff; line-height: 1.45; margin: 0; font-size: 0.78em; }
+    .card.light p { color: #444; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9em; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9em; }
+
+    .lede { font-size: 0.7em; line-height: 1.5; max-width: 84%; margin: 0.3em auto 0.7em; }
+
+    .chain {
+      display: flex; align-items: center; justify-content: center; gap: 0.5em;
+      flex-wrap: wrap; font-size: 0.55em; font-weight: 600; letter-spacing: 0.04em;
+    }
+    .chain .arrow { color: var(--church-gold); }
+
+    .reveal .stat-row { display: flex; justify-content: center; gap: 1.6em; flex-wrap: wrap; margin: 0.8em 0 0.4em; }
+    .stat { text-align: center; }
+    .stat .num { display: block; font-size: 1.5em; font-weight: 700; color: var(--church-gold); line-height: 1; font-family: Georgia, serif; }
+    .stat .lbl { display: block; font-size: 0.42em; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; margin-top: 0.4em; }
+
+    .reveal table.trumps { font-size: 0.5em; }
+    .reveal table.trumps th { background: var(--olive-dark); }
+    .reveal table.trumps tr:nth-child(even) { background: var(--olive-light); }
+    .reveal table.trumps td:first-child { font-weight: 700; color: var(--olive-dark); white-space: nowrap; }
+
+    .movements { font-size: 0.52em; width: 88%; margin: 0.4em auto 0; }
+    .movements th { background: var(--church-blue); }
+    .movements td:first-child { font-weight: 700; color: var(--church-blue-dark); white-space: nowrap; }
+
+    .allthings { font-size: 0.62em; line-height: 1.9; max-width: 86%; margin: 0.3em auto; }
+    .allthings b { color: var(--church-gold); font-weight: 700; }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1. Title -->
+    <section style="background: linear-gradient(150deg, #0b1a28 0%, #12314b 50%, #47542a 100%); color: white; padding: 40px 40px 80px;">
+      <div class="eyebrow">Kirtland, Ohio · December 27–28, 1832 &amp; January 3, 1833</div>
+      <div class="rule"></div>
+      <h1 style="color: white; font-size: 2.3em; line-height: 1.1; text-shadow: 0 2px 14px rgba(0,0,0,0.6); margin-bottom: 0.35em; font-family: Georgia, serif;">The Olive Leaf</h1>
+      <div style="font-size: 0.62em; color: rgba(255,255,255,0.88); font-style: italic; margin-bottom: 1.3em;">
+        &ldquo;The Lord&rsquo;s message of peace to us&rdquo;
+      </div>
+      <div style="font-size: 0.72em; color: rgba(255,255,255,0.92); font-weight: 600; letter-spacing: 0.05em;">Doctrine and Covenants 88</div>
+      <div style="font-size: 0.5em; color: rgba(255,255,255,0.55); margin-top: 0.3em;">141 verses · A deep study</div>
+      <aside class="notes">
+        Welcome. Today we study Doctrine and Covenants section 88 — the longest section in the Doctrine and Covenants, and the one Joseph Smith named "the olive leaf … plucked from the Tree of Paradise, the Lord's message of peace to us."
+
+        It was received over three sittings — December 27 and 28, 1832, and January 3, 1833 — at a conference of high priests in Kirtland.
+
+        Fair warning: this section is enormous, and it moves from the immensity of space to what time you should go to bed. We are going to trace that movement, because the movement itself is the message.
+
+        Press 'S' for speaker notes. Arrow keys to navigate.
+      </aside>
+    </section>
+
+    <!-- 2. Why "olive leaf" -->
+    <section style="padding: 24px 40px 48px;">
+      <div class="eyebrow" style="color: var(--olive-dark);">The name</div>
+      <h2 style="color: var(--olive-dark);">Why &ldquo;the Olive Leaf&rdquo;?</h2>
+      <div class="lede" style="color: #444;">
+        Three days earlier the Lord had given <strong>Section 87</strong> — the prophecy on war, forecasting war &ldquo;poured out upon all nations.&rdquo; Section 88 is the deliberate answer to it.
+      </div>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.72em;">
+        &ldquo;And the dove came in to him in the evening; and, lo, in her mouth was an olive leaf pluckt off: so Noah knew that the waters were abated from off the earth.&rdquo;
+        <div class="scripture-ref">— Genesis 8:11</div>
+      </div>
+      <div style="font-size: 0.6em; color: #666; max-width: 82%; margin: 0.6em auto 0; line-height: 1.5;">
+        The leaf is not the end of the flood. It is <strong style="color: var(--olive-dark);">evidence that something is alive inside it</strong>.
+      </div>
+      <aside class="notes">
+        The title is the interpretive key to the whole section, so it's worth slowing down here.
+
+        Section 87 — three days earlier — is the prophecy on war. It names South Carolina. It forecasts war poured out on all nations. Section 88 follows immediately, and Joseph calls it the olive leaf.
+
+        Genesis 8: Noah sends out the dove, and it comes back with an olive leaf. That leaf did not mean the flood was over — the ark was still floating. It meant that somewhere out there, something was alive, and growing.
+
+        Hold onto that, because in about ten slides we're going to hit earthquakes, a moon bathed in blood, and seven angels with trumpets — inside the "message of peace." That is not a contradiction. That's the point.
+      </aside>
+    </section>
+
+    <!-- 3. Textual profile -->
+    <section style="background: linear-gradient(135deg, var(--night) 0%, var(--night-2) 100%); color: white; padding: 26px 40px 52px;">
+      <div class="eyebrow">What the section is made of</div>
+      <h2 style="color: white;">The Shape of the Text</h2>
+      <div class="rule"></div>
+      <div class="stat-row">
+        <div class="stat"><span class="num">141</span><span class="lbl">Verses</span></div>
+        <div class="stat"><span class="num">25</span><span class="lbl">&ldquo;light&rdquo;</span></div>
+        <div class="stat"><span class="num">28</span><span class="lbl">&ldquo;kingdom&rdquo;</span></div>
+        <div class="stat"><span class="num">20</span><span class="lbl">&ldquo;law&rdquo;</span></div>
+        <div class="stat"><span class="num">24</span><span class="lbl">&ldquo;all things&rdquo;</span></div>
+      </div>
+      <div style="font-size: 0.6em; color: rgba(255,255,255,0.85); max-width: 82%; margin: 0.9em auto 0; line-height: 1.5;">
+        Five words carry the section: <strong style="color: var(--church-gold);">light · law · kingdom · all things · house</strong>.<br>
+        That word list is the skeleton of the doctrine.
+      </div>
+      <aside class="notes">
+        A quick orientation by the numbers. 141 verses — the longest section in the Doctrine and Covenants, about 4,400 words.
+
+        "Light" appears 25 times. "Kingdom" or "kingdoms," 28. "Law," 20. The phrase "all things," 24 times — and eight of those are in verse 41 alone. "House" appears 18 times, and eight of those are in verse 119 alone.
+
+        This isn't trivia. When a text repeats a word this hard, it's telling you what it's about. Light, law, kingdom, all things, house. If you remember nothing else from tonight, those five words will get you back into the section.
+      </aside>
+    </section>
+
+    <!-- 4. Structure -->
+    <section style="padding: 20px 40px 46px;">
+      <div class="eyebrow" style="color: var(--church-blue-dark);">A map for 141 verses</div>
+      <h2 style="color: var(--church-blue);">Five Movements</h2>
+      <table class="movements">
+        <thead><tr><th>Verses</th><th>Movement</th><th>Governing question</th></tr></thead>
+        <tbody>
+          <tr><td>1–5</td><td>The Comforter promised</td><td>What is being given?</td></tr>
+          <tr><td>6–50</td><td>Light, law, and kingdoms</td><td>How does reality work?</td></tr>
+          <tr><td>51–61</td><td>The parable of the twelve kingdoms</td><td>How does God attend to it all?</td></tr>
+          <tr><td>62–116</td><td>Seek, sanctify, teach — and the end</td><td>What is asked of us?</td></tr>
+          <tr><td>117–141</td><td>Establish a house</td><td>What do we build now?</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size: 0.55em; color: #666; max-width: 80%; margin: 0.9em auto 0; line-height: 1.5;">
+        The section travels from <em>&ldquo;the immensity of space&rdquo;</em> (v. 12) to <em>what time to go to bed</em> (v. 124) — and the descent is not a change of subject.
+      </div>
+      <aside class="notes">
+        Here's the map. Five movements.
+
+        One through five: the promise of another Comforter. Six through fifty: the great cosmological passage — light, law, kingdoms. Fifty-one to sixty-one: a parable found nowhere else in scripture. Sixty-two through one-sixteen: the commandments to seek, sanctify, and teach, plus the apocalypse. And one-seventeen to the end: build a house.
+
+        Now note the line at the bottom, because it's the structural key. Verse 12 talks about light filling the immensity of space. Verse 124 tells you to go to bed early and get up early. That is an enormous drop in scale — and it is not the Lord changing the subject. It's the same principle applied at both ends. One law governs planetary orbits and sleep schedules, and both are sanctified the same way: by abiding it.
+      </aside>
+    </section>
+
+    <!-- 5. Another Comforter -->
+    <section style="background: linear-gradient(135deg, var(--church-blue) 0%, var(--church-blue-dark) 100%); color: white; padding: 24px 40px 50px;">
+      <div class="eyebrow">Movement I · Verses 1–5</div>
+      <h2 style="color: white;">Another Comforter</h2>
+      <div class="scripture-block" style="max-width: 84%; font-size: 0.72em;">
+        &ldquo;The <strong style="color: var(--church-gold);">alms of your prayers</strong> have come up into the ears of the Lord of Sabaoth, and are recorded in the book of the names of the sanctified…&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:2</div>
+      </div>
+      <div class="grid-2" style="max-width: 84%; margin: 0.6em auto 0; font-size: 0.72em;">
+        <div class="card"><h3>The gift</h3><p>&ldquo;Another Comforter… the Holy Spirit of promise&rdquo; — the same promised in John's testimony.</p></div>
+        <div class="card"><h3>The content</h3><p>&ldquo;The promise which I give unto you of <em>eternal life</em>, even the glory of the celestial kingdom.&rdquo;</p></div>
+      </div>
+      <aside class="notes">
+        The section opens with a compliment, which is rare. "This is pleasing unto your Lord, and the angels rejoice over you."
+
+        Then that arresting phrase: "the alms of your prayers." Alms are charitable offerings. Their prayers are being described as a gift they gave — not only as requests they made. Worth sitting with: is your prayer an ask, or an offering?
+
+        And then the gift itself. Verse 3: "another Comforter, even the Holy Spirit of promise." Verse 4 defines it — "the promise which I give unto you of eternal life." This connects to John 14 and to the doctrine of the Second Comforter. The whole section will end up circling back to this: verse 68's promise that "he will unveil his face unto you."
+      </aside>
+    </section>
+
+    <!-- 6. Light of Christ -->
+    <section style="background: linear-gradient(160deg, #0b1a28 0%, #12314b 60%, #1d4b6e 100%); color: white; padding: 22px 40px 48px;">
+      <div class="eyebrow">Movement II · Verses 6–10</div>
+      <h2 style="color: white;">He Descended, Therefore He Comprehends</h2>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.7em;">
+        &ldquo;He that ascended up on high, as also he <strong style="color: var(--church-gold);">descended below all things</strong>, <em>in that</em> he comprehended all things, that he might be in all and through all things, the light of truth.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:6</div>
+      </div>
+      <div class="grid-3" style="max-width: 86%; margin: 0.5em auto 0; font-size: 0.68em;">
+        <div class="card"><h3>The sun</h3><p>&ldquo;He is in the sun, and the light of the sun, and the power thereof by which it was made.&rdquo;</p></div>
+        <div class="card"><h3>The moon &amp; stars</h3><p>The same light, and the same power by which they were made.</p></div>
+        <div class="card"><h3>Your mind</h3><p>&ldquo;The same light that <em>quickeneth your understandings</em>.&rdquo;</p></div>
+      </div>
+      <aside class="notes">
+        Now the great passage. Verse 6 makes a causal claim that is easy to read past: he descended below all things — "in that" — meaning *by that means* — he comprehended all things.
+
+        Descent is the precondition of comprehension. He didn't understand suffering from above it. He went underneath it. That's Alma 7:11-12 stated cosmologically.
+
+        Then verses 7 through 11 do something almost no other scripture does. The light of Christ is the light of the sun — and the power by which the sun was made. And the moon. And the stars. And the earth. And then, without any change of gear, "the same light that quickeneth your understandings."
+
+        The light that makes the stars burn is the light that makes you able to think. Same light. That's not poetry in this section — it's a claim about what the universe is made of.
+      </aside>
+    </section>
+
+    <!-- 7. Verse 13 -->
+    <section style="background: linear-gradient(135deg, var(--olive-dark) 0%, #2c3a1a 100%); color: white; padding: 30px 40px 60px;">
+      <div class="eyebrow">The hinge of the section</div>
+      <h2 style="color: white; font-size: 1.7em;">Verse 13</h2>
+      <div class="rule"></div>
+      <div style="font-size: 0.82em; line-height: 1.6; max-width: 86%; margin: 0.3em auto 0.9em; font-style: italic;">
+        &ldquo;The <strong style="color: var(--church-gold);">light</strong> which is in all things, which <strong style="color: var(--church-gold);">giveth life</strong> to all things, which is the <strong style="color: var(--church-gold);">law</strong> by which all things are governed, even the <strong style="color: var(--church-gold);">power of God</strong> who sitteth upon his throne…&rdquo;
+      </div>
+      <div class="chain" style="color: rgba(255,255,255,0.9);">
+        <span>Physics</span><span class="arrow">=</span>
+        <span>Biology</span><span class="arrow">=</span>
+        <span>Law</span><span class="arrow">=</span>
+        <span>Mind</span><span class="arrow">=</span>
+        <span>A Person</span>
+      </div>
+      <aside class="notes">
+        If you take one verse home tonight, take this one.
+
+        In a single sentence, light is identified with five things at once. What makes stars burn — physics. What gives life to all things — biology. The law by which all things are governed — jurisprudence. What quickens understanding, from the verse before — cognition. And finally, "even the power of God who sitteth upon his throne" — a Person.
+
+        Most of the Western tradition partitions these. Natural law over here; moral law over there. Science in one building, religion in another. Verse 13 refuses the partition. It says they are one substance, and that substance is a Person.
+
+        That is why this section can move from planetary orbits to your bedtime without flinching. It's all one law.
+      </aside>
+    </section>
+
+    <!-- 8. Spirit and body -->
+    <section style="padding: 26px 40px 48px;">
+      <div class="eyebrow" style="color: var(--church-blue-dark);">Verses 14–16</div>
+      <h2 style="color: var(--church-blue);">The Spirit and the Body <em>Are</em> the Soul</h2>
+      <div class="scripture-block light" style="max-width: 82%; font-size: 0.76em;">
+        &ldquo;And the spirit and the body are the soul of man. And the resurrection from the dead is the <strong>redemption of the soul</strong>.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:15–16</div>
+      </div>
+      <div class="grid-2" style="max-width: 82%; margin: 0.7em auto 0; font-size: 0.7em;">
+        <div class="card light"><h3>What it rejects</h3><p>The body as the soul&rsquo;s prison. A disembodied spirit is not a freed soul — it is an <em>incomplete</em> one.</p></div>
+        <div class="card light"><h3>What it requires</h3><p>Salvation is <strong>embodied</strong>. Resurrection is not an appendix to redemption; it <em>is</em> redemption.</p></div>
+      </div>
+      <aside class="notes">
+        Eight words that undo about two thousand years of philosophy: "the spirit and the body are the soul of man."
+
+        In the Platonic tradition, and in most creedal Christianity downstream of it, the body is what the soul is trying to escape. Death is the great liberation.
+
+        Not here. Here the body is half the soul. Which means death doesn't free you — it dismembers you. And that reframes resurrection completely. Verse 16: "the resurrection from the dead is the redemption of the soul." Resurrection isn't a nice bonus at the end of salvation. It *is* salvation, finished.
+
+        This is why we care about bodies. Why the Word of Wisdom matters. Why we get up early, per verse 124.
+      </aside>
+    </section>
+
+    <!-- 9. The earth keeps the law -->
+    <section style="background: linear-gradient(135deg, var(--olive) 0%, var(--olive-dark) 100%); color: white; padding: 24px 40px 50px;">
+      <div class="eyebrow">Verses 17–20, 25–26</div>
+      <h2 style="color: white;">The Earth Keeps Its Covenant</h2>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.72em;">
+        &ldquo;The earth abideth the law of a celestial kingdom, for it <strong style="color: var(--church-gold);">filleth the measure of its creation</strong>, and transgresseth not the law.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:25</div>
+      </div>
+      <div class="chain" style="color: rgba(255,255,255,0.92); margin-top: 0.8em;">
+        <span>Dies</span><span class="arrow">&rarr;</span>
+        <span>Quickened</span><span class="arrow">&rarr;</span>
+        <span>Sanctified</span><span class="arrow">&rarr;</span>
+        <span>Inherited by the meek</span>
+      </div>
+      <div style="font-size: 0.6em; color: rgba(255,255,255,0.85); max-width: 82%; margin: 0.8em auto 0; line-height: 1.5;">
+        The earth is held up as the one creation already doing what the Saints are being asked to do.
+      </div>
+      <aside class="notes">
+        Here's a passage we tend to skip. The earth is described as a covenant-keeping being. It abides the law of a celestial kingdom. It doesn't transgress. And so it will die, be quickened, be sanctified, and be inherited by — verse 17 — "the poor and the meek."
+
+        The rhetorical function is comparison. In this whole passage, the earth is the one thing that's already obedient. It's being held up in front of the Saints.
+
+        And notice the standard it meets, because it's a phrase worth memorizing: it "filleth the measure of its creation." Not more than it was made for. Not less. The exact measure.
+
+        That's a mercifully specific definition of a well-lived life. You are not asked to be someone else's measure. You are asked to fill your own.
+      </aside>
+    </section>
+
+    <!-- 10. Judgment as capacity -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--church-blue-dark);">Verses 21–24, 40</div>
+      <h2 style="color: var(--church-blue);">Judgment as Capacity, Not Verdict</h2>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.72em;">
+        &ldquo;He who is not <strong>able to abide</strong> the law of a celestial kingdom cannot abide a celestial glory.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:22</div>
+      </div>
+      <div class="lede" style="color: #444; font-size: 0.66em;">
+        The verb is <strong>abide</strong> — to remain, to endure, to stay. The grammar is <em>diagnostic</em>, not punitive. Nobody is expelled from celestial glory; some are unable to remain in it.
+      </div>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.68em; border-left-color: var(--church-gold);">
+        &ldquo;Intelligence cleaveth unto intelligence; wisdom receiveth wisdom; truth embraceth truth; virtue loveth virtue; <strong>light cleaveth unto light</strong>…&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:40</div>
+      </div>
+      <aside class="notes">
+        Verses 22 through 24 repeat one verb three times: abide. He who is not *able to abide* the law cannot abide the glory.
+
+        That's the language of capacity, not sentencing. It's closer to a physician's diagnosis than a judge's ruling. Nobody gets thrown out of the celestial kingdom in this passage — some people simply couldn't stay there.
+
+        And verse 40 gives the mechanism: the law of affinity. Intelligence cleaves to intelligence. Light cleaves to light. Like gathers to like, by nature.
+
+        Which means the sorting at the last day is largely self-sorting. You will end up where you are most at home. That should be both comforting and terrifying, and it makes one question urgent right now: what am I currently cleaving to?
+      </aside>
+    </section>
+
+    <!-- 11. The gift refused -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 30px 40px 58px;">
+      <div class="eyebrow">Verses 32–33</div>
+      <h2 style="color: white;">The Gift Refused</h2>
+      <div class="rule"></div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.72em;">
+        &ldquo;They shall return again to their own place, to enjoy that which they are <strong style="color: var(--church-gold);">willing</strong> to receive, because they were <strong style="color: var(--church-gold);">not willing</strong> to enjoy that which they might have received.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:32</div>
+      </div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.72em; border-left-color: rgba(255,255,255,0.4);">
+        &ldquo;For what doth it profit a man if a gift is bestowed upon him, and he <strong style="color: var(--church-gold);">receive not</strong> the gift? Behold, he rejoices not in that which is given unto him, neither rejoices in <strong style="color: var(--church-gold);">him who is the giver</strong> of the gift.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:33</div>
+      </div>
+      <aside class="notes">
+        This is, to me, the most merciful and the most sobering passage in the section, and it's two verses long.
+
+        Verse 32: they return to their own place, to enjoy what they *are willing* to receive — because they were not willing to enjoy what they *might have* received. Read that twice. The limiting factor is not the offer. The limiting factor is willingness.
+
+        Then verse 33, which reads almost like a sigh: what does it profit a man if a gift is bestowed on him and he doesn't receive it?
+
+        And then the second half, which is the part that gets me. He doesn't rejoice in the gift — "neither rejoices in him who is the giver of the gift."
+
+        The real loss isn't the unopened box. It's the unknown Giver. You can be the recipient of everything God has and still not know Him, because you never opened anything He sent.
+
+        Practical question for the class: what has already been given to you that you haven't opened yet?
+      </aside>
+    </section>
+
+    <!-- 12. Law -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--olive-dark);">Verses 34–38</div>
+      <h2 style="color: var(--olive-dark);">Law Is the Soil, Not the Fence</h2>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.72em;">
+        &ldquo;That which is governed by law is also <strong>preserved</strong> by law and <strong>perfected</strong> and <strong>sanctified</strong> by the same.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:34</div>
+      </div>
+      <div class="grid-2" style="max-width: 84%; margin: 0.6em auto 0; font-size: 0.68em;">
+        <div class="card light"><h3>No lawless space</h3><p>&ldquo;There is no space in the which there is no kingdom; and there is no kingdom in which there is no space.&rdquo; (v. 37)</p></div>
+        <div class="card light" style="border-top-color: #b03030;"><h3>A law unto itself</h3><p>What &ldquo;seeketh to become a law unto itself… cannot be sanctified by law, neither by <strong>mercy</strong>, justice, nor judgment.&rdquo; (v. 35)</p></div>
+      </div>
+      <aside class="notes">
+        We usually think of law as the fence around the field. This section says law is the soil the field is made of.
+
+        Verse 34: what is governed by law is preserved by law, and perfected, and sanctified by the same law. Law isn't what limits growth — it's the mechanism of growth.
+
+        Verse 37 pushes it as far as it will go: there is no space without a kingdom, and no kingdom without space. There is no lawless territory anywhere in the universe. Not one cubic inch.
+
+        Which makes verse 35 devastating. Whatever "seeketh to become a law unto itself" cannot be sanctified — and look at the list — not by law, not by justice, not by judgment, and *not by mercy*.
+
+        Mercy is on that list. Not because God withholds it, but because a being that has stepped outside law has stepped outside the only mechanism by which sanctification operates. It's not that the door is locked. It's that they've walked out of the building.
+      </aside>
+    </section>
+
+    <!-- 13. Verse 41 -->
+    <section style="background: linear-gradient(150deg, #0b1a28 0%, #12314b 100%); color: white; padding: 28px 40px 56px;">
+      <div class="eyebrow">Verse 41 · &ldquo;all things&rdquo; eight times in one sentence</div>
+      <h2 style="color: white;">The Encircling God</h2>
+      <div class="allthings" style="font-style: italic; color: rgba(255,255,255,0.95);">
+        &ldquo;He comprehendeth <b>all things</b>, and <b>all things</b> are <em>before</em> him, and <b>all things</b> are <em>round about</em> him; and he is <em>above</em> <b>all things</b>, and <em>in</em> <b>all things</b>, and is <em>through</em> <b>all things</b>, and is <em>round about</em> <b>all things</b>; and <b>all things</b> are <em>by</em> him, and <em>of</em> him, even God, forever and ever.&rdquo;
+      </div>
+      <div style="font-size: 0.55em; color: rgba(255,255,255,0.7); margin-top: 0.8em;">
+        The syntax performs the doctrine — the sentence encircles you the way God encircles all things.
+      </div>
+      <aside class="notes">
+        Read this one out loud. It's the rhetorical high point of the section.
+
+        Eight times: "all things." And count the prepositions — before him, round about him, above, in, through, round about again, by him, of him.
+
+        The sentence doesn't just *describe* being surrounded. It *does* it. By the time you finish reading it you've been circled seven or eight times. That's deliberate. The syntax performs the doctrine.
+
+        And it lands on a word that matters after everything we've just said about law: "even God." Not a force. Not a field. A Him.
+      </aside>
+    </section>
+
+    <!-- 14. Comprehend -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--church-blue-dark);">The section&rsquo;s most loaded verb</div>
+      <h2 style="color: var(--church-blue);">Two Meanings of &ldquo;Comprehend&rdquo;</h2>
+      <div class="grid-2" style="max-width: 86%; margin: 0.5em auto 0.6em; font-size: 0.66em;">
+        <div class="card light"><h3>To encompass</h3><p>v. 6 — He &ldquo;descended below all things, in that he <em>comprehended</em> all things.&rdquo;<br>v. 43 — the courses of the heavens &ldquo;<em>comprehend</em> the earth and all the planets.&rdquo;</p></div>
+        <div class="card light"><h3>To understand</h3><p>v. 49 — &ldquo;The light shineth in darkness, and the darkness <em>comprehendeth</em> it not.&rdquo;<br>v. 49 — &ldquo;The day shall come when you shall <em>comprehend</em> even God.&rdquo;</p></div>
+      </div>
+      <div class="scripture-block light" style="max-width: 86%; font-size: 0.68em; border-left-color: var(--church-gold);">
+        Then verse 67 collapses both: &ldquo;that body which is <strong>filled with light comprehendeth all things</strong>.&rdquo;
+      </div>
+      <div style="font-size: 0.58em; color: #555; max-width: 82%; margin: 0.7em auto 0; line-height: 1.5;">
+        <strong style="color: var(--church-blue);">Christ comprehends by descending. We comprehend by being filled.</strong>
+      </div>
+      <aside class="notes">
+        The word "comprehend" shows up seven times in six verses, and the section plays its two meanings against each other on purpose.
+
+        The old meaning is physical: to encompass, to contain. That's verse 6 — he comprehended all things by descending below them — and verse 43, where planetary orbits "comprehend" the planets.
+
+        The modern meaning is mental: to understand. That's verse 49, quoting John 1 — the darkness comprehended it not.
+
+        And then verse 67 fuses them. "That body which is filled with light comprehendeth all things." The body filled with light both *contains* and *understands*.
+
+        Here's the doctrine that falls out of the wordplay: Christ comprehends by descending. We comprehend by being filled. Neither one is primarily an act of intellect. Comprehension is a capacity produced by saturation — and the saturation is the part we control.
+      </aside>
+    </section>
+
+    <!-- 15. Parable -->
+    <section style="background: linear-gradient(135deg, var(--olive) 0%, var(--olive-dark) 100%); color: white; padding: 22px 40px 48px;">
+      <div class="eyebrow">Movement III · Verses 51–61</div>
+      <h2 style="color: white;">The Parable of the Twelve Kingdoms</h2>
+      <div class="lede" style="color: rgba(255,255,255,0.92); font-size: 0.66em;">
+        A lord sends twelve servants into his field. He visits the first in the first hour, the second in the second — on to the twelfth — and <strong>tarries with each the full hour</strong>. Found nowhere else in scripture.
+      </div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.68em;">
+        &ldquo;And thus they all received the light of the countenance of their lord, <strong style="color: var(--church-gold);">every man in his hour, and in his time, and in his season</strong>.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:58</div>
+      </div>
+      <div class="grid-3" style="max-width: 88%; margin: 0.5em auto 0; font-size: 0.62em;">
+        <div class="card"><h3>Cosmological</h3><p>Worlds without number, each in its season (v. 61).</p></div>
+        <div class="card"><h3>Historical</h3><p>The sequence of dispensations.</p></div>
+        <div class="card"><h3>Pastoral</h3><p>God&rsquo;s attention is not divided — it is <em>sequential and total</em>.</p></div>
+      </div>
+      <aside class="notes">
+        This parable is unique to the Restoration. There's nothing like it in the Bible.
+
+        The setup is simple. Twelve servants, one field. The lord comes to the first in the first hour and — this is the detail that matters — "tarried with him all that hour." Then the second, then the third, on to the twelfth.
+
+        Three readings, and all three are in the text. Verse 61 gives the cosmological one explicitly: "unto this parable I will liken all these kingdoms" — worlds without number. The historical one: dispensations, each in its season.
+
+        But the pastoral reading is the one that will help someone in your class on Tuesday. God's attention is not divided among his children — it's sequential, and it's total. When the lord withdraws from the first servant, that is not abandonment. It's the same undivided attention, moving.
+
+        And verse 59 shuts the door on despair about your place in the line: "beginning at the first, and so on unto the last, and from the last unto the first, and from the first unto the last." The circuit runs both directions. No last is finally last.
+
+        If it is not your hour yet — it is coming.
+      </aside>
+    </section>
+
+    <!-- 16. Draw near -->
+    <section style="padding: 24px 40px 46px;">
+      <div class="eyebrow" style="color: var(--church-blue-dark);">Movement IV · Verses 62–65</div>
+      <h2 style="color: var(--church-blue);">Draw Near</h2>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.74em;">
+        &ldquo;<strong>Draw near</strong> unto me and I will draw near unto you; <strong>seek me diligently</strong> and ye shall find me; <strong>ask</strong>, and ye shall receive; <strong>knock</strong>, and it shall be opened unto you.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:63</div>
+      </div>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.64em; border-left-color: #b03030;">
+        And the counterweight most treatments omit: &ldquo;If ye ask anything that is <strong>not expedient</strong> for you, it shall turn unto your <strong>condemnation</strong>.&rdquo;
+        <div class="scripture-ref" style="color: #b03030;">— D&amp;C 88:65</div>
+      </div>
+      <aside class="notes">
+        Verse 63 is the one everybody knows, and it deserves its fame. Four conditionals stacked: draw near, seek, ask, knock. Every one of them puts the first move on us.
+
+        Note that this is not God being coy. Verse 62 says "call upon me *while I am near*" — He is already close. The distance is on our side of the equation.
+
+        But then verse 65, which almost never gets quoted, and I think it should. "If ye ask anything that is not expedient for you, it shall turn unto your condemnation."
+
+        Unanswered prayer is not the only risk in prayer. Answered prayer can be. Sometimes the most merciful thing God does is decline. This verse is the reason "thy will be done" is not a formality at the end of a prayer — it's the safety mechanism.
+      </aside>
+    </section>
+
+    <!-- 17. Single eye -->
+    <section style="background: linear-gradient(160deg, #12314b 0%, #0b1a28 100%); color: white; padding: 28px 40px 56px;">
+      <div class="eyebrow">Verses 67–69 · The great and last promise</div>
+      <h2 style="color: white;">If Your Eye Be Single</h2>
+      <div class="rule"></div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.72em;">
+        &ldquo;And if your <strong style="color: var(--church-gold);">eye be single</strong> to my glory, your whole bodies shall be <strong style="color: var(--church-gold);">filled with light</strong>, and there shall be no darkness in you; and that body which is filled with light comprehendeth all things.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:67</div>
+      </div>
+      <div class="scripture-block" style="max-width: 86%; font-size: 0.68em; border-left-color: rgba(255,255,255,0.4);">
+        &ldquo;Sanctify yourselves that your minds become single to God, and the days will come that <strong style="color: var(--church-gold);">you shall see him</strong>; for he will unveil his face unto you… in his own time, and in his own way, and according to his own will.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:68</div>
+      </div>
+      <aside class="notes">
+        Now the section closes the loop it opened in verse 12. There, light filled the immensity of space. Here, light fills a body. The cosmic aperture narrows to a personal one.
+
+        "Single" here means undivided — one focus, not one glance. And notice the mechanism: singleness isn't the reward for being full of light, it's the *aperture* that lets the light in. Divided attention is a partly-closed shutter.
+
+        Verse 68 is what the whole section has been driving toward: the great and last promise. "The days will come that you shall see him; for he will unveil his face unto you."
+
+        And then the three qualifiers, which are pastorally essential: in his own time, in his own way, according to his own will. Not on demand. Not on your calendar. But promised.
+
+        For the Kirtland Saints this was not abstract — three and a half years later, in the Kirtland Temple, it happened. Sections 109 and 110.
+      </aside>
+    </section>
+
+    <!-- 18. Teach and learn -->
+    <section style="padding: 20px 40px 44px;">
+      <div class="eyebrow" style="color: var(--olive-dark);">Verses 76–80, 118</div>
+      <h2 style="color: var(--olive-dark);">Teach Ye Diligently</h2>
+      <div class="scripture-block light" style="max-width: 86%; font-size: 0.68em;">
+        &ldquo;Teach ye diligently and <strong>my grace shall attend you</strong>… of things both in heaven and in the earth, and under the earth; things which have been, things which are, things which must shortly come to pass… the <strong>wars and the perplexities of the nations</strong>… and a knowledge also of countries and of kingdoms.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:78–79</div>
+      </div>
+      <div class="chain" style="color: var(--olive-dark); margin: 0.7em 0;">
+        <span>Astronomy</span><span class="arrow">·</span><span>Geology</span><span class="arrow">·</span><span>History</span><span class="arrow">·</span><span>Current events</span><span class="arrow">·</span><span>Geopolitics</span><span class="arrow">·</span><span>Geography</span>
+      </div>
+      <div class="scripture-block light" style="max-width: 86%; font-size: 0.66em; border-left-color: var(--church-gold);">
+        &ldquo;<strong>And as all have not faith</strong>, seek ye diligently and teach one another words of wisdom; yea, seek ye out of the <strong>best books</strong> words of wisdom; seek learning, even by <strong>study</strong> and also by <strong>faith</strong>.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:118</div>
+      </div>
+      <aside class="notes">
+        Two things here that we tend to underread.
+
+        First, verse 78: "Teach ye diligently and my grace shall attend you." Grace is promised to attend an act of teaching. If you have a calling that involves preparing lessons, that promise is addressed to you by name.
+
+        Second, look at the syllabus in verse 79. Things in heaven, in the earth, under the earth. Things past, present, and shortly to come. Things at home and abroad. The wars and perplexities of the nations. A knowledge of countries and kingdoms. That's astronomy, geology, history, current events, geopolitics, and geography — assigned by revelation in 1832.
+
+        And the stated motive in verse 80 is not enrichment. It's readiness: "that ye may be prepared in all things when I shall send you again."
+
+        Then verse 118 gives the method, and don't skip the first clause: "*and as all have not faith* — seek ye out of the best books." Study is introduced as the accommodation for a community whose faith is uneven. It's not the lesser path. It's the door that is always open, even on the days faith is thin.
+      </aside>
+    </section>
+
+    <!-- 19. Seven trumps -->
+    <section style="padding: 18px 40px 42px;">
+      <div class="eyebrow" style="color: #7a2b2b;">Verses 87–116 · The apocalyptic center</div>
+      <h2 style="color: var(--olive-dark);">Seven Angels, Seven Trumps</h2>
+      <table class="trumps" style="width: 92%; margin: 0.3em auto;">
+        <thead><tr><th>Trump</th><th>vv.</th><th>What sounds</th></tr></thead>
+        <tbody>
+          <tr><td>First</td><td>96–98</td><td>The celestial dead and living — &ldquo;they are Christ&rsquo;s, the first fruits&rdquo; — caught up to meet him</td></tr>
+          <tr><td>Second</td><td>99</td><td>Redemption of those who received the gospel in spirit prison</td></tr>
+          <tr><td>Third</td><td>100–101</td><td>Those under condemnation; they &ldquo;live not again until the thousand years are ended&rdquo;</td></tr>
+          <tr><td>Fourth</td><td>102</td><td>Those who &ldquo;shall remain filthy still&rdquo;</td></tr>
+          <tr><td>Fifth</td><td>103–104</td><td>The everlasting gospel to all nations — &ldquo;every knee shall bow&rdquo;</td></tr>
+          <tr><td>Sixth</td><td>105</td><td>&ldquo;She is fallen, is fallen!&rdquo;</td></tr>
+          <tr><td>Seventh</td><td>106</td><td>&ldquo;It is finished! The Lamb of God hath overcome and trodden the wine-press alone&rdquo;</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size: 0.52em; color: #666; max-width: 88%; margin: 0.6em auto 0; line-height: 1.5;">
+        Then they sound <strong>a second time</strong> (vv. 108–110), each revealing &ldquo;the secret acts of men, and the thoughts and intents of their hearts, and the mighty works of God&rdquo; for its thousand years.
+      </div>
+      <aside class="notes">
+        This is the material that sits, surprisingly, inside a document called the olive leaf. Earthquakes. The moon bathed in blood. Men's hearts failing them. Seven angels with seven trumpets.
+
+        The trumps map onto the order of the resurrection — first the celestial, "Christ's, the first fruits"; second those who accepted the gospel in spirit prison; third those under condemnation, who wait out the millennium; fourth those who remain filthy still. Then the fifth carries the everlasting gospel to all nations, the sixth announces the fall of Babylon, and the seventh: "It is finished."
+
+        Now the detail I find most striking. In verses 108 through 110, the trumps sound *again*. And this time each one reveals the secret acts of men, the thoughts and intents of their hearts, and the mighty works of God — for its thousand years. In order. All of it.
+
+        That is a remarkable model of final judgment. It isn't primarily a sentencing. It's a *disclosure*. History read back aloud, in full, with nothing left out — including, note, "the mighty works of God," which most of us have never seen.
+
+        And verse 88 sets the order, which is not the one we expect: "after your testimony cometh wrath." Testimony comes first. Which is why verse 81 says every man who has been warned is to warn his neighbor. The warning is the mercy.
+      </aside>
+    </section>
+
+    <!-- 20. Establish a house -->
+    <section style="background: linear-gradient(135deg, var(--church-blue) 0%, var(--church-blue-dark) 100%); color: white; padding: 26px 40px 52px;">
+      <div class="eyebrow">Movement V · Verse 119</div>
+      <h2 style="color: white;">Establish a House</h2>
+      <div class="rule"></div>
+      <div style="font-size: 0.68em; font-style: italic; color: rgba(255,255,255,0.95); max-width: 88%; margin: 0.2em auto 0.8em; line-height: 1.5;">
+        &ldquo;Organize yourselves; prepare every needful thing; and establish a house…&rdquo;
+      </div>
+      <div class="chain" style="color: white; font-size: 0.6em; gap: 0.45em;">
+        <span>prayer</span><span class="arrow">·</span>
+        <span>fasting</span><span class="arrow">·</span>
+        <span>faith</span><span class="arrow">·</span>
+        <span style="color: var(--church-gold); font-size: 1.15em;">learning</span><span class="arrow">·</span>
+        <span>glory</span><span class="arrow">·</span>
+        <span>order</span><span class="arrow">·</span>
+        <span>God</span>
+      </div>
+      <div style="font-size: 0.56em; color: rgba(255,255,255,0.82); max-width: 84%; margin: 0.9em auto 0; line-height: 1.5;">
+        Seven descriptors — and <strong style="color: var(--church-gold);">learning sits at the center</strong>, fourth of seven, flanked by faith and glory. Given <strong>3½ years before</strong> the Kirtland Temple was dedicated.
+      </div>
+      <aside class="notes">
+        Verse 119. Eight uses of the word "house" in a single verse.
+
+        A house of prayer, of fasting, of faith, of learning, of glory, of order, of God. Seven descriptors — and I want you to notice where learning falls. Fourth of seven. Dead center, flanked by faith on one side and glory on the other.
+
+        The house of God is a school. And the section makes that literal — verses 127 through 141 legislate the School of the Prophets: who stands where, how they greet each other, the ordinance of washing feet after the pattern of John 13.
+
+        And the timing matters. This was given in January 1833. The Kirtland Temple wasn't dedicated until March 1836. Section 88 is the commission; Sections 109 and 110 are the fulfillment — including the appearance of the Savior, which is verse 68's great and last promise, kept.
+      </aside>
+    </section>
+
+    <!-- 21. Homely commandments -->
+    <section style="padding: 20px 40px 44px;">
+      <div class="eyebrow" style="color: var(--olive-dark);">Verses 121–126</div>
+      <h2 style="color: var(--olive-dark);">From the Immensity of Space to Bedtime</h2>
+      <div class="scripture-block light" style="max-width: 86%; font-size: 0.66em;">
+        &ldquo;Cease to be idle; cease to be unclean; <strong>cease to find fault one with another</strong>; cease to sleep longer than is needful; <strong>retire to thy bed early</strong>, that ye may not be weary; <strong>arise early</strong>, that your bodies and your minds may be invigorated.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:124</div>
+      </div>
+      <div class="grid-2" style="max-width: 86%; margin: 0.5em auto 0; font-size: 0.64em;">
+        <div class="card light"><h3>v. 122 — how a class runs</h3><p>&ldquo;Let <strong>not all be spokesmen at once</strong>; but let <strong>one speak at a time</strong> and let all listen… that all may be edified of all, and that every man may have an <strong>equal privilege</strong>.&rdquo;</p></div>
+        <div class="card light" style="border-top-color: var(--church-gold);"><h3>v. 125 — above all things</h3><p>&ldquo;Clothe yourselves with the <strong>bond of charity, as with a mantle</strong>, which is the bond of perfectness and peace.&rdquo;</p></div>
+      </div>
+      <aside class="notes">
+        Here is the tonal whiplash, and it is the most important structural feature of the section.
+
+        We have just come through the wine-press of the wrath of Almighty God. And the very next thing the Lord says is: go to bed at a reasonable hour and get up on time.
+
+        That is not an anticlimax. It's the argument. The same law that fixes the courses of the planets governs when you go to bed — and the stated reason is beautifully practical: "that your bodies and your minds may be invigorated." Fit for the work.
+
+        Two verses to take with you. Verse 122 is a complete charter for how a class should be run: one speaks at a time, everyone listens, everyone is edified by everyone, and every person has an *equal privilege*. Read that in your next teacher council.
+
+        And verse 125 — "above all things." Not among other things. Above them. Clothe yourselves with charity as with a mantle. A mantle is an outer garment. It goes on over everything else, and it's the thing people see first.
+      </aside>
+    </section>
+
+    <!-- 22. Friendship covenant -->
+    <section style="background: linear-gradient(135deg, var(--olive-dark) 0%, #2c3a1a 100%); color: white; padding: 26px 40px 52px;">
+      <div class="eyebrow">Verses 127–141 · The School of the Prophets</div>
+      <h2 style="color: white;">Friendship as an Ordinance</h2>
+      <div class="scripture-block" style="max-width: 88%; font-size: 0.66em;">
+        &ldquo;I salute you in the name of the Lord Jesus Christ… in a determination that is <strong style="color: var(--church-gold);">fixed, immovable, and unchangeable</strong>, to be your <strong style="color: var(--church-gold);">friend and brother</strong> through the grace of God in the bonds of love, to walk in all the commandments of God blameless, in thanksgiving, forever and ever.&rdquo;
+        <div class="scripture-ref">— D&amp;C 88:133</div>
+      </div>
+      <div style="font-size: 0.6em; color: rgba(255,255,255,0.85); max-width: 84%; margin: 0.7em auto 0; line-height: 1.5;">
+        The section closes with the <strong>washing of feet</strong> — &ldquo;according to the pattern given in the thirteenth chapter of John&rsquo;s testimony&rdquo; (v. 141).
+      </div>
+      <aside class="notes">
+        The last movement legislates the School of the Prophets, and one detail deserves attention.
+
+        Verse 133 is the prescribed greeting between members of the school. And listen to what it actually is: a covenant of friendship. "In a determination that is fixed, immovable, and unchangeable, to be your friend and brother."
+
+        Friendship is made a formal ordinance. Not a pleasantry — a covenant, with the same vocabulary the scriptures use for the everlasting covenant itself.
+
+        And then the section ends by pointing back to John 13 — the washing of feet, at the Last Supper. So the School of the Prophets isn't framed as a curriculum. It's framed as discipleship, in the room where the Savior knelt down in front of his friends.
+
+        That's how the longest revelation in the Doctrine and Covenants ends: with a basin and a towel.
+      </aside>
+    </section>
+
+    <!-- 23. Conclusion -->
+    <section style="background: linear-gradient(150deg, #47542a 0%, #12314b 55%, #0b1a28 100%); color: white; padding: 32px 40px 62px;">
+      <div class="eyebrow">The governing thesis</div>
+      <h2 style="color: white;">This Is the Olive Leaf</h2>
+      <div class="rule"></div>
+      <div style="font-size: 0.68em; color: rgba(255,255,255,0.94); max-width: 86%; margin: 0.3em auto 0.9em; line-height: 1.6;">
+        Section 88 answers Section 87&rsquo;s prophecy of war not by denying the war, but by revealing <strong style="color: var(--church-gold);">what holds while it happens</strong>.
+      </div>
+      <div style="font-size: 0.62em; color: rgba(255,255,255,0.88); max-width: 86%; margin: 0 auto; line-height: 1.6; font-style: italic;">
+        Light fills all space. Law governs every kingdom. And in the middle of the earthquakes and the trumps, the Saints are told to organize themselves, establish a house of learning and order and glory, teach one another, speak one at a time, go to bed early, and put on charity like a coat.
+      </div>
+      <div style="font-size: 0.56em; color: rgba(255,255,255,0.72); max-width: 84%; margin: 1em auto 0; line-height: 1.5;">
+        Not the announcement that the flood is over — the evidence that something is <strong style="color: var(--church-gold);">alive inside it</strong>, and the instructions for building on the ground as it dries.
+      </div>
+      <aside class="notes">
+        Let's land it.
+
+        Section 88 is the answer to Section 87. But notice *how* it answers. It does not say the war won't come. It says the war is not the deepest thing that's true.
+
+        Light fills all space. Law governs every kingdom. Christ is in the sun and in your understanding. The earth keeps its covenant. Every servant gets his full hour. The gift has already been bestowed — the only question is whether it gets opened.
+
+        And then, in the middle of the earthquakes and the trumps, the instructions are startlingly ordinary. Organize yourselves. Build a house of learning. Teach each other. Don't all talk at once. Go to bed. Get up. Put on charity like a coat.
+
+        That's the olive leaf. Noah's dove didn't bring news that the flood was over — the ark was still floating. It brought a leaf: proof that somewhere, something was alive and growing, and that there would be ground to build on.
+
+        Section 88 is that leaf. And the last thing it tells us to do is build.
+
+        Bear testimony and close.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="../reveal/dist/reveal.js"></script>
+<script src="../reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    progress: true,
+    controls: true,
+    center: true,
+    margin: 0.08,
+    transition: 'fade',
+    backgroundTransition: 'fade',
+    transitionSpeed: 'slow',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
