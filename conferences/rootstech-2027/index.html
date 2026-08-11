@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1d4ed8">
+<title>RootsTech 2027 — Scott Soward</title>
+<link rel="stylesheet" href="../../css/site.css">
+<style>
+  /* Page-local tokens — keep original names so the body markup stays valid.
+     site.css tokens (--accent, --ink, etc.) remain accessible. */
+  :root {
+    --green: #2e7d32;
+    --green-light: #e8f5e9;
+    --teal: #00695c;
+    --teal-light: #e0f2f1;
+    --blue: #1565c0;
+    --blue-light: #e3f2fd;
+    --orange: #e65100;
+    --orange-light: #fff3e0;
+    --purple: #6a1b9a;
+    --purple-light: #f3e5f5;
+    --gray: #546e7a;
+    --gray-light: #eceff1;
+    --yellow: #f57f17;
+    --yellow-light: #fffde7;
+    --red: #c62828;
+    --red-light: #ffebee;
+    --card: #ffffff;
+    --text: #1a2332;
+    --text-secondary: #5a6a7a;
+  }
+  /* Override site.css's body / surface tokens locally for the dashboard look */
+  body { background: #f5f7f9; color: var(--text); font-size: 14px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #00695c 100%); color: white; padding: 16px 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .header-logo { font-size: 28px; }
+  .header-title h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .header-title p { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+  .date-badge { margin-left: auto; background: rgba(255,255,255,0.15); border-radius: 8px; padding: 6px 12px; font-size: 12px; text-align: right; }
+  .date-badge strong { display: block; font-size: 14px; }
+
+  /* Alert Banner */
+  .alert-banner { background: #b71c1c; color: white; padding: 10px 20px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .alert-banner strong { font-size: 14px; }
+
+  /* Nav Tabs */
+  .nav-tabs { display: flex; background: white; border-bottom: 2px solid var(--border); padding: 0 16px; overflow-x: auto; }
+  .nav-tab { padding: 12px 18px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-secondary); border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: all 0.15s; }
+  .nav-tab:hover { color: var(--green); }
+  .nav-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+  /* Content */
+  .content { padding: 16px 20px; max-width: 1100px; margin: 0 auto; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .card h2 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+
+  /* Dashboard grid */
+  .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+  /* Alert cards */
+  .alert-card { border-left: 4px solid var(--red); background: var(--red-light); }
+  .alert-card .alert-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .alert-card .alert-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .alert-icon { font-size: 16px; flex-shrink: 0; }
+  .alert-text strong { display: block; font-size: 13px; color: var(--red); }
+  .alert-text span { font-size: 12px; color: #5a3030; }
+
+  /* Keynote card */
+  .keynote-list { display: flex; flex-direction: column; gap: 8px; }
+  .keynote-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px; background: var(--green-light); border-radius: 6px; }
+  .keynote-day { font-size: 11px; font-weight: 700; color: var(--green); background: white; border: 1px solid #a5d6a7; border-radius: 4px; padding: 2px 6px; flex-shrink: 0; }
+  .keynote-info strong { font-size: 13px; display: block; }
+  .keynote-info span { font-size: 12px; color: var(--text-secondary); }
+
+  /* Virtual keynotes */
+  .vk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .vk-item { background: var(--teal-light); border-radius: 6px; padding: 8px 10px; }
+  .vk-item strong { font-size: 13px; display: block; }
+  .vk-item span { font-size: 11px; color: var(--teal); }
+
+  /* Info pill list */
+  .pill-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { background: var(--blue-light); color: var(--blue); border-radius: 20px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
+  .pill.green { background: var(--green-light); color: var(--green); }
+  .pill.orange { background: var(--orange-light); color: var(--orange); }
+
+  /* Schedule */
+  .day-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .day-tab { padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 2px solid var(--border); color: var(--text-secondary); background: white; transition: all 0.15s; }
+  .day-tab:hover { border-color: var(--green); color: var(--green); }
+  .day-tab.active { background: var(--green); color: white; border-color: var(--green); }
+  .day-tab.conf { border-color: #a5d6a7; }
+  .day-tab.conf.active { background: var(--teal); border-color: var(--teal); }
+
+  .day-schedule { display: none; }
+  .day-schedule.active { display: block; }
+
+  .schedule-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .time-block { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .time-block:last-child { border-bottom: none; }
+  .time-label { width: 62px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); font-weight: 600; padding-top: 4px; text-align: right; }
+  .time-events { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .event-chip { border-radius: 6px; padding: 6px 10px; }
+  .event-chip .event-title { font-size: 13px; font-weight: 600; }
+  .event-chip .event-meta { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+  .chip-meal { background: var(--gray-light); color: var(--gray); }
+  .chip-studio { background: var(--blue-light); color: var(--blue); }
+  .chip-broll { background: var(--green-light); color: var(--green); }
+  .chip-rehearsal { background: var(--yellow-light); color: var(--yellow); }
+  .chip-interview { background: var(--orange-light); color: var(--orange); }
+  .chip-session { background: var(--purple-light); color: var(--purple); }
+  .chip-break { background: #fce4ec; color: #880e4f; }
+  .chip-alert { background: var(--red-light); color: var(--red); font-weight: 700; }
+  .chip-wrap { background: #e8eaf6; color: #3949ab; }
+  .chip-training { background: #fff8e1; color: #f57f17; }
+
+  /* Videos */
+  .video-list { display: flex; flex-direction: column; gap: 10px; }
+  .video-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .video-header { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--green-light); cursor: pointer; }
+  .video-icon { font-size: 20px; }
+  .video-info { flex: 1; }
+  .video-info h3 { font-size: 14px; font-weight: 700; }
+  .video-info .video-meta { font-size: 12px; color: var(--green); margin-top: 2px; }
+  .video-toggle { font-size: 18px; color: var(--green); transition: transform 0.2s; }
+  .video-card.open .video-toggle { transform: rotate(180deg); }
+  .video-body { display: none; padding: 14px; background: white; border-top: 1px solid #c8e6c9; }
+  .video-card.open .video-body { display: block; }
+  .video-body p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 8px; }
+  .video-body p:last-child { margin-bottom: 0; }
+  .film-schedule { background: var(--gray-light); border-radius: 6px; padding: 10px 12px; margin-top: 10px; }
+  .film-schedule h4 { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; margin-bottom: 6px; }
+  .film-row { display: flex; gap: 10px; font-size: 12px; padding: 3px 0; }
+  .film-time { font-weight: 700; color: var(--text); width: 60px; flex-shrink: 0; }
+  .film-person { color: var(--text-secondary); }
+
+  /* Logistics */
+  .logistics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .logistics-grid { grid-template-columns: 1fr; } }
+  .info-block { padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .info-block:last-child { border-bottom: none; }
+  .info-block h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .info-block p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .info-block ul { list-style: none; padding: 0; }
+  .info-block ul li { font-size: 13px; color: var(--text-secondary); padding: 2px 0 2px 14px; position: relative; }
+  .info-block ul li::before { content: '•'; position: absolute; left: 0; color: var(--green); }
+  .highlight-box { background: var(--yellow-light); border: 1px solid #ffe082; border-radius: 8px; padding: 12px 14px; margin-top: 4px; }
+  .highlight-box strong { color: var(--yellow); }
+
+  .emcee-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 8px; }
+  .emcee-card { background: var(--teal-light); border-radius: 8px; padding: 8px 10px; text-align: center; }
+  .emcee-card .name { font-size: 13px; font-weight: 700; color: var(--teal); }
+  .emcee-card .role { font-size: 11px; color: var(--text-secondary); }
+
+  .radio-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .radio-step { display: flex; gap: 10px; align-items: flex-start; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--green); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+
+  .theme-card { background: linear-gradient(135deg, var(--green-light), var(--teal-light)); border: 1px solid #a5d6a7; border-radius: 10px; padding: 16px; text-align: center; margin-bottom: 14px; }
+  .theme-card .theme-word { font-size: 36px; font-weight: 800; color: var(--green); letter-spacing: -1px; }
+  .theme-card p { font-size: 13px; color: var(--teal); margin-top: 4px; max-width: 480px; margin: 6px auto 0; }
+
+  .section-full { grid-column: 1 / -1; }
+
+  /* ===== RESPONSIVE / MOBILE ===== */
+
+  /* Fix flex overflow — flex children need min-width:0 to prevent text blowout */
+  .time-events { min-width: 0; }
+  .video-info { min-width: 0; }
+  .alert-text { min-width: 0; }
+  .keynote-info { min-width: 0; }
+  .step-text { min-width: 0; }
+  .film-person { min-width: 0; overflow-wrap: break-word; }
+
+  /* Prevent long filming-order strings from overflowing */
+  .event-meta, .video-meta { overflow-wrap: break-word; word-break: break-word; }
+
+  /* iOS momentum scrolling for tab bars */
+  .nav-tabs { -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  /* Improve touch tap targets on pointer:coarse (touchscreen) devices */
+  @media (hover: none) and (pointer: coarse) {
+    .nav-tab { padding: 14px 18px; }
+    .day-tab { padding: 10px 16px; min-height: 40px; }
+    .video-header { min-height: 56px; }
+  }
+
+  /* ── Tablets & large phones (≤ 680px) ─────────────────────────────── */
+  @media (max-width: 680px) {
+    .content { padding: 12px 14px; }
+  }
+
+  /* ── Small phones (≤ 520px) ───────────────────────────────────────── */
+  @media (max-width: 520px) {
+    /* Header — compress title, let date badge wrap below */
+    .header { padding: 10px 14px; gap: 10px; flex-wrap: wrap; }
+    .header-logo { font-size: 24px; }
+    .header-title h1 { font-size: 16px; }
+    .header-title p { font-size: 11px; }
+    .date-badge { margin-left: 0; width: 100%; padding: 4px 10px; font-size: 11px; text-align: left; }
+    .date-badge strong { display: inline; font-size: 12px; margin-right: 4px; }
+
+    /* Alert banner — allow text to wrap */
+    .alert-banner { padding: 8px 14px; gap: 8px; flex-wrap: wrap; font-size: 12px; }
+    .alert-banner strong { font-size: 13px; }
+
+    /* Content padding */
+    .content { padding: 10px 12px; }
+
+    /* Cards — tighter padding */
+    .card { padding: 12px; }
+
+    /* Theme word — scale down on small screens */
+    .theme-card .theme-word { font-size: 26px; }
+    .theme-card { padding: 14px 12px; }
+
+    /* Virtual keynotes — single column on small phones */
+    .vk-grid { grid-template-columns: 1fr; }
+
+    /* Schedule time label — slightly narrower */
+    .time-label { width: 52px; font-size: 11px; }
+    .time-block { gap: 8px; }
+    .event-chip { padding: 5px 8px; }
+    .event-chip .event-title { font-size: 12px; }
+    .event-chip .event-meta { font-size: 11px; }
+
+    /* Video cards */
+    .video-header { padding: 10px 12px; gap: 8px; }
+    .video-icon { font-size: 18px; }
+    .video-info h3 { font-size: 13px; }
+    .video-info .video-meta { font-size: 11px; }
+    .video-body { padding: 12px; }
+    .film-schedule { padding: 8px 10px; }
+    .film-row { font-size: 11px; }
+    .film-time { width: 52px; }
+
+    /* Emcee grid — smaller minimum card width */
+    .emcee-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+
+    /* Legend items — tighter */
+    .schedule-legend { gap: 6px; }
+    .legend-item { font-size: 11px; }
+
+    /* Day tabs — fit more on screen */
+    .day-tab { padding: 7px 12px; font-size: 11px; }
+  }
+
+  /* ── Very small phones (≤ 380px) ─────────────────────────────────── */
+  @media (max-width: 380px) {
+    .content { padding: 8px 10px; }
+    .time-label { width: 44px; font-size: 10px; }
+    .card { padding: 10px; border-radius: 8px; }
+    .theme-card .theme-word { font-size: 22px; }
+    .video-body { padding: 10px; }
+  }
+</style>
+<style>
+  /* Staffing table — 2027-only additions on top of the shared dashboard styles */
+  .staff-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .staff-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-secondary); padding: 8px 10px; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  .staff-table td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .staff-table tbody tr:hover { background: var(--green-light); }
+  .staff-table tfoot td { padding: 10px; border-top: 2px solid var(--border); background: var(--gray-light); }
+  .staff-table td:not(:first-child) { white-space: nowrap; color: var(--text-secondary); }
+  .role-desc { display: block; margin-top: 3px; font-size: 12px; font-weight: 400; color: var(--text-secondary); white-space: normal; }
+
+  /* Table becomes a stacked card list on narrow screens */
+  @media (max-width: 720px) {
+    .staff-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .staff-table, .staff-table tbody, .staff-table tfoot, .staff-table tr, .staff-table td { display: block; width: 100%; }
+    .staff-table tr { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; padding: 4px 0; }
+    .staff-table td { border-bottom: none; padding: 5px 12px; }
+    .staff-table td:not(:first-child)::before { content: attr(data-label) ": "; font-weight: 600; color: var(--text); }
+    .staff-table tfoot td { background: transparent; border-top: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../../activities/">Activities</a>
+      <a href="../" aria-current="page">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="header">
+  <div class="header-logo" aria-hidden="true">🌿</div>
+  <div class="header-title">
+    <h1>RootsTech 2027</h1>
+    <p>Coordination Dashboard — RootsTech Studio</p>
+  </div>
+  <div class="date-badge">
+    <strong>Mar 4–6, 2027</strong>
+    Salt Palace, Salt Lake City
+  </div>
+</div>
+
+<div class="alert-banner">
+  <span>&#9888;</span>
+  <span><strong>Planning in progress:</strong> Role &amp; shift breakdown due to HR Operations <strong>Aug 19, 2026</strong> &bull; Studio team staffed by <strong>Oct 30</strong> &bull; RootsTech fully staffed by <strong>Dec 18</strong></span>
+</div>
+
+<div class="nav-tabs" role="tablist" aria-label="Coordination sections">
+  <button type="button" class="nav-tab active" role="tab" id="tabbtn-dashboard" aria-controls="tab-dashboard" aria-selected="true" tabindex="0">Dashboard</button>
+  <button type="button" class="nav-tab" role="tab" id="tabbtn-staffing" aria-controls="tab-staffing" aria-selected="false" tabindex="-1">Staffing</button>
+  <button type="button" class="nav-tab" role="tab" id="tabbtn-schedule" aria-controls="tab-schedule" aria-selected="false" tabindex="-1">Schedule</button>
+  <button type="button" class="nav-tab" role="tab" id="tabbtn-videos" aria-controls="tab-videos" aria-selected="false" tabindex="-1">Videos &amp; Scripts</button>
+  <button type="button" class="nav-tab" role="tab" id="tabbtn-logistics" aria-controls="tab-logistics" aria-selected="false" tabindex="-1">Logistics</button>
+</div>
+
+<div class="content">
+
+  <!-- DASHBOARD TAB -->
+  <div class="tab-panel active" id="tab-dashboard" role="tabpanel" aria-labelledby="tabbtn-dashboard">
+
+    <div class="theme-card">
+      <div class="theme-word">Theme TBD</div>
+      <p>RootsTech 2027 theme has not been announced. Placeholder until FamilySearch marketing releases it.</p>
+    </div>
+
+    <div class="dashboard-grid">
+
+      <!-- ACTION REQUIRED -->
+      <div class="card alert-card">
+        <div class="card-title">&#9888; Action Required</div>
+        <div class="alert-item">
+          <div class="alert-icon">✅</div>
+          <div class="alert-text">
+            <strong>Aug 11 — First pass sent to HR</strong>
+            <span>8 roles, 25 people, ~120 shifts. Awaiting Steve's answers on 5 open questions and Brian's review of the counts. Final numbers due <strong>Aug 19</strong>. See the Staffing tab.</span>
+          </div>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon">🧑‍🤝‍🧑</div>
+          <div class="alert-text">
+            <strong>Oct 30, 2026 — Studio team staffed</strong>
+            <span>HR Operations target for our team specifically. RootsTech overall is targeted for Dec 18.</span>
+          </div>
+        </div>
+        <div class="alert-item">
+          <div class="alert-icon">🗓️</div>
+          <div class="alert-text">
+            <strong>September 2026 — Registration opens</strong>
+            <span>Expect the keynote and virtual keynote lineup to firm up around this point, which drives our language emcee count.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADERSHIP -->
+      <div class="card">
+        <div class="card-title">Studio Leadership</div>
+        <div class="info-block">
+          <h4>Assignment</h4>
+          <p>Scott Soward &amp; Brian Kunze — co-leads, RootsTech Studio</p>
+        </div>
+        <div class="info-block">
+          <h4>HR Operations Partner</h4>
+          <p>Steve Boyack — HR Operations Manager, Family History Department</p>
+        </div>
+        <div class="info-block">
+          <h4>Staffing Model Change</h4>
+          <p>2027 staffing is requested by <strong>number of shifts</strong> rather than number of people, to set clearer hour expectations, level workload across the department, and improve cost reporting.</p>
+        </div>
+      </div>
+
+      <!-- KEYNOTES -->
+      <div class="card">
+        <div class="card-title">Main Stage Keynotes</div>
+        <div class="keynote-list">
+          <div class="keynote-item">
+            <div class="keynote-day">THU</div>
+            <div class="keynote-info">
+              <strong>TBA</strong>
+              <span>General Session 1 &bull; Not yet announced</span>
+            </div>
+          </div>
+          <div class="keynote-item">
+            <div class="keynote-day">FRI</div>
+            <div class="keynote-info">
+              <strong>TBA</strong>
+              <span>General Session 2 &bull; Not yet announced</span>
+            </div>
+          </div>
+          <div class="keynote-item">
+            <div class="keynote-day">SAT</div>
+            <div class="keynote-info">
+              <strong>TBA</strong>
+              <span>General Session 3 &bull; Family Discovery Day &bull; Not yet announced</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EVENT AT A GLANCE -->
+      <div class="card">
+        <div class="card-title">Event At A Glance</div>
+        <div class="pill-list">
+          <span class="pill green">Mar 4–6, 2027</span>
+          <span class="pill">Salt Palace Convention Center</span>
+          <span class="pill orange">Registration opens Sept 2026</span>
+          <span class="pill">Pre-production Mar 2–3</span>
+          <span class="pill green">Virtual keynotes</span>
+          <span class="pill orange">Family Discovery Day</span>
+          <span class="pill">Online Expo Hall</span>
+        </div>
+        <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border);">
+          <div class="card-title" style="margin-bottom:6px;">Expected Locations</div>
+          <div class="pill-list">
+            <span class="pill">RootsTech Studio</span>
+            <span class="pill">Main Stage</span>
+            <span class="pill">Base Camp</span>
+            <span class="pill">Tree House</span>
+            <span class="pill">FamilySearch Library</span>
+          </div>
+          <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">Carried over from 2026 — confirm room assignments once the venue plan is released.</p>
+        </div>
+      </div>
+
+      <!-- CARRYOVER -->
+      <div class="card section-full">
+        <div class="card-title">Carried Forward from 2026</div>
+        <div class="highlight-box">
+          <p>Items worth repeating or fixing based on how RootsTech 2026 actually ran.</p>
+        </div>
+        <div style="height:10px"></div>
+        <div class="info-block">
+          <h4>Keep</h4>
+          <ul>
+            <li>Two full pre-production days (Tue/Wed) for the B-roll package — 9 videos in 2026</li>
+            <li>Teleprompter for all segments, including Korean and Japanese</li>
+            <li>Live General Session recaps in the studio right after each session</li>
+            <li>Returning language emcees — second year is dramatically smoother</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h4>Fix</h4>
+          <ul>
+            <li>Korean and ASL interpreter coverage was thin on the Wednesday pre-production day</li>
+            <li>Meals for talent held in back-to-back studio blocks had to be improvised</li>
+            <li>Emcee day plans were spread across 15-minute blocks with no consolidated per-person view</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAFFING TAB -->
+  <div class="tab-panel" id="tab-staffing" role="tabpanel" aria-labelledby="tabbtn-staffing">
+
+    <div class="card" style="background: var(--green-light); border-color:#a5d6a7;">
+      <p style="font-size:13px;">
+        <strong>Sent to HR Operations Aug 11, 2026</strong> — to Steve Boyack, Brian copied. Numbers below are a first pass modeled on RootsTech 2026 actuals: 5 studio days (pre-production Tue/Wed plus three conference days), roughly an 11-hour operating window, 9 B-roll videos, 11 regional/language emcees, and 3 live General Session recaps.
+      </p>
+      <p style="font-size:13px;margin-top:8px;">
+        Open: Steve's answers on the five questions below, and Brian's review of the counts. Final numbers committed to HR by <strong>Aug 19</strong>.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Proposed Roles — RootsTech Studio</div>
+      <table class="staff-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>People</th>
+            <th>Pre-event</th>
+            <th>Event days</th>
+            <th>Shift</th>
+            <th>Shifts/day</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Studio Producer (Lead)</strong><br><span class="role-desc">Owns the run-of-show; single point of decision on set.</span></td>
+            <td data-label="People">2</td><td data-label="Pre-event">6 hr/wk × 16 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">10 hr</td><td data-label="Shifts/day">2</td>
+          </tr>
+          <tr>
+            <td><strong>Floor Director / Stage Manager</strong><br><span class="role-desc">Cues talent, manages transitions, holds the 15-minute block schedule.</span></td>
+            <td data-label="People">2</td><td data-label="Pre-event">3 hr/wk × 8 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">6 hr</td><td data-label="Shifts/day">2</td>
+          </tr>
+          <tr>
+            <td><strong>On-Air Emcee — Regional / Language</strong><br><span class="role-desc">Hosts studio segments, B-roll, and live recaps for a region and language.</span></td>
+            <td data-label="People">11</td><td data-label="Pre-event">4 hr/wk × 10 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">5 hr</td><td data-label="Shifts/day">11</td>
+          </tr>
+          <tr>
+            <td><strong>Teleprompter Operator (Multilingual)</strong><br><span class="role-desc">Runs prompter for all segments; Korean and Japanese capability required.</span></td>
+            <td data-label="People">3</td><td data-label="Pre-event">2 hr/wk × 4 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">5 hr</td><td data-label="Shifts/day">2</td>
+          </tr>
+          <tr>
+            <td><strong>Script Writer / Content Producer</strong><br><span class="role-desc">Writes and localizes the B-roll package and recap outlines; on-site rewrites.</span></td>
+            <td data-label="People">2</td><td data-label="Pre-event">8 hr/wk × 14 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">4 hr</td><td data-label="Shifts/day">1</td>
+          </tr>
+          <tr>
+            <td><strong>Interview Coordinator / Guest Wrangler</strong><br><span class="role-desc">Books, confirms, and preps studio guests; gets them to set on time.</span></td>
+            <td data-label="People">2</td><td data-label="Pre-event">4 hr/wk × 8 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">5 hr</td><td data-label="Shifts/day">2</td>
+          </tr>
+          <tr>
+            <td><strong>Green Room / Talent Support</strong><br><span class="role-desc">Meals, H&amp;MU scheduling, escorting talent between locations.</span></td>
+            <td data-label="People">2</td><td data-label="Pre-event">1 hr/wk × 3 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">5 hr</td><td data-label="Shifts/day">2</td>
+          </tr>
+          <tr>
+            <td><strong>Interpreter &amp; Accessibility Liaison</strong><br><span class="role-desc">Coordinates ASL, Korean, and Japanese coverage for studio segments.</span></td>
+            <td data-label="People">1</td><td data-label="Pre-event">2 hr/wk × 6 wk</td><td data-label="Event days">Tue–Sat</td><td data-label="Shift">5 hr</td><td data-label="Shifts/day">2</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>25</strong></td>
+            <td colspan="3"></td>
+            <td><strong>~120 shifts</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Open Questions to HR Operations</div>
+      <div class="info-block">
+        <h4>1. Shift length exception for leads</h4>
+        <p>The Studio Producer role does not split cleanly at the recommended 4–6 hours — run-of-show continuity requires carrying the full day. Proposed as 10 hr × 2 people.</p>
+      </div>
+      <div class="info-block">
+        <h4>2. Emcee shifts are a rough fit</h4>
+        <p>Emcees are booked in scattered 15-minute studio blocks, not contiguous shifts. A "5-hour shift" is really a container for half-day on-call availability and may read as under-utilization in reporting.</p>
+      </div>
+      <div class="info-block">
+        <h4>3. Pre-production days</h4>
+        <p>Confirm Tue/Wed count as event shifts rather than pre-work hours. The entire B-roll package is filmed on those two days.</p>
+      </div>
+      <div class="info-block">
+        <h4>4. Technical crew ownership</h4>
+        <p>Camera, audio, lighting, switcher, and hair &amp; makeup are <em>not</em> included above — assumed to come via Media Services and vendor rather than this staffing process. Awaiting confirmation.</p>
+      </div>
+      <div class="info-block">
+        <h4>5. Continuity</h4>
+        <p>Requesting returning 2026 language emcees where available — Korean, Japanese, ASL, Portuguese, and French coverage took significant ramp-up.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCHEDULE TAB -->
+  <div class="tab-panel" id="tab-schedule" role="tabpanel" aria-labelledby="tabbtn-schedule">
+    <div class="card">
+      <div class="card-title">Schedule — Not Yet Published</div>
+      <div class="highlight-box">
+        <p>The detailed run-of-show is built once the keynote lineup and main stage times are released. Expected late 2026 / early 2027.</p>
+      </div>
+      <div style="height:10px"></div>
+      <div class="info-block">
+        <h4>Expected Shape (based on 2026)</h4>
+        <ul>
+          <li><strong>Tue, Mar 2</strong> — Pre-production Day 1: orientation, main stage and virtual keynote intros, interview training, FamilySearch Library filming</li>
+          <li><strong>Wed, Mar 3</strong> — Pre-production Day 2: studio B-roll block, expo hall tour, booth visits, regional studio time</li>
+          <li><strong>Thu, Mar 4</strong> — Conference Day 1: General Session 1, live recap, regional studio blocks</li>
+          <li><strong>Fri, Mar 5</strong> — Conference Day 2: General Session 2, live recap, finale rehearsal</li>
+          <li><strong>Sat, Mar 6</strong> — Conference Day 3: General Session 3 + finale, Family Discovery Day, wrap</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Daily Window</h4>
+        <p>Breakfast from ~7:00 AM, estimated wrap ~6:00 PM on filming and conference days.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEOS TAB -->
+  <div class="tab-panel" id="tab-videos" role="tabpanel" aria-labelledby="tabbtn-videos">
+    <div class="card">
+      <div class="card-title">B-Roll Package — Scripts Not Yet Written</div>
+      <div class="highlight-box">
+        <p>Scripting begins once the 2027 theme and keynote lineup are announced. The 2026 package is listed below as the expected baseline.</p>
+      </div>
+      <div style="height:10px"></div>
+      <div class="info-block">
+        <h4>2026 Baseline Package (9 videos)</h4>
+        <ul>
+          <li>Welcome to RootsTech</li>
+          <li>Introduction to Main Stage and Virtual Keynotes</li>
+          <li>Discover RootsTech Classes</li>
+          <li>Online Expo Hall Tour</li>
+          <li>Visit to the FamilySearch Library</li>
+          <li>Visit to FamilySearch &amp; Homeland Booths</li>
+          <li>Family Discovery Day</li>
+          <li>Thank You for Attending</li>
+          <li>See You Next Year</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Localization</h4>
+        <p>Teleprompter was provided for all segments in 2026, including Korean and Japanese. Plan on the same for 2027.</p>
+      </div>
+      <div class="info-block">
+        <h4>Prior Year</h4>
+        <p><a href="../rootstech-2026/#tabbtn-videos">View the full RootsTech 2026 scripts &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGISTICS TAB -->
+  <div class="tab-panel" id="tab-logistics" role="tabpanel" aria-labelledby="tabbtn-logistics">
+    <div class="logistics-grid">
+
+      <div class="card">
+        <div class="card-title">Key Dates</div>
+        <div class="info-block">
+          <h4>Staffing Milestones</h4>
+          <ul>
+            <li><strong>Aug 19, 2026</strong> — Role &amp; shift breakdown due to HR</li>
+            <li><strong>Sept 2026</strong> — RootsTech registration opens</li>
+            <li><strong>Oct 30, 2026</strong> — Studio team staffed</li>
+            <li><strong>Dec 18, 2026</strong> — RootsTech fully staffed</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h4>Event</h4>
+          <ul>
+            <li><strong>Mar 2–3, 2027</strong> — Pre-production</li>
+            <li><strong>Mar 4–6, 2027</strong> — Conference (Thu–Sat)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Contacts</div>
+        <div class="info-block">
+          <h4>Studio Co-Leads</h4>
+          <p>Scott Soward<br>Brian Kunze</p>
+        </div>
+        <div class="info-block">
+          <h4>HR Operations</h4>
+          <p>Steve Boyack — HR Operations Manager, Family History Department</p>
+        </div>
+        <div class="info-block">
+          <h4>Contact Details</h4>
+          <p>Kept out of this page — see the RootsTech staffing thread in Outlook.</p>
+        </div>
+      </div>
+
+      <div class="card section-full">
+        <div class="card-title">To Be Confirmed</div>
+        <div class="info-block">
+          <ul>
+            <li>Radio assignment and pickup location</li>
+            <li>Base camp location and meal hours</li>
+            <li>Interpreter dress code by day</li>
+            <li>Finale participation and rehearsal times</li>
+            <li>Studio room assignment within the Salt Palace</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h4>Reference</h4>
+          <p><a href="../rootstech-2026/#tabbtn-logistics">RootsTech 2026 logistics &rarr;</a> — use as the baseline until 2027 details are published.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · RootsTech 2027 coordination</span>
+    <a href="../">&larr; Back to conferences</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+      });
+    }
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Accessible primary tablist + URL hash state
+  (function() {
+    const list = document.querySelector('.nav-tabs[role="tablist"]');
+    if (!list) return;
+    const tabs = Array.from(list.querySelectorAll('[role="tab"]'));
+    const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+    const ids = tabs.map(t => t.id);
+    function activate(i, setFocus) {
+      tabs.forEach((t, j) => {
+        const sel = j === i;
+        t.setAttribute('aria-selected', String(sel));
+        t.tabIndex = sel ? 0 : -1;
+        t.classList.toggle('active', sel);
+        if (panels[j]) panels[j].classList.toggle('active', sel);
+      });
+      if (setFocus) tabs[i].focus();
+    }
+    function fromHash() {
+      const h = (location.hash || '').slice(1);
+      const idx = ids.indexOf(h);
+      if (idx >= 0) activate(idx, false);
+    }
+    list.addEventListener('keydown', (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      let next = -1;
+      if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft')  next = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') next = 0;
+      if (e.key === 'End')  next = tabs.length - 1;
+      if (next >= 0) { e.preventDefault(); activate(next, true); history.replaceState(null, '', '#' + ids[next]); }
+    });
+    tabs.forEach((t, i) => t.addEventListener('click', () => {
+      activate(i, false);
+      history.replaceState(null, '', '#' + ids[i]);
+    }));
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  })();
+</script>
+
+</body>
+</html>
