@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <meta name="description" content="Flash cards and full-length practice exams for the FCC amateur radio license tests — the complete current Technician, General, and Amateur Extra question pools from the NCVEC.">
+  <title>Ham Radio Exam Trainer — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../css/site.css">
+  <link rel="stylesheet" href="ham.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../">Home</a>
+      <a href="../presentations/">Gospel</a>
+      <a href="../tech-presentations/">Tech &amp; AI</a>
+      <a href="../activities/">Activities</a>
+      <a href="../conferences/">Conferences</a>
+      <a href="../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Study · amateur radio</p>
+    <h1 class="hero-title">Ham Radio Exam Trainer</h1>
+    <p class="hero-lede">
+      Flash cards and full-length practice exams built from the complete current
+      FCC question pools — every question, answer, and diagram exactly as the
+      NCVEC published it. Practice exams are drawn the way a real exam is: one
+      question from each question group. Progress is saved in this browser.
+    </p>
+  </section>
+
+  <div class="hr-controls">
+    <div class="container hr-controls-inner">
+      <div class="hr-segment" role="group" aria-label="License class">
+        <span class="hr-segment-label" aria-hidden="true">Class</span>
+        <button type="button" class="btn btn-ghost" data-pool="tech" aria-pressed="true">Technician</button>
+        <button type="button" class="btn btn-ghost" data-pool="general" aria-pressed="false">General</button>
+        <button type="button" class="btn btn-ghost" data-pool="extra" aria-pressed="false">Extra</button>
+      </div>
+      <div class="tabs hr-tabs" role="tablist" aria-label="Study mode">
+        <button type="button" role="tab" id="tab-flash" aria-controls="panel-flash" aria-selected="true">Flash cards</button>
+        <button type="button" role="tab" id="tab-exam" aria-controls="panel-exam" aria-selected="false">Practice exam</button>
+        <button type="button" role="tab" id="tab-browse" aria-controls="panel-browse" aria-selected="false">Browse the pool</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="section container">
+    <p id="pool-summary" class="hr-note" role="status">Loading the question pool…</p>
+
+    <!-- ===== Flash cards ===== -->
+    <div id="panel-flash" role="tabpanel" aria-labelledby="tab-flash" class="tab-panel">
+      <div class="hr-stats" id="flash-stats"></div>
+
+      <div class="hr-meter" aria-hidden="true">
+        <div class="hr-meter-fill" id="meter-mastered" style="width:0%"></div>
+        <div class="hr-meter-fill partial" id="meter-learning" style="width:0%"></div>
+      </div>
+      <p class="hr-meter-legend">
+        <span><span class="swatch mastered"></span>Mastered</span>
+        <span><span class="swatch learning"></span>Learning</span>
+        <span><span class="swatch untouched"></span>Not seen yet</span>
+        <span id="meter-text"></span>
+      </p>
+
+      <div class="hr-pickers">
+        <label class="hr-field">
+          <span>Deck</span>
+          <select id="flash-scope"></select>
+        </label>
+        <label class="hr-field">
+          <span>Show me</span>
+          <select id="flash-filter">
+            <option value="mix">A weighted mix (default)</option>
+            <option value="unseen">Questions I have not seen</option>
+            <option value="weak">Questions I keep missing</option>
+            <option value="starred">Starred questions</option>
+            <option value="order">Every question, in pool order</option>
+          </select>
+        </label>
+        <button type="button" class="btn btn-ghost" id="flash-reset">Reset progress…</button>
+      </div>
+
+      <div id="flash-holder"></div>
+
+      <p class="hr-legend">
+        <span><span class="kbd">Space</span> show answer</span>
+        <span><span class="kbd">1</span> missed it</span>
+        <span><span class="kbd">2</span> got it</span>
+        <span><span class="kbd">S</span> star</span>
+        <span><span class="kbd">→</span> skip</span>
+      </p>
+    </div>
+
+    <!-- ===== Practice exam ===== -->
+    <div id="panel-exam" role="tabpanel" aria-labelledby="tab-exam" class="tab-panel" hidden>
+      <div id="exam-holder"></div>
+    </div>
+
+    <!-- ===== Browse ===== -->
+    <div id="panel-browse" role="tabpanel" aria-labelledby="tab-browse" class="tab-panel" hidden>
+      <div class="hr-pickers">
+        <label class="hr-field grow">
+          <span>Search</span>
+          <input type="search" id="browse-search" placeholder="Question text, answer text, or question number (T1A01)" autocomplete="off">
+        </label>
+        <label class="hr-field">
+          <span>Subelement</span>
+          <select id="browse-sub"></select>
+        </label>
+      </div>
+      <p class="hr-note" id="browse-count" role="status"></p>
+      <div id="browse-holder"></div>
+    </div>
+
+    <p class="hr-note" style="margin-top: var(--sp-8)">
+      Questions, answers, and diagrams come from the
+      <a href="https://ncvec.org/index.php/amateur-question-pools" rel="noopener">NCVEC Question Pool Committee</a>
+      releases — the same pools the volunteer examiners draw from — and are
+      reproduced verbatim, including the FCC Part 97 rule citations. Pools are
+      replaced on a rolling four-year cycle; the revision each deck was built
+      from is shown above. This trainer is not affiliated with the NCVEC, the
+      ARRL, or the FCC.
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Ham radio study</span>
+    <a href="../">&larr; Back to the hub</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="ham.js"></script>
+
+</body>
+</html>

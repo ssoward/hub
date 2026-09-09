@@ -13,8 +13,23 @@ A static web application serving as a personal hub for gospel study, tech presen
 | Tech & Philosophy | https://ssoward.github.io/hub/tech-presentations/ |
 | Activities | https://ssoward.github.io/hub/activities/ |
 | Conferences | https://ssoward.github.io/hub/conferences/ |
+| Ham Radio Exam Trainer | https://ssoward.github.io/hub/ham-radio/ |
 
 ## Site Sections
+
+### Ham Radio Exam Trainer
+Flash cards and full-length practice exams for the FCC amateur radio licenses —
+the complete current Technician (2026-2030), General (2023-2027), and Amateur
+Extra (2024-2028) question pools from the NCVEC, 1,431 questions with all 14
+diagrams. Spaced repetition by Leitner box, exams drawn one question per
+question group the way the real ones are, and a searchable view of the whole
+pool. See [ham-radio/README.md](ham-radio/README.md) for how the pools are
+rebuilt when they roll over.
+
+```bash
+npm run ham:build      # refetch and rebuild the pools from ncvec.org
+npm run ham:test       # validate the data, then drive the page in headless Chrome
+```
 
 ### Gospel Presentations
 Stake and ward-level teaching resources built with Reveal.js:

@@ -6,7 +6,10 @@
   "scripts": {
     "start": "python3 -m http.server 8080",
     "build": "echo 'Static site - no build process needed'",
-    "deploy": "echo 'Ready for static deployment to Vercel/Netlify'"
+    "deploy": "echo 'Ready for static deployment to Vercel/Netlify'",
+    "ham:build": "python3 ham-radio/tools/build_pools.py",
+    "ham:validate": "python3 ham-radio/tools/validate_pools.py",
+    "ham:test": "python3 ham-radio/tools/validate_pools.py && node ham-radio/tools/smoke-test.mjs"
   },
   "keywords": [
     "alma31",
@@ -15,7 +18,10 @@
     "lds",
     "church",
     "web-app",
-    "pwa"
+    "pwa",
+    "ham-radio",
+    "amateur-radio",
+    "flashcards"
   ],
   "author": "Church Study App",
   "license": "MIT",

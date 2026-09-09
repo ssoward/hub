@@ -44,3 +44,5 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+# Ham radio pool build scratch (downloaded NCVEC documents)
+ham-radio/tools/.work/
