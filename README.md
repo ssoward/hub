@@ -53,10 +53,11 @@ Interactive presentations on technology and AI:
 - The Evolution of AI (7-era interactive gallery)
 
 ### Activities
-Logic puzzles, arcade games, and interactive learning tools — 17 in all, including:
+Logic puzzles, arcade games, and interactive learning tools — 18 in all, including:
 - The Alien Hat Riddle (step-by-step simulation)
 - Sudoku, Minesweeper, Connect Four, Dots and Boxes, Slide Puzzle, Code Breaker
 - Snake, Pong, Whack-a-Mole, Blackjack, Memory Match, Hangman, Word Guess, Quick Math, Tic-Tac-Toe, Rock Paper Scissors
+- Scoreboard — a tap-to-score board for any game away from the screen
 
 ### Scripture
 - Alma 31 Study App — full text, analysis, gallery, and study tools

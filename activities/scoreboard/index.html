@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Scoreboard — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .sb-grid {
+      display: grid;
+      gap: var(--sp-4);
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    }
+
+    .sb-player {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-1);
+      overflow: hidden;
+      transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    }
+    .sb-player.is-leader { border-color: #34d399; box-shadow: 0 0 0 2px #a7f3d0; }
+
+    .sb-head {
+      display: flex; align-items: center; gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .sb-name {
+      flex: 1 1 auto; min-width: 0;
+      font: inherit; font-weight: 700; color: var(--ink);
+      background: transparent; border: 1px solid transparent;
+      border-radius: var(--r-sm);
+      padding: 8px var(--sp-2);
+      min-height: 40px;
+    }
+    .sb-name:hover { border-color: var(--border-strong); }
+    .sb-name:focus-visible { border-color: var(--accent); outline: none; background: var(--bg); }
+    .sb-crown { font-size: var(--fs-base); line-height: 1; }
+    .sb-remove {
+      appearance: none; flex: 0 0 auto;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent; color: var(--muted);
+      border: 1px solid transparent; border-radius: var(--r-sm);
+      font-size: var(--fs-lg); line-height: 1; cursor: pointer;
+    }
+    .sb-remove:hover { background: #fef2f2; color: var(--danger); border-color: #fecaca; }
+
+    /* The whole score face is the increment target. */
+    .sb-score {
+      appearance: none;
+      flex: 1 1 auto;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: var(--sp-1);
+      width: 100%;
+      min-height: 160px;
+      padding: var(--sp-6) var(--sp-3);
+      background: var(--bg);
+      border: none;
+      color: var(--ink);
+      font-family: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      transition: background var(--t-fast), transform var(--t-fast);
+    }
+    .sb-score:hover { background: var(--accent-soft); }
+    .sb-score:active { background: #dbeafe; transform: scale(0.98); }
+    .sb-score:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+    .sb-value {
+      font-size: clamp(3rem, 14vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .sb-player.is-leader .sb-value { color: var(--success); }
+    .sb-value.bump { animation: sb-bump var(--t-base); }
+    @keyframes sb-bump { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+    .sb-hint { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .sb-foot { display: flex; border-top: 1px solid var(--border); }
+    .sb-step {
+      appearance: none; flex: 1 1 0;
+      min-height: 56px;
+      background: var(--surface);
+      border: none;
+      color: var(--ink-soft);
+      font: inherit; font-size: var(--fs-lg); font-weight: 700;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: background var(--t-fast), color var(--t-fast);
+    }
+    .sb-step + .sb-step { border-left: 1px solid var(--border); }
+    .sb-step:hover { background: var(--surface-2); }
+    .sb-step.minus:hover { background: #fef2f2; color: var(--danger); }
+    .sb-step.plus:hover { background: #ecfdf5; color: var(--success); }
+    .sb-step:active { transform: scale(0.98); }
+
+    .sb-toolbar {
+      display: flex; flex-wrap: wrap; gap: var(--sp-3);
+      align-items: center; justify-content: center;
+    }
+    .sb-toolbar label { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--ink-soft); }
+    .sb-toolbar select { font: inherit; padding: 8px var(--sp-2); min-height: 40px; border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--bg); color: var(--ink); }
+    .btn.btn-danger { color: var(--danger); border-color: #fecaca; }
+    .btn.btn-danger:hover { background: #fef2f2; }
+
+    .sb-empty { color: var(--muted); text-align: center; padding: var(--sp-8); }
+
+    @media (max-width: 640px) {
+      .sb-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: var(--sp-3); }
+      .sb-score { min-height: 130px; padding: var(--sp-4) var(--sp-2); }
+      .sb-hint { display: none; }
+      .sb-toolbar .btn { flex: 1 1 auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sb-value.bump { animation: none; }
+      .sb-score:active, .sb-step:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · utility</p>
+    <h1 class="hero-title">Scoreboard</h1>
+    <p class="hero-lede">Keep score for any game. Tap a score to add a point, tap &minus; to take one back. Names and scores are saved on this device, so you can close the page mid-game.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Players: <strong id="count">0</strong></span>
+        <span class="pill" id="leader-pill">Leader: <strong id="leader">—</strong></span>
+        <label>Step
+          <select id="step" aria-label="Points per tap">
+            <option value="1" selected>1 point</option>
+            <option value="2">2 points</option>
+            <option value="3">3 points</option>
+            <option value="5">5 points</option>
+            <option value="10">10 points</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="sb-grid" id="grid"></div>
+      <p class="sb-empty" id="empty" hidden>No players yet. Add one to start keeping score.</p>
+
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="game-controls sb-toolbar">
+        <button type="button" class="btn btn-primary" id="add">+ Add player</button>
+        <button type="button" class="btn btn-ghost" id="undo" disabled>Undo</button>
+        <button type="button" class="btn btn-ghost" id="reset">Reset scores</button>
+        <button type="button" class="btn btn-ghost btn-danger" id="clear">Clear all</button>
+      </div>
+
+      <p class="sb-hint">Tip: focus a score and use <span class="kbd">↑</span> / <span class="kbd">↓</span> to adjust it.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function() {
+    const KEY = 'scoreboard.state.v1';
+    const DEFAULT_NAMES = ['Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5', 'Player 6'];
+    const MAX_PLAYERS = 12;
+
+    const grid = document.getElementById('grid');
+    const emptyEl = document.getElementById('empty');
+    const countEl = document.getElementById('count');
+    const leaderEl = document.getElementById('leader');
+    const leaderPill = document.getElementById('leader-pill');
+    const stepSel = document.getElementById('step');
+    const msg = document.getElementById('msg');
+    const undoBtn = document.getElementById('undo');
+
+    let players = [];   // [{ id, name, score }]
+    let history = [];   // snapshots of players, for Undo
+    let seq = 0;
+
+    function load() {
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { /* corrupt or blocked */ }
+      if (saved && Array.isArray(saved.players) && saved.players.length) {
+        players = saved.players
+          .filter(p => p && typeof p.name === 'string')
+          .map(p => ({ id: ++seq, name: p.name, score: Number(p.score) || 0 }));
+        if (saved.step) stepSel.value = String(saved.step);
+      }
+      if (!players.length) players = [newPlayer(), newPlayer()];
+    }
+    function save() {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          players: players.map(p => ({ name: p.name, score: p.score })),
+          step: Number(stepSel.value)
+        }));
+      } catch { /* private mode — the board still works, it just won't persist */ }
+    }
+
+    function newPlayer() {
+      const used = new Set(players.map(p => p.name));
+      const name = DEFAULT_NAMES.find(n => !used.has(n)) || `Player ${players.length + 1}`;
+      return { id: ++seq, name, score: 0 };
+    }
+
+    const step = () => Number(stepSel.value) || 1;
+
+    function snapshot() {
+      history.push(players.map(p => ({ ...p })));
+      if (history.length > 50) history.shift();
+      undoBtn.disabled = false;
+    }
+    function undo() {
+      if (!history.length) return;
+      players = history.pop();
+      undoBtn.disabled = history.length === 0;
+      render();
+      save();
+      say('Undone.');
+    }
+
+    function say(text, kind) {
+      msg.textContent = text;
+      msg.className = 'message-line' + (kind ? ' ' + kind : '');
+    }
+
+    function buzz() {
+      if (navigator.vibrate && matchMedia('(hover: none)').matches) navigator.vibrate(8);
+    }
+
+    function bump(id, by) {
+      const p = players.find(x => x.id === id);
+      if (!p) return;
+      snapshot();
+      p.score += by;
+      render(id);
+      save();
+      buzz();
+      say(`${p.name}: ${p.score}`);
+    }
+
+    function removePlayer(id) {
+      const p = players.find(x => x.id === id);
+      if (!p) return;
+      snapshot();
+      players = players.filter(x => x.id !== id);
+      render();
+      save();
+      say(`Removed ${p.name}.`);
+    }
+
+    function addPlayer() {
+      if (players.length >= MAX_PLAYERS) { say(`That's the limit — ${MAX_PLAYERS} players.`, 'lose'); return; }
+      snapshot();
+      const p = newPlayer();
+      players.push(p);
+      render();
+      save();
+      const input = grid.querySelector(`[data-id="${p.id}"] .sb-name`);
+      if (input) { input.focus(); input.select(); }
+      say(`Added ${p.name}.`);
+    }
+
+    function resetScores() {
+      snapshot();
+      players.forEach(p => { p.score = 0; });
+      render();
+      save();
+      say('Scores reset to zero.');
+    }
+
+    function clearAll() {
+      snapshot();
+      players = [newPlayer(), newPlayer()];
+      render();
+      save();
+      say('Cleared. Fresh board.');
+    }
+
+    function leaders() {
+      if (!players.length) return [];
+      const top = Math.max(...players.map(p => p.score));
+      if (top === 0 && players.every(p => p.score === 0)) return [];
+      const tied = players.filter(p => p.score === top);
+      return tied.length === players.length ? [] : tied;
+    }
+
+    function render(bumpedId) {
+      const hadFocus = grid.contains(document.activeElement);
+      grid.textContent = '';
+      const lead = leaders();
+      const leadIds = new Set(lead.map(p => p.id));
+
+      for (const p of players) {
+        const card = document.createElement('div');
+        card.className = 'sb-player' + (leadIds.has(p.id) ? ' is-leader' : '');
+        card.dataset.id = p.id;
+
+        const head = document.createElement('div');
+        head.className = 'sb-head';
+
+        const crown = document.createElement('span');
+        crown.className = 'sb-crown';
+        crown.textContent = leadIds.has(p.id) ? '👑' : '';
+        crown.setAttribute('aria-hidden', 'true');
+
+        const name = document.createElement('input');
+        name.className = 'sb-name';
+        name.type = 'text';
+        name.value = p.name;
+        name.maxLength = 24;
+        name.setAttribute('aria-label', 'Player name');
+        name.addEventListener('change', () => {
+          p.name = name.value.trim() || p.name;
+          name.value = p.name;
+          save();
+          render();
+        });
+        name.addEventListener('keydown', e => { if (e.key === 'Enter') name.blur(); });
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'sb-remove';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', `Remove ${p.name}`);
+        remove.addEventListener('click', () => removePlayer(p.id));
+
+        head.append(crown, name, remove);
+
+        const score = document.createElement('button');
+        score.type = 'button';
+        score.className = 'sb-score';
+        score.setAttribute('aria-label', `${p.name}: ${p.score} points. Tap to add ${step()}.`);
+
+        const value = document.createElement('span');
+        value.className = 'sb-value' + (p.id === bumpedId ? ' bump' : '');
+        value.textContent = p.score;
+
+        const hint = document.createElement('span');
+        hint.className = 'sb-hint';
+        hint.textContent = 'tap to score';
+
+        score.append(value, hint);
+        score.addEventListener('click', () => bump(p.id, step()));
+        score.addEventListener('keydown', e => {
+          if (e.key === 'ArrowUp') { e.preventDefault(); bump(p.id, step()); }
+          else if (e.key === 'ArrowDown') { e.preventDefault(); bump(p.id, -step()); }
+        });
+
+        const foot = document.createElement('div');
+        foot.className = 'sb-foot';
+
+        const minus = document.createElement('button');
+        minus.type = 'button';
+        minus.className = 'sb-step minus';
+        minus.textContent = '−';
+        minus.setAttribute('aria-label', `Subtract ${step()} from ${p.name}`);
+        minus.addEventListener('click', () => bump(p.id, -step()));
+
+        const plus = document.createElement('button');
+        plus.type = 'button';
+        plus.className = 'sb-step plus';
+        plus.textContent = '+';
+        plus.setAttribute('aria-label', `Add ${step()} to ${p.name}`);
+        plus.addEventListener('click', () => bump(p.id, step()));
+
+        foot.append(minus, plus);
+        card.append(head, score, foot);
+        grid.append(card);
+      }
+
+      emptyEl.hidden = players.length > 0;
+      countEl.textContent = players.length;
+
+      if (!lead.length) {
+        leaderEl.textContent = players.length ? 'tied' : '—';
+        leaderPill.className = 'pill';
+      } else {
+        leaderEl.textContent = lead.map(p => p.name).join(', ');
+        leaderPill.className = 'pill win';
+      }
+
+      // Keep focus on the card that was just scored, so repeat taps keep working.
+      if (bumpedId != null && hadFocus) {
+        const el = grid.querySelector(`[data-id="${bumpedId}"] .sb-score`);
+        if (el) el.focus({ preventScroll: true });
+      }
+    }
+
+    document.getElementById('add').addEventListener('click', addPlayer);
+    document.getElementById('reset').addEventListener('click', resetScores);
+    document.getElementById('clear').addEventListener('click', clearAll);
+    undoBtn.addEventListener('click', undo);
+    stepSel.addEventListener('change', () => { save(); render(); });
+
+    load();
+    render();
+
+    // Exposed for the smoke test.
+    window.__scoreboard = {
+      get players() { return players; },
+      get history() { return history; }
+    };
+  })();
+</script>
+
+</body>
+</html>

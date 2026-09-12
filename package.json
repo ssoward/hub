@@ -1,7 +1,7 @@
 {
   "name": "hub",
   "version": "1.0.0",
-  "description": "Gospel study, tech presentations, interactive activities, and conference schedules — a static site hub",
+  "description": "Gospel study, tech presentations, interactive activities, and conference schedules \u2014 a static site hub",
   "main": "index.html",
   "scripts": {
     "start": "python3 -m http.server 8080",
@@ -9,7 +9,8 @@
     "deploy": "echo 'Ready for static deployment to Vercel/Netlify'",
     "ham:build": "python3 ham-radio/tools/build_pools.py",
     "ham:validate": "python3 ham-radio/tools/validate_pools.py",
-    "ham:test": "python3 ham-radio/tools/validate_pools.py && node ham-radio/tools/smoke-test.mjs"
+    "ham:test": "python3 ham-radio/tools/validate_pools.py && node ham-radio/tools/smoke-test.mjs",
+    "scoreboard:test": "node activities/scoreboard/smoke-test.mjs"
   },
   "keywords": [
     "alma31",
