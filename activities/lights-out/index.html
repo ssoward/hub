@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Lights Out — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .lo-board {
+      width: 100%; max-width: 420px;
+      grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr));
+    }
+    .lo-cell {
+      appearance: none;
+      aspect-ratio: 1 / 1;
+      width: 100%; min-width: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-md);
+      background: #1e293b;
+      cursor: pointer;
+      transition: background var(--t-fast), box-shadow var(--t-fast);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .lo-cell.on {
+      background: #fbbf24;
+      border-color: #f59e0b;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35), 0 0 12px rgba(251,191,36,0.45);
+    }
+    .lo-cell:hover { border-color: var(--accent); }
+    .lo-cell:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .lo-cell.hint { box-shadow: inset 0 0 0 3px var(--accent); }
+
+    .lo-solved .lo-cell { border-color: #34d399; }
+    @media (prefers-reduced-motion: reduce) { .lo-cell { transition: none; } }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · logic puzzle</p>
+    <h1 class="hero-title">Lights Out</h1>
+    <p class="hero-lede">Every press flips the light you pressed and its four neighbours. Turn the whole board off. Boards are dealt by scrambling a dark grid, so every one of them can be solved.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Moves: <strong id="moves">0</strong></span>
+        <span class="pill">Lit: <strong id="lit">0</strong></span>
+        <span class="pill">Best: <strong id="best">—</strong></span>
+        <label>Size <select id="size">
+          <option value="3">3×3</option>
+          <option value="5" selected>5×5</option>
+          <option value="7">7×7</option>
+        </select></label>
+        <label>Scramble <select id="scramble">
+          <option value="3">Easy</option>
+          <option value="6" selected>Medium</option>
+          <option value="12">Hard</option>
+        </select></label>
+      </div>
+
+      <div class="game-board lo-board" id="board" aria-label="Lights Out board"></div>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="new">New puzzle</button>
+        <button type="button" class="btn btn-ghost" id="undo" disabled>Undo</button>
+        <button type="button" class="btn btn-ghost" id="hint">Hint</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function() {
+    const BEST_KEY = 'lightsout.best';
+
+    const board = document.getElementById('board');
+    const movesEl = document.getElementById('moves');
+    const litEl = document.getElementById('lit');
+    const bestEl = document.getElementById('best');
+    const msg = document.getElementById('msg');
+    const sizeSel = document.getElementById('size');
+    const scrambleSel = document.getElementById('scramble');
+    const undoBtn = document.getElementById('undo');
+    const hintBtn = document.getElementById('hint');
+
+    let n = 5;
+    let state = [];      // 0/1 per cell
+    let solution = [];   // the scramble presses that made this board, as a fallback hint
+    let history = [];
+    let moves = 0;
+    let solved = false;
+    let cells = [];
+
+    const idx = (r, c) => r * n + c;
+
+    function bestKey() { return `${BEST_KEY}.${n}.${scrambleSel.value}`; }
+    function readBest() {
+      try { return parseInt(localStorage.getItem(bestKey()) || '', 10) || null; } catch { return null; }
+    }
+    function showBest() {
+      const b = readBest();
+      bestEl.textContent = b ? `${b} moves` : '—';
+    }
+    function saveBest(m) {
+      const b = readBest();
+      if (b && b <= m) { showBest(); return false; }
+      try { localStorage.setItem(bestKey(), String(m)); } catch { /* private mode */ }
+      showBest();
+      return true;
+    }
+
+    /** Flip a cell and its orthogonal neighbours, in place. */
+    function toggle(target, r, c) {
+      const at = [[r, c], [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]];
+      for (const [rr, cc] of at) {
+        if (rr < 0 || cc < 0 || rr >= n || cc >= n) continue;
+        target[idx(rr, cc)] ^= 1;
+      }
+    }
+
+    function litCount() { return state.reduce((a, v) => a + v, 0); }
+
+    function render() {
+      cells.forEach((cell, i) => {
+        const on = !!state[i];
+        cell.classList.toggle('on', on);
+        cell.setAttribute('aria-pressed', String(on));
+        cell.setAttribute('aria-label',
+          `Row ${Math.floor(i / n) + 1} column ${i % n + 1}: ${on ? 'on' : 'off'}`);
+      });
+      movesEl.textContent = moves;
+      litEl.textContent = litCount();
+      board.classList.toggle('lo-solved', solved);
+    }
+
+    function build() {
+      n = parseInt(sizeSel.value, 10);
+      board.style.setProperty('--cols', n);
+      board.textContent = '';
+      cells = [];
+      for (let i = 0; i < n * n; i++) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'lo-cell';
+        cell.addEventListener('click', () => press(i));
+        board.appendChild(cell);
+        cells.push(cell);
+      }
+    }
+
+    function deal() {
+      build();
+      const depth = parseInt(scrambleSel.value, 10);
+      // Scramble from a dark board: a board reachable by k presses is solvable
+      // in at most k, which is also why a random fill would not do.
+      do {
+        state = new Array(n * n).fill(0);
+        solution = [];
+        const picks = new Set();
+        while (picks.size < Math.min(depth, n * n)) picks.add(Math.floor(Math.random() * n * n));
+        for (const p of picks) {
+          toggle(state, Math.floor(p / n), p % n);
+          solution.push(p);
+        }
+      } while (litCount() === 0);   // never deal an already-solved board
+
+      moves = 0; solved = false; history = [];
+      undoBtn.disabled = true;
+      hintBtn.disabled = false;
+      msg.textContent = ''; msg.className = 'message-line';
+      showBest();
+      render();
+    }
+
+    function press(i) {
+      if (solved) return;
+      history.push({ state: state.slice(), moves, solution: solution.slice() });
+      if (history.length > 100) history.shift();
+      undoBtn.disabled = false;
+
+      toggle(state, Math.floor(i / n), i % n);
+      moves++;
+
+      // Pressing a cell twice is a no-op, so the remaining scramble presses are
+      // still a valid solution if we keep them in sync.
+      const at = solution.indexOf(i);
+      if (at >= 0) solution.splice(at, 1); else solution.push(i);
+
+      cells.forEach(c => c.classList.remove('hint'));
+
+      if (litCount() === 0) {
+        solved = true;
+        hintBtn.disabled = true;
+        const record = saveBest(moves);
+        msg.textContent = record
+          ? `All out in ${moves} moves — a new best!`
+          : `All out in ${moves} moves.`;
+        msg.className = 'message-line win';
+      }
+      render();
+    }
+
+    function undo() {
+      const prev = history.pop();
+      if (!prev) return;
+      state = prev.state; moves = prev.moves; solution = prev.solution;
+      solved = false;
+      hintBtn.disabled = false;
+      msg.textContent = ''; msg.className = 'message-line';
+      undoBtn.disabled = history.length === 0;
+      cells.forEach(c => c.classList.remove('hint'));
+      render();
+    }
+
+    function hint() {
+      if (solved || !solution.length) return;
+      cells.forEach(c => c.classList.remove('hint'));
+      const i = solution[0];
+      cells[i].classList.add('hint');
+      msg.textContent = `Try row ${Math.floor(i / n) + 1}, column ${i % n + 1}.`;
+      msg.className = 'message-line';
+    }
+
+    document.getElementById('new').addEventListener('click', deal);
+    undoBtn.addEventListener('click', undo);
+    hintBtn.addEventListener('click', hint);
+    sizeSel.addEventListener('change', deal);
+    scrambleSel.addEventListener('change', deal);
+
+    deal();
+
+    // Exposed for the smoke test.
+    window.__lights = {
+      press,
+      get state() { return state.slice(); },
+      get info() { return { n, moves, solved, lit: litCount(), remaining: solution.slice() }; },
+      set: s => { state = s.slice(); solved = false; moves = 0; history = []; render(); }
+    };
+  })();
+</script>
+
+</body>
+</html>

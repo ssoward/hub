@@ -9,18 +9,33 @@
   <link rel="stylesheet" href="../../css/site.css">
   <link rel="stylesheet" href="../../css/games.css">
   <style>
-    .mm-grid { grid-template-columns: repeat(4, minmax(60px, 90px)); }
-    @media (min-width: 540px) { .mm-grid { grid-template-columns: repeat(6, minmax(60px, 90px)); } }
-    .mm-card { font-size: 1.8rem; perspective: 600px; padding: 0; background: transparent; border: 0; aspect-ratio: 1/1; cursor: pointer; }
+    /* The board is fluid: columns share the available width instead of being
+       pinned to a 60px minimum, which used to push a 6-wide board off-screen
+       on a phone. */
+    .mm-board { width: 100%; max-width: 520px; }
+    .mm-grid { grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr)); }
+    .mm-card {
+      perspective: 600px; padding: 0; background: transparent; border: 0;
+      width: 100%; min-width: 0; aspect-ratio: 1 / 1; cursor: pointer;
+      border-radius: var(--r-md);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mm-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .mm-card[disabled] { cursor: default; }
     .mm-card .face { position: relative; width: 100%; height: 100%; transition: transform 0.35s; transform-style: preserve-3d; }
     .mm-card.flipped .face, .mm-card.matched .face { transform: rotateY(180deg); }
     .mm-card .front, .mm-card .back {
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
       border: 1px solid var(--border); border-radius: var(--r-md); backface-visibility: hidden;
+      font-size: clamp(1rem, 6.5vw, 1.9rem); line-height: 1;
     }
-    .mm-card .front { background: var(--accent); color: #fff; font-size: 1.6rem; }
+    .mm-card .front { background: var(--accent); color: #fff; }
     .mm-card .back  { background: var(--bg); transform: rotateY(180deg); }
     .mm-card.matched .back { background: #ecfdf5; border-color: #34d399; }
+    @media (min-width: 560px) {
+      .mm-card .front, .mm-card .back { font-size: 1.8rem; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .mm-card .face { transition: none; }
     }
@@ -57,9 +72,13 @@
       <div class="game-status">
         <span class="pill">Moves: <strong id="moves">0</strong></span>
         <span class="pill">Pairs: <strong id="pairs">0</strong>/<span id="total">12</span></span>
-        <label>Size <select id="size"><option value="4">4×4</option><option value="6" selected>4×6</option></select></label>
+        <span class="pill">Best: <strong id="best">—</strong></span>
+        <label>Size <select id="size">
+          <option value="4">4×4</option>
+          <option value="6" selected>4×6</option>
+        </select></label>
       </div>
-      <div class="game-board mm-grid" id="board" role="grid" aria-label="Memory cards"></div>
+      <div class="game-board mm-grid mm-board" id="board" aria-label="Memory cards"></div>
       <p class="message-line" id="msg" aria-live="polite"></p>
       <div class="game-controls">
         <button type="button" class="btn btn-primary" id="reset">New game</button>
@@ -85,50 +104,128 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   const ICONS = ['🐶','🐱','🦊','🐼','🦁','🐯','🐸','🐵','🦄','🐝','🐙','🦋','🐢','🐬','🦉','🐧','🦒','🐞','🐷','🐠'];
+  const NAMES = {
+    '🐶':'dog','🐱':'cat','🦊':'fox','🐼':'panda','🦁':'lion','🐯':'tiger','🐸':'frog',
+    '🐵':'monkey','🦄':'unicorn','🐝':'bee','🐙':'octopus','🦋':'butterfly','🐢':'turtle',
+    '🐬':'dolphin','🦉':'owl','🐧':'penguin','🦒':'giraffe','🐞':'ladybug','🐷':'pig','🐠':'fish'
+  };
+  const BEST_KEY = 'memorymatch.best';
+
   const board = document.getElementById('board');
   const movesEl = document.getElementById('moves'), pairsEl = document.getElementById('pairs'), totalEl = document.getElementById('total');
+  const bestEl = document.getElementById('best');
   const msg = document.getElementById('msg');
   const sizeSel = document.getElementById('size');
-  let cards, first, lock, moves, pairs, total;
+
+  let cards, first, lock, moves, pairs, total, unflipTimer = null;
+
+  function bestKey() { return `${BEST_KEY}.${sizeSel.value}`; }
+  function readBest() {
+    try { return parseInt(localStorage.getItem(bestKey()) || '', 10) || null; } catch { return null; }
+  }
+  function showBest() {
+    const b = readBest();
+    bestEl.textContent = b ? `${b} moves` : '—';
+  }
+  function saveBest(n) {
+    const b = readBest();
+    if (b && b <= n) { showBest(); return false; }
+    try { localStorage.setItem(bestKey(), String(n)); } catch { /* private mode */ }
+    showBest();
+    return true;
+  }
+
+  function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function label(card, i) {
+    const name = NAMES[card.dataset.icon] || card.dataset.icon;
+    if (card.classList.contains('matched')) return `Card ${i + 1}: ${name}, matched`;
+    if (card.classList.contains('flipped')) return `Card ${i + 1}: ${name}`;
+    return `Card ${i + 1}, face down`;
+  }
+  function relabel() {
+    cards.forEach((c, i) => c.setAttribute('aria-label', label(c, i)));
+  }
 
   function start() {
+    // A pending unflip from the previous board must not fire into the new one —
+    // it used to clear `first`, stranding a flipped card that could never match.
+    clearTimeout(unflipTimer);
+    unflipTimer = null;
+
     const cols = parseInt(sizeSel.value, 10);
     const n = 4 * cols / 2;
     const set = ICONS.slice(0, n);
-    const deck = [...set, ...set].sort(() => Math.random() - 0.5);
+    const deck = shuffle([...set, ...set]);
     total = n; first = null; lock = false; moves = 0; pairs = 0;
-    movesEl.textContent = 0; pairsEl.textContent = 0; totalEl.textContent = total; msg.textContent = ''; msg.className = 'message-line';
-    board.style.gridTemplateColumns = `repeat(${cols}, minmax(60px, 90px))`;
-    board.innerHTML = ''; cards = [];
-    deck.forEach((icon, i) => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.className = 'mm-card';
-      b.setAttribute('aria-label', `Card ${i+1}`);
-      b.innerHTML = `<span class="face"><span class="front">?</span><span class="back">${icon}</span></span>`;
-      b.dataset.icon = icon;
-      b.addEventListener('click', () => flip(b));
-      board.appendChild(b); cards.push(b);
+    movesEl.textContent = 0; pairsEl.textContent = 0; totalEl.textContent = total;
+    msg.textContent = ''; msg.className = 'message-line';
+    showBest();
+    board.style.setProperty('--cols', cols);
+    board.textContent = ''; cards = [];
+    deck.forEach(icon => {
+      const card = document.createElement('button');
+      card.type = 'button'; card.className = 'mm-card';
+      const face = document.createElement('span'); face.className = 'face';
+      const front = document.createElement('span'); front.className = 'front';
+      front.textContent = '?'; front.setAttribute('aria-hidden', 'true');
+      const back = document.createElement('span'); back.className = 'back';
+      back.textContent = icon; back.setAttribute('aria-hidden', 'true');
+      face.append(front, back);
+      card.append(face);
+      card.dataset.icon = icon;
+      card.addEventListener('click', () => flip(card));
+      board.appendChild(card); cards.push(card);
     });
+    relabel();
   }
 
-  function flip(b) {
-    if (lock || b.classList.contains('flipped') || b.classList.contains('matched')) return;
-    b.classList.add('flipped');
-    if (!first) { first = b; return; }
+  function flip(card) {
+    if (lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    card.classList.add('flipped');
+    relabel();
+    if (!first) { first = card; return; }
+
     moves++; movesEl.textContent = moves;
-    if (first.dataset.icon === b.dataset.icon) {
-      first.classList.add('matched'); b.classList.add('matched');
+    if (first.dataset.icon === card.dataset.icon) {
+      first.classList.remove('flipped'); card.classList.remove('flipped');
+      first.classList.add('matched'); card.classList.add('matched');
+      first.disabled = true; card.disabled = true;
       pairs++; pairsEl.textContent = pairs; first = null;
-      if (pairs === total) { msg.textContent = `Done in ${moves} moves!`; msg.classList.add('win'); }
+      relabel();
+      if (pairs === total) {
+        const record = saveBest(moves);
+        msg.textContent = record ? `Done in ${moves} moves — a new best!` : `Done in ${moves} moves!`;
+        msg.classList.add('win');
+      }
     } else {
       lock = true;
-      const a = first, c = b;
-      setTimeout(() => { a.classList.remove('flipped'); c.classList.remove('flipped'); first = null; lock = false; }, 700);
+      const a = first, c = card;
+      first = null;
+      unflipTimer = setTimeout(() => {
+        unflipTimer = null;
+        a.classList.remove('flipped'); c.classList.remove('flipped');
+        lock = false;
+        relabel();
+      }, 700);
     }
   }
+
   document.getElementById('reset').addEventListener('click', start);
   sizeSel.addEventListener('change', start);
   start();
+
+  // Exposed for the smoke test.
+  window.__memory = {
+    get cards() { return cards; },
+    get state() { return { moves, pairs, total, lock }; }
+  };
 </script>
 
 </body>

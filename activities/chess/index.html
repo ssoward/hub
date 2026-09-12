@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Chess — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .ch-layout {
+      display: grid;
+      gap: var(--sp-6);
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+      align-items: start;
+    }
+    @media (min-width: 860px) {
+      .ch-layout { grid-template-columns: minmax(0, 1fr) 260px; }
+    }
+
+    .ch-board {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      width: 100%;
+      max-width: 560px;
+      margin-inline: auto;
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-2);
+      touch-action: manipulation;
+      user-select: none;
+    }
+    .ch-sq {
+      appearance: none;
+      position: relative;
+      border: 0; padding: 0; min-width: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(1.2rem, 8vw, 2.6rem);
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      color: #111827;
+    }
+    .ch-sq.light { background: #f1f5f9; }
+    .ch-sq.dark  { background: #94a3b8; }
+    .ch-sq .piece { pointer-events: none; }
+    .ch-sq .piece.b { color: #0f172a; text-shadow: 0 0 1px #fff; }
+    .ch-sq .piece.w { color: #ffffff; text-shadow: 0 0 2px #0f172a, 0 1px 1px #0f172a; }
+    .ch-sq:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; z-index: 1; }
+    .ch-sq.sel { background: #fcd34d; }
+    .ch-sq.last { box-shadow: inset 0 0 0 3px rgba(29, 78, 216, 0.45); }
+    .ch-sq.check { background: #fca5a5; }
+    .ch-sq[disabled] { cursor: default; }
+
+    /* A dot for a quiet move, a ring for a capture. */
+    .ch-sq.move::after {
+      content: ''; position: absolute;
+      width: 28%; height: 28%; border-radius: 50%;
+      background: rgba(15, 23, 42, 0.32);
+    }
+    .ch-sq.move.cap::after {
+      width: 82%; height: 82%;
+      background: transparent;
+      border: 4px solid rgba(185, 28, 28, 0.55);
+    }
+
+    .ch-coord {
+      position: absolute; font-size: 9px; font-weight: 700;
+      color: rgba(15, 23, 42, 0.5); pointer-events: none;
+    }
+    .ch-coord.file { right: 3px; bottom: 2px; }
+    .ch-coord.rank { left: 3px; top: 2px; }
+
+    .ch-side { display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+    .ch-moves {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: var(--sp-3);
+      max-height: 320px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      line-height: 1.7;
+    }
+    .ch-moves ol { margin: 0; padding-left: 1.9em; }
+    .ch-moves li::marker { color: var(--muted); }
+    .ch-moves .ply { display: inline-block; min-width: 4.2em; }
+    .ch-moves .empty { color: var(--muted); font-family: var(--font-sans); }
+
+    .ch-taken { font-size: var(--fs-lg); line-height: 1.4; min-height: 1.6em; word-break: break-all; }
+    .ch-taken .label { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; }
+
+    .ch-promo {
+      display: flex; gap: var(--sp-2); justify-content: center; flex-wrap: wrap;
+      padding: var(--sp-3);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-md);
+    }
+    .ch-promo button {
+      appearance: none; min-width: 56px; min-height: 56px;
+      font-size: 2rem; line-height: 1;
+      background: var(--bg); border: 1px solid var(--border-strong);
+      border-radius: var(--r-md); cursor: pointer;
+    }
+    .ch-promo button:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+    @media (max-width: 520px) {
+      .ch-coord { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · board game</p>
+    <h1 class="hero-title">Chess</h1>
+    <p class="hero-lede">Full rules — castling, en passant, promotion, check, checkmate, stalemate and the draws — against the computer or a friend beside you. Tap a piece to see where it can go, then tap the square.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill" id="turn-pill">Turn: <strong id="turn">White</strong></span>
+        <span class="pill" id="state-pill">—</span>
+        <label>Opponent <select id="mode">
+          <option value="cpu-b" selected>Computer plays Black</option>
+          <option value="cpu-w">Computer plays White</option>
+          <option value="human">Two players</option>
+        </select></label>
+        <label>Level <select id="level">
+          <option value="1">Casual</option>
+          <option value="2" selected>Club</option>
+          <option value="3">Strong</option>
+        </select></label>
+      </div>
+
+      <div class="ch-layout">
+        <div>
+          <div class="ch-board" id="board" aria-label="Chess board"></div>
+        </div>
+
+        <aside class="ch-side">
+          <div class="ch-taken">
+            <span class="label">Captured by White</span>
+            <span id="taken-w">—</span>
+          </div>
+          <div class="ch-taken">
+            <span class="label">Captured by Black</span>
+            <span id="taken-b">—</span>
+          </div>
+          <div class="ch-moves" id="moves"><p class="empty">No moves yet.</p></div>
+        </aside>
+      </div>
+
+      <div class="ch-promo" id="promo" hidden aria-label="Choose a promotion piece"></div>
+
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="new">New game</button>
+        <button type="button" class="btn btn-ghost" id="undo" disabled>Undo</button>
+        <button type="button" class="btn btn-ghost" id="flip">Flip board</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script src="chess.js"></script>
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function() {
+    const C = window.Chess;
+    const GLYPH = {
+      K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟',
+      k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟'
+    };
+    const NAMES = { K: 'king', Q: 'queen', R: 'rook', B: 'bishop', N: 'knight', P: 'pawn' };
+
+    const boardEl = document.getElementById('board');
+    const turnEl = document.getElementById('turn');
+    const statePill = document.getElementById('state-pill');
+    const movesEl = document.getElementById('moves');
+    const msg = document.getElementById('msg');
+    const modeSel = document.getElementById('mode');
+    const levelSel = document.getElementById('level');
+    const undoBtn = document.getElementById('undo');
+    const promoEl = document.getElementById('promo');
+    const takenWEl = document.getElementById('taken-w');
+    const takenBEl = document.getElementById('taken-b');
+
+    let pos, history, sanList, taken, selected, flipped, thinking, finished, lastMove, pendingPromo;
+    let squares = [];
+
+    const cpuColor = () => (modeSel.value === 'cpu-b' ? 'b' : modeSel.value === 'cpu-w' ? 'w' : null);
+    const humanCanMove = () => !finished && !thinking && !pendingPromo && pos.turn !== cpuColor();
+
+    function buildBoard() {
+      boardEl.textContent = '';
+      squares = [];
+      for (let i = 0; i < 64; i++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ch-sq';
+        btn.addEventListener('click', () => onSquare(Number(btn.dataset.index)));
+        boardEl.appendChild(btn);
+        squares.push(btn);
+      }
+    }
+
+    /** Visual slot -> board index, honouring the flip. */
+    const slotToIndex = slot => (flipped ? 63 - slot : slot);
+
+    function render() {
+      const legal = finished ? [] : C.legalMoves(pos);
+      const targets = new Map();
+      if (selected != null) {
+        legal.filter(m => m.from === selected).forEach(m => targets.set(m.to, m));
+      }
+      const checkSquare = C.inCheck(pos, pos.turn) ? pos.board.indexOf(pos.turn === 'w' ? 'K' : 'k') : -1;
+
+      squares.forEach((btn, slot) => {
+        const i = slotToIndex(slot);
+        const piece = pos.board[i];
+        const r = C.rowOf(i), c = C.colOf(i);
+        btn.dataset.index = i;
+        btn.dataset.square = C.nameOf(i);
+        btn.className = 'ch-sq ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+        if (i === selected) btn.classList.add('sel');
+        if (targets.has(i)) {
+          btn.classList.add('move');
+          const m = targets.get(i);
+          if (pos.board[i] !== '.' || m.ep) btn.classList.add('cap');
+        }
+        if (lastMove && (i === lastMove.from || i === lastMove.to)) btn.classList.add('last');
+        if (i === checkSquare) btn.classList.add('check');
+
+        btn.textContent = '';
+        if (piece !== '.') {
+          const span = document.createElement('span');
+          span.className = 'piece ' + (C.colorOf(piece) === 'w' ? 'w' : 'b');
+          span.textContent = GLYPH[piece];
+          btn.appendChild(span);
+        }
+
+        // Coordinates along the outer edge, as on a printed diagram.
+        const showFile = flipped ? r === 0 : r === 7;
+        const showRank = flipped ? c === 7 : c === 0;
+        if (showFile) {
+          const s = document.createElement('span');
+          s.className = 'ch-coord file'; s.textContent = C.FILES[c]; s.setAttribute('aria-hidden', 'true');
+          btn.appendChild(s);
+        }
+        if (showRank) {
+          const s = document.createElement('span');
+          s.className = 'ch-coord rank'; s.textContent = String(8 - r); s.setAttribute('aria-hidden', 'true');
+          btn.appendChild(s);
+        }
+
+        const who = piece === '.' ? 'empty' :
+          `${C.colorOf(piece) === 'w' ? 'white' : 'black'} ${NAMES[piece.toUpperCase()]}`;
+        btn.setAttribute('aria-label', `${C.nameOf(i)}, ${who}`);
+        btn.disabled = finished && piece === '.';
+      });
+
+      turnEl.textContent = pos.turn === 'w' ? 'White' : 'Black';
+      renderMoves();
+      renderTaken();
+      undoBtn.disabled = history.length === 0 || thinking;
+    }
+
+    function renderMoves() {
+      if (!sanList.length) {
+        movesEl.innerHTML = '<p class="empty">No moves yet.</p>';
+        return;
+      }
+      const ol = document.createElement('ol');
+      for (let i = 0; i < sanList.length; i += 2) {
+        const li = document.createElement('li');
+        const w = document.createElement('span');
+        w.className = 'ply'; w.textContent = sanList[i];
+        li.appendChild(w);
+        if (sanList[i + 1]) {
+          const b = document.createElement('span');
+          b.className = 'ply'; b.textContent = sanList[i + 1];
+          li.appendChild(b);
+        }
+        ol.appendChild(li);
+      }
+      movesEl.textContent = '';
+      movesEl.appendChild(ol);
+      movesEl.scrollTop = movesEl.scrollHeight;
+    }
+
+    function renderTaken() {
+      takenWEl.textContent = taken.w.map(p => GLYPH[p]).join('') || '—';
+      takenBEl.textContent = taken.b.map(p => GLYPH[p]).join('') || '—';
+    }
+
+    function describe() {
+      const st = C.status(pos);
+      const mover = pos.turn === 'w' ? 'White' : 'Black';
+      const winner = pos.turn === 'w' ? 'Black' : 'White';
+      if (st === 'checkmate') {
+        finished = true;
+        statePill.textContent = 'Checkmate';
+        statePill.className = 'pill win';
+        msg.textContent = `Checkmate — ${winner} wins.`;
+        msg.className = 'message-line win';
+      } else if (st === 'stalemate') {
+        finished = true;
+        statePill.textContent = 'Stalemate';
+        statePill.className = 'pill draw';
+        msg.textContent = 'Stalemate — a draw.';
+        msg.className = 'message-line draw';
+      } else if (st === 'fifty') {
+        finished = true;
+        statePill.textContent = 'Draw';
+        statePill.className = 'pill draw';
+        msg.textContent = 'Draw by the fifty-move rule.';
+        msg.className = 'message-line draw';
+      } else if (st === 'material') {
+        finished = true;
+        statePill.textContent = 'Draw';
+        statePill.className = 'pill draw';
+        msg.textContent = 'Draw — neither side has enough material to mate.';
+        msg.className = 'message-line draw';
+      } else if (st === 'check') {
+        statePill.textContent = `${mover} is in check`;
+        statePill.className = 'pill lose';
+        msg.textContent = '';
+        msg.className = 'message-line';
+      } else {
+        statePill.textContent = '—';
+        statePill.className = 'pill';
+        if (!thinking) { msg.textContent = ''; msg.className = 'message-line'; }
+      }
+    }
+
+    function applyMove(move) {
+      const notation = C.san(pos, move);
+      history.push({ pos: C.clone(pos), taken: { w: taken.w.slice(), b: taken.b.slice() }, lastMove });
+      const next = C.makeMove(pos, move);
+      if (next.captured) {
+        (pos.turn === 'w' ? taken.w : taken.b).push(next.captured);
+      }
+      pos = next;
+      sanList.push(notation);
+      lastMove = move;
+      selected = null;
+      describe();
+      render();
+      maybeThink();
+    }
+
+    function onSquare(i) {
+      if (!humanCanMove()) return;
+      const legal = C.legalMoves(pos);
+      const piece = pos.board[i];
+
+      if (selected != null) {
+        const candidates = legal.filter(m => m.from === selected && m.to === i);
+        if (candidates.length === 1) { applyMove(candidates[0]); return; }
+        if (candidates.length > 1) { askPromotion(candidates); return; }
+      }
+
+      if (piece !== '.' && C.colorOf(piece) === pos.turn) {
+        selected = selected === i ? null : i;
+      } else {
+        selected = null;
+      }
+      render();
+    }
+
+    function askPromotion(candidates) {
+      pendingPromo = candidates;
+      promoEl.textContent = '';
+      promoEl.hidden = false;
+      candidates.forEach(m => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = GLYPH[m.promo];
+        const name = NAMES[m.promo.toUpperCase()];
+        btn.setAttribute('aria-label', `Promote to ${name}`);
+        btn.addEventListener('click', () => {
+          promoEl.hidden = true;
+          pendingPromo = null;
+          applyMove(m);
+        });
+        promoEl.appendChild(btn);
+      });
+      msg.textContent = 'Choose a piece to promote to.';
+      msg.className = 'message-line';
+      promoEl.querySelector('button').focus();
+    }
+
+    function maybeThink() {
+      if (finished || pos.turn !== cpuColor()) return;
+      thinking = true;
+      msg.textContent = 'Thinking…';
+      msg.className = 'message-line';
+      undoBtn.disabled = true;
+      // Yield first so the player's move paints before the search blocks.
+      setTimeout(() => {
+        const move = C.search(pos, Number(levelSel.value));
+        thinking = false;
+        if (!move) { describe(); render(); return; }
+        applyMove(move);
+      }, 30);
+    }
+
+    function start() {
+      pos = C.parseFen(C.START_FEN);
+      history = []; sanList = []; taken = { w: [], b: [] };
+      selected = null; thinking = false; finished = false;
+      lastMove = null; pendingPromo = null;
+      promoEl.hidden = true;
+      msg.textContent = ''; msg.className = 'message-line';
+      describe();
+      render();
+      maybeThink();
+    }
+
+    function undo() {
+      if (thinking || !history.length) return;
+      // Step back past the computer's reply as well, so it is your turn again.
+      const steps = (cpuColor() && history.length > 1) ? 2 : 1;
+      for (let i = 0; i < steps; i++) {
+        const prev = history.pop();
+        if (!prev) break;
+        pos = prev.pos; taken = prev.taken; lastMove = prev.lastMove;
+        sanList.pop();
+      }
+      finished = false;
+      selected = null;
+      promoEl.hidden = true;
+      pendingPromo = null;
+      describe();
+      render();
+    }
+
+    document.getElementById('new').addEventListener('click', start);
+    undoBtn.addEventListener('click', undo);
+    document.getElementById('flip').addEventListener('click', () => { flipped = !flipped; render(); });
+    modeSel.addEventListener('change', start);
+    levelSel.addEventListener('change', () => { if (!finished) maybeThink(); });
+
+    flipped = false;
+    buildBoard();
+    start();
+
+    // Exposed for the smoke test.
+    window.__chess = {
+      get fen() { return C.toFen(pos); },
+      get san() { return sanList.slice(); },
+      get info() { return { turn: pos.turn, finished, thinking, selected, status: C.status(pos) }; },
+      click: name => onSquare(C.indexOf(name)),
+      /** Drop straight into a position, with the computer paused. */
+      setFen: fen => {
+        pos = C.parseFen(fen);
+        history = []; sanList = []; taken = { w: [], b: [] };
+        selected = null; thinking = false; finished = false; lastMove = null;
+        pendingPromo = null; promoEl.hidden = true;
+        describe(); render();
+      }
+    };
+  })();
+</script>
+
+</body>
+</html>

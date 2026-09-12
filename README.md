@@ -31,6 +31,16 @@ npm run ham:build      # refetch and rebuild the pools from ncvec.org
 npm run ham:test       # validate the data, then drive the page in headless Chrome
 ```
 
+Several activities carry their own smoke test, driven through headless Chrome by
+the shared harness in `tools/browser-harness.mjs` — no npm dependencies. Chess is
+checked against the published perft node counts, which is what proves castling,
+en passant, promotion and pinned-piece legality are all right.
+
+```bash
+npm test               # every activity smoke test in turn
+npm run test:chess     # or just one
+```
+
 ### Gospel Presentations
 Stake and ward-level teaching resources built with Reveal.js:
 - Light, Truth, and Grace (Richard D. Draper, BYU 2009 — light as capacity, truth as the glorifying principle, grace as unconditional)
@@ -53,10 +63,12 @@ Interactive presentations on technology and AI:
 - The Evolution of AI (7-era interactive gallery)
 
 ### Activities
-Logic puzzles, arcade games, and interactive learning tools — 18 in all, including:
+Logic puzzles, arcade games, and interactive learning tools — 22 in all, including:
 - The Alien Hat Riddle (step-by-step simulation)
 - Sudoku, Minesweeper, Connect Four, Dots and Boxes, Slide Puzzle, Code Breaker
 - Snake, Pong, Whack-a-Mole, Blackjack, Memory Match, Hangman, Word Guess, Quick Math, Tic-Tac-Toe, Rock Paper Scissors
+- Chess — full rules with a computer opponent at three strengths, or two players
+- 2048, Simon, Lights Out, Memory Match
 - Scoreboard — a tap-to-score board for any game away from the screen
 
 ### Scripture

@@ -36,6 +36,21 @@
 .game-status .pill.lose { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
 .game-status .pill.draw { background: var(--surface-2); color: var(--ink-soft); }
 
+/* Difficulty / size pickers sit in the status bar on most game pages. Left to
+   the UA they render ~19px tall, well under a usable tap target on a phone. */
+.game-status label { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.game-status select {
+  font: inherit;
+  font-size: var(--fs-sm);
+  min-height: 40px;
+  padding: 6px var(--sp-2);
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+}
+.game-status select:focus-visible { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 1px; }
+
 .game-board {
   display: grid;
   gap: var(--sp-2);

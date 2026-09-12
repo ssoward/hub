@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Simon — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .sm-board {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      width: min(100%, 360px);
+      aspect-ratio: 1 / 1;
+      padding: var(--sp-4);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      box-shadow: var(--shadow-2);
+    }
+    .sm-pad {
+      appearance: none;
+      border: 2px solid rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      min-width: 0;
+      opacity: 0.55;
+      transition: opacity var(--t-fast), transform var(--t-fast);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sm-pad[data-pad="green"]  { background: #16a34a; border-top-left-radius: 100%; }
+    .sm-pad[data-pad="red"]    { background: #dc2626; border-top-right-radius: 100%; }
+    .sm-pad[data-pad="yellow"] { background: #eab308; border-bottom-left-radius: 100%; }
+    .sm-pad[data-pad="blue"]   { background: #2563eb; border-bottom-right-radius: 100%; }
+    .sm-pad.lit { opacity: 1; transform: scale(1.02); }
+    .sm-pad:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; opacity: 0.8; }
+    .sm-board.idle .sm-pad { cursor: default; }
+
+    .sm-legend { font-size: var(--fs-xs); color: var(--muted); text-align: center; }
+    @media (prefers-reduced-motion: reduce) {
+      .sm-pad { transition: none; }
+      .sm-pad.lit { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · memory</p>
+    <h1 class="hero-title">Simon</h1>
+    <p class="hero-lede">Watch the sequence, then play it back. One more colour every round, and it gets quicker as you go. Keys <span class="kbd">1</span>–<span class="kbd">4</span> work as well as taps.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Round: <strong id="round">0</strong></span>
+        <span class="pill">Best: <strong id="best">0</strong></span>
+        <label>Mode <select id="mode">
+          <option value="normal" selected>Normal</option>
+          <option value="strict">Strict (one mistake ends it)</option>
+        </select></label>
+        <label><input type="checkbox" id="sound" checked> Sound</label>
+      </div>
+
+      <div class="sm-board idle" id="board" aria-label="Simon pads">
+        <button type="button" class="sm-pad" data-pad="green"  aria-label="Green pad, key 1"></button>
+        <button type="button" class="sm-pad" data-pad="red"    aria-label="Red pad, key 2"></button>
+        <button type="button" class="sm-pad" data-pad="yellow" aria-label="Yellow pad, key 3"></button>
+        <button type="button" class="sm-pad" data-pad="blue"   aria-label="Blue pad, key 4"></button>
+      </div>
+
+      <p class="message-line" id="msg" aria-live="polite">Press Start to begin.</p>
+      <p class="sm-legend">1 green · 2 red · 3 yellow · 4 blue</p>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="start">Start</button>
+        <button type="button" class="btn btn-ghost" id="replay" disabled>Replay sequence</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function() {
+    const PADS = ['green', 'red', 'yellow', 'blue'];
+    const TONE = { green: 330, red: 440, yellow: 550, blue: 660 };
+    const BEST_KEY = 'simon.best';
+
+    const board = document.getElementById('board');
+    const roundEl = document.getElementById('round');
+    const bestEl = document.getElementById('best');
+    const msg = document.getElementById('msg');
+    const modeSel = document.getElementById('mode');
+    const soundBox = document.getElementById('sound');
+    const startBtn = document.getElementById('start');
+    const replayBtn = document.getElementById('replay');
+
+    const pads = {};
+    PADS.forEach(p => { pads[p] = board.querySelector(`[data-pad="${p}"]`); });
+
+    let sequence = [];
+    let at = 0;              // how far the player is through this round
+    let accepting = false;   // is it the player's turn
+    let running = false;
+    let timers = [];
+
+    let audio = null;
+    function tone(pad, ms) {
+      if (!soundBox.checked) return;
+      try {
+        audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = TONE[pad];
+        gain.gain.value = 0.0001;
+        osc.connect(gain); gain.connect(audio.destination);
+        const now = audio.currentTime;
+        gain.gain.exponentialRampToValueAtTime(0.15, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + ms / 1000);
+        osc.start(now); osc.stop(now + ms / 1000 + 0.02);
+      } catch { /* no audio available — the game is playable without it */ }
+    }
+
+    function darken() { PADS.forEach(p => pads[p].classList.remove('lit')); }
+    // Dropping the pending timers would otherwise strand a pad mid-flash,
+    // leaving it lit for the rest of the session.
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; darken(); }
+    function later(fn, ms) { const id = setTimeout(fn, ms); timers.push(id); return id; }
+
+    function readBest() {
+      try { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch { return 0; }
+    }
+    function saveBest(n) {
+      if (n <= readBest()) return false;
+      try { localStorage.setItem(BEST_KEY, String(n)); } catch { /* private mode */ }
+      bestEl.textContent = n;
+      return true;
+    }
+
+    function light(pad, ms) {
+      pads[pad].classList.add('lit');
+      tone(pad, ms);
+      later(() => pads[pad].classList.remove('lit'), ms);
+    }
+
+    /** The sequence speeds up as it grows, with a floor so it stays playable. */
+    function pace() {
+      const n = sequence.length;
+      return Math.max(260, 620 - n * 28);
+    }
+
+    function playSequence() {
+      accepting = false;
+      board.classList.add('idle');
+      replayBtn.disabled = true;
+      msg.textContent = 'Watch…';
+      msg.className = 'message-line';
+      const step = pace();
+      sequence.forEach((pad, i) => {
+        later(() => light(pad, step * 0.6), i * step);
+      });
+      later(() => {
+        at = 0;
+        accepting = true;
+        board.classList.remove('idle');
+        replayBtn.disabled = false;
+        msg.textContent = 'Your turn.';
+      }, sequence.length * step + 120);
+    }
+
+    function nextRound() {
+      sequence.push(PADS[Math.floor(Math.random() * 4)]);
+      roundEl.textContent = sequence.length;
+      later(playSequence, 500);
+    }
+
+    function start() {
+      clearTimers();
+      sequence = []; at = 0; running = true; accepting = false;
+      roundEl.textContent = 0;
+      startBtn.textContent = 'Restart';
+      msg.textContent = 'Watch…';
+      msg.className = 'message-line';
+      nextRound();
+    }
+
+    function fail() {
+      accepting = false;
+      running = false;
+      board.classList.add('idle');
+      replayBtn.disabled = true;
+      const reached = sequence.length - 1;
+      const record = saveBest(reached);
+      msg.textContent = record
+        ? `Wrong — but ${reached} rounds is a new best.`
+        : `Wrong. You reached round ${reached}.`;
+      msg.className = 'message-line ' + (record ? 'win' : 'lose');
+      startBtn.textContent = 'Start';
+    }
+
+    function press(pad) {
+      if (!accepting) return;
+      light(pad, 180);
+
+      if (pad !== sequence[at]) {
+        if (modeSel.value === 'strict') { fail(); return; }
+        // Normal mode: replay the same sequence and let them try again.
+        accepting = false;
+        board.classList.add('idle');
+        msg.textContent = 'Not that one — watch again.';
+        msg.className = 'message-line lose';
+        later(playSequence, 900);
+        return;
+      }
+
+      at++;
+      if (at < sequence.length) return;
+
+      accepting = false;
+      board.classList.add('idle');
+      saveBest(sequence.length);
+      msg.textContent = `Round ${sequence.length} cleared.`;
+      msg.className = 'message-line win';
+      later(nextRound, 700);
+    }
+
+    PADS.forEach(p => pads[p].addEventListener('click', () => press(p)));
+
+    document.addEventListener('keydown', e => {
+      if (e.target.matches('input, select, textarea')) return;
+      const i = ['1', '2', '3', '4'].indexOf(e.key);
+      if (i < 0) return;
+      e.preventDefault();
+      press(PADS[i]);
+    });
+
+    startBtn.addEventListener('click', start);
+    replayBtn.addEventListener('click', () => { if (running) playSequence(); });
+    modeSel.addEventListener('change', () => {
+      if (!running) msg.textContent = 'Press Start to begin.';
+    });
+
+    bestEl.textContent = readBest();
+
+    // Exposed for the smoke test.
+    window.__simon = {
+      press,
+      get sequence() { return sequence.slice(); },
+      get state() { return { at, accepting, running, round: sequence.length }; },
+      /** Deterministic seeding so the test can play a known sequence. */
+      seed: seq => {
+        clearTimers();
+        sequence = seq.slice(); at = 0; running = true; accepting = true;
+        board.classList.remove('idle');
+        roundEl.textContent = sequence.length;
+        replayBtn.disabled = false;
+        msg.textContent = 'Your turn.';
+        msg.className = 'message-line';
+      }
+    };
+  })();
+</script>
+
+</body>
+</html>

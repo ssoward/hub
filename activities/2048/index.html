@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>2048 — Scott Soward</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="stylesheet" href="../../css/games.css">
+  <style>
+    .tf-board {
+      width: 100%; max-width: 440px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      touch-action: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tf-tile {
+      aspect-ratio: 1 / 1;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-md);
+      background: var(--surface-2);
+      color: var(--ink);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1rem, 7vw, 2rem);
+      line-height: 1;
+      min-width: 0;
+      transition: background var(--t-fast), color var(--t-fast);
+    }
+    .tf-tile.new { animation: tf-pop var(--t-base); }
+    .tf-tile.merged { animation: tf-bump var(--t-base); }
+    @keyframes tf-pop  { 0% { transform: scale(0.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes tf-bump { 0% { transform: scale(1); } 45% { transform: scale(1.12); } 100% { transform: scale(1); } }
+
+    /* Warm ramp, darkening as the exponent climbs. */
+    .tf-tile[data-v="2"]    { background: #eef2f7; }
+    .tf-tile[data-v="4"]    { background: #e2e8f0; }
+    .tf-tile[data-v="8"]    { background: #fde68a; }
+    .tf-tile[data-v="16"]   { background: #fcd34d; }
+    .tf-tile[data-v="32"]   { background: #fbbf24; }
+    .tf-tile[data-v="64"]   { background: #f59e0b; color: #fff; }
+    .tf-tile[data-v="128"]  { background: #f97316; color: #fff; font-size: clamp(0.9rem, 6vw, 1.7rem); }
+    .tf-tile[data-v="256"]  { background: #ea580c; color: #fff; font-size: clamp(0.9rem, 6vw, 1.7rem); }
+    .tf-tile[data-v="512"]  { background: #dc2626; color: #fff; font-size: clamp(0.9rem, 6vw, 1.7rem); }
+    .tf-tile[data-v="1024"] { background: #b91c1c; color: #fff; font-size: clamp(0.75rem, 5vw, 1.4rem); }
+    .tf-tile[data-v="2048"] { background: #15803d; color: #fff; font-size: clamp(0.75rem, 5vw, 1.4rem); }
+    .tf-tile.big            { background: #0f766e; color: #fff; font-size: clamp(0.7rem, 4.5vw, 1.2rem); }
+
+    .tf-pad { display: grid; grid-template-columns: repeat(3, 56px); gap: var(--sp-2); justify-content: center; }
+    .tf-pad button {
+      appearance: none; min-height: 48px;
+      background: var(--surface); border: 1px solid var(--border-strong);
+      border-radius: var(--r-md); color: var(--ink);
+      font: inherit; font-size: var(--fs-lg); cursor: pointer;
+      touch-action: manipulation;
+    }
+    .tf-pad button:hover { background: var(--surface-2); }
+    .tf-pad .spacer { visibility: hidden; }
+    @media (min-width: 700px) { .tf-pad { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tf-tile.new, .tf-tile.merged { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu"><span aria-hidden="true">☰</span></button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../" aria-current="page">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Activity · number puzzle</p>
+    <h1 class="hero-title">2048</h1>
+    <p class="hero-lede">Slide the tiles together. Two of a kind merge into one of the next, and the goal is a single 2048 tile — though the board rarely goes quietly. Swipe on a phone, arrow keys or <span class="kbd">WASD</span> on a keyboard.</p>
+  </section>
+
+  <section class="section container">
+    <div class="game-stage">
+      <div class="game-status">
+        <span class="pill">Score: <strong id="score">0</strong></span>
+        <span class="pill">Best: <strong id="best">0</strong></span>
+        <span class="pill">Moves: <strong id="moves">0</strong></span>
+      </div>
+
+      <div class="game-board tf-board" id="board" aria-label="2048 board"></div>
+      <p class="visually-hidden" id="sr" aria-live="polite"></p>
+      <p class="message-line" id="msg" aria-live="polite"></p>
+
+      <div class="tf-pad" aria-label="Direction pad">
+        <span class="spacer"></span>
+        <button type="button" data-dir="up" aria-label="Slide up">↑</button>
+        <span class="spacer"></span>
+        <button type="button" data-dir="left" aria-label="Slide left">←</button>
+        <button type="button" data-dir="down" aria-label="Slide down">↓</button>
+        <button type="button" data-dir="right" aria-label="Slide right">→</button>
+      </div>
+
+      <div class="game-controls">
+        <button type="button" class="btn btn-primary" id="new">New game</button>
+        <button type="button" class="btn btn-ghost" id="undo" disabled>Undo</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward · Activity</span>
+    <a href="../">&larr; Back to activities</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
+    if (!b || !n) return;
+    b.addEventListener('click', () => { const o = n.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && n.classList.contains('open')) { n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.focus(); } });
+  })();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function() {
+    const N = 4;
+    const BEST_KEY = '2048.best';
+
+    const board = document.getElementById('board');
+    const scoreEl = document.getElementById('score');
+    const bestEl = document.getElementById('best');
+    const movesEl = document.getElementById('moves');
+    const msg = document.getElementById('msg');
+    const sr = document.getElementById('sr');
+    const undoBtn = document.getElementById('undo');
+
+    let grid, score, moves, over, won, prev = null;
+    let fresh = new Set(), merged = new Set();
+
+    const idx = (r, c) => r * N + c;
+
+    function readBest() {
+      try { return parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0; } catch { return 0; }
+    }
+    function writeBest(v) {
+      try { localStorage.setItem(BEST_KEY, String(v)); } catch { /* private mode */ }
+    }
+
+    function emptyCells() {
+      const out = [];
+      for (let i = 0; i < N * N; i++) if (!grid[i]) out.push(i);
+      return out;
+    }
+
+    function spawn() {
+      const free = emptyCells();
+      if (!free.length) return null;
+      const at = free[Math.floor(Math.random() * free.length)];
+      grid[at] = Math.random() < 0.9 ? 2 : 4;
+      fresh.add(at);
+      return at;
+    }
+
+    /** Slide one line toward index 0. Returns [line, gained, mergedOffsets]. */
+    function collapse(line) {
+      const kept = line.filter(Boolean);
+      const out = [];
+      const mergedAt = [];
+      let gained = 0;
+      for (let i = 0; i < kept.length; i++) {
+        if (kept[i] === kept[i + 1]) {
+          const v = kept[i] * 2;
+          out.push(v);
+          mergedAt.push(out.length - 1);
+          gained += v;
+          i++;
+        } else {
+          out.push(kept[i]);
+        }
+      }
+      while (out.length < N) out.push(0);
+      return [out, gained, mergedAt];
+    }
+
+    /** Cell indices of one line, ordered so that index 0 is the far side. */
+    function lineCells(dir, k) {
+      const cells = [];
+      for (let i = 0; i < N; i++) {
+        if (dir === 'left')  cells.push(idx(k, i));
+        if (dir === 'right') cells.push(idx(k, N - 1 - i));
+        if (dir === 'up')    cells.push(idx(i, k));
+        if (dir === 'down')  cells.push(idx(N - 1 - i, k));
+      }
+      return cells;
+    }
+
+    function move(dir) {
+      if (over) return false;
+      const before = grid.slice();
+      let gained = 0;
+      fresh = new Set(); merged = new Set();
+
+      for (let k = 0; k < N; k++) {
+        const cells = lineCells(dir, k);
+        const [out, add, mergedAt] = collapse(cells.map(i => grid[i]));
+        gained += add;
+        cells.forEach((cell, i) => { grid[cell] = out[i]; });
+        mergedAt.forEach(i => merged.add(cells[i]));
+      }
+
+      if (grid.every((v, i) => v === before[i])) { fresh = new Set(); merged = new Set(); return false; }
+
+      prev = { grid: before, score, moves };
+      undoBtn.disabled = false;
+      score += gained;
+      moves++;
+      spawn();
+      render();
+      announce(dir, gained);
+      return true;
+    }
+
+    function canMove() {
+      if (emptyCells().length) return true;
+      for (let r = 0; r < N; r++) {
+        for (let c = 0; c < N; c++) {
+          const v = grid[idx(r, c)];
+          if (c + 1 < N && grid[idx(r, c + 1)] === v) return true;
+          if (r + 1 < N && grid[idx(r + 1, c)] === v) return true;
+        }
+      }
+      return false;
+    }
+
+    function announce(dir, gained) {
+      const top = Math.max(...grid);
+      sr.textContent = `Slid ${dir}. ${gained ? `Gained ${gained}. ` : ''}Score ${score}. Highest tile ${top}.`;
+    }
+
+    function render() {
+      board.textContent = '';
+      for (let i = 0; i < N * N; i++) {
+        const v = grid[i];
+        const tile = document.createElement('div');
+        tile.className = 'tf-tile' +
+          (v >= 4096 ? ' big' : '') +
+          (fresh.has(i) ? ' new' : '') +
+          (merged.has(i) ? ' merged' : '');
+        if (v) { tile.dataset.v = v; tile.textContent = v; }
+        tile.setAttribute('role', 'img');
+        tile.setAttribute('aria-label',
+          v ? `Row ${Math.floor(i / N) + 1} column ${i % N + 1}: ${v}` : `Row ${Math.floor(i / N) + 1} column ${i % N + 1}: empty`);
+        board.appendChild(tile);
+      }
+
+      scoreEl.textContent = score;
+      movesEl.textContent = moves;
+      const best = readBest();
+      if (score > best) { writeBest(score); bestEl.textContent = score; }
+      else bestEl.textContent = best;
+
+      if (!won && grid.includes(2048)) {
+        won = true;
+        msg.textContent = '2048! Keep going for a bigger tile.';
+        msg.className = 'message-line win';
+      } else if (!canMove()) {
+        over = true;
+        msg.textContent = `No moves left — final score ${score}.`;
+        msg.className = 'message-line lose';
+        sr.textContent = msg.textContent;
+      } else if (!won) {
+        msg.textContent = '';
+        msg.className = 'message-line';
+      }
+    }
+
+    function start() {
+      grid = new Array(N * N).fill(0);
+      score = 0; moves = 0; over = false; won = false; prev = null;
+      fresh = new Set(); merged = new Set();
+      undoBtn.disabled = true;
+      msg.textContent = ''; msg.className = 'message-line';
+      spawn(); spawn();
+      render();
+    }
+
+    function undo() {
+      if (!prev) return;
+      grid = prev.grid; score = prev.score; moves = prev.moves;
+      prev = null; over = false;
+      undoBtn.disabled = true;
+      fresh = new Set(); merged = new Set();
+      render();
+    }
+
+    const KEYS = {
+      ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down',
+      a: 'left', d: 'right', w: 'up', s: 'down'
+    };
+    document.addEventListener('keydown', e => {
+      if (e.target.matches('input, select, textarea')) return;
+      const dir = KEYS[e.key] || KEYS[e.key.toLowerCase()];
+      if (!dir) return;
+      e.preventDefault();
+      move(dir);
+    });
+
+    document.querySelectorAll('.tf-pad button[data-dir]').forEach(b => {
+      b.addEventListener('click', () => move(b.dataset.dir));
+    });
+
+    // Swipe. A short flick in a dominant axis counts; taps are ignored.
+    let sx = 0, sy = 0, tracking = false;
+    board.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
+    }, { passive: true });
+    board.addEventListener('touchmove', e => { if (tracking) e.preventDefault(); }, { passive: false });
+    board.addEventListener('touchend', e => {
+      if (!tracking) return;
+      tracking = false;
+      const dx = e.changedTouches[0].clientX - sx;
+      const dy = e.changedTouches[0].clientY - sy;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+      move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
+    });
+
+    document.getElementById('new').addEventListener('click', start);
+    undoBtn.addEventListener('click', undo);
+
+    bestEl.textContent = readBest();
+    start();
+
+    // Exposed for the smoke test.
+    window.__2048 = {
+      move,
+      get grid() { return grid.slice(); },
+      get state() { return { score, moves, over, won }; },
+      set: g => { grid = g.slice(); fresh = new Set(); merged = new Set(); over = false; render(); }
+    };
+  })();
+</script>
+
+</body>
+</html>
