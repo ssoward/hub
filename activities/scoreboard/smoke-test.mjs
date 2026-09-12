@@ -301,6 +301,12 @@ async function main() {
     check((await cdp.eval(SCORES)).length === 2 && (await cdp.eval(SCORES)).every(n => n === 0),
       'Clear all returns a fresh two-player board');
 
+    await cdp.send('Page.navigate', { url: base + '/' });
+    await waitFor(() => cdp.eval(`return !!document.getElementById('cards')`), 'the home page');
+    check(await cdp.eval(
+      `return !!document.querySelector('#cards a[href="activities/scoreboard/"]')`),
+      'the home page links to the scoreboard');
+
     await cdp.send('Page.navigate', { url: base + '/activities/' });
     await waitFor(() => cdp.eval(`return !!document.getElementById('cards')`), 'the activities index');
     check(await cdp.eval(
