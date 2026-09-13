@@ -31,14 +31,18 @@ npm run ham:build      # refetch and rebuild the pools from ncvec.org
 npm run ham:test       # validate the data, then drive the page in headless Chrome
 ```
 
-Several activities carry their own smoke test, driven through headless Chrome by
-the shared harness in `tools/browser-harness.mjs` — no npm dependencies. Chess is
-checked against the published perft node counts, which is what proves castling,
-en passant, promotion and pinned-piece legality are all right.
+Activities are tested through headless Chrome by the shared harness in
+`tools/browser-harness.mjs` — no npm dependencies. Every activity is covered by a
+sweep that loads it, fails on any console error or failed request, and checks it
+lays out inside a phone viewport and is linked from the index; eight of them also
+have their own suite covering their rules. Chess is checked against the published
+perft node counts, which is what proves castling, en passant, promotion and
+pinned-piece legality are all right.
 
 ```bash
-npm test               # every activity smoke test in turn
-npm run test:chess     # or just one
+npm test                 # the sweep, then every activity suite
+npm run test:activities  # just the all-activities sweep
+npm run test:chess       # or one game's suite
 ```
 
 ### Gospel Presentations

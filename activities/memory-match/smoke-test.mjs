@@ -14,6 +14,7 @@ import { runSuite } from '../../tools/browser-harness.mjs';
 const FLIPPED = `return document.querySelectorAll('.mm-card.flipped').length;`;
 const MATCHED = `return document.querySelectorAll('.mm-card.matched').length;`;
 const PAIRS = `return Number(document.getElementById('pairs').textContent);`;
+const UNDO_OFF = `return document.getElementById('undo').disabled;`;
 const MOVES = `return Number(document.getElementById('moves').textContent);`;
 
 // Click the first face-down card, then its partner — a guaranteed match.
@@ -123,7 +124,79 @@ runSuite('Memory Match', async (t) => {
       .every(el => el.getAttribute('aria-hidden') === 'true')`),
     'the card faces are hidden from the accessibility tree');
 
+  // ---------------------------------------------------------------- undo
+  // A single level only: unwinding the whole board would defeat a memory game.
+  await t.eval(`document.getElementById('reset').click(); return 1;`);
+  t.check(await t.eval(UNDO_OFF), 'undo is unavailable on a fresh board');
+
+  // Take back a single turned card.
+  await t.eval(`document.querySelectorAll('.mm-card')[0].click(); return 1;`);
+  t.check(await t.eval(FLIPPED) === 1, 'one card is face up');
+  t.check(!(await t.eval(UNDO_OFF)), 'undo is offered');
+  await t.eval(`document.getElementById('undo').click(); return 1;`);
+  t.check(await t.eval(FLIPPED) === 0, 'undo turns a single card back over');
+  t.check(await t.eval(MOVES) === 0, 'it was not a move, so the count is untouched');
+  t.check(await t.eval(UNDO_OFF), 'and undo switches off again');
+  t.check((await t.eval(
+    `return document.querySelector('.mm-card').getAttribute('aria-label')`)).includes('face down'),
+    'the label goes back to face down');
+  // The board is still live: the same card can be picked again.
+  await t.eval(`document.querySelectorAll('.mm-card')[0].click(); return 1;`);
+  t.check(await t.eval(FLIPPED) === 1, 'the card can be turned over again');
+  await t.eval(`document.getElementById('undo').click(); return 1;`);
+
+  // Take back a match.
+  await t.eval(MATCH_A_PAIR);
+  t.check(await t.eval(PAIRS) === 1 && await t.eval(MOVES) === 1, 'a pair is matched');
+  await t.eval(`document.getElementById('undo').click(); return 1;`);
+  t.check(await t.eval(PAIRS) === 0, 'undo gives the pair back');
+  t.check(await t.eval(MOVES) === 0, 'and refunds the move');
+  t.check(await t.eval(MATCHED) === 0 && await t.eval(FLIPPED) === 0,
+    'both cards go face down rather than staying up');
+  t.check(await t.eval(
+    `return [...document.querySelectorAll('.mm-card')].every(c => !c.disabled)`),
+    'the cards are playable again');
+  await t.eval(MATCH_A_PAIR);
+  t.check(await t.eval(PAIRS) === 1, 'the same pair can be matched again');
+
+  // Take back a mismatch, before it flips itself back.
+  await t.eval(MISMATCH);
+  t.check(await t.eval(FLIPPED) === 2, 'a mismatch is showing');
+  await t.eval(`document.getElementById('undo').click(); return 1;`);
+  t.check(await t.eval(FLIPPED) === 0, 'undo flips a mismatch straight back');
+  t.check(await t.eval(MOVES) === 1, 'and refunds that move too');
+  t.check(await t.eval(`return !window.__memory.state.lock`), 'the board is unlocked');
+  await t.sleep(900);
+  t.check(await t.eval(FLIPPED) === 0, 'the cancelled flip-back timer does not fire later');
+  await t.eval(`document.querySelectorAll('.mm-card:not(.matched)')[0].click(); return 1;`);
+  t.check(await t.eval(FLIPPED) === 1, 'play continues normally afterwards');
+
+  // Once a mismatch has flipped back on its own there is nothing to take back.
+  await t.eval(`document.getElementById('reset').click(); return 1;`);
+  await t.eval(MISMATCH);
+  await t.sleep(900);
+  t.check(await t.eval(UNDO_OFF), 'undo lapses once the mismatch has flipped back by itself');
+
+  // Undo after a win reopens the board.
+  await t.eval(`document.getElementById('reset').click(); return 1;`);
+  await t.eval(`
+    for (let guard = 0; guard < 40; guard++) {
+      const left = [...document.querySelectorAll('.mm-card:not(.matched)')];
+      if (!left.length) break;
+      const a = left[0];
+      const partner = left.slice(1).find(c => c.dataset.icon === a.dataset.icon);
+      a.click(); partner.click();
+    }
+    return 1;`);
+  t.check((await t.eval(`return document.getElementById('msg').textContent`)).includes('Done'),
+    'the board is won');
+  await t.eval(`document.getElementById('undo').click(); return 1;`);
+  t.check(await t.eval(`return document.getElementById('msg').textContent`) === '',
+    'undo clears the win message');
+  t.check(await t.eval(PAIRS) === 11, 'and gives the last pair back');
+
   // -------------------------------------------------------------- mobile
+  await t.eval(`document.getElementById('reset').click(); return 1;`);
   await t.checkMobileLayout('#board');
   await t.phone();
   t.check(await t.eval(`

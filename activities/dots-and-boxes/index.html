@@ -9,11 +9,18 @@
   <link rel="stylesheet" href="../../css/site.css">
   <link rel="stylesheet" href="../../css/games.css">
   <style>
-    .db-board { background: var(--bg); padding: var(--sp-4); }
-    .db-svg { display: block; max-width: 100%; height: auto; }
-    .db-line { stroke: #e2e8f0; stroke-width: 6; stroke-linecap: round; cursor: pointer; }
-    .db-line:hover { stroke: var(--accent); opacity: 0.65; }
-    .db-line.taken { stroke: #475569; cursor: default; opacity: 1; }
+    /* The svg carries a viewBox but no width attribute. Inside the centred
+       column flex container that resolved to 0×0 on a phone, collapsing the
+       whole board; an explicit width gives it something to scale against. */
+    .db-board { background: var(--bg); padding: var(--sp-4); width: 100%; max-width: 420px; }
+    .db-svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
+    .db-line { stroke: #e2e8f0; stroke-width: 6; stroke-linecap: round; pointer-events: none; }
+    .db-line.taken { stroke: #475569; opacity: 1; }
+    /* A fat invisible line takes the clicks — 6 viewBox units is a very thin
+       target for a fingertip once the board is scaled down. */
+    .db-hit { stroke: transparent; stroke-width: 22; stroke-linecap: round; cursor: pointer; }
+    .db-hit:hover + .db-line, .db-hit:focus-visible + .db-line { stroke: var(--accent); opacity: 0.65; }
+    .db-hit:focus-visible { outline: none; stroke: rgba(29, 78, 216, 0.2); }
     .db-dot { fill: #0f172a; }
     .db-box { font-weight: 800; font-size: 16px; text-anchor: middle; dominant-baseline: central; }
     .db-box.p1 { fill: #1d4ed8; }
@@ -59,6 +66,7 @@
       <p class="message-line" id="msg" aria-live="polite"></p>
       <div class="game-controls">
         <button type="button" class="btn btn-primary" id="reset">New game</button>
+        <button type="button" class="btn btn-ghost" id="undo" disabled>Undo</button>
       </div>
     </div>
   </section>
@@ -86,7 +94,9 @@
   const turnPill = document.getElementById('turn-pill');
   const msg = document.getElementById('msg');
   const s1 = document.getElementById('s1'), s2 = document.getElementById('s2');
+  const undoBtn = document.getElementById('undo');
   let h, v, boxes, player, scores;
+  let history = [];   // one entry per line drawn, newest last
 
   function px(i) { return MARGIN + i * CELL; }
 
@@ -94,9 +104,34 @@
     h = Array.from({length: N}, () => Array(N-1).fill(false));    // h[row][col] for row in 0..N-1, col in 0..N-2
     v = Array.from({length: N-1}, () => Array(N).fill(false));    // v[row][col] for row in 0..N-2, col in 0..N-1
     boxes = Array.from({length: N-1}, () => Array(N-1).fill(0));
-    player = 1; scores = {1:0, 2:0};
+    player = 1; scores = {1:0, 2:0}; history = [];
     s1.textContent = 0; s2.textContent = 0; msg.textContent = ''; msg.className = 'message-line';
-    turnPill.innerHTML = 'Turn: <strong>Player 1</strong>';
+    showTurn();
+    syncUndo();
+    render();
+  }
+
+  function showTurn() {
+    turnPill.innerHTML = `Turn: <strong>Player ${player}</strong>`;
+  }
+  function syncUndo() { undoBtn.disabled = history.length === 0; }
+
+  function undo() {
+    const last = history.pop();
+    if (!last) return;
+
+    if (last.kind === 'h') h[last.r][last.c] = false; else v[last.r][last.c] = false;
+    // Give back whatever that line claimed, to whoever claimed it.
+    for (const [br, bc] of last.claimed) {
+      scores[boxes[br][bc]]--;
+      boxes[br][bc] = 0;
+    }
+    player = last.player;   // the line's author is on turn again
+
+    s1.textContent = scores[1]; s2.textContent = scores[2];
+    msg.textContent = ''; msg.className = 'message-line';
+    showTurn();
+    syncUndo();
     render();
   }
 
@@ -118,21 +153,11 @@
     }
     // horizontal lines
     for (let r = 0; r < N; r++) for (let c = 0; c < N-1; c++) {
-      const l = document.createElementNS('http://www.w3.org/2000/svg','line');
-      l.setAttribute('x1', px(c)); l.setAttribute('y1', px(r));
-      l.setAttribute('x2', px(c+1)); l.setAttribute('y2', px(r));
-      l.setAttribute('class', 'db-line' + (h[r][c] ? ' taken' : ''));
-      if (!h[r][c]) l.addEventListener('click', () => take('h', r, c));
-      svg.appendChild(l);
+      addLine('h', r, c, h[r][c], px(c), px(r), px(c+1), px(r));
     }
     // vertical lines
     for (let r = 0; r < N-1; r++) for (let c = 0; c < N; c++) {
-      const l = document.createElementNS('http://www.w3.org/2000/svg','line');
-      l.setAttribute('x1', px(c)); l.setAttribute('y1', px(r));
-      l.setAttribute('x2', px(c)); l.setAttribute('y2', px(r+1));
-      l.setAttribute('class', 'db-line' + (v[r][c] ? ' taken' : ''));
-      if (!v[r][c]) l.addEventListener('click', () => take('v', r, c));
-      svg.appendChild(l);
+      addLine('v', r, c, v[r][c], px(c), px(r), px(c), px(r+1));
     }
     // dots
     for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
@@ -142,23 +167,54 @@
     }
   }
 
+  /** The visible line, plus a fat transparent one in front of it for input. */
+  function addLine(kind, r, c, taken, x1, y1, x2, y2) {
+    const make = cls => {
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+      l.setAttribute('class', cls);
+      return l;
+    };
+    if (!taken) {
+      const hit = make('db-hit');
+      hit.setAttribute('tabindex', '0');
+      hit.setAttribute('role', 'button');
+      const side = kind === 'h' ? 'horizontal' : 'vertical';
+      hit.setAttribute('aria-label', `Draw the ${side} line at row ${r+1}, column ${c+1}`);
+      hit.addEventListener('click', () => take(kind, r, c));
+      hit.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        take(kind, r, c);
+      });
+      svg.appendChild(hit);
+    }
+    svg.appendChild(make('db-line' + (taken ? ' taken' : '')));
+  }
+
   function take(kind, r, c) {
+    if (kind === 'h' ? h[r][c] : v[r][c]) return;   // already drawn
     if (kind === 'h') h[r][c] = true; else v[r][c] = true;
-    let claimed = 0;
+    const author = player;
+    const claimed = [];
     // check adjacent boxes
     const tryBox = (br, bc) => {
       if (br < 0 || br >= N-1 || bc < 0 || bc >= N-1) return;
       if (boxes[br][bc]) return;
       if (h[br][bc] && h[br+1][bc] && v[br][bc] && v[br][bc+1]) {
-        boxes[br][bc] = player; scores[player]++; claimed++;
+        boxes[br][bc] = player; scores[player]++; claimed.push([br, bc]);
       }
     };
     if (kind === 'h') { tryBox(r-1, c); tryBox(r, c); }
     else { tryBox(r, c-1); tryBox(r, c); }
 
+    history.push({ kind, r, c, claimed, player: author });
+    syncUndo();
+
     s1.textContent = scores[1]; s2.textContent = scores[2];
-    if (!claimed) player = player === 1 ? 2 : 1;
-    turnPill.innerHTML = `Turn: <strong>Player ${player}</strong>`;
+    if (!claimed.length) player = player === 1 ? 2 : 1;
+    showTurn();
 
     const total = (N-1)*(N-1);
     if (scores[1] + scores[2] === total) {
@@ -170,7 +226,20 @@
   }
 
   document.getElementById('reset').addEventListener('click', start);
+  undoBtn.addEventListener('click', undo);
   start();
+
+  // Exposed for the smoke test.
+  window.__dots = {
+    take, undo,
+    get state() {
+      return {
+        player, scores: { ...scores }, moves: history.length,
+        boxes: boxes.map(row => row.slice()),
+        lines: h.flat().filter(Boolean).length + v.flat().filter(Boolean).length
+      };
+    }
+  };
 </script>
 
 </body>

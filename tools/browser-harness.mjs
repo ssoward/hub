@@ -147,9 +147,14 @@ export async function runSuite(name, body, { root = REPO_ROOT } = {}) {
   cdp.on('Runtime.exceptionThrown', p => {
     consoleErrors.push('exception: ' + (p.exceptionDetails.exception?.description || p.exceptionDetails.text));
   });
+  // Chrome probes /favicon.ico on its own however the page declares its icon,
+  // and the site ships an SVG one, so that 404 is not the page's doing.
+  const ownFault = url => !/\/favicon\.ico$/.test(url || '');
   cdp.on('Network.loadingFailed', p => failedRequests.push(p.errorText));
   cdp.on('Network.responseReceived', p => {
-    if (p.response.status >= 400) failedRequests.push(`${p.response.status} ${p.response.url}`);
+    if (p.response.status >= 400 && ownFault(p.response.url)) {
+      failedRequests.push(`${p.response.status} ${p.response.url}`);
+    }
   });
 
   await cdp.send('Runtime.enable');
@@ -166,8 +171,10 @@ export async function runSuite(name, body, { root = REPO_ROOT } = {}) {
       return ok;
     },
     async eval(expr) {
+      // The wrapper's braces go on their own lines: a trailing // comment in the
+      // caller's snippet would otherwise comment out the closing `})()`.
       const r = await cdp.send('Runtime.evaluate', {
-        expression: `(async () => { ${expr} })()`,
+        expression: `(async () => {\n${expr}\n})()`,
         awaitPromise: true, returnByValue: true
       });
       if (r.exceptionDetails) {
@@ -184,10 +191,17 @@ export async function runSuite(name, body, { root = REPO_ROOT } = {}) {
         await sleep(100);
       }
     },
-    /** Navigate to a path and wait for `ready` (default: document parsed). */
-    async open(path, ready = `return document.readyState !== 'loading'`) {
+    /**
+     * Navigate to a path, wait for the document to finish parsing, then for
+     * `ready`. The parse wait is not optional: an element the caller checks for
+     * can exist while the rest of the page is still streaming in, so a custom
+     * condition alone would race the parser and see a half-built DOM.
+     */
+    async open(path, ready = null) {
       await cdp.send('Page.navigate', { url: base + path });
-      await t.waitFor(() => t.eval(ready).catch(() => false), `${path} to be ready`);
+      await t.waitFor(() => t.eval(`return document.readyState !== 'loading'`).catch(() => false),
+        `${path} to finish parsing`);
+      if (ready) await t.waitFor(() => t.eval(ready).catch(() => false), `${path} to be ready`);
     },
     async key(key, code = key, vk = 0) {
       await cdp.send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key, code, windowsVirtualKeyCode: vk });
