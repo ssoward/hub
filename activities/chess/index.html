@@ -47,9 +47,21 @@
     }
     .ch-sq.light { background: #f1f5f9; }
     .ch-sq.dark  { background: #94a3b8; }
-    .ch-sq .piece { pointer-events: none; }
-    .ch-sq .piece.b { color: #0f172a; text-shadow: 0 0 1px #fff; }
-    .ch-sq .piece.w { color: #ffffff; text-shadow: 0 0 2px #0f172a, 0 1px 1px #0f172a; }
+    /* Pieces are drawn, not typed — see pieces.js for why. */
+    .ch-piece { pointer-events: none; width: 86%; height: 86%; display: block; }
+    .ch-piece path, .ch-piece circle, .ch-piece rect {
+      stroke: #0f172a;
+      stroke-width: 1.4;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+    .ch-piece.ch-white path, .ch-piece.ch-white circle, .ch-piece.ch-white rect { fill: #ffffff; }
+    .ch-piece.ch-black path, .ch-piece.ch-black circle, .ch-piece.ch-black rect { fill: #111827; }
+    /* Cut-outs read as the piece's own colour inverted, so they stay visible. */
+    .ch-piece.ch-white .ch-cut { fill: #0f172a; stroke-width: 0.6; }
+    .ch-piece.ch-black .ch-cut { fill: #e2e8f0; stroke: #e2e8f0; stroke-width: 0.6; }
+    .ch-piece .ch-line { fill: none; stroke-width: 1.2; }
+    .ch-piece.ch-black .ch-line { stroke: #e2e8f0; }
     .ch-sq:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; z-index: 1; }
     .ch-sq.sel { background: #fcd34d; }
     .ch-sq.last { box-shadow: inset 0 0 0 3px rgba(29, 78, 216, 0.45); }
@@ -92,8 +104,10 @@
     .ch-moves .ply { display: inline-block; min-width: 4.2em; }
     .ch-moves .empty { color: var(--muted); font-family: var(--font-sans); }
 
-    .ch-taken { font-size: var(--fs-lg); line-height: 1.4; min-height: 1.6em; word-break: break-all; }
-    .ch-taken .label { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; }
+    .ch-taken { min-height: 1.8em; display: flex; align-items: center; flex-wrap: wrap; gap: 1px; }
+    .ch-taken .ch-piece { width: 22px; height: 22px; }
+    .ch-taken .none { color: var(--muted); font-size: var(--fs-sm); }
+    .ch-taken-label { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 2px; }
 
     .ch-promo {
       display: flex; gap: var(--sp-2); justify-content: center; flex-wrap: wrap;
@@ -104,10 +118,11 @@
     }
     .ch-promo button {
       appearance: none; min-width: 56px; min-height: 56px;
-      font-size: 2rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
       background: var(--bg); border: 1px solid var(--border-strong);
       border-radius: var(--r-md); cursor: pointer;
     }
+    .ch-promo .ch-piece { width: 40px; height: 40px; }
     .ch-promo button:hover { border-color: var(--accent); background: var(--accent-soft); }
 
     @media (max-width: 520px) {
@@ -164,13 +179,13 @@
         </div>
 
         <aside class="ch-side">
-          <div class="ch-taken">
-            <span class="label">Captured by White</span>
-            <span id="taken-w">—</span>
+          <div>
+            <span class="ch-taken-label">Captured by White</span>
+            <div class="ch-taken" id="taken-w"></div>
           </div>
-          <div class="ch-taken">
-            <span class="label">Captured by Black</span>
-            <span id="taken-b">—</span>
+          <div>
+            <span class="ch-taken-label">Captured by Black</span>
+            <div class="ch-taken" id="taken-b"></div>
           </div>
           <div class="ch-moves" id="moves"><p class="empty">No moves yet.</p></div>
         </aside>
@@ -197,6 +212,7 @@
 </footer>
 
 <script src="chess.js"></script>
+<script src="pieces.js"></script>
 <script>
   (function() {
     const b = document.querySelector('.nav-toggle'); const n = document.getElementById('primary-nav');
@@ -208,10 +224,7 @@
 
   (function() {
     const C = window.Chess;
-    const GLYPH = {
-      K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟',
-      k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟'
-    };
+    const { pieceSvg } = window.ChessPieces;
     const NAMES = { K: 'king', Q: 'queen', R: 'rook', B: 'bishop', N: 'knight', P: 'pawn' };
 
     const boardEl = document.getElementById('board');
@@ -273,12 +286,7 @@
         if (i === checkSquare) btn.classList.add('check');
 
         btn.textContent = '';
-        if (piece !== '.') {
-          const span = document.createElement('span');
-          span.className = 'piece ' + (C.colorOf(piece) === 'w' ? 'w' : 'b');
-          span.textContent = GLYPH[piece];
-          btn.appendChild(span);
-        }
+        if (piece !== '.') btn.appendChild(pieceSvg(piece));
 
         // Coordinates along the outer edge, as on a printed diagram.
         const showFile = flipped ? r === 0 : r === 7;
@@ -329,9 +337,26 @@
       movesEl.scrollTop = movesEl.scrollHeight;
     }
 
+    function fillTaken(el, pieces, by) {
+      el.textContent = '';
+      if (!pieces.length) {
+        const none = document.createElement('span');
+        none.className = 'none';
+        none.textContent = 'nothing yet';
+        el.appendChild(none);
+        return;
+      }
+      // Heaviest first, so the list reads like a material count.
+      const order = { Q: 0, R: 1, B: 2, N: 3, P: 4 };
+      pieces.slice()
+        .sort((a, b) => order[a.toUpperCase()] - order[b.toUpperCase()])
+        .forEach(p => el.appendChild(pieceSvg(p, NAMES[p.toUpperCase()])));
+      el.setAttribute('aria-label',
+        `Captured by ${by}: ` + pieces.map(p => NAMES[p.toUpperCase()]).join(', '));
+    }
     function renderTaken() {
-      takenWEl.textContent = taken.w.map(p => GLYPH[p]).join('') || '—';
-      takenBEl.textContent = taken.b.map(p => GLYPH[p]).join('') || '—';
+      fillTaken(takenWEl, taken.w, 'White');
+      fillTaken(takenBEl, taken.b, 'Black');
     }
 
     function describe() {
@@ -416,7 +441,7 @@
       candidates.forEach(m => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.textContent = GLYPH[m.promo];
+        btn.appendChild(pieceSvg(m.promo));
         const name = NAMES[m.promo.toUpperCase()];
         btn.setAttribute('aria-label', `Promote to ${name}`);
         btn.addEventListener('click', () => {

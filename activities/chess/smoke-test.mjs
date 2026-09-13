@@ -29,7 +29,7 @@ runSuite('Chess', async (t) => {
 
   t.check(await t.eval(`return document.title.includes('Chess')`), 'page title');
   t.check(await t.eval(`return document.querySelectorAll('.ch-sq').length === 64`), 'the board is 8×8');
-  t.check(await t.eval(`return document.querySelectorAll('.ch-sq .piece').length === 32`),
+  t.check(await t.eval(`return document.querySelectorAll('.ch-sq .ch-piece').length === 32`),
     'the opening position has 32 pieces');
   t.check(await t.eval(`return window.__chess.fen.startsWith('rnbqkbnr/pppppppp')`),
     'the game opens from the standard position');
@@ -99,6 +99,8 @@ runSuite('Chess', async (t) => {
     'reaching the last rank asks which piece to promote to');
   t.check(await t.eval(`return document.querySelectorAll('#promo button').length === 4`),
     'all four promotion pieces are offered');
+  t.check(await t.eval(`return document.querySelectorAll('#promo button svg.ch-piece').length === 4`),
+    'the promotion picker draws its pieces too');
   await t.eval(`[...document.querySelectorAll('#promo button')]
     .find(b => b.getAttribute('aria-label').includes('knight')).click(); return 1;`);
   t.check((await t.eval(FEN)).startsWith('N7/7k'), 'underpromotion to a knight works');
@@ -113,8 +115,8 @@ runSuite('Chess', async (t) => {
     'en passant is offered on the square behind the pawn');
   await t.eval(click('f3'));
   t.check(await t.eval(`
-    return !document.querySelector('[data-square="f4"] .piece') &&
-           !!document.querySelector('[data-square="f3"] .piece');`),
+    return !document.querySelector('[data-square="f4"] .ch-piece') &&
+           !!document.querySelector('[data-square="f3"] .ch-piece');`),
     'the pawn captured en passant is lifted off its own square');
 
   // ---------------------------------------------------------- checkmate
@@ -187,6 +189,51 @@ runSuite('Chess', async (t) => {
   t.check(await t.eval(topLeft) === 'h1', 'Flip board turns it around');
   await t.eval(`document.getElementById('flip').click(); return 1;`);
   t.check(await t.eval(topLeft) === 'a8', 'and flips back');
+
+  // ------------------------------------------------ pieces are drawn, not typed
+  // U+265F (the pawn) is the one chess character with emoji presentation, so a
+  // colour-emoji font paints it black whatever CSS `color` says — White's pawns
+  // came out black. Nothing on the board may be a chess glyph any more.
+  await t.eval(`document.getElementById('new').click(); return 1;`);
+  t.check(await t.eval(`
+    return !/[\u2654-\u265F]/.test(document.getElementById('board').textContent);`),
+    'no Unicode chess glyphs are used on the board');
+  t.check(await t.eval(`
+    return [...document.querySelectorAll('.ch-sq .ch-piece')].every(el => el.tagName.toLowerCase() === 'svg');`),
+    'every piece on the board is an SVG');
+
+  const fills = await t.eval(`
+    const fill = sel => {
+      const el = document.querySelector(sel);
+      return el ? getComputedStyle(el.querySelector('path, circle, rect')).fill : null;
+    };
+    return {
+      whitePawn: fill('[data-square="e2"] .ch-piece'),
+      blackPawn: fill('[data-square="e7"] .ch-piece'),
+      whiteRook: fill('[data-square="a1"] .ch-piece'),
+      blackRook: fill('[data-square="a8"] .ch-piece')
+    };`);
+  const light = c => /^rgb\(2[0-9]{2}, 2[0-9]{2}, 2[0-9]{2}\)$/.test(c);
+  const dark = c => {
+    const m = c && c.match(/^rgb\((\d+), (\d+), (\d+)\)$/);
+    return !!m && Number(m[1]) + Number(m[2]) + Number(m[3]) < 200;
+  };
+  t.check(light(fills.whitePawn), 'White\'s pawns are actually white', fills.whitePawn);
+  t.check(dark(fills.blackPawn), 'Black\'s pawns are dark', fills.blackPawn);
+  t.check(fills.whitePawn !== fills.blackPawn, 'the two pawn colours differ',
+    `${fills.whitePawn} vs ${fills.blackPawn}`);
+  t.check(fills.whitePawn === fills.whiteRook && fills.blackPawn === fills.blackRook,
+    'pawns are coloured the same way as every other piece');
+
+  // Captured pieces and the promotion picker draw from the same set.
+  await t.eval(`window.__chess.setFen('4k3/8/8/8/8/8/4r3/4K3 w - - 0 1'); return 1;`);
+  await t.eval(click('e1'));
+  await t.eval(click('e2'));
+  t.check(await t.eval(`return document.querySelectorAll('#taken-w svg.ch-piece').length === 1`),
+    'the captured tray draws the piece rather than typing it');
+  t.check((await t.eval(`return document.getElementById('taken-b').textContent`)).includes('nothing yet'),
+    'an empty tray says so in words');
+  await t.eval(`document.getElementById('new').click(); return 1;`);
 
   // ---------------------------------------------------------------- a11y
   t.check((await t.eval(`return document.querySelector('[data-square="e1"]').getAttribute('aria-label')`))
