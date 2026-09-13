@@ -90,12 +90,13 @@ runSuite('Lights Out', async (t) => {
 
   // ---------------------------------------------------------------- undo
   const beforeUndo = await t.eval(STATE);
+  const movesBefore = (await t.eval(INFO)).moves;
   await t.eval(`window.__lights.press(6); return 1;`);
   t.check(JSON.stringify(await t.eval(STATE)) !== JSON.stringify(beforeUndo), 'the press changed the board');
+  t.check((await t.eval(INFO)).moves === movesBefore + 1, 'the press counted as a move');
   await t.eval(`document.getElementById('undo').click(); return 1;`);
   t.check(JSON.stringify(await t.eval(STATE)) === JSON.stringify(beforeUndo), 'undo puts the lights back');
-  t.check(await t.eval(`return window.__lights.info.moves === ${(await t.eval(INFO)).moves}`),
-    'undo rolls the move count back');
+  t.check((await t.eval(INFO)).moves === movesBefore, 'undo rolls the move count back');
 
   // ---------------------------------------------------------------- best
   await t.eval(`

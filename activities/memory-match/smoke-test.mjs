@@ -132,7 +132,10 @@ runSuite('Memory Match', async (t) => {
       const r = c.getBoundingClientRect();
       return r.left >= -1 && r.right <= window.innerWidth + 1 && r.width >= 24;
     });`), 'every card is fully on screen at phone width');
-  await t.eval(`document.querySelectorAll('.mm-card:not(.flipped)')[0].click(); return 1;`);
-  t.check(await t.eval(FLIPPED) >= 1, 'cards still flip on a phone-sized viewport');
+  // Deal fresh first: tapping a second card could otherwise land on the partner
+  // of the one the a11y section turned over, matching it and clearing .flipped.
+  await t.eval(`document.getElementById('reset').click(); return 1;`);
+  await t.eval(`document.querySelectorAll('.mm-card')[0].click(); return 1;`);
+  t.check(await t.eval(FLIPPED) === 1, 'cards still flip on a phone-sized viewport');
   await t.desktop();
 });

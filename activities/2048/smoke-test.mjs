@@ -14,9 +14,12 @@ const GRID = `return window.__2048.grid;`;
 const STATE = `return window.__2048.state;`;
 const set = g => `window.__2048.set(${JSON.stringify(g)}); return 1;`;
 
-// A board with a single row is easiest to reason about; the spawn adds one tile
-// somewhere, so assertions look at the merged row rather than the whole grid.
+// A board with a single row is easiest to reason about. Every accepted move also
+// spawns a tile in a random empty cell, which can land in the row under test — so
+// assertions only look at the cells the move itself filled, never the empties
+// beside them.
 const row = (g, r) => g.slice(r * 4, r * 4 + 4);
+const head = (g, ...want) => JSON.stringify(g.slice(0, want.length)) === JSON.stringify(want);
 
 runSuite('2048', async (t) => {
   await t.open(PAGE, `return !!window.__2048`);
@@ -37,23 +40,23 @@ runSuite('2048', async (t) => {
 
   await t.eval(set([2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   await t.eval(`window.__2048.move('left'); return 1;`);
-  t.check(JSON.stringify(row(await t.eval(GRID), 0)) === JSON.stringify([4, 4, 0, 0]),
+  t.check(head(await t.eval(GRID), 4, 4),
     'a row of four makes two pairs, not one tile of eight');
 
   await t.eval(set([4, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   await t.eval(`window.__2048.move('left'); return 1;`);
-  t.check(JSON.stringify(row(await t.eval(GRID), 0)) === JSON.stringify([4, 4, 0, 0]),
+  t.check(head(await t.eval(GRID), 4, 4),
     'merging resolves from the leading edge');
 
   await t.eval(set([2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   await t.eval(`window.__2048.move('left'); return 1;`);
-  t.check(JSON.stringify(row(await t.eval(GRID), 0)) === JSON.stringify([2, 4, 0, 0]),
+  t.check(head(await t.eval(GRID), 2, 4),
     'unlike tiles do not merge');
 
   // A tile created by a merge cannot merge again in the same move.
   await t.eval(set([4, 4, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   await t.eval(`window.__2048.move('left'); return 1;`);
-  t.check(JSON.stringify(row(await t.eval(GRID), 0)) === JSON.stringify([8, 8, 0, 0]),
+  t.check(head(await t.eval(GRID), 8, 8),
     'a freshly merged tile does not merge twice in one move');
 
   // ------------------------------------------------------------- direction
