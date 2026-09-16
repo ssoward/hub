@@ -14,6 +14,7 @@ A static web application serving as a personal hub for gospel study, tech presen
 | Activities | https://ssoward.github.io/hub/activities/ |
 | Conferences | https://ssoward.github.io/hub/conferences/ |
 | Ham Radio Exam Trainer | https://ssoward.github.io/hub/ham-radio/ |
+| Notes | https://ssoward.github.io/hub/notes/training-to-age-better/ |
 
 ## Site Sections
 
@@ -40,10 +41,18 @@ perft node counts, which is what proves castling, en passant, promotion and
 pinned-piece legality are all right.
 
 ```bash
-npm test                 # the sweep, then every activity suite
+npm test                 # the notes check, the sweep, then every activity suite
 npm run test:activities  # just the all-activities sweep
 npm run test:chess       # or one game's suite
+npm run test:notes       # the notes pages and the home links into them
 ```
+
+### Notes
+Long-form reading notes, one directory per note, each keeping the Markdown it
+was written from next to the page.
+- Training to Age Better (Buck Institute podcast #04 — Gordon Lithgow interviews
+  Rhonda Patrick on micronutrients, vitamin D, hormesis, sauna and cold, chronic
+  stress, and where aging research is heading)
 
 ### Gospel Presentations
 Stake and ward-level teaching resources built with Reveal.js:
@@ -107,6 +116,8 @@ church/
 │   ├── index.html                # Conferences hub (card listing)
 │   ├── atlassian-team-26/        # Atlassian Team '26 personal agenda + map
 │   └── rootstech-2026/           # RootsTech 2026 coordination dashboard
+├── notes/
+│   └── <name>/                   # A note page plus the Markdown it came from
 ├── pages/                        # Alma 31 study sub-pages
 ├── analyses/                     # Long-form study analyses (Markdown)
 ├── css/                          # Shared stylesheets

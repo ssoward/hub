@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1d4ed8">
+  <meta name="description" content="Interview findings from the Buck Institute podcast episode &quot;Training to Age Better&quot; — Gordon Lithgow in conversation with Rhonda Patrick on micronutrients, hormesis, sauna, cold, stress, and where aging research is heading.">
+  <title>Training to Age Better — Scott Soward</title>
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+<style>
+  /* Page-local: a long-form notes layout on top of the shared site styles. */
+  .note-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--sp-4);
+    padding: var(--sp-6);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    margin-bottom: var(--sp-6);
+  }
+  .note-meta dt {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .note-meta dd { margin: 0; color: var(--ink); font-size: var(--fs-sm); }
+
+  .note-toc { max-width: 68ch; }
+  .note-toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2;
+    column-gap: var(--sp-8);
+  }
+  .note-toc li { margin-bottom: var(--sp-2); break-inside: avoid; font-size: var(--fs-sm); }
+  @media (max-width: 640px) { .note-toc ol { columns: 1; } }
+
+  .callout {
+    max-width: 68ch;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--r-md);
+    padding: var(--sp-5) var(--sp-6);
+    background: var(--surface);
+    margin: var(--sp-6) 0;
+  }
+  .callout h3 { margin-top: 0; }
+  .callout ul { margin-bottom: 0; }
+
+  .figures { max-width: 68ch; width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+  .figures caption { text-align: left; color: var(--muted); font-size: var(--fs-xs); padding-bottom: var(--sp-2); }
+  .figures th, .figures td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .figures th { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+  .table-scroll { overflow-x: auto; }
+
+  .note-source { max-width: 68ch; color: var(--muted); font-size: var(--fs-sm); }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../">
+      <span class="brand-name">Scott Soward</span>
+      <span class="brand-role">Engineer · Builder · Teacher</span>
+    </a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../../activities/">Activities</a>
+      <a href="../../conferences/">Conferences</a>
+      <a href="../../alma31.html">Scripture</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Interview notes</p>
+    <h1 class="hero-title">Training to Age Better</h1>
+    <p class="hero-lede">
+      What Gordon Lithgow and Rhonda Patrick actually discussed, in interview order —
+      worms and mitochondria, a micronutrient bar, vitamin D and serotonin, and the
+      through-line of the episode: hormesis, the idea that short, dosed stress leaves
+      you better off than none at all.
+    </p>
+  </section>
+
+  <section class="section container" aria-labelledby="about-heading">
+    <p class="section-eyebrow">The episode</p>
+    <h2 id="about-heading" class="section-title">What the conversation is</h2>
+
+    <dl class="note-meta">
+      <div>
+        <dt>Series</dt>
+        <dd>Buck Institute — <em>We’re not getting any younger… yet.</em></dd>
+      </div>
+      <div>
+        <dt>Episode</dt>
+        <dd>#04, <em>Training to Age Better</em> · December 6, 2022</dd>
+      </div>
+      <div>
+        <dt>Host</dt>
+        <dd>Gordon Lithgow</dd>
+      </div>
+      <div>
+        <dt>Guest</dt>
+        <dd>Rhonda Patrick (FoundMyFitness)</dd>
+      </div>
+      <div>
+        <dt>Official page</dt>
+        <dd><a href="https://www.buckinstitute.org/podcasts/rhonda-patrick/" rel="noopener">buckinstitute.org</a></dd>
+      </div>
+      <div>
+        <dt>Source notes</dt>
+        <dd><a href="findings.md">findings.md</a></dd>
+      </div>
+    </dl>
+
+    <div class="prose">
+      <p>
+        Lithgow introduces Patrick as someone who moved from bench science to public
+        science communication: she represents ideas rather than a company or a
+        university, and talks about aging and human health on her podcasts.
+      </p>
+      <p>
+        The nutrition bar that comes up in the postdoc chapter is one example inside
+        one chapter. It is not the subject of the episode.
+      </p>
+    </div>
+
+    <nav class="note-toc" aria-labelledby="toc-heading">
+      <h3 id="toc-heading">What they cover</h3>
+      <ol>
+        <li><a href="#path">1. Path into science</a></li>
+        <li><a href="#lab">2. Lab years</a></li>
+        <li><a href="#communication-start">3. How communication started</a></li>
+        <li><a href="#postdoc">4. Micronutrients, the bar, vitamin D</a></li>
+        <li><a href="#hormesis">5. Hormesis</a></li>
+        <li><a href="#sauna">6. Sauna</a></li>
+        <li><a href="#cold">7. Cold</a></li>
+        <li><a href="#stress">8. Chronic stress vs useful stress</a></li>
+        <li><a href="#scicomm">9. Science communication</a></li>
+        <li><a href="#future">10. Where aging research is going</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section class="section container" aria-labelledby="notes-heading">
+    <p class="section-eyebrow">Findings</p>
+    <h2 id="notes-heading" class="section-title">In interview order</h2>
+
+    <div class="prose">
+
+      <h3 id="path">1. Path into science</h3>
+      <ul>
+        <li>Grew up in San Diego.</li>
+        <li>Around 17: surfing, “nature girl,” David Attenborough documentaries.</li>
+        <li>First plan: marine / field biology — Galápagos, animals, ocean.</li>
+        <li>Chose science to get a biology degree, then picked “the hardest thing”: chemistry and biochemistry.</li>
+        <li>Joke against herself: she never left the lab and never became a field biologist.</li>
+      </ul>
+      <p>
+        Lithgow’s parallel: he wanted to be a field biologist — a birdwatcher — in a
+        Scottish steel town; teachers steered him to microbiology.
+      </p>
+
+      <h3 id="lab">2. Lab years</h3>
+      <p>
+        <strong>First internship</strong> (college junior, ~2 years): synthesizing
+        peptides and organic chemistry. She did not enjoy it. Too far from biology.
+      </p>
+      <p>
+        <strong>Salk Institute</strong>: an aging lab, <em>C. elegans</em> under the
+        microscope. Her first real excitement about aging came from genetically
+        manipulating worms so they lived about 100% longer, using genes homologous to
+        human genes. Hands-on experiments.
+      </p>
+      <p>
+        <strong>Graduate work</strong>: she left worms for cell biology, cancer biology,
+        and cancer metabolism; animal work shifted from worm to mouse. Years on
+        mitochondrial metabolism, including long stretches at the electron microscope.
+        She still calls herself a “mitochondriac,” but with a bigger-picture focus now.
+      </p>
+      <p>
+        <strong>Why leave the worm</strong>: partly circumstance, partly a sense that
+        staying only in worm genetics would be too narrow. She wanted systems biology
+        and a wider toolkit — genetics and aging in worms, then metabolism in graduate
+        school, then human metabolism and how to run and read clinical nutrition trials.
+      </p>
+      <p>
+        Graduate school was stressful. In the same years she got serious about health,
+        fitness, and <em>applied</em> science: if she understood a mechanism, she was
+        more willing to change her own behavior.
+      </p>
+
+      <h3 id="communication-start">3. How communication started</h3>
+      <ul>
+        <li>In free time she wrote in coffee shops, started a blog, and looked for papers on things like vitamin D and omega-3.</li>
+        <li>Trying to lecture family and friends who were not healthy backfired. They took it personally.</li>
+        <li>Sending articles and videos worked better. It was information, not a scolding.</li>
+        <li>That became the start of her science-communication habit.</li>
+        <li>Official podcast launch: <strong>2014</strong>, while still a postdoc.</li>
+      </ul>
+      <p>Two jobs she gives the podcast:</p>
+      <ol>
+        <li>Explain why micronutrient insufficiencies can hurt later even if you feel fine now — plus exercise, running, sauna, and related topics.</li>
+        <li>Act as an <strong>idea incubator</strong>. Scientists in one field hear another field and try new experiments; her example is vitamin D–receptor people hearing fasting researchers.</li>
+      </ol>
+      <p>Lithgow says one of his current PhD students is in the lab because of her podcasts.</p>
+
+      <h3 id="postdoc">4. Postdoc work: micronutrient bar, DNA damage, vitamin D</h3>
+
+      <h4>Micronutrients, as she defines them here</h4>
+      <ul>
+        <li>About <strong>40</strong> essential vitamins, minerals, fatty acids, and amino acids the body cannot make.</li>
+        <li>They run metabolism.</li>
+        <li>She estimates on the order of <strong>~22% of enzymes</strong> need a micronutrient as a cofactor.</li>
+        <li>Widespread insufficiencies: people are not eating enough of the foods that cover magnesium and other nutrients, and vitamin D is often low because people are not outdoors.</li>
+      </ul>
+
+      <h4>The bar — one project, not the episode topic</h4>
+      <ul>
+        <li>Ames and colleagues had already developed a micronutrient-rich bar before she arrived.</li>
+        <li>Name in the lab: the <strong>CHORI-bar</strong> (Children’s Hospital Oakland Research Institute).</li>
+        <li>Her description: micronutrient-dense, with a <strong>fiber matrix</strong>, meant to mimic whole food — “not just like a supplement,” “the whole package.”</li>
+        <li>Her assay: <strong>DNA double-strand breaks</strong> in <strong>PBMCs</strong> from <strong>obese</strong> trial participants, before and after the bars.</li>
+        <li>Her hypothesis: obesity is linked to DNA damage; poor diets add refined foods <em>and</em> omit nutrients such as <strong>magnesium</strong> that matter for DNA health and repair.</li>
+        <li>Same period: other nutrition trials, including blueberry extract.</li>
+      </ul>
+
+      <h4>Vitamin D and <em>TPH2</em> — separate exploratory work</h4>
+      <ul>
+        <li>Not a vitamin D wet-lab program. She describes literature diving and <strong>in-silico</strong> work on vitamin D response elements.</li>
+        <li>Gene of interest: <strong>tryptophan hydroxylase 2</strong> (<em>TPH2</em>), which converts tryptophan to serotonin in the brain.</li>
+        <li>Argument: the VDRE sequence suggests vitamin D can activate <em>TPH2</em>.</li>
+        <li>Published as review, perspective, and hypothesis papers — evidence-backed, hoping specialists would test them.</li>
+        <li>Clinical frame she used: neurodevelopmental conditions — <strong>autism, schizophrenia, ADHD</strong>.</li>
+        <li>In this interview she says later <strong>in-vitro and in-vivo</strong> studies have confirmed that vitamin D can activate <em>TPH2</em> and affect serotonin.</li>
+      </ul>
+
+      <h4>Vitamin D as “accelerated aging” — an exchange with Lithgow</h4>
+      <p>
+        Lithgow: deficiency raises risk for cancer, neurological disease, and diabetes;
+        it looks like accelerated aging. Vitamin D receptor knockout mice look aged. In
+        worms — which do not normally see vitamin D — adding it extended lifespan,
+        reduced protein aggregation, and limited A-beta toxicity. He is from Scotland,
+        where there is little sun, and calls it a public-health “easy fix.”
+      </p>
+      <p>Patrick:</p>
+      <ul>
+        <li>About <strong>70%</strong> of the US is below sufficiency by Endocrine Society criteria: <strong>30 ng/mL</strong>.</li>
+        <li>Observational all-cause mortality: she cites <strong>40–60 ng/mL</strong> as a good range.</li>
+        <li>Supplements are an easy way to correct deficiency.</li>
+        <li>Overdose and hypercalcemia: she says you generally need hundreds of thousands of IU per day for multiple days. Kidney disease and similar conditions are physician territory.</li>
+        <li>IOM upper tolerable intake: <strong>4,000 IU/day</strong>, which she calls reasonable for most people.</li>
+      </ul>
+
+      <h3 id="hormesis">5. Hormesis</h3>
+      <p>
+        She leans on Mark Mattson’s framing: humans evolved with
+        <strong>intermittent challenges</strong>. The examples she lists —
+      </p>
+      <ul>
+        <li>Physical activity (hunting, gathering — not Instacart)</li>
+        <li>Food scarcity, or simply not eating</li>
+        <li>Plant compounds — flavonols, polyphenols — as mild chemical stress</li>
+        <li>Heat and cold</li>
+      </ul>
+      <p>
+        Those challenges turn on built-in stress-response genes. After the short stress
+        ends, antioxidant and anti-inflammatory effects can last and help with ordinary
+        aging: inflammatory cytokines, protein folding and aggregates, stem-cell function.
+      </p>
+      <p>
+        Dose matters. Too much of the same stress is harmful — all-day exercise with no
+        recovery, extreme caffeine. Hormesis is the left side of that dose-response
+        curve: a little stress, net benefit. Her blunt line is that we were meant to be
+        stressed; the pathways are in the genome.
+      </p>
+      <p>
+        Lithgow’s worm parallel: heat shock extends <em>C. elegans</em> life. She cites
+        his work — about 15%, as she remembers it in the exchange.
+      </p>
+
+      <h3 id="sauna">6. Sauna</h3>
+      <p>Personal origin, not a grant:</p>
+      <ul>
+        <li>Graduate school, living across from a YMCA.</li>
+        <li>Sauna roughly <strong>seven days a week</strong> around <strong>2009</strong>, before going into the lab.</li>
+        <li>She already knew heat-shock proteins from Andy Dillin’s worm work: chaperones that help keep protein shape and limit aggregation, with some antioxidant activity.</li>
+        <li>What sold her in her own life: less anxiety and better handling of mental stress, including a failed experiment that set her back six months.</li>
+      </ul>
+      <p>
+        The human epidemiology she cites is <strong>Jari Laukkanen</strong>’s, at the
+        University of Eastern Finland — observational, as she flags. Traditional sauna
+        temperatures in those data run around <strong>174°F</strong>, and frequency of
+        4–7 times a week looked stronger than 2–3 times a week.
+      </p>
+
+      <div class="table-scroll">
+        <table class="figures">
+          <caption>Associations she reports from that work. Observational — she does not call it proven causation.</caption>
+          <thead>
+            <tr><th scope="col">Outcome</th><th scope="col">Comparison</th><th scope="col">Figure she gives</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Cardiovascular mortality</td><td>4–7×/week vs 1×</td><td>~50% lower</td></tr>
+            <tr><td>Cardiovascular mortality</td><td>2–3×/week vs 1×</td><td>~27% lower</td></tr>
+            <tr><td>Cardiovascular mortality</td><td>~11 minutes, even at high frequency</td><td>only ~8% lower</td></tr>
+            <tr><td>Cardiovascular mortality</td><td>~20 minutes</td><td>the ~50% figure</td></tr>
+            <tr><td>Coronary heart disease mortality</td><td>4–7×/week vs 1×</td><td>~68% lower</td></tr>
+            <tr><td>All-cause mortality</td><td>4–7×/week vs 1×</td><td>~40% lower</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        She treats dose-dependence — frequency <em>and</em> duration — plus adjustment
+        for lipids, exercise, and socioeconomic status as more reassuring than a single
+        binary comparison, while still not calling it proven causation.
+      </p>
+
+      <h3 id="cold">7. Cold, and the overlap among stressors</h3>
+      <p>
+        Heat then cold is common in Finnish sauna culture and Russian banya practice.
+        The overlap she emphasizes: cold also induces heat-shock proteins; plant
+        compounds such as sulforaphane (from Brassica) can too; heat does it most
+        strongly; and local heat can brown fat, a job usually credited to cold.
+      </p>
+      <p>The cold physiology she walks through:</p>
+      <ol>
+        <li><strong>Norepinephrine</strong> rises — an adrenal hormone in plasma, and also a brain neurotransmitter.</li>
+        <li>In fat and related tissue, that helps turn on <strong>UCP1</strong>: protons leak, mitochondria “uncouple,” and energy is released as <strong>heat</strong> rather than ATP, burning glucose or fatty acids.</li>
+        <li>Anticipatory adaptation: <strong>PGC-1α</strong> drives <strong>mitochondrial biogenesis</strong> in adipose tissue, so the next cold exposure can make more heat.</li>
+        <li>The extra mitochondria make the fat look darker under a microscope — <strong>brown fat</strong>.</li>
+      </ol>
+
+      <h3 id="stress">8. Chronic psychosocial stress vs useful stress</h3>
+      <p>
+        Lithgow points to Nikki Holbrook: mild restraint stress in rats was enough to
+        induce molecular chaperones — the same protein-folding machinery relevant to
+        aging and neurodegeneration. He asks Patrick to connect hormesis to psychology:
+        mindfulness, CBT.
+      </p>
+      <p>Patrick’s thread:</p>
+      <ul>
+        <li>Elissa Epel (UCSF, on Patrick’s podcast years earlier) and others: caregiving, money, and relationship stress.</li>
+        <li>Some work links psychosocial stress to <strong>endotoxin / LPS</strong> leaking from the gut after bacteria are killed; LPS in blood drives inflammation.</li>
+        <li>Injecting LPS into healthy people can produce depressive symptoms versus saline; in one design she cites, <strong>EPA</strong> (omega-3) blunted both the inflammatory response and the depressive symptoms.</li>
+        <li>Inflammation is not only mood. She cites biomarker work in centenarians and semi- and supercentenarians: <strong>suppressed inflammation</strong> was the standout correlate of reaching the next longevity stage and keeping cognition. Animal data also treat chronic inflammation as causal in faster aging — not the only cause.</li>
+      </ul>
+      <p>
+        <strong>Preconditioning</strong> is the practical idea: sauna, running, Peloton,
+        yoga, plant compounds, some fasting — turn on anti-inflammatory and
+        stress-response genes <em>before</em> the unpredictable hit, whether that is
+        traffic, job loss, or illness in the family. You cannot schedule grief. You can
+        be the mouse that got exercise, heat, or sulforaphane before the stroke.
+      </p>
+      <p>
+        She separates that from meditation and mindfulness, which she treats as another
+        way to handle stress rather than the same thing as HSP induction.
+      </p>
+      <p>
+        The contrast she and Lithgow share: <strong>chronic</strong> load — the
+        Epel/Blackburn telomere work in high-stress parents — looks damaging, while
+        <strong>acute, dosed</strong> stress can look protective. The practical problem
+        is the boundary.
+      </p>
+
+      <h3 id="scicomm">9. Science communication</h3>
+      <p>
+        Lithgow’s question: science is accepted by some people and ignored by others.
+        What is the challenge? Patrick’s answers in this interview:
+      </p>
+      <ul>
+        <li>There are good science journalists. There is also sensationalism and bad incentives.</li>
+        <li>Headlines outrun methods: weak stats, no biochemical measures, clinical endpoints with no check that the intervention did anything in the body.</li>
+        <li>Her job, as she sees it: read quality, and put a study in the <strong>big picture</strong> — mechanism plus human data — not in isolation. Conflicting results often come from methods.</li>
+        <li>Scientists also fail each other with tunnel vision. Her example: a vitamin D trial that never measures vitamin D.</li>
+        <li>Nutrition is not a drug trial. People already have different vitamin D and magnesium levels and different metabolism genes. A drug starts near zero in the body; a nutrient does not.</li>
+        <li>A concrete complaint from ~2014 coverage: RCTs giving <strong>400 IU</strong> vitamin D, often <strong>without measuring 25(OH)D</strong>, then concluding vitamin D “does nothing.” Her rule of thumb: about <strong>1,000 IU</strong> raises blood levels roughly <strong>5 ng/mL</strong> in people without major metabolism variants. 400 IU is not much.</li>
+        <li>What her team tries to do: cross-disciplinary reading — worm to mouse to molecular to human — and honest accounts of why studies disagree.</li>
+      </ul>
+      <p>Lithgow praises the way she puts papers on screen while interviewing guests.</p>
+
+      <h3 id="future">10. Where she thinks aging research is going</h3>
+      <p>She refuses certainty on a ten-year look. Two areas excite her.</p>
+      <p>
+        <strong>Interrupted / partial cellular reprogramming.</strong> Yamanaka factors
+        can push an old adult cell toward an embryonic-like state. Juan Carlos Belmonte
+        and collaborators pulsed the factors so the cell <em>keeps its identity</em>
+        while the epigenetic “program” is wiped; aggregates and other damage go with it,
+        in the picture she describes. That has the potential to reverse some aspects of
+        aging. It is likely not one-and-done, because cells keep aging, and clinical
+        hurdles will take years. This is the line she is <strong>most</strong> excited about.
+      </p>
+      <p>
+        <strong>Diluting pro-aging plasma factors.</strong> Irina and Michael Conboy
+        (UC Berkeley) and related work: from heterochronic parabiosis to
+        <strong>therapeutic plasma exchange</strong> — diluting whatever in old plasma
+        accelerates aging.
+      </p>
+      <p>She does not predict a timeline for clinic-ready reversal.</p>
+
+    </div>
+
+    <div class="callout">
+      <h3>Claims this interview does <em>not</em> make</h3>
+      <ul>
+        <li>That the CHORI-bar is the point of the conversation</li>
+        <li>That the bar was built around the serotonin paper</li>
+        <li>That eating the bar raises brain serotonin</li>
+        <li>That sauna epidemiology proves causation</li>
+        <li>That vitamin D, magnesium, sauna, or cold is a complete aging therapy</li>
+        <li>That she ran a vitamin D experimental lab that “discovered” <em>TPH2</em> as a bench finding</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="abstract-heading">
+    <p class="section-eyebrow">Summary</p>
+    <h2 id="abstract-heading" class="section-title">The episode in one paragraph</h2>
+    <div class="prose">
+      <p>
+        Patrick tells Lithgow she backed into hard science after a field-biology dream,
+        learned aging in worms, spent years on mitochondria and cancer metabolism, then
+        used Ames-lab nutrition trials — including DNA-break measures after a
+        micronutrient-and-fiber bar — plus hypothesis work on vitamin D and brain
+        <em>TPH2</em>. She left the bench for communication because mechanism changed her
+        own habits, and because family listened to videos more than lectures. The
+        scientific through-line of the episode is <strong>hormesis</strong>: intermittent
+        exercise, fasting, plant compounds, heat, and cold turn on stress-response and
+        anti-inflammatory programs that may buffer both aging and unpredictable
+        psychosocial stress. She wants nutrition trials that measure the nutrient, and
+        she is most curious about partial reprogramming and plasma dilution as
+        aging-research bets.
+      </p>
+      <h3>Related, but not this episode</h3>
+      <p>
+        Lithgow has also been a <em>guest</em> on FoundMyFitness (2017: protein
+        aggregation, iron, longevity compounds, vitamin D in worms). That is the reverse
+        interview. These notes cover only the Buck episode where he hosts her.
+      </p>
+    </div>
+    <p class="note-source">
+      Source notes: <a href="findings.md">findings.md</a> ·
+      Official episode page: <a href="https://www.buckinstitute.org/podcasts/rhonda-patrick/" rel="noopener">buckinstitute.org/podcasts/rhonda-patrick</a>
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>© <span id="year">2026</span> Scott Soward</span>
+    <a href="../../">Back to the hub</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+      });
+    }
+  })();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
