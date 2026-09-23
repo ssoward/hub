@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wherefore Can Ye Doubt? — 1 Nephi 4 &amp; President Oaks</title>
+  <link rel="stylesheet" href="../reveal/dist/reset.css">
+  <link rel="stylesheet" href="../reveal/dist/reveal.css">
+  <link rel="stylesheet" href="../reveal/dist/theme/white.css">
+  <link rel="stylesheet" href="../../css/reveal-site-theme.css">
+  <link rel="stylesheet" href="./theme/church.css">
+  <style>
+    :root {
+      --brass: #c19a3d;
+      --brass-deep: #8a6c20;
+      --brass-pale: #faf4e2;
+      --night: #0d1424;
+      --night-2: #1a2540;
+      --steel: #2b3a5f;
+    }
+
+    .reveal .slides > section { text-align: center; }
+
+    .eyebrow {
+      font-size: 0.46em; color: var(--brass); letter-spacing: 0.16em;
+      text-transform: uppercase; font-weight: 600; margin-bottom: 0.45em;
+    }
+    .rule { width: 60px; height: 2px; background: var(--brass); margin: 0 auto 1em; }
+
+    .scripture-block {
+      background: rgba(255,255,255,0.12);
+      border-left: 4px solid var(--brass);
+      padding: 0.65em 1em;
+      font-style: italic;
+      font-size: 0.76em;
+      line-height: 1.55;
+      text-align: left;
+      margin: 0.5em auto;
+    }
+    .scripture-block.light {
+      background: var(--brass-pale);
+      border-left-color: var(--brass-deep);
+      color: #322a17;
+    }
+    .scripture-ref {
+      font-size: 0.68em; color: var(--brass);
+      font-style: normal; font-weight: 600; text-align: right; margin-top: 0.3em;
+    }
+    .scripture-block.light .scripture-ref { color: var(--brass-deep); }
+
+    .card {
+      background: rgba(255,255,255,0.1); border-radius: 10px; padding: 0.75em 0.9em;
+      border-top: 3px solid var(--brass); text-align: left;
+    }
+    .card.light { background: #fff; border-top-color: var(--brass-deep); box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+    .card h3 {
+      color: var(--brass); font-size: 0.72em; text-transform: uppercase;
+      letter-spacing: 0.07em; margin: 0 0 0.3em;
+    }
+    .card.light h3 { color: var(--brass-deep); }
+    .card p { color: #fff; line-height: 1.45; margin: 0; font-size: 0.78em; }
+    .card.light p { color: #444; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9em; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7em; }
+
+    .lede { font-size: 0.7em; line-height: 1.5; max-width: 84%; margin: 0.3em auto 0.7em; }
+
+    /* five-movement structure diagram */
+    .stack { max-width: 74%; margin: 0.4em auto 0; font-size: 0.56em; text-align: left; }
+    .stack .row {
+      display: grid; grid-template-columns: 6.5em 1fr; gap: 0.8em; align-items: baseline;
+      padding: 0.32em 0.6em; border-left: 3px solid rgba(255,255,255,0.25);
+    }
+    .stack .row.hit { border-left-color: var(--brass); background: rgba(193,154,61,0.12); }
+    .stack .k { color: var(--brass); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .stack .v { color: rgba(255,255,255,0.88); line-height: 1.4; }
+
+    /* the Spirit's dialogue */
+    .dialogue { max-width: 82%; margin: 0.5em auto 0; font-size: 0.6em; text-align: left; }
+    .dialogue .turn {
+      display: grid; grid-template-columns: 6em 1fr; gap: 0.8em;
+      padding: 0.4em 0.6em; margin-bottom: 0.35em; border-radius: 8px;
+    }
+    .dialogue .spirit { background: rgba(193,154,61,0.16); border-left: 3px solid var(--brass); }
+    .dialogue .nephi { background: rgba(255,255,255,0.08); border-left: 3px solid rgba(255,255,255,0.35); }
+    .dialogue .who { font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brass); font-size: 0.9em; }
+    .dialogue .nephi .who { color: rgba(255,255,255,0.7); }
+    .dialogue .said { color: rgba(255,255,255,0.9); line-height: 1.45; font-style: italic; }
+
+    .reveal table.trio { font-size: 0.5em; width: 92%; margin: 0.5em auto; }
+    .reveal table.trio th { background: var(--steel); color: #fff; }
+    .reveal table.trio tr:nth-child(even) { background: var(--brass-pale); }
+    .reveal table.trio td:first-child { font-weight: 700; color: var(--brass-deep); }
+    .reveal table.trio td { text-align: left; }
+
+    .pairing { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9em; align-items: stretch; max-width: 94%; margin: 0.5em auto 0; }
+
+    /* hotkey legend — title slide only */
+    .hotkeys {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0.5em 1.15em; flex-wrap: wrap;
+      margin-top: 1.7em; font-size: 0.33em; letter-spacing: 0.05em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+    .hotkeys span { display: inline-flex; align-items: center; gap: 0.4em; white-space: nowrap; }
+    .hotkeys kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 0.16em 0.44em;
+      color: rgba(255,255,255,0.88);
+      text-transform: none;
+      line-height: 1;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-4, .pairing { grid-template-columns: 1fr; }
+      .stack, .dialogue { max-width: 94%; }
+      .hotkeys { font-size: 0.4em; gap: 0.4em 0.8em; }
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1. Title -->
+    <section style="background: radial-gradient(circle at 50% 30%, #364a7d 0%, #1a2540 45%, #0d1424 100%); color: white; padding: 40px 40px 80px;">
+      <div class="eyebrow">1 Nephi 4 · cross-referenced with a BYU Devotional, February 10, 2026</div>
+      <div class="rule"></div>
+      <h1 style="color: white; font-size: 2.1em; line-height: 1.12; text-shadow: 0 2px 16px rgba(0,0,0,0.6); margin-bottom: 0.35em; font-family: Georgia, serif;">Wherefore Can<br>Ye Doubt?</h1>
+      <div style="font-size: 0.58em; color: rgba(255,255,255,0.85); font-style: italic; margin-bottom: 1.3em;">
+        Nephi at the walls of Jerusalem, read alongside<br>President Dallin H. Oaks, &ldquo;Coming Closer to Jesus Christ&rdquo;
+      </div>
+      <div style="font-size: 0.5em; color: rgba(255,255,255,0.55);">About 600 B.C. &middot; and the Marriott Center, 2026</div>
+      <div class="hotkeys">
+        <span><kbd>S</kbd> speaker notes</span>
+        <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> navigate</span>
+        <span><kbd>Esc</kbd> overview</span>
+        <span><kbd>F</kbd> full screen</span>
+        <span><kbd>B</kbd> blank screen</span>
+        <span><kbd>?</kbd> all keys</span>
+      </div>
+      <aside class="notes">
+        Welcome. Tonight we read one chapter and one talk against each other: 1 Nephi 4 — Nephi, Laban, the plates of brass — and President Dallin H. Oaks's BYU devotional of February 10, 2026, "Coming Closer to Jesus Christ."
+
+        THE THESIS IN ONE SENTENCE
+        Nephi's question outside the walls — "wherefore can ye doubt?" (v. 3) — is the question President Oaks answers 2,600 years later. And the four practices Oaks prescribes for overcoming doubt — strengthen faith, increase humility, seek help from believers, be patient with God's timing — are each already enacted, in narrative form, inside the chapter.
+
+        WHY THIS PAIRING
+        The Oaks devotional was his first at BYU after the mantle passed to him, in the university's 150th year. He opened with Elijah's mantle falling to Elisha. 1 Nephi 4 is itself a succession story — the word of God passing out of the custody of a corrupt record-keeper into the hands of a covenant family. Both texts are about how the word and power of God get carried forward by imperfect people acting in faith.
+
+        A NOTE ON DIFFICULTY
+        This chapter contains one of the hardest passages in the Book of Mormon — the slaying of Laban. We will not skip it or soften it. In fact the cross-reference is strongest exactly there: Oaks's talk is about what a disciple does with hard questions, and this chapter raises one.
+
+        Press 'S' for speaker notes. Arrow keys to navigate.
+      </aside>
+    </section>
+
+    <!-- 2. The two texts -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">The two texts</div>
+      <h2 style="color: var(--steel);">2,600 Years Apart, One Question</h2>
+      <div class="grid-2" style="max-width: 92%; margin: 0.5em auto 0; font-size: 0.7em;">
+        <div class="card light">
+          <h3>1 Nephi 4 &middot; c. 600 B.C.</h3>
+          <p>Two attempts to obtain the plates of brass have already failed. Nephi rallies his doubting brothers, enters Jerusalem by night, and comes home with the record, and with Zoram &mdash; at a terrible price.</p>
+        </div>
+        <div class="card light">
+          <h3>Oaks &middot; February 10, 2026</h3>
+          <p>President Oaks&rsquo;s first BYU devotional after receiving the prophetic mantle. His subject: members who carry doubts about doctrine, history, and social issues &mdash; and the way through them.</p>
+        </div>
+      </div>
+      <div class="pairing" style="font-size: 0.66em; margin-top: 0.9em;">
+        <div class="scripture-block light" style="margin: 0;">
+          &ldquo;Ye also know that an angel hath spoken unto you; wherefore can ye doubt?&rdquo;
+          <div class="scripture-ref">1 Nephi 4:3</div>
+        </div>
+        <div class="scripture-block light" style="margin: 0;">
+          &ldquo;Whatever those doubts, the way to overcome them is to get closer to our Savior Jesus Christ.&rdquo;
+          <div class="scripture-ref">President Oaks</div>
+        </div>
+      </div>
+      <aside class="notes">
+        Set the two texts side by side before doing anything else.
+
+        1 NEPHI 4 — THE SETTING
+        The chapter heading: "Nephi slays Laban at the Lord's command and then secures the plates of brass by stratagem — Zoram chooses to join Lehi's family in the wilderness. About 600–592 B.C." Behind it sits 1 Nephi 3: the lot fell on Laman, who was rebuffed; then all four brothers offered their father's gold and silver, and Laban robbed them and sent servants to kill them. Two sincere attempts, two failures. The brothers are beating Nephi and Sam with a rod when the angel intervenes.
+
+        OAKS — THE SETTING
+        February 10, 2026, Marriott Center, BYU's 150th anniversary year. President Nelson had died and the mantle had just passed. Oaks opened with 2 Kings 2 — Elijah's mantle falling to Elisha — and described feeling the weight of that mantle as responsibility and prophetic authority. His stated audience: members with "concerns about historical, doctrinal, or social issues."
+
+        THE PAIRING
+        Read the two quotes at the bottom aloud, in order. Nephi's question is rhetorical but not dismissive — he immediately supplies the grounds for confidence ("the Lord is able to deliver us"). Oaks's sentence is the same move: doubts are real, and the answer is nearness to Christ, not more argument.
+
+        KEY TERMS
+        • Plates of brass — the record kept by Laban's family: the five books of Moses, a record of the Jews down to Zedekiah, and the prophets (1 Ne. 5:11–13). For Lehi's descendants, this IS their Bible.
+        • Devotional — a campus address by the President of the Church: doctrinally weighty, pastoral in register.
+        • Mantle — from 2 Kings 2: the cloak Elijah dropped, taken up by Elisha; the standing figure for prophetic succession.
+      </aside>
+    </section>
+
+    <!-- 3. Five movements -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 26px 40px 54px;">
+      <div class="eyebrow">The chapter&rsquo;s shape</div>
+      <h2 style="color: white;">Five Movements</h2>
+      <div class="rule"></div>
+      <div class="stack">
+        <div class="row"><span class="k">vv. 1&ndash;3</span><span class="v">Nephi rallies his brothers &mdash; faith built on remembered evidence</span></div>
+        <div class="row"><span class="k">vv. 4&ndash;9</span><span class="v">He creeps into the city alone &mdash; acting without a script</span></div>
+        <div class="row hit"><span class="k">vv. 10&ndash;18</span><span class="v">The threefold constraint at Laban&rsquo;s body &mdash; humility under hard direction</span></div>
+        <div class="row"><span class="k">vv. 19&ndash;29</span><span class="v">The stratagem in Laban&rsquo;s garments &mdash; boldness after submission</span></div>
+        <div class="row"><span class="k">vv. 30&ndash;38</span><span class="v">Zoram&rsquo;s oath and the departure &mdash; covenant community</span></div>
+      </div>
+      <aside class="notes">
+        Give the class the map before the territory.
+
+        THE FIVE MOVEMENTS
+        1. Verses 1–3: Nephi's speech to his brothers outside the walls. Pure faith-logic, and we will spend a full slide on it.
+        2. Verses 4–9: the brothers hide; Nephi creeps in alone, by night, and finds Laban drunk in the street. Verse 6 — "led by the Spirit, not knowing beforehand" — is the hinge of the whole cross-reference.
+        3. Verses 10–18: the Spirit constrains Nephi three times; Nephi shrinks, objects, listens, remembers, reasons, and finally obeys. The highlighted row — this is the chapter's center of gravity and its hardest ground.
+        4. Verses 19–29: Nephi puts on Laban's garments and armor, speaks in his voice, and walks Zoram — Laban's servant, carrying the keys — to the treasury and out of the city gates.
+        5. Verses 30–38: Zoram discovers the deception, is held, hears an oath, takes courage, swears his own oath, and joins the family. They carry the plates to the tent of Lehi.
+
+        A STRUCTURAL OBSERVATION
+        The chapter moves from doubt (the brothers') to covenant (Zoram's). It opens with murmuring outside the walls and closes with fears ceasing in the wilderness. That arc — doubt resolved into covenant confidence — is exactly the arc Oaks's four practices are meant to walk a member through.
+
+        TEACHING TIP
+        Ask: where in this chapter would YOU have turned back? Most honest answers cluster at verse 7 (the dark street) and verse 10 (the constraint). Those are precisely the two slides coming.
+      </aside>
+    </section>
+
+    <!-- 4. vv 1-3: faith on remembered evidence -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">Movement I &middot; verses 1&ndash;3</div>
+      <h2 style="color: var(--steel);">Faith Reasons by Precedent</h2>
+      <div class="scripture-block light" style="max-width: 88%; font-size: 0.66em;">
+        &ldquo;Let us be strong like unto Moses; for he truly spake unto the waters of the Red Sea and they divided&hellip; Now behold ye know that this is true; and ye also know that an angel hath spoken unto you; wherefore can ye doubt? Let us go up; the Lord is able to deliver us, <strong>even as</strong> our fathers, and to destroy Laban, <strong>even as</strong> the Egyptians.&rdquo;
+        <div class="scripture-ref">1 Nephi 4:2&ndash;3</div>
+      </div>
+      <div class="grid-2" style="max-width: 88%; margin: 0.6em auto 0; font-size: 0.68em;">
+        <div class="card light">
+          <h3>Nephi&rsquo;s two evidences</h3>
+          <p>One scriptural &mdash; the Red Sea. One personal &mdash; the angel his brothers saw with their own eyes. God&rsquo;s demonstrated past power is the ground for present confidence.</p>
+        </div>
+        <div class="card light">
+          <h3>Oaks&rsquo; first practice</h3>
+          <p>&ldquo;Strong faith requires more than strong desire. It means daily trying, one step at a time, with <strong>prayer and scripture study</strong>.&rdquo; Scripture study <em>is</em> the rehearsal of God&rsquo;s precedents.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Slow down on the logic of verses 1–3 — it is more careful than it looks.
+
+        THE ARGUMENT'S FORM
+        Nephi does not offer new information. He rehearses what his brothers already know, twice using "ye know": ye know this is true (the Exodus), ye know an angel hath spoken (last night, to you). Then the two "even as" clauses: deliver us EVEN AS our fathers, destroy Laban EVEN AS the Egyptians. Faith reasons by precedent — God's past acts are the data.
+
+        VERSE 1'S SCALE ARGUMENT
+        "He is mightier than all the earth, then why not mightier than Laban and his fifty, yea, or even than his tens of thousands?" Nephi deliberately inflates the threat — fifty, then tens of thousands — to show the threat's size is irrelevant once God's power is in the equation.
+
+        THE OAKS PARALLEL
+        His first practice is faith maintained by daily prayer and scripture study, anchored in the first article of faith: "We believe in God, the Eternal Father, and in His Son, Jesus Christ, and in the Holy Ghost." He adds: "These principles anchor our faith in God and will keep us anchored to gospel truth." Nephi's Red Sea rehearsal is exactly this anchoring — reaching for the established thing when the present thing is frightening.
+
+        THE SOBERING FOOTNOTE
+        Laman and Lemuel SAW the angel and doubted anyway, within hours. Evidence alone does not produce faith; what you do with evidence does. That is why Oaks prescribes practices, not proofs. Worth saying aloud: if an angel would settle your doubts, note that it did not settle theirs.
+
+        KEY TERMS
+        • "Wherefore can ye doubt?" — wherefore = "for what reason." Not a rebuke so much as an audit: name your reason for doubting, given what you know.
+      </aside>
+    </section>
+
+    <!-- 5. v6: not knowing beforehand -->
+    <section style="background: linear-gradient(150deg, #2b3a5f 0%, #1a2540 100%); color: white; padding: 34px 40px 62px;">
+      <div class="eyebrow">Movement II &middot; verse 6</div>
+      <h2 style="color: white;">Not Knowing Beforehand</h2>
+      <div class="rule"></div>
+      <div class="scripture-block" style="max-width: 78%; font-size: 0.86em;">
+        &ldquo;And I was led by the Spirit, <strong style="color: var(--brass);">not knowing beforehand</strong> the things which I should do.&rdquo;
+        <div class="scripture-ref">1 Nephi 4:6</div>
+      </div>
+      <div class="lede" style="color: rgba(255,255,255,0.88); margin-top: 0.8em;">
+        President Nelson, re-issued by President Oaks: <em>&ldquo;In coming days, it will not be possible to survive spiritually without the guiding, directing, comforting, and <strong style="color: var(--brass);">constant influence of the Holy Ghost</strong>.&rdquo;</em>
+      </div>
+      <aside class="notes">
+        This is the most quoted verse in the chapter and the hinge of the cross-reference.
+
+        WHAT VERSE 6 DESCRIBES
+        Nephi has no plan. Two plans have already failed — the lot (Laman alone) and the purchase (the family's gold and silver). What Nephi has instead is a connection: real-time guidance that discloses only the next step. Verse 6 tells you what "constant influence" feels like from the inside — not a briefing, but a leading.
+
+        THE OAKS/NELSON WARNING
+        Oaks called it out explicitly: "I feel to emphasize the warning President Russell M. Nelson issued us." And he added his own gloss: "you live in a season in which the adversary has become so effective at disguising truth that if you don't have the Holy Ghost, you will be deceived." Nephi in a dark street, and a member in a dark information environment, need the same thing: guidance that outruns their own foresight.
+
+        THE ORDER OF VERSES 5–6
+        Notice: verse 5 has Nephi already creeping toward Laban's house BEFORE verse 6 says he was led not knowing beforehand. Revelation in this chapter comes to someone already in motion. Oaks's matching counsel: "while you wait, wait upon the Lord… and while we wait, we should busy ourselves with service." In both texts, waiting on the Lord is done on your feet.
+
+        WHAT VERSE 6 IS NOT
+        It is not improvisation and not a shortcut around preparation. It follows total commitment ("I will go and do," 1 Ne. 3:7) and two costly failed attempts. "Not knowing beforehand" describes the experience of a disciple already obedient.
+
+        TEACHING TIP
+        Ask for verse-6 experiences — times someone acted on the next step without seeing the plan. Most wards have several; they are usually quiet stories, which is the point.
+      </aside>
+    </section>
+
+    <!-- 6. The threefold constraint -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 24px 40px 50px;">
+      <div class="eyebrow">Movement III &middot; verses 10&ndash;13</div>
+      <h2 style="color: white;">The Threefold Constraint</h2>
+      <div class="dialogue">
+        <div class="turn spirit"><span class="who">The Spirit</span><span class="said">Constrains Nephi that he should kill Laban. (v. 10)</span></div>
+        <div class="turn nephi"><span class="who">Nephi</span><span class="said">&ldquo;Never at any time have I shed the blood of man. And I shrunk and would that I might not slay him.&rdquo; (v. 10)</span></div>
+        <div class="turn spirit"><span class="who">The Spirit</span><span class="said">&ldquo;Behold the Lord hath delivered him into thy hands.&rdquo; (v. 11)</span></div>
+        <div class="turn nephi"><span class="who">Nephi</span><span class="said">Weighs what he knows: Laban sought his life, robbed them, &ldquo;would not hearken unto the commandments of the Lord.&rdquo; (v. 11)</span></div>
+        <div class="turn spirit"><span class="who">The Spirit</span><span class="said">&ldquo;Slay him&hellip; It is better that one man should perish than that a nation should dwindle and perish in unbelief.&rdquo; (vv. 12&ndash;13)</span></div>
+      </div>
+      <aside class="notes">
+        Walk the exchange turn by turn — the structure carries the doctrine.
+
+        THREE CONSTRAINTS, TWO OBJECTIONS' WORTH OF SPACE
+        The Spirit speaks three times (vv. 10, 11, 12–13). Between the first and third, Nephi is given room: room to recoil, room to state his objection "in my heart," room to weigh the facts he already knows. The Spirit does not overwhelm him — it reasons with him, adding grounds at each turn: first the fact (delivered into thy hands), then the principle (better that one man perish than a nation dwindle in unbelief).
+
+        "CONSTRAINED"
+        In Joseph Smith's English, to constrain is to compel by moral force — pressed, not puppeted. Nephi remains free throughout; that is why the exchange takes eight verses.
+
+        WHAT NEPHI ALREADY KNEW (v. 11)
+        He rehearses three facts: Laban sought to take away mine own life (1 Ne. 3:25 — sent servants to slay them); he would not hearken unto the commandments of the Lord; he had taken away our property (the gold and silver of their inheritance). The Spirit's direction does not float free of evidence; it lands on a man who has been given evidence.
+
+        VERSE 13'S PRINCIPLE
+        "It is better that one man should perish than that a nation should dwindle and perish in unbelief." Note what the stakes are: not property, not safety — FAITH. A nation's access to the word of God. Without the law (the plates), Lehi's descendants "dwindle in unbelief" — the Book of Mormon's standing phrase for generational loss of faith. Hold that phrase; it returns on the synthesis slide.
+
+        DO NOT RUSH THIS SLIDE
+        The class needs to feel the weight before the next slide names Nephi's shrinking as a virtue.
+      </aside>
+    </section>
+
+    <!-- 7. I shrunk = teachableness -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">Cross-reference &middot; Oaks&rsquo; second practice</div>
+      <h2 style="color: var(--steel);">&ldquo;I Shrunk&rdquo; &mdash; the Teachable Pause</h2>
+      <div class="grid-2" style="max-width: 92%; margin: 0.5em auto 0; font-size: 0.68em;">
+        <div class="card light">
+          <h3>What Nephi does <em>not</em> do</h3>
+          <p>He does not obey instantly and thoughtlessly. He does not harden into refusal. He voices his objection &mdash; and <strong>stays in the conversation</strong>.</p>
+        </div>
+        <div class="card light">
+          <h3>President Kimball, quoted by Oaks</h3>
+          <p>&ldquo;Humility is <strong>teachableness</strong> &mdash; an ability to realize that all virtues and abilities are not concentrated in one&rsquo;s self.&rdquo;</p>
+        </div>
+      </div>
+      <div class="scripture-block light" style="max-width: 88%; font-size: 0.64em; margin-top: 0.8em;">
+        &ldquo;The antidote for pride is humility &mdash; meekness, submissiveness.&rdquo; <span style="font-style: normal;">&mdash; President Benson, quoted by Oaks</span> &nbsp;&middot;&nbsp; &ldquo;When we are humble, we can more clearly hear the Lord&rsquo;s voice.&rdquo; <span style="font-style: normal;">&mdash; President Oaks</span>
+      </div>
+      <aside class="notes">
+        Now name what the last slide showed: Nephi's shrinking is not a flaw in his faith. It is Oaks's second practice in narrative form.
+
+        THE TEACHABLE PAUSE
+        Oaks: "Secondly, increased humility draws us closer to Jesus Christ… When we are humble, we can more clearly hear the Lord's voice." Verses 10–18 are eight verses of increasingly clear hearing. The shrinking is the doorway: because Nephi neither rushes nor refuses, the Spirit can teach him.
+
+        OAKS'S OWN STORY
+        He told of teaching a class as a young law instructor in Chicago and being cheerfully told by a student afterward: "You will make a good teacher SOMEDAY." His comment: "I was overly confident in my abilities as a teacher, and that student provided a perspective that has blessed me to this day." Humility as the willingness to receive correction — even correction that stings — and keep it for decades as a blessing.
+
+        THE KIMBALL AND BENSON DEFINITIONS
+        Kimball: humility is teachableness. Benson: the antidote for pride is humility — meekness, submissiveness. Both quoted in the talk. Nephi at verse 10 is meek (he recoils from violence), submissive (he keeps listening), and teachable (he lets new grounds change his settled instinct — "never at any time have I shed the blood of man").
+
+        A CAREFUL DISTINCTION
+        Teachableness is not credulity. The next slide shows Nephi REASONING his way to obedience — humility opened the ear; it did not close the mind.
+
+        OAKS'S FURTHER LINES ON HUMILITY (if the class wants more)
+        "Humility is never accusing nor contentious." "Humility is repentant and seeks not to justify its follies." "Let us choose to be humble." And his pointer to the parable of the ten virgins: "We want to be among the five humble ones who were admitted to the presence of the Lord."
+      </aside>
+    </section>
+
+    <!-- 8. How Nephi resolves: vv 14-18 -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">Movement III &middot; verses 14&ndash;18</div>
+      <h2 style="color: var(--steel);">Resolved by Remembered Covenant</h2>
+      <div class="scripture-block light" style="max-width: 88%; font-size: 0.64em;">
+        &ldquo;I <strong>remembered the words of the Lord</strong> which he spake unto me in the wilderness, saying that: Inasmuch as thy seed shall keep my commandments, they shall prosper in the land of promise.&rdquo;
+        <div class="scripture-ref">1 Nephi 4:14</div>
+      </div>
+      <div class="stack" style="font-size: 0.54em; max-width: 82%;">
+        <div class="row" style="border-left-color: rgba(0,0,0,0.15);"><span class="k" style="color: var(--brass-deep);">v. 14</span><span class="v" style="color: #444;">Remembered promise &mdash; &ldquo;thy seed shall keep my commandments&rdquo;</span></div>
+        <div class="row" style="border-left-color: rgba(0,0,0,0.15);"><span class="k" style="color: var(--brass-deep);">v. 15</span><span class="v" style="color: #444;">Reasoning &mdash; they cannot keep the law &ldquo;save they should have the law&rdquo;</span></div>
+        <div class="row" style="border-left-color: rgba(0,0,0,0.15);"><span class="k" style="color: var(--brass-deep);">v. 16</span><span class="v" style="color: #444;">Fact &mdash; &ldquo;the law was engraven upon the plates of brass&rdquo;</span></div>
+        <div class="row" style="border-left-color: rgba(0,0,0,0.15);"><span class="k" style="color: var(--brass-deep);">v. 17</span><span class="v" style="color: #444;">Conclusion &mdash; the Lord&rsquo;s purpose: &ldquo;that I might obtain the records&rdquo;</span></div>
+        <div class="row hit" style="background: rgba(193,154,61,0.14);"><span class="k" style="color: var(--brass-deep);">v. 18</span><span class="v" style="color: #33291a;"><strong>&ldquo;Therefore I did obey the voice of the Spirit&rdquo;</strong></span></div>
+      </div>
+      <aside class="notes">
+        Watch the anatomy of Nephi's resolution — it is a syllogism inside a revelation.
+
+        THE SEQUENCE
+        The Spirit has spoken twice. What finally moves Nephi is remembered SCRIPTURE — the covenant promise given to him in the wilderness (1 Ne. 2:20): "Inasmuch as thy seed shall keep my commandments, they shall prosper." From that promise he reasons: the seed cannot keep commandments they do not have (v. 15); the law is on the plates of brass (v. 16); therefore the Lord's deliverance of Laban has a purpose — the records (v. 17). Only then, v. 18: "Therefore I did obey." The "therefore" is earned.
+
+        THE OAKS PARALLEL — TWO METHODS OF KNOWLEDGE
+        Oaks: "there are two methods of gaining needed knowledge: (1) the evolving disclosures of man discovered by the scientific method and (2) the truths disclosed by the spiritual method, which begins with faith in God and relies on scriptures, inspired teaching, and personal revelation." Verses 10–18 run the spiritual method step by step: personal revelation + scripture + reasoning within faith → settled conviction → action. Nephi is not credulous; he is CONVINCED, and the text preserves the machinery of his convincing.
+
+        THE ANCHOR PARALLEL
+        Oaks: "Hold on to the first article of faith, even if something else is uncertain." Nephi holds on to the covenant promise — the thing he KNOWS — while the present command is still dark to him. Same move: the established truth carries you through the uncertain one.
+
+        TEACHING TIP
+        Have the class find the "therefore" in verse 18 and ask what it rests on. The answer is verses 14–17, not verse 12. Obedience here follows understanding — which is why humility mattered: it kept him listening long enough to understand.
+      </aside>
+    </section>
+
+    <!-- 9. The hard passage -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 24px 40px 50px;">
+      <div class="eyebrow">Reading the hard passage honestly</div>
+      <h2 style="color: white;">When the Text Itself Raises the Doubt</h2>
+      <div class="rule"></div>
+      <div class="grid-2" style="max-width: 92%; margin: 0 auto; font-size: 0.66em;">
+        <div class="card">
+          <h3>The text preserves the difficulty</h3>
+          <p>Nephi, writing decades later, records his own recoil &mdash; &ldquo;I shrunk.&rdquo; The difficulty is not a modern discovery; it was the original experience.</p>
+        </div>
+        <div class="card">
+          <h3>Oaks&rsquo; counsel for exactly this</h3>
+          <p>&ldquo;Overcoming doubt&hellip; can be a <strong>lengthy process</strong>&hellip; Discuss your concerns with faithful, well-informed friends and always take those concerns to the Lord.&rdquo;</p>
+        </div>
+      </div>
+      <div class="lede" style="color: rgba(255,255,255,0.85); margin-top: 0.8em; font-size: 0.62em;">
+        The reader troubled by verse 18 is invited to do precisely what Nephi did at verse 10:<br><strong style="color: var(--brass);">stay in the conversation.</strong>
+      </div>
+      <aside class="notes">
+        Do not skip or soften this slide. The slaying of Laban is one of the most ethically difficult passages in the Book of Mormon, and a lesson pairing this chapter with a talk about overcoming doubt cannot pretend the chapter raises none.
+
+        THREE HONEST OBSERVATIONS
+        1. The text preserves the difficulty on purpose. Nephi could have omitted his recoil; instead he records "I shrunk" and his objection. The narrator wants readers to know it was hard.
+        2. The justifications given are covenantal, not casual: delivered into thy hands (twice), he sought thy life, he robbed you, he would not hearken — and the principle of v. 13, where the stakes named are a nation's FAITH, not anyone's convenience.
+        3. It is a singular, heavily-justified exception, not a template. Nothing in the chapter invites a reader to expect or seek such direction. Teach the shrinking, not just the sword.
+
+        THE OAKS TOOLKIT APPLIED
+        • Patience: "Overcoming doubt — resolving conflicts between the evolving understanding of science and the sometimes incomplete teachings of religion — can be a lengthy process, as with building faith or acquiring humility." Some questions are held, not solved on a deadline.
+        • Counsel: "Don't be persuaded by false or inaccurate information. Discuss your concerns with faithful, well-informed friends and always take those concerns to the Lord."
+        • Anchor: "Hold on to the first article of faith, even if something else is uncertain."
+        • And his summary sentence, worth quoting whole: "Humility, faith, and trust in the Lord are the remedies for wavering."
+
+        PASTORAL NOTE
+        Someone in the room may carry this exact question. The message is not "good members aren't bothered by verse 18." The message is: Nephi was bothered too, said so, and stayed close enough to the Lord to be taught. That is the whole cross-reference in one sentence.
+      </aside>
+    </section>
+
+    <!-- 10. Laban -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">The counterfeit</div>
+      <h2 style="color: var(--steel);">Laban: Proximity Without Discipleship</h2>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.68em;">
+        &ldquo;He <strong>would not hearken</strong> unto the commandments of the Lord.&rdquo;
+        <div class="scripture-ref">1 Nephi 4:11</div>
+      </div>
+      <div class="lede" style="color: #555; font-size: 0.64em;">
+        Laban <em>possessed</em> the plates of brass &mdash; the law, the prophets, the genealogy &mdash; and sat closer to the word of God than anyone in Jerusalem, and further from its Author than anyone in the chapter.
+      </div>
+      <div class="scripture-block light" style="max-width: 84%; font-size: 0.62em;">
+        &ldquo;Some may protest or question the truth of Church doctrine <strong>without knowing or even understanding the fulness of that doctrine</strong>.&rdquo;
+        <div class="scripture-ref">President Oaks</div>
+      </div>
+      <aside class="notes">
+        Laban is the chapter's control case — the portrait of what nearness to sacred things WITHOUT discipleship looks like.
+
+        THE INVENTORY OF LABAN'S ADVANTAGES
+        He is custodian of the plates. He commands fifty (v. 1). He has a treasury, servants, armor, a sword of fine steel with a hilt of pure gold (v. 9). He sits in councils "out by night among" the elders of the Jews (v. 22). Every proximity: textual, social, institutional. And v. 11's verdict: he would not hearken.
+
+        THE BENSON SKETCH
+        Oaks quoted President Benson: "The antidote for pride is humility — meekness, submissiveness." Laban is the pride sketch in one figure — property, position, appetite (he is drunk when found), and no submissiveness anywhere. He is also, per 1 Ne. 3, a liar ("thou art a robber, and I will slay thee"), a thief (he kept the gold), and would-be murderer (he sent servants to kill the brothers).
+
+        THE MODERN POINT
+        Access to religious material — a treasury full of it — is not the same as coming closer to Jesus Christ. Oaks's parallel warning is about critics fluent in Church topics who do not know "the fulness of that doctrine," and about "an abundance of speculation and false information in podcasts and on social media." Information about sacred things, held without humility, did not save Laban and will not save us.
+
+        A FAIR CAUTION
+        Do not turn Laban into a cartoon. He was a real officeholder in a real Jerusalem a decade from destruction — Zedekiah's Jerusalem, the Jerusalem Lehi was fleeing. His unbelief was ordinary, institutional, comfortable. That is what makes him useful as a mirror rather than a monster.
+      </aside>
+    </section>
+
+    <!-- 11. Zoram -->
+    <section style="background: linear-gradient(150deg, #2b3a5f 0%, #1a2540 100%); color: white; padding: 26px 40px 54px;">
+      <div class="eyebrow">Movement V &middot; verses 30&ndash;38</div>
+      <h2 style="color: white;">Zoram: Courage Among Believers</h2>
+      <div class="rule"></div>
+      <div class="scripture-block" style="max-width: 82%; font-size: 0.72em;">
+        &ldquo;And it came to pass that Zoram did take courage <strong style="color: var(--brass);">at the words which I spake</strong>&hellip; he should be a <strong style="color: var(--brass);">free man like unto us</strong> if he would go down in the wilderness with us.&rdquo;
+        <div class="scripture-ref">1 Nephi 4:35, 33</div>
+      </div>
+      <div class="lede" style="color: rgba(255,255,255,0.88); font-size: 0.62em;">
+        President Oaks: &ldquo;<strong style="color: var(--brass);">Surround yourself with people who believe.</strong>&rdquo; &mdash; and the seal on both sides is a covenant: Nephi&rsquo;s oath, Zoram&rsquo;s oath, and &ldquo;our fears did cease&rdquo; (v. 37).
+      </div>
+      <aside class="notes">
+        Zoram is Oaks's third practice — seek help from believers — dramatized.
+
+        THE OAKS STORY THIS MIRRORS
+        A stake president spoke plainly of Christ to a wavering young man, who sat stunned, tears in his eyes: "I have not heard anyone speak like that in months. I have been hanging out with friends who don't believe." Oaks's application: "seek friends and associates who are striving to follow the Lord — friends and associates with whom you can feel the Spirit and with whom you can reinforce your faith. Surround yourself with people who believe."
+
+        ZORAM'S ARC
+        He spends vv. 20–27 walking beside a disguised Nephi, talking "concerning the elders of the Jews" — Laban's nighttime circle, the company of unbelief. Outside the walls the deception breaks; he is seized by a man "large in stature" who had "received much strength of the Lord" (v. 31). And then he hears believing speech — possibly for the first time in years: "Surely the Lord hath commanded us to do this thing; and shall we not be diligent in keeping the commandments of the Lord?" (v. 34). The response verb is exact: "Zoram did take courage AT THE WORDS which I spake" (v. 35). Words spoken by believers produce courage in the hearer. That is the mechanism of Oaks's third practice.
+
+        THE COVENANT SEAL
+        Nephi swears first (v. 33) — the believer extends the covenant before demanding one. Zoram swears back (v. 35). Result, v. 37: "our fears did cease concerning him." Mutual covenant replaces mutual fear — on BOTH sides. Oaks's modern equivalents are explicit: "Protect yourself with the weekly renewing of your covenants by partaking of the sacrament… In sum, stay on the covenant path."
+
+        THE FREEDOM LINE
+        "A free man like unto us" — spoken by refugees heading into a desert. The wilderness with covenants is freedom; the city without them was servitude. Zoram's descendants are still named as a covenant people six hundred years later (4 Ne. 1:36–37).
+      </aside>
+    </section>
+
+    <!-- 12. Three men, three trajectories -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">The controlled experiment</div>
+      <h2 style="color: var(--steel);">Same Night, Same City, Same Plates</h2>
+      <table class="trio">
+        <thead>
+          <tr><th></th><th>Relation to the word of God</th><th>Posture</th><th>Outcome</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Laban</td><td>Custodian of the plates</td><td>&ldquo;Would not hearken&rdquo; &mdash; pride, property, wine</td><td>Destruction</td></tr>
+          <tr><td>Nephi</td><td>Seeker of the plates</td><td>Led by the Spirit &mdash; shrinks, listens, reasons, obeys</td><td>Deliverance &amp; the record</td></tr>
+          <tr><td>Zoram</td><td>Servant beside the plates</td><td>Hears believing words, takes courage, covenants</td><td>&ldquo;A free man like unto us&rdquo;</td></tr>
+        </tbody>
+      </table>
+      <div class="lede" style="color: #555; font-size: 0.6em; margin-top: 0.5em;">
+        The variable that determines each outcome is the variable of President Oaks&rsquo; talk:<br>nearness to the Lord &mdash; expressed as hearkening, humility, and covenant.
+      </div>
+      <aside class="notes">
+        This table is the chapter's argument compressed.
+
+        THE EXPERIMENT
+        Three men, one night, one city, one set of plates. Laban OWNS the record; Nephi SEEKS it; Zoram CARRIES THE KEYS to it. Proximity is nearly identical. Outcomes could not be more different. So proximity is not the variable — posture is.
+
+        LABAN: possession without hearkening → destruction.
+        NEPHI: no possession, total hearkening → deliverance, and the record besides.
+        ZORAM: adjacency without belief, until believing words reach him → courage, covenant, freedom.
+
+        THE OAKS MAPPING
+        His talk's whole premise is that doctrinal proximity — membership, familiarity, even calling — does not by itself resolve doubt or produce spiritual survival. "To survive spiritually, you will need the constant influence of the Holy Ghost." The table is that premise in 600 B.C. dress.
+
+        TEACHING TIP
+        Ask which figure the class instinctively identifies with. Most say Nephi; the honest answer for many of us, much of the time, is Zoram — near sacred things professionally or habitually, waiting to be moved by believing words. That identification makes Oaks's third practice (surround yourself with people who believe) suddenly personal: someone's believing words may be what moves the Zoram next to you.
+      </aside>
+    </section>
+
+    <!-- 13. Four practices mapped -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">The cross-reference, complete</div>
+      <h2 style="color: var(--steel);">Oaks&rsquo; Four Practices, Already in the Chapter</h2>
+      <div class="grid-4" style="max-width: 94%; margin: 0.5em auto 0; font-size: 0.62em;">
+        <div class="card light">
+          <h3>1 &middot; Strengthen faith</h3>
+          <p>vv. 1&ndash;3 &mdash; Nephi rehearses the Red Sea and the angel; v. 14 &mdash; remembered scripture settles him. Daily prayer and scripture study are the modern rehearsal.</p>
+        </div>
+        <div class="card light">
+          <h3>2 &middot; Increase humility</h3>
+          <p>vv. 10&ndash;18 &mdash; &ldquo;I shrunk&rdquo; &rarr; listens &rarr; reasons &rarr; &ldquo;I did obey the voice of the Spirit.&rdquo; Teachableness kept him in the conversation.</p>
+        </div>
+        <div class="card light">
+          <h3>3 &middot; Seek believing company</h3>
+          <p>vv. 4&ndash;5 &mdash; the brothers wait outside the walls; vv. 30&ndash;37 &mdash; Zoram takes courage at believing words and covenants in.</p>
+        </div>
+        <div class="card light">
+          <h3>4 &middot; Be patient with God&rsquo;s timing</h3>
+          <p>v. 6 &mdash; &ldquo;not knowing beforehand&rdquo;; and behind the chapter, two failed attempts that were process, not abandonment.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Bring the whole mapping onto one slide.
+
+        PRACTICE 1 — STRENGTHEN FAITH
+        Oaks: "Strong faith requires more than strong desire. It means daily trying, one step at a time, with prayer and scripture study," anchored in the first article of faith. In the chapter: the Red Sea rehearsal (vv. 1–3) and the remembered covenant (v. 14). Nephi's faith runs on maintained memory of God's acts and promises — which is what daily scripture study maintains.
+
+        PRACTICE 2 — INCREASE HUMILITY
+        Oaks via Kimball: teachableness. Via Benson: meekness, submissiveness. In the chapter: the shrinking that stays in the conversation, vv. 10–18.
+
+        PRACTICE 3 — SEEK HELP FROM OTHERS
+        Oaks: "associate with other believers… Surround yourself with people who believe," plus the warning about "speculation and false information in podcasts and on social media." In the chapter: Nephi does not go to Jerusalem alone — the believing company waits just outside the walls; and Zoram's whole conversion runs on believing words. Even Nephi, mid-mission, is embedded in covenant community.
+
+        PRACTICE 4 — BE PATIENT
+        Oaks: "We are all a work in progress… wait upon the Lord, which includes trusting in His timing as well as in His promises. And while we wait, we should busy ourselves with service." In the chapter: two failed attempts in 1 Nephi 3 preceded the success of chapter 4 — failure was process, not verdict; and verse 6's step-at-a-time leading is patience practiced in the dark.
+
+        THE CLAIM, PRECISELY
+        Not that Nephi read Oaks's outline, but that both texts describe the same discipleship — which is what you would expect if the same Lord stands behind both. Doctrine that is true in 600 B.C. is true in the Marriott Center.
+      </aside>
+    </section>
+
+    <!-- 14. The purpose beneath: dwindle in unbelief -->
+    <section style="background: linear-gradient(135deg, var(--night-2) 0%, var(--night) 100%); color: white; padding: 26px 40px 54px;">
+      <div class="eyebrow">The deepest common thread</div>
+      <h2 style="color: white;">The Enemy in Both Texts: Dwindling</h2>
+      <div class="rule"></div>
+      <div class="scripture-block" style="max-width: 84%; font-size: 0.7em;">
+        &ldquo;It is better that one man should perish than that a nation should <strong style="color: var(--brass);">dwindle and perish in unbelief</strong>.&rdquo;
+        <div class="scripture-ref">1 Nephi 4:13</div>
+      </div>
+      <div class="lede" style="color: rgba(255,255,255,0.88); font-size: 0.62em;">
+        Nephi secures <em>scripture</em> for a covenant people, at extraordinary cost.<br>
+        President Oaks asks a covenant people to <em>open it, daily</em> &mdash; against &ldquo;an abundance of speculation and false information.&rdquo;
+      </div>
+      <aside class="notes">
+        Name the deepest thread: both texts have the same enemy.
+
+        DWINDLING
+        Verse 13 names the catastrophe the whole chapter exists to prevent: a nation that would "dwindle and perish in unbelief." Dwindling is the Book of Mormon's word for slow, generational loss of faith for lack of the word of God. It is not dramatic apostasy; it is drift. The Mulekites are the Book of Mormon's proof case — they left Jerusalem WITHOUT records, and by Mosiah's day had lost their language and "denied the being of their Creator" (Omni 1:17).
+
+        THE MODERN FORM
+        Oaks's talk is aimed at exactly this enemy in its modern form: members drifting amid "an abundance of speculation and false information in podcasts and on social media," in "a season in which the adversary has become so effective at disguising truth." Dwindling, 2026 edition, is not book-burning; it is feed-scrolling.
+
+        THE CONVERGING REMEDY
+        Nephi's remedy: get the record, whatever it costs. Oaks's remedy: actually open the record, daily — his first practice. There is a quiet irony worth voicing: the plates were bought at the price of 1 Nephi 4, and the modern challenge is not obtaining scripture but reading it. We carry Laban's treasury in our pockets and struggle to open it.
+
+        ALMA'S GLOSS
+        Alma 37:8 — the records "enlarge the memory of this people." Memory is the exact faculty Nephi used against doubt in vv. 1–3 and 14. Scripture is institutionalized memory; that is why its daily study is Oaks's first practice against doubt.
+      </aside>
+    </section>
+
+    <!-- 15. Synthesis -->
+    <section style="background: radial-gradient(circle at 50% 30%, #364a7d 0%, #1a2540 45%, #0d1424 100%); color: white; padding: 30px 40px 58px;">
+      <div class="eyebrow">Synthesis</div>
+      <h2 style="color: white;">One Sentence Apart</h2>
+      <div class="rule"></div>
+      <div class="pairing" style="font-size: 0.7em;">
+        <div class="scripture-block" style="margin: 0;">
+          &ldquo;Wherefore can ye doubt? Let us go up; the Lord is able to deliver us.&rdquo;
+          <div class="scripture-ref">1 Nephi 4:3 &middot; c. 600 B.C.</div>
+        </div>
+        <div class="scripture-block" style="margin: 0;">
+          &ldquo;Whatever those doubts, the way to overcome them is to get closer to our Savior Jesus Christ. Again and again, He has taught us that He is the way.&rdquo;
+          <div class="scripture-ref">President Oaks &middot; A.D. 2026</div>
+        </div>
+      </div>
+      <div class="lede" style="color: rgba(255,255,255,0.85); font-size: 0.6em; margin-top: 0.8em;">
+        Doubt is overcome not by more information but by closer discipleship &mdash;<br>hearkening, humility, believing company, and patience with God&rsquo;s timing.
+      </div>
+      <aside class="notes">
+        Bring the two governing sentences back, side by side, and let the class see they are the same sentence.
+
+        THE SYNTHESIS
+        Nephi's question was never "how can you not know?" — it was "given what you know, why doubt?" His remedy for his brothers was not new evidence (they had SEEN an angel) but renewed nearness: remember, go up, trust. Oaks's remedy for a very different audience is the same: not more argument, but four practices of nearness. Doubt yields to discipleship, not to data.
+
+        WHAT THE CROSS-REFERENCE ADDS TO EACH TEXT
+        • Reading Oaks through 1 Nephi 4: the four practices stop being abstract self-help — each one has a face (Nephi rehearsing the Red Sea; Nephi shrinking and listening; Zoram taking courage; Nephi walking in the dark).
+        • Reading 1 Nephi 4 through Oaks: the chapter stops being just a dramatic story or an ethical puzzle — it becomes a manual for what to DO with doubt, including doubt raised by the chapter itself.
+
+        HELAMAN 12:1
+        Oaks closed his reasoning with a Book of Mormon line: the Lord "doth bless and prosper those who put their trust in him," and added: "Humility, faith, and trust in the Lord are the remedies for wavering." That sentence is a fair one-line summary of 1 Nephi 4.
+      </aside>
+    </section>
+
+    <!-- 16. Takeaways -->
+    <section style="padding: 22px 40px 46px;">
+      <div class="eyebrow" style="color: var(--brass-deep);">This week</div>
+      <h2 style="color: var(--steel);">Four Practices, Four Verses</h2>
+      <div class="grid-4" style="max-width: 94%; margin: 0.5em auto 0; font-size: 0.62em;">
+        <div class="card light">
+          <h3>Rehearse (v. 3)</h3>
+          <p>In prayer or a journal, name two &ldquo;Red Seas&rdquo; &mdash; one from scripture, one from your own life &mdash; and reason from them, as Nephi did.</p>
+        </div>
+        <div class="card light">
+          <h3>Stay in the conversation (v. 10)</h3>
+          <p>Take the question that troubles you most <em>to</em> the Lord rather than away from Him. Shrinking is allowed; leaving the conversation is the loss.</p>
+        </div>
+        <div class="card light">
+          <h3>Speak believing words (v. 35)</h3>
+          <p>Someone near you is Zoram &mdash; they have &ldquo;not heard anyone speak like that in months.&rdquo; Your plain believing words may be their courage.</p>
+        </div>
+        <div class="card light">
+          <h3>Walk in the dark (v. 6)</h3>
+          <p>Act on the next step you have, without demanding the whole plan &mdash; and while you wait, busy yourself with service.</p>
+        </div>
+      </div>
+      <div style="font-size: 0.56em; color: #666; max-width: 84%; margin: 0.9em auto 0; line-height: 1.6; font-style: italic;">
+        &ldquo;My dear brothers and sisters, I testify of Jesus Christ&hellip; I testify of the truths taught by the restored Church.&rdquo; &mdash; President Oaks
+      </div>
+      <aside class="notes">
+        Close with practice, not just admiration.
+
+        THE FOUR ASSIGNMENTS
+        1. REHEARSE — Nephi's method in vv. 1–3 is repeatable: name a scriptural precedent and a personal one, then reason "even as." A journal makes personal Red Seas retrievable; that is half of what journals are for.
+        2. STAY IN THE CONVERSATION — for whoever carries a hard question (perhaps about this very chapter): Nephi's model is objection WITHIN relationship, not silence and not exit. Oaks: "always take those concerns to the Lord," and discuss them with "faithful, well-informed friends."
+        3. SPEAK BELIEVING WORDS — the Zoram assignment. Oaks's stake-president story turned on one plain, believing sentence. Verse 35: courage comes "at the words" believers speak. Most of us underestimate how long it has been since someone near us heard any.
+        4. WALK IN THE DARK — verse 6 as a weekly practice: take the next step you actually have. And Oaks's addendum: "while we wait, we should busy ourselves with service."
+
+        THE CLOSE
+        End with Oaks's testimony, quoted on the slide, and add the observation the whole evening has built: the man who asked "wherefore can ye doubt?" and the prophet who answered "get closer to our Savior Jesus Christ" are describing one path. It ran through a dark street in Jerusalem; it runs through ordinary weeks now. Sacrament, scripture, believing friends, patience — the covenant path, 600 B.C. and today.
+
+        Bear testimony and close.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="../reveal/dist/reveal.js"></script>
+<script src="../reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    progress: true,
+    controls: true,
+    center: true,
+    margin: 0.08,
+    transition: 'fade',
+    backgroundTransition: 'fade',
+    transitionSpeed: 'slow',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
