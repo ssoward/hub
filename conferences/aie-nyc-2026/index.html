@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a single reading column with a "departure board" header, tabbed phases (Before / During / After / Schedule), checklists as ruled rows. Accent borrows the E-train blue — the line that runs from JFK to 7 Av–53 St, a block from the venue. */
+/* Layout: a single reading column with a "departure board" header, tabbed phases (Before / During / After / Schedule), checklists as ruled rows. Accent borrows the E-train blue — the line that stops at 7 Av–53 St, a block from the venue. */
 :root {
   --bg: #f5f6f8;
   --surface: #ffffff;
@@ -136,14 +136,13 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
   <a class="back" href="../">&larr; Conferences</a>
   <header class="board">
     <div>
-      <div class="eyebrow" style="color:var(--board-dim)">Trip plan · Scott Soward</div>
+      <div class="eyebrow" style="color:var(--board-dim)">Conference plan</div>
       <h1>AI Engineer NYC 2026</h1>
       <div class="sub">Oct 12–14 · Sheraton New York Times Square, 811 7th Ave (at 53rd St), New York, NY 10019</div>
     </div>
     <div class="legs">
-      <div class="leg"><span class="k">Out · Sun Oct 11</span><span class="v">SLC → LGA/JFK</span><span class="n">~4h15 flight, clocks jump +2h</span></div>
       <div class="leg"><span class="k">Conference</span><span class="v">Mon–Wed</span><span class="n">Workshops · Talks · Expo</span></div>
-      <div class="leg"><span class="k">Home · Thu Oct 15</span><span class="v">LGA/JFK → SLC</span><span class="n">~5h flight, clocks drop −2h</span></div>
+      <div class="leg"><span class="k">Schedule</span><span class="v">148 sessions</span><span class="n">6 rooms · Keynotes in the Simons Room</span></div>
     </div>
     <div class="countdown" id="countdown"></div>
   </header>
@@ -157,24 +156,14 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 
   <!-- BEFORE -->
   <section class="panel" role="tabpanel" aria-labelledby="tab-before" id="p-before" data-phase="before">
-    <div class="note"><b>Flight advice.</b> Fly out Sunday Oct 11. Registration opens 8:00 AM Monday and workshops start at 9:00, which is 7:00 AM on your body clock, so a Monday red-eye isn't worth it. For the way home, the last keynote ends at 5:28 PM Wednesday. Either book a Thursday morning flight, or skip the closing talks and take a Wednesday evening flight, leaving the venue by about 3:30 PM for a 6:00+ PM departure.</div>
-
-    <div class="cols">
-      <div class="card"><span><span class="tag best">Best for Midtown</span></span><h3>LaGuardia (LGA)</h3><p>Closest airport. Taxi or Uber is 30–60 min to 7th Ave & 53rd.</p><p class="route">Transit: free Q70 bus → Jackson Hts → E train → 7 Av–53 St</p></div>
-      <div class="card"><span><span class="tag">One-seat rail</span></span><h3>JFK</h3><p>Taxi is 45–75 min, with a flat fare to Manhattan. Delta and JetBlue fly nonstop from SLC.</p><p class="route">Transit: AirTrain → Jamaica → E train straight to 7 Av–53 St, about 1 block from the hotel</p></div>
-      <div class="card"><span><span class="tag">New Jersey</span></span><h3>Newark (EWR)</h3><p>Often the cheapest fares, including United. Car rides can take 45–90 min in traffic.</p><p class="route">Transit: AirTrain → NJ Transit → Penn Station, then a 20-block walk or subway ride north</p></div>
-    </div>
-
     <div class="group" data-group>
       <div class="group-head"><h2>Book &amp; register</h2><span class="when">Now</span></div>
       <ul class="check">
-        <li><label><input type="checkbox" id="b-flight"><span class="t"><span>Book round-trip flight SLC ⇄ NYC</span><small>Out Sun Oct 11 (land by early evening ET); back Thu Oct 15 AM or Wed evening</small></span></label></li>
-        <li><label><input type="checkbox" id="b-approval"><span class="t"><span>Get travel &amp; expense approval from your manager</span><small>Covers registration, airfare, 4 hotel nights, ground transport and meals</small></span></label></li>
-        <li><label><input type="checkbox" id="b-hotel"><span class="t"><span>Book hotel: Sun–Wed nights (4), or 3 if you fly home Wed</span><small>The venue is the <a href="https://www.marriott.com/en-us/hotels/nycst-sheraton-new-york-times-square-hotel/overview/">Sheraton NY Times Square</a>. Check for a conference rate before booking elsewhere</small></span></label></li>
+        <li><label><input type="checkbox" id="b-approval"><span class="t"><span>Get travel &amp; expense approval from your manager</span><small>Covers registration and trip costs</small></span></label></li>
         <li><label><input type="checkbox" id="b-ticket"><span class="t"><span>Confirm your ticket, and check whether Monday workshops are included</span><small>Workshops are an add-on purchase. Without one, Monday is only registration, the Expo (4–7 PM) and the welcome reception</small></span></label></li>
         <li><label><input type="checkbox" id="b-rsvp1"><span class="t"><span>RSVP to <a href="https://luma.com/aie-nyc-happy-hour-2026">Table Stakes</a>, Tue 5:30–8:30 PM</span><small>Ping-pong happy hour hosted by Arize, Modal, Google DeepMind and others. Space is limited</small></span></label></li>
         <li><label><input type="checkbox" id="b-rsvp2"><span class="t"><span>RSVP to <a href="https://optiver-8296840.hs-sites.com/aie-ny-2026">Optiver Social</a> (Tue 6–10 PM) or <a href="https://luma.com/greptile-3hiu">Greptile × Datadog</a> (Tue 6–8:30 PM)</span><small>Optiver: M Social Hotel, 226 W 52nd St, one block away. Greptile: Datadog HQ rooftop, 620 8th Ave</small></span></label></li>
-        <li><label><input type="checkbox" id="b-sonar"><span class="t"><span>Optional: decide on the <a href="https://www.sonarsource.com/resources/events/world-tour/new-york-city/">Sonar agentic software factory session</a>, Thu Oct 15</span><small>Convene, 360 Madison Ave. Relevant if SonarQube is part of your PR pipeline, but it means flying home Thu evening</small></span></label></li>
+        <li><label><input type="checkbox" id="b-sonar"><span class="t"><span>Optional: decide on the <a href="https://www.sonarsource.com/resources/events/world-tour/new-york-city/">Sonar agentic software factory session</a>, Thu Oct 15</span><small>Convene, 360 Madison Ave. Relevant if SonarQube is part of your PR pipeline, but it adds a day</small></span></label></li>
       </ul>
     </div>
 
@@ -190,25 +179,22 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
     </div>
 
     <div class="group" data-group>
-      <div class="group-head"><h2>Travel prep</h2><span class="when">Oct 8–10</span></div>
+      <div class="group-head"><h2>Before you go</h2><span class="when">Oct 8–10</span></div>
       <ul class="check">
-        <li><label><input type="checkbox" id="b-id"><span class="t"><span>Pack a REAL ID-compliant license or your passport</span><small>Required at TSA</small></span></label></li>
-        <li><label><input type="checkbox" id="b-ooo"><span class="t"><span>Set your out-of-office, calendar blocks and a handoff note</span><small>Block Oct 11–15 and move any recurring meetings</small></span></label></li>
-        <li><label><input type="checkbox" id="b-parking"><span class="t"><span>Plan the ride to SLC: parking, TRAX Green Line or a ride</span><small>Arrive at SLC about 90 min before departure</small></span></label></li>
-        <li><label><input type="checkbox" id="b-checkin"><span class="t"><span>Check in for your flight 24 hours ahead and save the boarding pass</span></span></label></li>
+        <li><label><input type="checkbox" id="b-ooo"><span class="t"><span>Set your out-of-office, calendar blocks and a handoff note</span><small>Move any recurring meetings</small></span></label></li>
         <li><label><input type="checkbox" id="b-omny"><span class="t"><span>Add a contactless card or phone wallet for the subway and buses</span><small>OMNY: tap to pay at the turnstile, with weekly fares capped automatically</small></span></label></li>
-        <li><label><input type="checkbox" id="b-apps"><span class="t"><span>Install the airline app and Uber/Lyft. Have the RSVP links handy</span></span></label></li>
+        <li><label><input type="checkbox" id="b-apps"><span class="t"><span>Install Uber/Lyft and have the RSVP links handy</span></span></label></li>
       </ul>
     </div>
 
     <div class="group" data-group>
-      <div class="group-head"><h2>Pack</h2><span class="when">Sat Oct 10</span></div>
+      <div class="group-head"><h2>Pack</h2><span class="when">Oct 10</span></div>
       <ul class="check">
         <li><label><input type="checkbox" id="k-laptop"><span class="t"><span>Laptop and charger, set up for workshops</span><small>Before you leave: install Claude Code, Node/Python, Docker and git, and log in to anything that needs 2FA</small></span></label></li>
         <li><label><input type="checkbox" id="k-battery"><span class="t"><span>Phone battery pack and a short cable</span><small>Outlets fill up fast in session rooms</small></span></label></li>
         <li><label><input type="checkbox" id="k-layers"><span class="t"><span>Layers and a light jacket</span><small>Mid-October NYC averages 50–65°F, and conference rooms run cold</small></span></label></li>
         <li><label><input type="checkbox" id="k-shoes"><span class="t"><span>Comfortable walking shoes</span></span></label></li>
-        <li><label><input type="checkbox" id="k-bottle"><span class="t"><span>Refillable water bottle</span><small>NYC is more humid than SLC, but the flight and a full day of talking still dry you out</small></span></label></li>
+        <li><label><input type="checkbox" id="k-bottle"><span class="t"><span>Refillable water bottle</span><small>A full day of talking dries you out</small></span></label></li>
         <li><label><input type="checkbox" id="k-cards"><span class="t"><span>Business cards or a LinkedIn QR code on your phone</span></span></label></li>
         <li><label><input type="checkbox" id="k-umbrella"><span class="t"><span>Compact umbrella</span></span></label></li>
       </ul>
@@ -217,15 +203,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 
   <!-- DURING -->
   <section class="panel" role="tabpanel" aria-labelledby="tab-during" id="p-during" data-phase="during" hidden>
-    <div class="day">
-      <div class="group-head"><h2>Sun Oct 11 · Travel day</h2><span class="when">SLC → NYC</span></div>
-      <ul class="check">
-        <li><label><input type="checkbox" id="d0-fly"><span class="t"><span>Fly SLC → NYC</span><small>Example: an 8:00 AM MT departure lands about 2:15 PM ET</small></span></label></li>
-        <li><label><input type="checkbox" id="d0-hotel"><span class="t"><span>Check in and walk the venue. Find the Simons Room (keynotes) and the Expo floor</span></span></label></li>
-        <li><label><input type="checkbox" id="d0-sleep"><span class="t"><span>Aim for bed by 10 PM ET. That feels like 8 PM, so skip late caffeine and set two alarms</span></span></label></li>
-      </ul>
-    </div>
-
     <div class="day">
       <div class="group-head"><h2>Mon Oct 12 · Workshops + Welcome</h2><span class="progress" data-day="mon"></span></div>
       <div class="blocks">
@@ -269,7 +246,6 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
     <div class="day">
       <div class="group-head"><h2>Wed Oct 14 · Final day</h2><span class="progress" data-day="wed"></span></div>
       <div class="blocks">
-        <div class="block"><span class="tm">Morning</span><span>Check out of the hotel if you leave tonight, and store your bag with the bell desk</span></div>
         <div class="block hl"><span class="tm">9:00–10:30</span><span>Keynotes <span class="where">· Ramp CTO, Blackstone, AI security</span></span></div>
         <div class="block"><span class="tm">10:40–12:38</span><span>Breakouts <span class="where">· "Your Coding Agent Has a Context Problem", "Your Reranker Improved Retrieval…"</span></span></div>
         <div class="block"><span class="tm">12:30–1:30</span><span>Lunch</span></div>
@@ -278,18 +254,8 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
         <div class="block hl"><span class="tm">4:30–5:28</span><span>Closing keynotes <span class="where">· Anthropic · Process Supervision · "Everything will be Simulated"</span></span></div>
       </div>
       <ul class="check">
-        <li><label><input type="checkbox" id="d3-checkout"><span class="t"><span>Check out, or confirm your late checkout</span></span></label></li>
         <li><label><input type="checkbox" id="d3-expo"><span class="t"><span>Make your last Expo visits before 4:30</span></span></label></li>
-        <li><label><input type="checkbox" id="d3-leave"><span class="t"><span>Flying out tonight? Leave the venue by about 3:30 PM</span></span></label></li>
-        <li><label><input type="checkbox" id="d3-notes"><span class="t"><span>Write your final takeaways while they're fresh, on the flight if needed</span></span></label></li>
-      </ul>
-    </div>
-
-    <div class="day">
-      <div class="group-head"><h2>Thu Oct 15 · Home</h2><span class="when">NYC → SLC</span></div>
-      <ul class="check">
-        <li><label><input type="checkbox" id="d4-fly"><span class="t"><span>Fly home</span><small>Example: an 11:00 AM ET departure lands about 1:45 PM MT</small></span></label></li>
-        <li><label><input type="checkbox" id="d4-receipts"><span class="t"><span>Photograph every receipt before you lose them</span></span></label></li>
+        <li><label><input type="checkbox" id="d3-notes"><span class="t"><span>Write your final takeaways while they're fresh</span></span></label></li>
       </ul>
     </div>
   </section>
@@ -299,7 +265,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
     <div class="group" data-group>
       <div class="group-head"><h2>First 48 hours</h2><span class="when">Oct 15–16</span></div>
       <ul class="check">
-        <li><label><input type="checkbox" id="a-expense"><span class="t"><span>Submit your expense report</span><small>Include registration, airfare, hotel folio, ground transport and meals</small></span></label></li>
+        <li><label><input type="checkbox" id="a-expense"><span class="t"><span>Submit your expense report</span><small>Photograph every receipt first, then include all trip costs</small></span></label></li>
         <li><label><input type="checkbox" id="a-followup"><span class="t"><span>Send follow-ups to the people you met, with one specific thing from your conversation</span></span></label></li>
         <li><label><input type="checkbox" id="a-clean"><span class="t"><span>Clean up your notes into a single doc</span></span></label></li>
         <li><label><input type="checkbox" id="a-time"><span class="t"><span>Log conference time against the right initiative</span></span></label></li>
@@ -358,12 +324,12 @@ const store = {
   const now = new Date();
   const day = 864e5;
   const d = (s) => Math.ceil((new Date(s) - now) / day);
-  const fly = d('2026-10-11T06:00:00-06:00'), start = d('2026-10-12T08:00:00-04:00'), end = d('2026-10-14T17:30:00-04:00');
+  const start = d('2026-10-12T08:00:00-04:00'), end = d('2026-10-14T17:30:00-04:00');
   let txt;
-  if (fly > 0) txt = `<span><b>${fly}</b> days to wheels-up</span><span><b>${start}</b> days to badge pickup</span>`;
+  if (start > 0) txt = `<span><b>${start}</b> days to badge pickup</span>`;
   else if (end >= 0) txt = `<span><b>Conference week.</b> Check the During tab.</span>`;
   else txt = `<span><b>Back home.</b> Work through the After tab.</span>`;
-  el.innerHTML = txt + `<span>NYC is <b>+2h</b> from SLC</span>`;
+  el.innerHTML = txt;
 })();
 
 // Checklists
