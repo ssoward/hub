@@ -122,6 +122,7 @@ ul.check input:checked + .t > span:first-child { text-decoration: line-through; 
 .empty { color: var(--muted); padding: 20px 0; }
 .back { display: inline-block; font-family: var(--mono); font-size: .78rem; color: var(--muted); text-decoration: none; margin-bottom: 12px; }
 .back:hover { color: var(--accent); }
+.toplinks { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 @media (max-width: 520px) {
   .block { grid-template-columns: 1fr; gap: 2px; }
@@ -134,7 +135,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 <body>
 
 <div class="wrap">
-  <a class="back" href="../">&larr; Conferences</a>
+  <nav class="toplinks" aria-label="Page links"><a class="back" href="../">&larr; Conferences</a><a class="back" href="private/">🔒 Private itinerary</a></nav>
   <header class="board">
     <div>
       <div class="eyebrow" style="color:var(--board-dim)">Conference plan</div>
