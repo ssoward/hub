@@ -115,3 +115,8 @@
     background: var(--gold);
     border-radius: 4px;
 }
+
+/* 11. Key points: the Reveal theme re-adds bullets, and the ✦ marker
+   needs room left of the text. */
+.reveal ul.key-points { list-style: none; display: block; margin-left: 0; }
+.reveal .key-points li { padding-left: 3.2em !important; }

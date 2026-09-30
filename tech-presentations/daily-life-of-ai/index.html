@@ -31,7 +31,7 @@
       transition: color 0.8s;
     }
     .phase-subtitle {
-      font-size: clamp(0.65rem, 1.4vw, 0.82rem); font-weight: 400;
+      font-size: clamp(0.75rem, 1.4vw, 0.82rem); font-weight: 400;
       color: rgba(255,255,255,0.35); margin-top: 2px; letter-spacing: 0.06em;
     }
 
@@ -62,7 +62,7 @@
     .controls { pointer-events: auto; display: flex; gap: 10px; }
     .btn-ctrl {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.6); border-radius: 8px; padding: 6px 16px;
+      color: rgba(255,255,255,0.6); border-radius: 8px; padding: 6px 16px; min-height: 36px;
       font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
       letter-spacing: 0.04em; backdrop-filter: blur(6px);
     }
@@ -70,7 +70,7 @@
 
     /* Back link */
     .back-link {
-      position: absolute; top: 16px; left: 20px; z-index: 20;
+      position: absolute; top: 6px; left: 10px; z-index: 20; padding: 10px; /* 44px tap target */
       color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.78rem;
       display: flex; align-items: center; gap: 5px; transition: color 0.2s;
     }

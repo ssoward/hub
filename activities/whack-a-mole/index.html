@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="../../css/site.css">
   <link rel="stylesheet" href="../../css/games.css">
   <style>
-    .wam-board { grid-template-columns: repeat(3, minmax(90px, 130px)); padding: var(--sp-6); background: #064e3b; border-color: #052e16; }
+    .wam-board { grid-template-columns: repeat(3, minmax(72px, 130px)); padding: var(--sp-6); background: #064e3b; border-color: #052e16; }
+    @media (max-width: 400px) { .wam-board { padding: var(--sp-4); } }
     .hole {
       aspect-ratio: 1/1; background: #1a2e05; border: 0; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;

@@ -55,7 +55,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .board .sub { color: var(--board-dim); font-size: .95rem; margin-top: 6px; }
 .legs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: #2c3445; border-radius: 6px; overflow: hidden; }
 .leg { background: var(--board); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
-.leg .k { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; color: var(--board-dim); text-transform: uppercase; }
+.leg .k { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; color: var(--board-dim); text-transform: uppercase; }
 .leg .v { font-family: var(--mono); font-size: 1.05rem; font-weight: 600; color: #ffd166; }
 .leg .n { font-size: .82rem; color: var(--board-dim); }
 .countdown { font-family: var(--mono); font-size: .85rem; color: var(--board-dim); display: flex; flex-wrap: wrap; gap: 6px 18px; }
@@ -120,7 +120,7 @@ ul.check input:checked + .t > span:first-child { text-decoration: line-through; 
 .star[aria-pressed="true"] { color: #e2a100; }
 .dayhead { margin-top: 18px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
 .empty { color: var(--muted); padding: 20px 0; }
-.back { display: inline-block; font-family: var(--mono); font-size: .78rem; color: var(--muted); text-decoration: none; margin-bottom: 12px; }
+.back { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--mono); font-size: .78rem; color: var(--muted); text-decoration: none; margin-bottom: 12px; }
 .back:hover { color: var(--accent); }
 .toplinks { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }

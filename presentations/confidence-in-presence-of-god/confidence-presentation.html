@@ -619,6 +619,8 @@
             background: rgba(250, 250, 248, 0.8);
         }
     </style>
+    <!-- Layout fixes: border-box slides, tighter spacing, scroll for long slides -->
+    <link rel="stylesheet" href="critical-fixes.css">
 </head>
 <body>
     <div class="reveal">
@@ -1167,6 +1169,18 @@
         Reveal.on('slidechanged', function(event) {
             AOS.refresh();
         });
+
+        // AOS only animates elements inside the browser window, so anything
+        // lower on a tall (scrolling) slide would stay invisible. Play every
+        // animation on the slide being shown.
+        function revealAos(slide) {
+            if (!slide) return;
+            slide.querySelectorAll('[data-aos]').forEach(el => el.classList.add('aos-animate'));
+        }
+        Reveal.on('ready', e => revealAos(e.currentSlide));
+        Reveal.on('slidechanged', e => revealAos(e.currentSlide));
+        // AOS re-scans on window load, so run once more after it.
+        window.addEventListener('load', () => setTimeout(() => revealAos(Reveal.getCurrentSlide()), 100));
 
         // Add entrance animations for specific slides
         Reveal.on('slidechanged', function(event) {

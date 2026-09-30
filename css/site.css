@@ -154,7 +154,8 @@ button { font-family: inherit; }
   flex-wrap: wrap;
 }
 .brand {
-  display: inline-flex; flex-direction: column; gap: 2px;
+  display: inline-flex; flex-direction: column; justify-content: center; gap: 2px;
+  min-height: 44px; /* comfortable tap target */
   color: var(--ink); text-decoration: none; font-weight: 700; letter-spacing: -0.01em;
   min-width: 0;
   flex-shrink: 1;
@@ -365,5 +366,5 @@ textarea:focus-visible { border-color: var(--accent); outline-offset: 1px; }
   color: var(--muted); font-size: var(--fs-sm);
 }
 .site-footer-inner { display: flex; flex-wrap: wrap; gap: var(--sp-4); justify-content: space-between; align-items: center; }
-.site-footer a { color: var(--ink-soft); }
+.site-footer a { color: var(--ink-soft); display: inline-flex; align-items: center; min-height: 44px; }
 .site-footer a:hover { color: var(--accent); }
