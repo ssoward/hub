@@ -47,6 +47,17 @@ npm run test:chess       # or one game's suite
 npm run test:notes       # the notes pages and the home links into them
 ```
 
+Responsive layout is checked separately, because it loads every page on the
+site at six widths (320–1280px) and takes a few minutes. It fails if any page
+scrolls sideways or has visible content past the screen edge, and lists small
+text and tap targets for review. Slide decks scale as a whole, so their slides
+are not judged by it.
+
+```bash
+npm run test:responsive                   # every page, ~4 min
+ONLY=activities npm run test:responsive   # just pages whose path matches
+```
+
 ### Notes
 Long-form reading notes, one directory per note, each keeping the Markdown it
 was written from next to the page.
@@ -95,8 +106,29 @@ Long-form written analyses in `analyses/`, used as source material for the decks
 
 ### Conferences
 Hub for professional and family conference schedules and coordination tools:
-- **Atlassian Team '26** (May 5–7, 2026 · Anaheim) — personalized 3-day agenda, day tabs, priority ratings, conflict warnings, tips, interactive venue map (Leaflet/OSM) with markers for convention center, hotel, and pickleball courts
+- **AI Engineer NYC 2026** (Oct 12–14, 2026 · New York) — trip plan with before/during/after checklists, a day-by-day timeline, and the full 148-session schedule with search, suggested talks, and stars. A separate **private itinerary** (flights, hotel, travel days) is published encrypted at `conferences/aie-nyc-2026/private/` — see below
+- **RootsTech 2027** (Mar 4–6, 2027 · Salt Lake City) — RootsTech Studio coordination dashboard: staffing plan and shift model, key dates, carry-forward notes from 2026
+- **Atlassian Team '26** (May 5–7, 2026 · Anaheim) — personalized 3-day agenda, day tabs, priority ratings, conflict warnings, tips, interactive venue map (Leaflet/OSM) with markers for the convention center and pickleball courts
 - **RootsTech 2026** (Mar 6–8, 2026 · Salt Lake City) — full production coordination dashboard for the FamilySearch GMC/Interactive TV team; tabs for Dashboard, Schedule, Videos & Scripts, and Logistics
+
+Public conference pages carry no personal travel details (flights, hotels,
+departure times). Those belong in a private, encrypted page.
+
+### Password-protected pages
+GitHub Pages can't password-protect a URL, so a private page is published as
+ciphertext instead. `tools/encrypt-page.mjs` encrypts a standalone HTML file
+with AES-256-GCM (key from PBKDF2-SHA256, 600,000 iterations, random salt and
+IV) and writes a page holding only the ciphertext and an unlock form; the
+browser decrypts it locally with WebCrypto.
+
+```bash
+node tools/encrypt-page.mjs <plain.html> <out.html> <password-file>
+```
+
+Keep the plaintext page and the password file **outside** the repo and never
+commit them. Re-run the command and push after every change to the plaintext.
+Anyone can download the ciphertext and guess offline, so use a long random
+password.
 
 ## Project Structure
 
@@ -114,12 +146,16 @@ church/
 │   └── <name>/index.html         # Individual activities
 ├── conferences/
 │   ├── index.html                # Conferences hub (card listing)
+│   ├── aie-nyc-2026/             # AI Engineer NYC trip plan
+│   │   └── private/              # Encrypted private itinerary (ciphertext only)
 │   ├── atlassian-team-26/        # Atlassian Team '26 personal agenda + map
-│   └── rootstech-2026/           # RootsTech 2026 coordination dashboard
+│   ├── rootstech-2026/           # RootsTech 2026 coordination dashboard
+│   └── rootstech-2027/           # RootsTech 2027 coordination dashboard
 ├── notes/
 │   └── <name>/                   # A note page plus the Markdown it came from
 ├── pages/                        # Alma 31 study sub-pages
 ├── analyses/                     # Long-form study analyses (Markdown)
+├── tools/                        # Test harness, responsive audit, page encryption
 ├── css/                          # Shared stylesheets
 ├── js/                           # Shared JavaScript
 ├── assets/                       # Images and icons
@@ -154,7 +190,7 @@ All pages share a consistent design language:
 - **Cards**: white, `border-radius: 12px`, soft shadow, 7px color banner
 - **Nav**: sticky white pill-link bar
 - **Category colors**: Blue (Gospel), Purple (Tech), Teal (Activity), Brown (Scripture), Orange (Conferences)
-- **Responsive**: CSS Grid `auto-fill minmax(320px, 1fr)`, mobile-first
+- **Responsive**: CSS Grid `auto-fill minmax(320px, 1fr)`, mobile-first; no sideways scroll down to 320px, tap targets at least 44px tall, and no text under 11px (checked by `npm run test:responsive`)
 
 ---
 

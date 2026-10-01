@@ -21,7 +21,8 @@
     "test:scoreboard": "node activities/scoreboard/smoke-test.mjs",
     "ham:build": "python3 ham-radio/tools/build_pools.py",
     "ham:validate": "python3 ham-radio/tools/validate_pools.py",
-    "ham:test": "python3 ham-radio/tools/validate_pools.py && node ham-radio/tools/smoke-test.mjs"
+    "ham:test": "python3 ham-radio/tools/validate_pools.py && node ham-radio/tools/smoke-test.mjs",
+    "test:responsive": "node tools/responsive-audit.mjs"
   },
   "keywords": [
     "2048",
