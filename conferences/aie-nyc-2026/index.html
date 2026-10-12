@@ -125,6 +125,14 @@ ul.check input:checked + .t > span:first-child { text-decoration: line-through; 
 .toplinks { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 @media (max-width: 520px) {
+  .tabs { gap: 2px; }
+  .tab { padding: 8px 7px; gap: 4px; font-size: .88rem; flex: 1 1 auto; justify-content: center; }
+  .tab .cnt { font-size: .66rem; }
+}
+@media (max-width: 399px) {
+  .tab .cnt { display: none; }
+}
+@media (max-width: 520px) {
   .block { grid-template-columns: 1fr; gap: 2px; }
   .slot { grid-template-columns: 1fr; gap: 4px; }
   .slot .tm { padding-top: 0; }
@@ -330,7 +338,7 @@ const store = {
   const d = (s) => Math.ceil((new Date(s) - now) / day);
   const start = d('2026-10-12T08:00:00-04:00'), end = d('2026-10-14T17:30:00-04:00');
   let txt;
-  if (start > 0) txt = `<span><b>${start}</b> days to badge pickup</span>`;
+  if (start > 0) txt = `<span><b>${start}</b> ${start === 1 ? 'day' : 'days'} to badge pickup</span>`;
   else if (end >= 0) txt = `<span><b>Conference week.</b> Check the During tab.</span>`;
   else txt = `<span><b>Back home.</b> Work through the After tab.</span>`;
   el.innerHTML = txt;
