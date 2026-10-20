@@ -178,6 +178,7 @@
     background: var(--surface-1); color: var(--text-secondary); cursor: pointer; white-space: nowrap; }
   .tools button:hover { background: var(--wash); color: var(--text-primary); }
   .afterdown .val { font-size: 26px; font-weight: 600; line-height: 1.15; }
+  table.mini.ttl { max-width: 460px; }
   .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
   @media (max-width: 860px) { .two { grid-template-columns: minmax(0, 1fr); } }
 </style>
@@ -208,11 +209,11 @@
       <table class="mini">
         <tr><td>MSRP</td><td>$57,155.00</td></tr>
         <tr><td>Discount (incl. $750 Kia competitive bonus via the Tesla)</td><td>−$2,329.00</td></tr>
-        <tr><td>Selling price</td><td>$54,826.00</td></tr>
-        <tr><td>Government fee</td><td>$308.74</td></tr>
-        <tr><td>Doc fee</td><td>$399.00</td></tr>
-        <tr><td>Taxes (7.45%)</td><td>$4,114.27</td></tr>
-        <tr><td><b>Out-the-door</b></td><td><b>$59,648.01</b></td></tr>
+        <tr><td>Selling price</td><td id="ovPrice">$54,826.00</td></tr>
+        <tr><td>Title &amp; registration (gov't fee)</td><td id="ovGov">$308.74</td></tr>
+        <tr><td>Doc fee</td><td id="ovDoc">$399.00</td></tr>
+        <tr><td id="ovTaxLbl">Sales tax (7.45%)</td><td id="ovTax">$4,114.27</td></tr>
+        <tr><td><b>Out-the-door</b></td><td><b id="ovOtd">$59,648.01</b></td></tr>
         <tr><td>Down payment</td><td id="ovDown">−$1,500.00</td></tr>
         <tr><td><b>Total after down payment</b> (amount financed)</td><td><b id="ovFin">$58,148.01</b></td></tr>
       </table>
@@ -249,11 +250,27 @@
   <section class="tab" id="tab-loan" role="tabpanel">
   <p class="sub" style="margin-top:0">Change the down payment, the Kia promo rate and months, or edit any rate or term (months) in the table below. Edits are saved in this browser.</p>
 
-  <div class="card controls">
-    <div class="ctl">
-      <label for="otd">Out-the-door price</label>
-      <input id="otd" type="number" value="59648.01" step="100" min="0">
+  <div class="card">
+    <h2>Price, tax &amp; title</h2>
+    <div class="note" style="margin-bottom:10px">Defaults are from Danny's 7:10 PM worksheet. Sales tax = rate × (selling price + doc fee), rounded up to the cent, which matches the worksheet's $4,114.27.</div>
+    <div class="controls">
+      <div class="ctl"><label for="price">Selling price</label><input id="price" type="number" step="100" min="0" value="54826"></div>
+      <div class="ctl"><label for="docFee">Doc fee</label><input id="docFee" type="number" step="1" min="0" value="399"></div>
+      <div class="ctl"><label for="taxRate">Sales tax rate (%)</label><input id="taxRate" type="number" step="0.01" min="0" max="20" value="7.45"></div>
+      <div class="ctl"><label for="govFee">Title &amp; registration</label><input id="govFee" type="number" step="1" min="0" value="308.74"></div>
+      <div class="ctl presets"><label>Worksheet</label><button id="resetPrice" type="button">Reset to worksheet</button></div>
     </div>
+    <table class="mini ttl" style="margin-top:12px">
+      <tr><td>Selling price</td><td id="bPrice"></td></tr>
+      <tr><td>Doc fee</td><td id="bDoc"></td></tr>
+      <tr><td id="bTaxLbl">Sales tax</td><td id="bTax"></td></tr>
+      <tr><td>Title &amp; registration</td><td id="bGov"></td></tr>
+      <tr><td><b>Tax &amp; title total</b></td><td><b id="bTT"></b></td></tr>
+      <tr><td><b>Out-the-door</b></td><td><b id="bOtd"></b></td></tr>
+    </table>
+  </div>
+
+  <div class="card controls">
     <div class="ctl">
       <label for="down">Down payment</label>
       <input id="down" type="number" value="1500" step="500" min="0">
@@ -554,8 +571,15 @@ function payment(P, rate, n) {
   const r = rate / 1200;
   return r === 0 ? P / n : P * r / (1 - Math.pow(1 + r, -n));
 }
+const PRICE_DEFAULTS = { price: 54826, docFee: 399, taxRate: 7.45, govFee: 308.74 };
+function priceParts() {
+  const v = id => Math.max(0, +$('#' + id).value || 0);
+  const price = v('price'), doc = v('docFee'), rate = v('taxRate'), gov = v('govFee');
+  const tax = Math.ceil(Math.round((price + doc) * rate * 100) / 100 - 1e-9) / 100;   // cents, rounded up
+  return { price, doc, rate, gov, tax, otd: Math.round((price + doc + tax + gov) * 100) / 100 };
+}
 function compute() {
-  const otd = Math.max(0, +$('#otd').value || 0);
+  const otd = priceParts().otd;
   const down = Math.min(otd, Math.max(0, +$('#down').value || 0));
   const P = otd - down;
   return OPTIONS.map(o => {
@@ -580,6 +604,14 @@ document.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' &&
 const row = (k, v) => `<div class="r"><span>${k}</span><b>${v}</b></div>`;
 
 /* ---------- tiles ---------- */
+function renderPrice() {
+  const p = priceParts(), c = v => money(v, 2);
+  $('#bPrice').textContent = c(p.price); $('#bDoc').textContent = c(p.doc);
+  $('#bTaxLbl').textContent = `Sales tax (${p.rate}% of ${c(p.price + p.doc)})`; $('#bTax').textContent = c(p.tax);
+  $('#bGov').textContent = c(p.gov); $('#bTT').textContent = c(p.tax + p.gov); $('#bOtd').textContent = c(p.otd);
+  $('#ovPrice').textContent = c(p.price); $('#ovDoc').textContent = c(p.doc); $('#ovGov').textContent = c(p.gov);
+  $('#ovTaxLbl').textContent = `Sales tax (${p.rate}%)`; $('#ovTax').textContent = c(p.tax); $('#ovOtd').textContent = c(p.otd);
+}
 function renderAfterDown(rows) {
   const r = rows[0], otd = r.P + r.down, c = v => money(v, 2);
   $('#finVal').textContent = c(r.P);
@@ -722,12 +754,13 @@ function renderTable(rows) {
   if (focus) { const el = document.getElementById(focus); if (el) el.focus(); }
 }
 
-function render() { const rows = compute(); renderAfterDown(rows); renderTiles(rows); renderBars(rows); renderLines(rows); renderTable(rows); }
+function render() { const rows = compute(); renderPrice(); renderAfterDown(rows); renderTiles(rows); renderBars(rows); renderLines(rows); renderTable(rows); }
 
 const down = $('#down'), dr = $('#downRange');
 down.addEventListener('input', () => { dr.value = down.value; render(); });
 dr.addEventListener('input', () => { down.value = dr.value; render(); });
-$('#otd').addEventListener('input', render);
+['price', 'docFee', 'taxRate', 'govFee'].forEach(id => $('#' + id).addEventListener('input', render));
+$('#resetPrice').addEventListener('click', () => { for (const [k, v] of Object.entries(PRICE_DEFAULTS)) $('#' + k).value = v; render(); });
 $('#kiaRate').addEventListener('change', e => setOption('kia', 'rate', e.target.value));
 $('#kiaTerm').addEventListener('change', e => setOption('kia', 'term', e.target.value));
 $('#resetRates').addEventListener('click', () => {
