@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-support>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1d4ed8">
+  <meta name="theme-color" content="#ffffff">
   <title>Gospel — Scott Soward</title>
   <link rel="stylesheet" href="../css/site.css">
+  <!-- chrome:head -->
+  <script>(function(d){var r=d.documentElement,t=null;try{t=localStorage.getItem('hub-theme')}catch(e){}if(r.dataset.themeLock)t=r.dataset.themeLock;else if(!r.hasAttribute('data-theme-support'))t='light';else if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t)})(document);</script>
+  <script src="../js/site.js" defer></script>
+  <!-- /chrome:head -->
 </head>
 <body>
 
@@ -13,25 +17,29 @@
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand" href="../">
-      <span class="brand-name">Scott Soward</span>
-      <span class="brand-role">Engineer · Builder · Teacher</span>
+    <a class="brand" href="../" aria-label="Scott Soward — home">
+      <span class="brand-mark" aria-hidden="true">SS</span>
+      <span class="brand-text"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></span>
     </a>
-    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
-      <span aria-hidden="true">☰</span>
-    </button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <a href="../">Home</a>
-      <a href="./" aria-current="page">Gospel</a>
-      <a href="../tech-presentations/">Tech &amp; AI</a>
-      <a href="../activities/">Activities</a>
       <a href="../conferences/">Conferences</a>
+      <a href="../tech-presentations/">Tech &amp; AI</a>
+      <a href="../presentations/" aria-current="page">Gospel</a>
       <a href="../alma31.html">Scripture</a>
+      <a href="../ham-radio/">Study tools</a>
+      <a href="../activities/">Activities</a>
     </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </div>
 </header>
 
 <main id="main">
+<nav class="breadcrumbs container" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><span aria-current="page">Gospel</span></li></ol></nav>
+
   <section class="site-hero container">
     <p class="hero-eyebrow">Gospel</p>
     <h1 class="hero-title">Gospel presentations</h1>
@@ -46,157 +54,157 @@
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">February 10, 2026 · BYU Devotional × 1 Nephi 4</p>
-          <h3 class="card-title">Wherefore Can Ye Doubt?</h3>
+          <h3 class="card-title"><a class="card-link" href="./wherefore-can-ye-doubt/">Wherefore Can Ye Doubt?</a></h3>
           <p class="card-text">A deep cross-reference of 1 Nephi 4 with President Dallin H. Oaks&rsquo; &ldquo;Coming Closer to Jesus Christ&rdquo; — how Nephi&rsquo;s night in Jerusalem enacts the four practices for overcoming doubt: strengthened faith, teachable humility, believing company, and patience with God&rsquo;s timing.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./wherefore-can-ye-doubt/">Open &rarr;</a>
           <span class="card-meta">16 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">July 7, 2009 · BYU Devotional</p>
-          <h3 class="card-title">Light, Truth, and Grace</h3>
+          <h3 class="card-title"><a class="card-link" href="./light-truth-and-grace/">Light, Truth, and Grace</a></h3>
           <p class="card-text">Richard D. Draper on the three principles necessary for exaltation — why light is <em>capacity</em> rather than information, why truth is what glorifies, and why grace comes to everyone whether they choose it or not. D&amp;C 93.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./light-truth-and-grace/">Open &rarr;</a>
           <span class="card-meta">21 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">Kirtland · December 1832 · Scripture Study</p>
-          <h3 class="card-title">The Olive Leaf — Doctrine and Covenants 88</h3>
+          <h3 class="card-title"><a class="card-link" href="./dc-88-olive-leaf/">The Olive Leaf — Doctrine and Covenants 88</a></h3>
           <p class="card-text">A deep study of the longest section in the Doctrine and Covenants — the Light of Christ, law and kingdoms, the parable of the twelve kingdoms, the seven trumps, and the commission to establish a house of learning and order and glory.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./dc-88-olive-leaf/">Open &rarr;</a>
           <span class="card-meta">23 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">November 2024 · Family Testimony</p>
-          <h3 class="card-title">Maggie's Miracle — But Did You Die?</h3>
+          <h3 class="card-title"><a class="card-link" href="./maggies-miracle/">Maggie's Miracle — But Did You Die?</a></h3>
           <p class="card-text">Maggie Soward's sudden cardiac arrest on Thanksgiving Day 2024 — 26 minutes without a pulse against a 5% survival rate, her daughter Eliza's CPR, nine first responders, and a family's testimony of God's mercy and grace.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./maggies-miracle/">Open &rarr;</a>
           <span class="card-meta">20 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">April 2026 · BYU Women's Conference</p>
-          <h3 class="card-title">Throwing the Door Wide Open</h3>
+          <h3 class="card-title"><a class="card-link" href="./throwing-the-door-wide-open/">Throwing the Door Wide Open</a></h3>
           <p class="card-text">Camille N. Johnson, Relief Society General President — inviting more of Jesus Christ into daily life by deepening prayer, scripture, sacrament, temple worship, forgiveness, and service. Revelation 3:20.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./throwing-the-door-wide-open/">Open &rarr;</a>
           <span class="card-meta">14 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">2024–2026 · General Membership</p>
-          <h3 class="card-title">Do Not Miss the Majesty of This Moment</h3>
+          <h3 class="card-title"><a class="card-link" href="./do-not-miss-the-majesty/">Do Not Miss the Majesty of This Moment</a></h3>
           <p class="card-text">Temple growth &amp; spiritual preparation — the unprecedented acceleration of temple building under President Nelson, and his prophetic call to not miss the majesty of our moment.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./do-not-miss-the-majesty/">Open &rarr;</a>
           <span class="card-meta">12 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">March 22, 2026 · 7:00 PM · Israel Canyon Stake</p>
-          <h3 class="card-title">Ward Sunday School Presidents Training</h3>
+          <h3 class="card-title"><a class="card-link" href="./stake-ss-presidents-training/">Ward Sunday School Presidents Training</a></h3>
           <p class="card-text">Teaching in the Savior's Way — an inspired discussion on elevating gospel teaching across the stake. Handbook roles, teacher council meetings, ministering to the one.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./stake-ss-presidents-training/">Open &rarr;</a>
           <span class="card-meta">23 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">2026 · Ward Members</p>
-          <h3 class="card-title">Ward Conference 2026</h3>
+          <h3 class="card-title"><a class="card-link" href="./ward-conference-2026/">Ward Conference 2026</a></h3>
           <p class="card-text">PMG vs. Teaching in the Savior's Way — a comparison of how both resources strengthen gospel teaching at home and in the Church.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./ward-conference-2026/">Open &rarr;</a>
           <span class="card-meta">Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">2025–2026 · General Membership</p>
-          <h3 class="card-title">Confidence in the Presence of God</h3>
+          <h3 class="card-title"><a class="card-link" href="./confidence-in-presence-of-god/confidence-presentation.html">Confidence in the Presence of God</a></h3>
           <p class="card-text">Based on President Russell M. Nelson's talk — what it means to stand with confidence before Heavenly Father. Worthiness, the Atonement, and our relationship with God.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./confidence-in-presence-of-god/confidence-presentation.html">Open &rarr;</a>
           <span class="card-meta">Presentation</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">2025–2026 · BYU Idaho Students</p>
-          <h3 class="card-title">AI in the Tech Industry</h3>
+          <h3 class="card-title"><a class="card-link" href="./ai-students-byuideo/">AI in the Tech Industry</a></h3>
           <p class="card-text">The Majesty of the Moment — navigating artificial intelligence in tech, grounded in gospel principles and President Nelson's call to not miss the majesty of our moment.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./ai-students-byuideo/">Open &rarr;</a>
           <span class="card-meta">Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">Easter Week · 8 Days</p>
-          <h3 class="card-title">Easter Week Art Display</h3>
+          <h3 class="card-title"><a class="card-link" href="./easter-week/">Easter Week Art Display</a></h3>
           <p class="card-text">Eight days following the Savior's final week — Palm Sunday through the Resurrection. Each day pairs sacred artwork with KJV scripture, from the Triumphal Entry to "He Is Risen."</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./easter-week/">View all 8 days &rarr;</a>
           <span class="card-meta">8 presentations · 56 slides</span>
+          <span class="card-cta" aria-hidden="true">View all 8 days</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
           <p class="card-meta">2025–2026 · General Membership</p>
-          <h3 class="card-title">All Who Have Endured Valiantly</h3>
+          <h3 class="card-title"><a class="card-link" href="./all-who-have-endured-valiantly/">All Who Have Endured Valiantly</a></h3>
           <p class="card-text">Elder David A. Bednar — endure to the end as more than persistence. Charity as the pure love of Christ, the spiritual gift that defines what we are becoming. D&amp;C 121:29.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="./all-who-have-endured-valiantly/">Open &rarr;</a>
           <span class="card-meta">12 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
@@ -206,31 +214,14 @@
 
 <footer class="site-footer">
   <div class="container site-footer-inner">
-    <span>© <span id="year">2026</span> Scott Soward</span>
-    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+    <span>&copy; <span data-year>2026</span> Scott Soward</span>
+    <nav aria-label="Footer">
+      <a href="../">Home</a>
+      <a href="https://github.com/ssoward/hub">Source on GitHub</a>
+    </nav>
   </div>
 </footer>
 
-<script>
-  (function() {
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('primary-nav');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
-        }
-      });
-    }
-  })();
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
 
 </body>
 </html>

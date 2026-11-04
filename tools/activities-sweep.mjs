@@ -12,6 +12,7 @@
 
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { NAV } from './site-chrome.mjs';
 import { runSuite, REPO_ROOT } from './browser-harness.mjs';
 
 const ACTIVITIES = readdirSync(join(REPO_ROOT, 'activities'), { withFileTypes: true })
@@ -45,11 +46,11 @@ runSuite(`All ${ACTIVITIES.length} activities`, async (t) => {
         main: !!document.getElementById('main'),
         skip: !!document.querySelector('.skip-link'),
         nav: document.querySelectorAll('#primary-nav a').length,
-        back: !!document.querySelector('.site-footer a[href="../"]'),
+        back: !!document.querySelector('.site-footer a[href="../../activities/"]'),
         viewport: !!document.querySelector('meta[name=viewport]')
       };`);
 
-    t.check(!!page.h1 && page.main && page.skip && page.nav === 6 && page.back && page.viewport,
+    t.check(!!page.h1 && page.main && page.skip && page.nav === NAV.length && page.back && page.viewport,
       `${name} carries the shared page furniture`, JSON.stringify(page));
     t.check(page.title.includes('Scott Soward'), `${name} has a site title`, page.title);
 

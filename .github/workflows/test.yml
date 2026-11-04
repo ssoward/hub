@@ -1,0 +1,28 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      # No npm install: the site and its tests have zero dependencies.
+      - name: Static site check
+        run: npm run test:site
+      - name: Browser suites (a11y, notes, presentations, activities, games)
+        env:
+          CHROME: /usr/bin/google-chrome
+          CI: 'true'
+        run: npm test

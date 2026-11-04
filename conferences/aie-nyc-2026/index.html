@@ -1,171 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-support>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Trip plan for AI Engineer NYC 2026 (Oct 12–14): before/during/after checklists and a searchable, starrable session schedule.">
-<meta name="theme-color" content="#141a26">
-<title>AIE NYC 2026 Trip Plan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
-<style>
-/* Layout: a single reading column with a "departure board" header, tabbed phases (Before / During / After / Schedule), checklists as ruled rows. Accent borrows the E-train blue — the line that stops at 7 Av–53 St, a block from the venue. */
-:root {
-  --bg: #f5f6f8;
-  --surface: #ffffff;
-  --ink: #141a26;
-  --muted: #5a6478;
-  --line: #dde1e8;
-  --accent: #0039a6;
-  --accent-soft: #e3eafa;
-  --warm: #b8570b;
-  --warm-soft: #fbeee2;
-  --ok: #1f7a4d;
-  --board: #141a26;
-  --board-ink: #f2f4f8;
-  --board-dim: #9aa4b8;
-  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
-  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0f131b; --surface: #171c27; --ink: #e8ebf2; --muted: #9aa4b8; --line: #2a3140;
-  --accent: #7ea2ff; --accent-soft: #1c2742; --warm: #f0a15e; --warm-soft: #33241a; --ok: #5cc592;
-  --board: #06080c; --board-ink: #f2f4f8; --board-dim: #8a94a8; color-scheme: dark; } }
-:root[data-theme="dark"] {
-  --bg: #0f131b; --surface: #171c27; --ink: #e8ebf2; --muted: #9aa4b8; --line: #2a3140;
-  --accent: #7ea2ff; --accent-soft: #1c2742; --warm: #f0a15e; --warm-soft: #33241a; --ok: #5cc592;
-  --board: #06080c; --board-ink: #f2f4f8; --board-dim: #8a94a8; color-scheme: dark; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trip plan for AI Engineer NYC 2026 (Oct 12–14): before/during/after checklists and a searchable, starrable session schedule.">
+  <meta name="theme-color" content="#ffffff">
+  <title>AI Engineer NYC 2026 — Scott Soward</title>
+  <link rel="stylesheet" href="../../css/site.css">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <style>
+    /* AIE NYC 2026 — page layout only; colors come from site.css tokens. */
+    .event-meta { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); margin: var(--sp-4) 0 0; color: var(--ink-soft); font-size: var(--fs-sm); font-weight: 550; }
+    .event-meta > span { display: inline-flex; align-items: center; gap: 6px; }
+    .event-meta svg, .hero-actions svg { width: 16px; height: 16px; flex: none; }
+    .event-meta svg { color: var(--muted); }
+    .stat-row { margin-top: var(--sp-6); }
+    .stat-note { font-size: var(--fs-sm); color: var(--muted); margin-top: 2px; }
+    .mono, .tm { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
-.wrap { max-width: 920px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 64px; }
-a { color: var(--accent); text-underline-offset: 2px; }
-h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.15; }
-h2 { font-size: 1.45rem; font-stretch: 90%; font-weight: 750; }
-h3 { font-size: 1.05rem; font-weight: 700; }
-.eyebrow { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .tabs .cnt { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 500; color: var(--muted); margin-left: 4px; }
+    .tabs [aria-selected="true"] .cnt { color: inherit; }
+    .phase { display: grid; gap: var(--sp-8); scroll-margin-top: calc(var(--header-h) + 64px); }
+    @media (max-width: 560px) {
+      .tabs [role="tab"] { flex: 1 1 auto; padding: 12px 6px; text-align: center; }
+      .tabs .cnt { display: block; margin: 0; }
+    }
 
-/* Departure board */
-.board { background: var(--board); color: var(--board-ink); border-radius: 10px; padding: 22px 22px 18px; display: grid; gap: 18px; }
-.board h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); font-stretch: 80%; font-weight: 800; letter-spacing: -.01em; }
-.board .sub { color: var(--board-dim); font-size: .95rem; margin-top: 6px; }
-.legs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: #2c3445; border-radius: 6px; overflow: hidden; }
-.leg { background: var(--board); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
-.leg .k { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; color: var(--board-dim); text-transform: uppercase; }
-.leg .v { font-family: var(--mono); font-size: 1.05rem; font-weight: 600; color: #ffd166; }
-.leg .n { font-size: .82rem; color: var(--board-dim); }
-.countdown { font-family: var(--mono); font-size: .85rem; color: var(--board-dim); display: flex; flex-wrap: wrap; gap: 6px 18px; }
-.countdown b { color: var(--board-ink); }
+    /* Checklist groups */
+    .group { display: grid; gap: var(--sp-3); }
+    .group-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; }
+    .group-head h2 { font-size: var(--fs-lg); }
+    .when { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600; color: var(--warn); background: var(--warn-soft); padding: 2px 8px; border-radius: var(--r-sm); }
+    .progress { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); }
+    ul.check { list-style: none; margin: 0; padding: 0; background: var(--raised); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-1); }
+    ul.check li + li { border-top: 1px solid var(--border); }
+    ul.check label { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); cursor: pointer; align-items: start; min-height: 48px; }
+    ul.check label:hover { background: var(--surface); }
+    ul.check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); }
+    ul.check .t { min-width: 0; }
+    ul.check .t small { display: block; color: var(--muted); font-size: var(--fs-sm); margin-top: 2px; }
+    ul.check input:checked + .t > span:first-child { text-decoration: line-through; color: var(--muted); }
 
-/* Tabs */
-.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); display: flex; gap: 4px; padding-block: 14px 10px; border-bottom: 1px solid var(--line); margin-bottom: 22px; overflow-x: auto; }
-.tab { font-family: var(--display); font-weight: 650; font-size: .95rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 14px; border-radius: 999px; cursor: pointer; white-space: nowrap; display: inline-flex; gap: 8px; align-items: center; }
-.tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-.tab .cnt { font-family: var(--mono); font-size: .72rem; opacity: .8; }
-section.panel { display: grid; gap: 28px; }
-[hidden] { display: none !important; }
+    /* Day timeline in During */
+    .day { display: grid; gap: var(--sp-3); }
+    .blocks { list-style: none; margin: 0; padding: 0; background: var(--raised); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+    .block { display: grid; grid-template-columns: 118px 1fr; gap: var(--sp-3); padding: var(--sp-2) var(--sp-4); font-size: var(--fs-sm); }
+    .block + .block { border-top: 1px solid var(--border); }
+    .block .tm { font-size: var(--fs-xs); color: var(--muted); padding-top: 2px; }
+    .block.hl { background: var(--accent-soft); }
+    .block .where { color: var(--muted); }
 
-/* Checklists */
-.group { display: grid; gap: 10px; }
-.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.when { font-family: var(--mono); font-size: .75rem; color: var(--warm); background: var(--warm-soft); padding: 2px 8px; border-radius: 4px; }
-ul.check { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
-ul.check li { border-top: 1px solid var(--line); }
-ul.check li:first-child { border-top: 0; }
-ul.check label { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 11px 14px; cursor: pointer; align-items: start; }
-ul.check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); }
-ul.check .t { min-width: 0; }
-ul.check .t small { display: block; color: var(--muted); font-size: .85rem; margin-top: 2px; }
-ul.check input:checked + .t > span:first-child { text-decoration: line-through; color: var(--muted); }
-.progress { font-family: var(--mono); font-size: .75rem; color: var(--muted); }
-
-.note { background: var(--accent-soft); border-radius: 8px; padding: 14px 16px; font-size: .92rem; }
-.note b { font-family: var(--display); }
-.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
-.card p { margin: 0; font-size: .9rem; color: var(--muted); }
-.card .route { font-family: var(--mono); font-size: .82rem; color: var(--ink); }
-.tag { display: inline-block; font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; background: var(--accent-soft); color: var(--accent); }
-.tag.best { background: var(--ok); color: #fff; }
-
-/* Day timeline in During */
-.day { display: grid; gap: 12px; }
-.blocks { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-.block { display: grid; grid-template-columns: 118px 1fr; gap: 12px; padding: 9px 14px; border-top: 1px solid var(--line); font-size: .92rem; }
-.block:first-child { border-top: 0; }
-.block .tm { font-family: var(--mono); font-size: .8rem; color: var(--muted); padding-top: 2px; }
-.block.hl { background: var(--accent-soft); }
-.block .where { color: var(--muted); font-size: .84rem; }
-
-/* Schedule */
-.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.controls input[type=search] { flex: 1 1 220px; min-width: 0; padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; }
-.chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 11px; border-radius: 999px; font-family: var(--mono); font-size: .76rem; cursor: pointer; }
-.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.slot { display: grid; grid-template-columns: 78px 1fr; gap: 12px; padding-block: 12px; border-top: 1px solid var(--line); }
-.slot .tm { font-family: var(--mono); font-size: .8rem; color: var(--muted); padding-top: 10px; }
-.sessions { display: grid; gap: 6px; min-width: 0; }
-.sess { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; min-width: 0; }
-.sess.kn { border-left: 3px solid var(--accent); }
-.sess.ws { border-left: 3px solid var(--warm); }
-.sess .ti { font-weight: 600; font-size: .93rem; min-width: 0; overflow-wrap: anywhere; }
-.sess .meta { grid-column: 1; font-size: .82rem; color: var(--muted); min-width: 0; }
-.sess .meta .rm { font-family: var(--mono); font-size: .74rem; color: var(--ink); }
-.sess .why { grid-column: 1 / -1; font-size: .8rem; color: var(--ok); }
-.star { grid-row: 1 / span 2; grid-column: 2; background: none; border: 0; cursor: pointer; font-size: 1.25rem; line-height: 1; color: var(--line); padding: 2px; }
-.star[aria-pressed="true"] { color: #e2a100; }
-.dayhead { margin-top: 18px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-.empty { color: var(--muted); padding: 20px 0; }
-.back { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--mono); font-size: .78rem; color: var(--muted); text-decoration: none; margin-bottom: 12px; }
-.back:hover { color: var(--accent); }
-.toplinks { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
-@media (max-width: 520px) {
-  .tabs { gap: 2px; }
-  .tab { padding: 8px 7px; gap: 4px; font-size: .88rem; flex: 1 1 auto; justify-content: center; }
-  .tab .cnt { font-size: .66rem; }
-}
-@media (max-width: 399px) {
-  .tab .cnt { display: none; }
-}
-@media (max-width: 520px) {
-  .block { grid-template-columns: 1fr; gap: 2px; }
-  .slot { grid-template-columns: 1fr; gap: 4px; }
-  .slot .tm { padding-top: 0; }
-}
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
+    /* Schedule */
+    .controls { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .controls .search-field { max-width: none; }
+    .slot { display: grid; grid-template-columns: 78px 1fr; gap: var(--sp-3); padding-block: var(--sp-3); border-top: 1px solid var(--border); }
+    .slot .tm { font-size: var(--fs-xs); color: var(--muted); padding-top: 12px; }
+    .sessions { display: grid; gap: var(--sp-2); min-width: 0; }
+    .sess { background: var(--raised); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3); display: grid; grid-template-columns: 1fr auto; gap: 2px var(--sp-2); min-width: 0; }
+    .sess.kn { border-left: 3px solid var(--accent); }
+    .sess.ws { border-left: 3px solid var(--warn); }
+    .sess .ti { font-weight: 650; font-size: var(--fs-sm); min-width: 0; overflow-wrap: anywhere; padding-top: 4px; }
+    .sess .meta { grid-column: 1; font-size: var(--fs-xs); color: var(--muted); min-width: 0; }
+    .sess .meta .rm { font-family: var(--font-mono); color: var(--ink-soft); }
+    .sess .why { grid-column: 1 / -1; font-size: var(--fs-xs); color: var(--success); font-weight: 600; }
+    .star { grid-row: 1 / span 2; grid-column: 2; align-self: start; display: inline-grid; place-items: center; width: 40px; height: 40px; background: none; border: 0; border-radius: var(--r-md); cursor: pointer; font-size: 1.3rem; line-height: 1; color: var(--muted); }
+    .star:hover { background: var(--surface-2); }
+    .star[aria-pressed="true"] { color: var(--warn); }
+    .dayhead { margin-top: var(--sp-6); padding-bottom: var(--sp-2); }
+    .dayhead h2 { font-size: var(--fs-lg); }
+    .sched-source, .sync-note { font-size: var(--fs-sm); color: var(--muted); }
+    @media (max-width: 520px) {
+      .block { grid-template-columns: 1fr; gap: 2px; }
+      .slot { grid-template-columns: 1fr; gap: var(--sp-1); }
+      .slot .tm { padding-top: 0; }
+    }
+  </style>
+  <!-- chrome:head -->
+  <script>(function(d){var r=d.documentElement,t=null;try{t=localStorage.getItem('hub-theme')}catch(e){}if(r.dataset.themeLock)t=r.dataset.themeLock;else if(!r.hasAttribute('data-theme-support'))t='light';else if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t)})(document);</script>
+  <script src="../../js/site.js" defer></script>
+  <!-- /chrome:head -->
+</head>
 </head>
 <body>
 
-<div class="wrap">
-  <nav class="toplinks" aria-label="Page links"><a class="back" href="../">&larr; Conferences</a><span style="display:flex;gap:16px;flex-wrap:wrap"><a class="back" href="private/ticket/">🎟 Ticket</a><a class="back" href="private/">🔒 Private itinerary</a></span></nav>
-  <header class="board">
-    <div>
-      <div class="eyebrow" style="color:var(--board-dim)">Conference plan</div>
-      <h1>AI Engineer NYC 2026</h1>
-      <div class="sub">Oct 12–14 · Sheraton New York Times Square, 811 7th Ave (at 53rd St), New York, NY 10019</div>
-    </div>
-    <div class="legs">
-      <div class="leg"><span class="k">Conference</span><span class="v">Mon–Wed</span><span class="n">Workshops · Talks · Expo</span></div>
-      <div class="leg"><span class="k">Schedule</span><span class="v">142 sessions</span><span class="n">5 rooms · Keynotes in the Simons Room</span></div>
-    </div>
-    <div class="countdown" id="countdown"></div>
-  </header>
+<a class="skip-link" href="#main">Skip to content</a>
 
-  <nav class="tabs" role="tablist" aria-label="Trip phases">
-    <button class="tab" role="tab" id="tab-before" aria-controls="p-before" data-p="before">Before <span class="cnt" data-c="before"></span></button>
-    <button class="tab" role="tab" id="tab-during" aria-controls="p-during" data-p="during">During <span class="cnt" data-c="during"></span></button>
-    <button class="tab" role="tab" id="tab-after" aria-controls="p-after" data-p="after">After <span class="cnt" data-c="after"></span></button>
-    <button class="tab" role="tab" id="tab-schedule" aria-controls="p-schedule" data-p="schedule">Schedule <span class="cnt" id="starcnt"></span></button>
-  </nav>
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand" href="../../" aria-label="Scott Soward — home">
+      <span class="brand-mark" aria-hidden="true">SS</span>
+      <span class="brand-text"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></span>
+    </a>
+    <nav id="primary-nav" class="site-nav" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../conferences/" aria-current="true">Conferences</a>
+      <a href="../../tech-presentations/">Tech &amp; AI</a>
+      <a href="../../presentations/">Gospel</a>
+      <a href="../../alma31.html">Scripture</a>
+      <a href="../../ham-radio/">Study tools</a>
+      <a href="../../activities/">Activities</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumbs container" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../">Conferences</a></li>
+    <li><span aria-current="page">AI Engineer NYC 2026</span></li>
+  </ol>
+</nav>
+
+<main id="main">
+
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Conference trip plan</p>
+    <h1 class="hero-title">AI Engineer NYC 2026</h1>
+    <p class="hero-lede">Checklists for before, during and after the trip, a day-by-day plan, and the full session schedule with search, suggested talks and stars.</p>
+    <p class="event-meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Oct 12&ndash;14, 2026</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Sheraton New York Times Square, 811 7th Ave (at 53rd St)</span>
+      <span class="chip status-archived">Past event</span>
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-secondary" href="private/ticket/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M13 6v12" stroke-dasharray="2 2"/></svg>Ticket</a>
+      <a class="btn btn-secondary" href="private/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Private itinerary<span class="visually-hidden"> (password required)</span></a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-value">Mon&ndash;Wed</div><div class="stat-label">Conference</div><p class="stat-note">Workshops &middot; Talks &middot; Expo</p></div>
+      <div class="stat"><div class="stat-value">142</div><div class="stat-label">Sessions</div><p class="stat-note">5 rooms &middot; keynotes in the Simons Room</p></div>
+      <div class="stat"><div class="stat-value" id="countdown-value">&mdash;</div><div class="stat-label">Status</div><p class="stat-note" id="countdown"></p></div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout info" role="note">
+      <div>
+        <p class="callout-title">This event is over</p>
+        <p>AI Engineer NYC ran Oct 12&ndash;14, 2026. The plan is kept as a reference, and the After checklist is still in progress.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+  <div class="tabs tabs-sticky" role="tablist" data-tabs data-tabs-hash aria-label="Trip phases">
+    <button type="button" role="tab" id="tab-before" aria-controls="before" aria-selected="true" data-p="before">Before <span class="cnt" data-c="before"></span></button>
+    <button type="button" role="tab" id="tab-during" aria-controls="during" aria-selected="false" data-p="during">During <span class="cnt" data-c="during"></span></button>
+    <button type="button" role="tab" id="tab-after" aria-controls="after" aria-selected="false" data-p="after">After <span class="cnt" data-c="after"></span></button>
+    <button type="button" role="tab" id="tab-schedule" aria-controls="schedule" aria-selected="false" data-p="schedule">Schedule <span class="cnt" id="starcnt"></span></button>
+  </div>
 
   <!-- BEFORE -->
-  <section class="panel" role="tabpanel" aria-labelledby="tab-before" id="p-before" data-phase="before">
+  <section class="tab-panel phase" role="tabpanel" aria-labelledby="tab-before" id="before" data-phase="before" tabindex="0">
     <div class="group" data-group>
       <div class="group-head"><h2>Book &amp; register</h2><span class="when">Now</span></div>
       <ul class="check">
@@ -214,18 +205,18 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
   </section>
 
   <!-- DURING -->
-  <section class="panel" role="tabpanel" aria-labelledby="tab-during" id="p-during" data-phase="during" hidden>
+  <section class="tab-panel phase" role="tabpanel" aria-labelledby="tab-during" id="during" data-phase="during" tabindex="0" hidden>
     <div class="day">
       <div class="group-head"><h2>Mon Oct 12 · Workshops + Welcome</h2><span class="progress" data-day="mon"></span></div>
-      <div class="blocks">
-        <div class="block hl"><span class="tm">8:00 AM</span><span>Registration opens in the Level 1 Lobby. Get your badge early, since it closes at 7:00 PM</span></div>
-        <div class="block"><span class="tm">9:00–11:00</span><span>Workshop block 1 <span class="where">· Orchestrating Claude Managed Agents (Anthropic), Sutton Rm</span></span></div>
-        <div class="block"><span class="tm">11:05–12:05</span><span>Workshop block 2</span></div>
-        <div class="block"><span class="tm">12:05–1:15</span><span>Walkaway lunch</span></div>
-        <div class="block"><span class="tm">1:15–4:30</span><span>Workshop blocks 3–5 <span class="where">· Verification Loops (Sutton), SonarQube Gitar (Shannon), Langfuse (Sutton), Lance Martin of Anthropic (Shannon, 3:30)</span></span></div>
-        <div class="block hl"><span class="tm">4:00–7:00 PM</span><span>Expo floor opens</span></div>
-        <div class="block hl"><span class="tm">5:00–7:00 PM</span><span>Welcome reception, sponsored by Sonar, in the Expo Hall</span></div>
-      </div>
+      <ul class="blocks">
+        <li class="block hl"><span class="tm">8:00 AM</span><span>Registration opens in the Level 1 Lobby. Get your badge early, since it closes at 7:00 PM</span></li>
+        <li class="block"><span class="tm">9:00–11:00</span><span>Workshop block 1 <span class="where">· Orchestrating Claude Managed Agents (Anthropic), Sutton Rm</span></span></li>
+        <li class="block"><span class="tm">11:05–12:05</span><span>Workshop block 2</span></li>
+        <li class="block"><span class="tm">12:05–1:15</span><span>Walkaway lunch</span></li>
+        <li class="block"><span class="tm">1:15–4:30</span><span>Workshop blocks 3–5 <span class="where">· Verification Loops (Sutton), SonarQube Gitar (Shannon), Langfuse (Sutton), Lance Martin of Anthropic (Shannon, 3:30)</span></span></li>
+        <li class="block hl"><span class="tm">4:00–7:00 PM</span><span>Expo floor opens</span></li>
+        <li class="block hl"><span class="tm">5:00–7:00 PM</span><span>Welcome reception, sponsored by Sonar, in the Expo Hall</span></li>
+      </ul>
       <ul class="check">
         <li><label><input type="checkbox" id="d1-badge"><span class="t"><span>Pick up your badge and download any event app or Wi-Fi details</span></span></label></li>
         <li><label><input type="checkbox" id="d1-repo"><span class="t"><span>Clone the workshop repos and run the setup before each session</span></span></label></li>
@@ -237,15 +228,15 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 
     <div class="day">
       <div class="group-head"><h2>Tue Oct 13 · Main conference day</h2><span class="progress" data-day="tue"></span></div>
-      <div class="blocks">
-        <div class="block hl"><span class="tm">9:00–10:30</span><span>Keynotes <span class="where">· Simons Room · Anthropic (Belinda Neal, 9:18), "Does Code Quality Even Matter?" (9:54)</span></span></div>
-        <div class="block"><span class="tm">10:30–4:30</span><span>Expo open</span></div>
-        <div class="block"><span class="tm">10:40–12:15</span><span>Breakouts in 5 rooms</span></div>
-        <div class="block"><span class="tm">12:00–2:00</span><span>Lunch, with a few talks running through it</span></div>
-        <div class="block"><span class="tm">2:05–4:03</span><span>Breakouts and expo sessions</span></div>
-        <div class="block hl"><span class="tm">4:25–5:30</span><span>Closing keynotes <span class="where">· Coatue, General Intuition, Nous Research</span></span></div>
-        <div class="block hl"><span class="tm">5:30 PM →</span><span>Side events <span class="where">· Leadership Reception (5:30–7:30, Lennox Ballroom, sponsored by Primitive) · Table Stakes · Optiver Social · Greptile × Datadog</span></span></div>
-      </div>
+      <ul class="blocks">
+        <li class="block hl"><span class="tm">9:00–10:30</span><span>Keynotes <span class="where">· Simons Room · Anthropic (Belinda Neal, 9:18), "Does Code Quality Even Matter?" (9:54)</span></span></li>
+        <li class="block"><span class="tm">10:30–4:30</span><span>Expo open</span></li>
+        <li class="block"><span class="tm">10:40–12:15</span><span>Breakouts in 5 rooms</span></li>
+        <li class="block"><span class="tm">12:00–2:00</span><span>Lunch, with a few talks running through it</span></li>
+        <li class="block"><span class="tm">2:05–4:03</span><span>Breakouts and expo sessions</span></li>
+        <li class="block hl"><span class="tm">4:25–5:30</span><span>Closing keynotes <span class="where">· Coatue, General Intuition, Nous Research</span></span></li>
+        <li class="block hl"><span class="tm">5:30 PM →</span><span>Side events <span class="where">· Leadership Reception (5:30–7:30, Lennox Ballroom, sponsored by Primitive) · Table Stakes · Optiver Social · Greptile × Datadog</span></span></li>
+      </ul>
       <ul class="check">
         <li><label><input type="checkbox" id="d2-seat"><span class="t"><span>Get to the Simons Room by 8:45 for keynotes</span></span></label></li>
         <li><label><input type="checkbox" id="d2-stars"><span class="t"><span>Follow your starred talks, and walk out of any that don't deliver</span></span></label></li>
@@ -257,14 +248,14 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
 
     <div class="day">
       <div class="group-head"><h2>Wed Oct 14 · Final day</h2><span class="progress" data-day="wed"></span></div>
-      <div class="blocks">
-        <div class="block hl"><span class="tm">9:00–10:30</span><span>Keynotes <span class="where">· Ramp, Sonar CEO, Coinbase, OpenAI, Bloomberg on AI security</span></span></div>
-        <div class="block"><span class="tm">10:40–12:38</span><span>Breakouts <span class="where">· "Your Coding Agent Has a Context Problem" (McCarthy, 11:05), "Your Reranker Improved Retrieval…" (Turing, 11:30), which clashes with Sonar + Addy Osmani's "Who verifies the software factory?" (Sutton, 11:30)</span></span></div>
-        <div class="block"><span class="tm">12:00–2:00</span><span>Lunch, with a few talks running through it</span></div>
-        <div class="block"><span class="tm">2:05–4:03</span><span>Breakouts <span class="where">· Blackstone CTO keynote (2:05), skills that improve skills (Turing, 2:30), Build your own team of managed agents (2:55)</span></span></div>
-        <div class="block hl"><span class="tm">4:25–5:30</span><span>Closing keynotes <span class="where">· Apollo · Process Supervision · "Everything will be Simulated"</span></span></div>
-        <div class="block"><span class="tm">4:30 PM</span><span>Expo closes, so do your last booth visits before then</span></div>
-      </div>
+      <ul class="blocks">
+        <li class="block hl"><span class="tm">9:00–10:30</span><span>Keynotes <span class="where">· Ramp, Sonar CEO, Coinbase, OpenAI, Bloomberg on AI security</span></span></li>
+        <li class="block"><span class="tm">10:40–12:38</span><span>Breakouts <span class="where">· "Your Coding Agent Has a Context Problem" (McCarthy, 11:05), "Your Reranker Improved Retrieval…" (Turing, 11:30), which clashes with Sonar + Addy Osmani's "Who verifies the software factory?" (Sutton, 11:30)</span></span></li>
+        <li class="block"><span class="tm">12:00–2:00</span><span>Lunch, with a few talks running through it</span></li>
+        <li class="block"><span class="tm">2:05–4:03</span><span>Breakouts <span class="where">· Blackstone CTO keynote (2:05), skills that improve skills (Turing, 2:30), Build your own team of managed agents (2:55)</span></span></li>
+        <li class="block hl"><span class="tm">4:25–5:30</span><span>Closing keynotes <span class="where">· Apollo · Process Supervision · "Everything will be Simulated"</span></span></li>
+        <li class="block"><span class="tm">4:30 PM</span><span>Expo closes, so do your last booth visits before then</span></li>
+      </ul>
       <ul class="check">
         <li><label><input type="checkbox" id="d3-expo"><span class="t"><span>Make your last Expo visits before 4:30</span></span></label></li>
         <li><label><input type="checkbox" id="d3-notes"><span class="t"><span>Write your final takeaways while they're fresh</span></span></label></li>
@@ -273,7 +264,7 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
   </section>
 
   <!-- AFTER -->
-  <section class="panel" role="tabpanel" aria-labelledby="tab-after" id="p-after" data-phase="after" hidden>
+  <section class="tab-panel phase" role="tabpanel" aria-labelledby="tab-after" id="after" data-phase="after" tabindex="0" hidden>
     <div class="group" data-group>
       <div class="group-head"><h2>First 48 hours</h2><span class="when">Oct 15–16</span></div>
       <ul class="check">
@@ -303,24 +294,40 @@ footer { margin-top: 40px; color: var(--muted); font-size: .8rem; }
   </section>
 
   <!-- SCHEDULE -->
-  <section class="panel" role="tabpanel" aria-labelledby="tab-schedule" id="p-schedule" data-phase="schedule" hidden>
-    <div class="note">All <b id="total"></b> sessions from the official schedule, synced Oct 12, the morning of day 1. Times are ET. Many rooms, times and titles changed after Sep 29, so check the official schedule before you walk over. Tap ☆ to star a talk. Stars are saved in this browser only. Keynotes are in the Simons Room (Metropolitan East), the largest.</div>
+  <section class="tab-panel phase" role="tabpanel" aria-labelledby="tab-schedule" id="schedule" data-phase="schedule" tabindex="0" hidden>
+    <div class="callout info" role="note"><p>All <b id="total"></b> sessions from the official schedule, synced Oct 12, the morning of day 1. Times are ET. Many rooms, times and titles changed after Sep 29, so check the official schedule before you walk over. Tap the star on a talk to save it. Stars are saved in this browser only. Keynotes are in the Simons Room (Metropolitan East), the largest.</p></div>
     <div class="controls">
-      <input type="search" id="q" placeholder="Search titles, speakers, companies" aria-label="Search sessions">
-      <button class="chip" id="f-all" data-day="" aria-pressed="true">All days</button>
-      <button class="chip" id="f-mon" data-day="2026-10-12" aria-pressed="false">Mon 12</button>
-      <button class="chip" id="f-tue" data-day="2026-10-13" aria-pressed="false">Tue 13</button>
-      <button class="chip" id="f-wed" data-day="2026-10-14" aria-pressed="false">Wed 14</button>
-      <button class="chip" id="f-sug" aria-pressed="false">Suggested</button>
-      <button class="chip" id="f-star" aria-pressed="false">★ Starred</button>
-      <button class="chip" id="f-expo" aria-pressed="false">Hide sponsor slots</button>
+      <div class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="visually-hidden" for="q">Search sessions</label><input type="search" id="q" placeholder="Search titles, speakers, companies, rooms"></div>
+      <div class="filter-bar" id="sched-filters" role="group" aria-label="Filter sessions">
+      <button type="button" class="btn btn-ghost btn-sm" id="f-all" data-day="" aria-pressed="true">All days</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="f-mon" data-day="2026-10-12" aria-pressed="false">Mon 12</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="f-tue" data-day="2026-10-13" aria-pressed="false">Tue 13</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="f-wed" data-day="2026-10-14" aria-pressed="false">Wed 14</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="f-sug" aria-pressed="false">Suggested</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="f-star" aria-pressed="false"><span aria-hidden="true">★</span> Starred</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="f-expo" aria-pressed="false">Hide sponsor slots</button>
+      </div>
     </div>
+    <p class="result-count" id="sched-count" aria-live="polite"></p>
     <div id="sched"></div>
-    <p style="font-size:.85rem;color:var(--muted)">Source: <a href="https://ai.engineer/nyc/2026/schedule">ai.engineer/nyc/2026/schedule</a>. Check it on the day, because sessions still move.</p>
+    <p class="sched-source">Source: <a href="https://ai.engineer/nyc/2026/schedule">ai.engineer/nyc/2026/schedule</a>. Check it on the day, because sessions still move.</p>
   </section>
 
-  <footer>Built from ai.engineer/nyc/2026 on Sep 29, 2026, and synced with the official schedule on Oct 12. Your checkmarks and stars are saved in this browser only.</footer>
-</div>
+  <p class="sync-note">Built from ai.engineer/nyc/2026 on Sep 29, 2026, and synced with the official schedule on Oct 12. Your checkmarks and stars are saved in this browser only.</p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer-inner">
+    <span>&copy; <span data-year>2026</span> Scott Soward</span>
+    <nav aria-label="Footer">
+      <a href="../../conferences/">&larr; All conferences</a>
+      <a href="../../">Home</a>
+      <a href="https://github.com/ssoward/hub">Source on GitHub</a>
+    </nav>
+  </div>
+</footer>
 
 <script>
 const SESSIONS = [{"id": "b4d58021-e1c3-4703-b294-0f7cacaa5f68", "d": "2026-10-12", "s": 540, "e": 660, "r": "Shannon Room (NY Ballroom E)", "t": "Building a Wealth Management Concierge in ChatGPT Work", "sp": "Stefano Fabbri (OpenAI), Oliver Steffmann (OpenAI)", "f": "Workshop (1-2 hrs)"}, {"id": "c3e701bb-2a93-4035-94de-9e1e86613e66", "d": "2026-10-12", "s": 540, "e": 660, "r": "Turing Room (Riverside Ballroom)", "t": "Evaluations with Phoenix 101", "sp": "Laurie Voss (Arize AI)", "f": "Workshop (1-2 hrs)"}, {"id": "c415d432-5b6f-4b4a-9d2c-2e02cfde99db", "d": "2026-10-12", "s": 540, "e": 660, "r": "Sutton Room (NY Ballroom W)", "t": "Orchestrating Claude Managed Agents", "sp": "CJ Avilla (Anthropic), Harrison Stall (Anthropic)", "f": "Workshop (1-2 hrs)"}, {"id": "3b7ae779-5398-4e3b-8d5e-f55a36f7b053", "d": "2026-10-12", "s": 540, "e": 660, "r": "McCarthy Room (Riverside Suite)", "t": "Stop Chatting With Spreadsheets: Build a Financial Analyst Harness That You Can Trust", "sp": "Francesco Galletta (Monzo), Felippe Felisola Caso (Monzo)", "f": "Workshop (1-2 hrs)"}, {"id": "4f9d99e5-0694-499d-874f-66c0c258f4de", "d": "2026-10-12", "s": 665, "e": 725, "r": "Shannon Room (NY Ballroom E)", "t": "AI Evaluation 101", "sp": "SallyAnn DeLucia (Arize AI)", "f": "Workshop (1-2 hrs)"}, {"id": "c4032f39-ca9c-4124-8a90-ad0576788bab", "d": "2026-10-12", "s": 665, "e": 725, "r": "Turing Room (Riverside Ballroom)", "t": "Harbor Intro: Shipping agents on evidence, not vibes", "sp": "Xander Song (Arize AI)", "f": "Workshop (1-2 hrs)"}, {"id": "898cb76b-41f3-47c0-ba31-6a5f8df40117", "d": "2026-10-12", "s": 665, "e": 725, "r": "Sutton Room (NY Ballroom W)", "t": "Agent = Model + Harness: Build your own Memory-Aware AML AI Agent Harness for Financial Crime Detection", "sp": "Nacho Martinez (Oracle)", "f": "Workshop (1-2 hrs)"}, {"id": "c901e963-5be9-4a1d-86a3-d9354374bbcd", "d": "2026-10-12", "s": 665, "e": 725, "r": "McCarthy Room (Riverside Suite)", "t": "The AI Bill Is Too Damn High – Tokenomics 101", "sp": "Eugene Cheah (Featherless)", "f": "Workshop (1-2 hrs)"}, {"id": "9dd08c6a-58ce-406f-8216-877d59eb1a7b", "d": "2026-10-12", "s": 795, "e": 855, "r": "Turing Room (Riverside Ballroom)", "t": "Agents that Self Improve While You Sleep", "sp": "Fuad Ali (Arize AI)", "f": "Workshop (1-2 hrs)"}, {"id": "3140f7f6-ca19-4061-9faf-c478f88eb5de", "d": "2026-10-12", "s": 795, "e": 855, "r": "Shannon Room (NY Ballroom E)", "t": "Hands-on Gitar: SonarQube’s AI code verification agent", "sp": "Killian Carlsen-Phelan (Sonar), Taylor Luttrell-Williams (Sonar)", "f": "Workshop (1-2 hrs)"}, {"id": "edb4f982-0cb8-48ee-8bf7-410255a40cb3", "d": "2026-10-12", "s": 795, "e": 855, "r": "Sutton Room (NY Ballroom W)", "t": "Beyond “Done”: Building Verification Loops for AI Agents", "sp": "Nick Nisi (WorkOS), Zack Proser (WorkOS)", "f": "Workshop (1-2 hrs)"}, {"id": "ca497b4b-20a7-441f-a0dd-adb5b3e972f8", "d": "2026-10-12", "s": 795, "e": 855, "r": "McCarthy Room (Riverside Suite)", "t": "The Agentic Content System Behind 200M Views", "sp": "Sarah Chieng (Cerebras), Cova Lee (OpenAI)", "f": "Workshop (1-2 hrs)"}, {"id": "437fb079-1dd6-4cd6-b6a9-f58fbe58de66", "d": "2026-10-12", "s": 860, "e": 920, "r": "Shannon Room (NY Ballroom E)", "t": "Build a better prophet: backtest today’s agent against yesterday’s web", "sp": "Ryan Ahern (Exa)", "f": "Workshop (1-2 hrs)"}, {"id": "f20b8d60-8a75-4ab3-a2fb-42159024e65f", "d": "2026-10-12", "s": 860, "e": 920, "r": "Sutton Room (NY Ballroom W)", "t": "Langfuse Workshop - Evals and Observability in regulated Industries", "sp": "Doneyli De Jesus (Langfuse (by ClickHouse)), Annabell Schäfer (Langfuse by ClickHouse)", "f": "Workshop (1-2 hrs)"}, {"id": "b2cad513-5264-4877-98af-9ac15dc99bf0", "d": "2026-10-12", "s": 860, "e": 920, "r": "McCarthy Room (Riverside Suite)", "t": "Event-Based Multi-Agent Financial Workflows with Only Markdown", "sp": "Raymond Weitekamp (OpenProse), Dan Barrett (OpenProse), Jose Montes de Oca (OpenProse)", "f": "Workshop (1-2 hrs)"}, {"id": "6a4e7cfd-334a-4d3b-94ed-282acc905448", "d": "2026-10-12", "s": 930, "e": 990, "r": "Shannon Room (NY Ballroom E)", "t": "Member of Technical Staff, Anthropic", "sp": "Lance Martin (Anthropic)", "f": "Workshop (1-2 hrs)"}, {"id": "b98dba99-c5ab-4ed2-aaf5-df02f502202f", "d": "2026-10-12", "s": 930, "e": 990, "r": "Sutton Room (NY Ballroom W)", "t": "Secure, durable agents with Keycard and Temporal", "sp": "Kim Maida (Keycard), Mason Egger (Temporal)", "f": "Workshop (1-2 hrs)"}, {"id": "6aaff930-f4a0-4af5-8ede-9037d0c0f572", "d": "2026-10-12", "s": 930, "e": 990, "r": "McCarthy Room (Riverside Suite)", "t": "What unstructured data unlocks for Insurance AI programs", "sp": "Denys Linkov (Wisedocs)", "f": "Workshop (1-2 hrs)"}, {"id": "8015b93d-affd-4ad4-be3b-e99ab467de80", "d": "2026-10-12", "s": 1020, "e": 1140, "r": "Expo Hall", "t": "Welcome Reception sponsored by Sonar", "sp": "", "f": "other"}, {"id": "a84ca3a8-cc2f-4b50-a635-fc380f6f04f6", "d": "2026-10-13", "s": 540, "e": 558, "r": "Simons Room (Metropolitan East)", "t": "Vault: Making Unstructured Data Work for Investing", "sp": "Aaron Linsky (Bridgewater), Sam Green (Bridgewater)", "f": "Featured Keynote"}, {"id": "68a1e78b-569e-4314-a56f-f20508123cbe", "d": "2026-10-13", "s": 558, "e": 576, "r": "Simons Room (Metropolitan East)", "t": "Financial Services, Anthropic", "sp": "Belinda Neal (Anthropic), Keon Shahab (Anthropic)", "f": "Featured Keynote"}, {"id": "73badd10-6f8c-4c95-b5e7-55fc3d7bafc1", "d": "2026-10-13", "s": 576, "e": 594, "r": "Simons Room (Metropolitan East)", "t": "Balancing Acceleration and Safety for AI Agents", "sp": "John Feminella (Two Sigma)", "f": "Featured Keynote"}, {"id": "5191589c-a70e-4806-99dc-86f7794f46b9", "d": "2026-10-13", "s": 594, "e": 612, "r": "Simons Room (Metropolitan East)", "t": "Does Code Quality Even Matter?", "sp": "Max Kanat-Alexander (Capital One)", "f": "Featured Keynote"}, {"id": "b2ed4456-5671-4e8e-83fd-684c012fef8c", "d": "2026-10-13", "s": 612, "e": 630, "r": "Simons Room (Metropolitan East)", "t": "What does an AI engineer do?", "sp": "Aparna Dhinakaran (Arize AI)", "f": "Featured Keynote"}, {"id": "736edd83-bb08-49f1-90ed-722b7ed07eb2", "d": "2026-10-13", "s": 640, "e": 658, "r": "Turing Room (Riverside Ballroom)", "t": "Can Any Model Write Like Me? Building a Benchmark for Creative Writing", "sp": "Louis-François Bouchard (Towards AI)", "f": "Breakouts"}, {"id": "5049757d-8a2e-46fd-9d7b-c8c1f3d7b72a", "d": "2026-10-13", "s": 640, "e": 658, "r": "Shannon Room (NY Ballroom E)", "t": "Turning AI Into Operating Margin: A Field Report from Private Equity", "sp": "Adam Nahari (Apollo Global Management)", "f": "Breakout Session (18 mins)"}, {"id": "1c25f303-f38f-450b-862d-669fdbab5f82", "d": "2026-10-13", "s": 640, "e": 658, "r": "Simons Room (Metropolitan East)", "t": "Wells Fargo Foundation Model: Application to Fraud Detection at Scale", "sp": "Freddy Lecue (Wells Fargo)", "f": "Stage Talk (18 minutes)"}, {"id": "5ea06f9f-c79e-4d33-999c-7397b0165f9c", "d": "2026-10-13", "s": 640, "e": 658, "r": "Sutton Room (NY Ballroom W)", "t": "The Intelligence Plane: What your agents know, remember and learn", "sp": "Richmond Alake (Oracle)", "f": "Breakout Session (18 mins)"}, {"id": "71008b4d-f354-4f66-85dc-9052435c2955", "d": "2026-10-13", "s": 640, "e": 658, "r": "McCarthy Room (Riverside Suite)", "t": "Deploying AI Inside 5 Major Banks Without the 12-Month Compliance Bottleneck", "sp": "Al Chen (Cisco)", "f": "Breakout Session (18 mins)"}, {"id": "75bd85ed-b49d-41f6-98e1-7a22853c18ab", "d": "2026-10-13", "s": 665, "e": 683, "r": "Simons Room (Metropolitan East)", "t": "Inside Arca’s long-horizon agents that run the business", "sp": "Aman Singh (Arca)", "f": "Stage Talk (18 mins)"}, {"id": "0b3ed34f-85a0-4824-b4db-0fb0d618f971", "d": "2026-10-13", "s": 665, "e": 683, "r": "Shannon Room (NY Ballroom E)", "t": "The Automated Security Master: keeping your master database clean with agents", "sp": "Amol Kapoor (Nori Agentic), Clifford Ressel (Nori Agentic)", "f": "Breakout Session (18 mins)"}, {"id": "c4ba0138-6f6d-4780-93a1-4d8f0c478339", "d": "2026-10-13", "s": 665, "e": 683, "r": "Turing Room (Riverside Ballroom)", "t": "Write the Answer First: Generating Eval Datasets for Agents With No Benchmark", "sp": "Nathanael Weill (Air Canada)", "f": "Breakouts"}, {"id": "1779b934-d67b-45e9-ba11-0b19efac4b7e", "d": "2026-10-13", "s": 665, "e": 683, "r": "Sutton Room (NY Ballroom W)", "t": "No Cash Left Behind: Vanguard's Ledger Modernization Journey", "sp": "Gareth Yoder (Vanguard)", "f": "Breakout Session (18 mins)"}, {"id": "e5624ee5-c855-46b7-bb72-c25d66fe7d5c", "d": "2026-10-13", "s": 665, "e": 683, "r": "McCarthy Room (Riverside Suite)", "t": "Can AI Reconstruct a Company?", "sp": "Hassan El Mghari (Together AI), Omar El Mghari (PMSOX LLC)", "f": "Breakout Session (18 mins)"}, {"id": "e65f74f9-2174-406d-bd32-2d7073eb677d", "d": "2026-10-13", "s": 690, "e": 735, "r": "Simons Room (Metropolitan East)", "t": "Intent Based Auth", "sp": "Allie Howe (Keycard), Ian Livingstone (Keycard), Michael Davis (JPMC), Dick Hardt (AAuth)", "f": "Stage Talk (18 minutes)"}, {"id": "b8bb725d-daf0-4ac0-8095-5737841c89e5", "d": "2026-10-13", "s": 690, "e": 708, "r": "Shannon Room (NY Ballroom E)", "t": "Search the Web as It Was: An Introduction to Exa Snapshot", "sp": "Aaron Rodrigues (Exa)", "f": "Breakout Session (18 mins)"}, {"id": "30afe596-abe2-417c-bd5a-313fa4bc54b3", "d": "2026-10-13", "s": 690, "e": 708, "r": "Turing Room (Riverside Ballroom)", "t": "Your Financial Agent Passed Every Eval. Can You Defend Its Decision?", "sp": "Anirudh Veeraragavan (Fieldguide)", "f": "Breakouts"}, {"id": "bb2b919e-0992-4b21-b58d-033c780ccd33", "d": "2026-10-13", "s": 690, "e": 708, "r": "Sutton Room (NY Ballroom W)", "t": "Building Agentic PDLC Systems that Scale", "sp": "Martin Harrysson (McKinsey), Prakhar Dixit (McKinsey)", "f": "Breakout Session (18 mins)"}, {"id": "4706833e-a199-49b1-bc4d-5a238e3e89fe", "d": "2026-10-13", "s": 690, "e": 708, "r": "McCarthy Room (Riverside Suite)", "t": "The best context isn't in your database. It's in the investor's head.", "sp": "Anekha Sokhal (Moshi)", "f": "Breakouts"}, {"id": "88f71c9f-f0a9-4f42-96c0-0e1492bad1c2", "d": "2026-10-13", "s": 715, "e": 733, "r": "Shannon Room (NY Ballroom E)", "t": "Can Your AI Analyst Keep a Secret?", "sp": "Aaron Linsky (Bridgewater), Nikhil Benesch (turbopuffer)", "f": "Breakout Session (18 mins)"}, {"id": "b1fe8396-6fa8-4574-9775-0dc01f56ce57", "d": "2026-10-13", "s": 715, "e": 733, "r": "Turing Room (Riverside Ballroom)", "t": "Lies, Damned Lies, and Evals: How to trust your agents when the stakes are high", "sp": "Stephanie Jarmak (Omni Analytics)", "f": "Breakouts"}, {"id": "6b92fb75-064e-4cb5-8aa3-7c7f211e7420", "d": "2026-10-13", "s": 715, "e": 733, "r": "Sutton Room (NY Ballroom W)", "t": "Inside the Fable War Room", "sp": "Ford Prior (GEICO)", "f": "Breakouts"}, {"id": "58fe4b11-571e-4afd-bd89-8ad63e6cfe11", "d": "2026-10-13", "s": 715, "e": 733, "r": "McCarthy Room (Riverside Suite)", "t": "Compound value from building Monzo’s in-house agent using LLMs*", "sp": "Francesco Galletta (Monzo), Felippe Felisola Caso (Monzo)", "f": "Breakouts"}, {"id": "9d72d7ac-a2a2-42cf-b880-5859316d840c", "d": "2026-10-13", "s": 740, "e": 758, "r": "Turing Room (Riverside Ballroom)", "t": "1,368 AI Failures: What They Teach Us About System Evals", "sp": "Vishal Srivastava (New York Life Insurance), Tanmay Sah", "f": "Breakouts"}, {"id": "8d348b6c-25cc-45de-8dc4-aaa3d7130918", "d": "2026-10-13", "s": 740, "e": 758, "r": "Shannon Room (NY Ballroom E)", "t": "Agents can pay. So why don’t they?", "sp": "Jan Curn (Apify)", "f": "Breakout Session (18 mins)"}, {"id": "7d25e281-0cf7-4f13-849d-aaa5c679d83f", "d": "2026-10-13", "s": 740, "e": 758, "r": "Sutton Room (NY Ballroom W)", "t": "Your Next User Is an Agent", "sp": "Isabelle Williams (WorkOS)", "f": "Breakout Session (18 mins)"}, {"id": "c85559ae-c8f6-4d6f-b85e-02c88873f343", "d": "2026-10-13", "s": 740, "e": 758, "r": "McCarthy Room (Riverside Suite)", "t": "Buy, Then Deploy: Using M&A to Drive AI Transformation", "sp": "Prathik Naidu (Long Lake)", "f": "Breakout Session (18 mins)"}, {"id": "5360728b-8004-41ab-9cf3-2383e6fe25c8", "d": "2026-10-13", "s": 820, "e": 838, "r": "Shannon Room (NY Ballroom E)", "t": "From RAG to Memory: Building Agents That Remember", "sp": "Wojciech Pluta (Oracle)", "f": "Expo Session (18 mins)"}, {"id": "ae273f0b-db0f-4638-8ae3-05874bebf9ca", "d": "2026-10-13", "s": 820, "e": 838, "r": "Turing Room (Riverside Ballroom)", "t": "Proving Alpha: Showcasing AI's Value in Fundamental Investing", "sp": "Hari Kumar (Contour Asset Management)", "f": "Breakouts"}, {"id": "571af561-d579-4ade-9ed3-25e10c28d2f5", "d": "2026-10-13", "s": 820, "e": 838, "r": "Sutton Room (NY Ballroom W)", "t": "The Stories We Never Had the Time to Tell", "sp": "Zack Proser (WorkOS)", "f": "Expo Session (18 mins)"}, {"id": "d906f8a2-d18f-4876-aaef-71e5100a0075", "d": "2026-10-13", "s": 820, "e": 838, "r": "McCarthy Room (Riverside Suite)", "t": "How frontier AI changes tolerable risk for open source security in financial services", "sp": "Patrick Smyth (Chainguard)", "f": "Expo Session (18 mins)"}, {"id": "3803afe2-3761-4fee-a6c2-dae9c6a1066e", "d": "2026-10-13", "s": 845, "e": 863, "r": "Simons Room (Metropolitan East)", "t": "CTO, Modal", "sp": "Akshat Bubna (Modal)", "f": "Stage Talk (18 mins)"}, {"id": "adca6e26-1ddc-4f77-8e35-59bf1d1de81d", "d": "2026-10-13", "s": 845, "e": 863, "r": "Turing Room (Riverside Ballroom)", "t": "Can AI Understand a Distressed Credit?", "sp": "Harneet Kaur (Axim Intelligence)", "f": "Breakouts"}, {"id": "04078437-7781-4b41-9edc-b24b00ebe5e4", "d": "2026-10-13", "s": 845, "e": 863, "r": "Shannon Room (NY Ballroom E)", "t": "Evals in 5 minutes", "sp": "", "f": "Expo Session (18 mins)"}, {"id": "5337232e-0b56-4b19-808e-64cc1bdcee21", "d": "2026-10-13", "s": 845, "e": 863, "r": "Sutton Room (NY Ballroom W)", "t": "Hunt before you're hunted: SonarQube Hunter Agent in action", "sp": "Taylor Luttrell-Williams (Sonar)", "f": "Expo Session (18 mins)"}, {"id": "51913a94-1203-47b1-95e3-21a12e2d6a8a", "d": "2026-10-13", "s": 845, "e": 863, "r": "McCarthy Room (Riverside Suite)", "t": "Why Are We Still Governing AI Like Software?", "sp": "Tim Tyler", "f": "Expo Session (18 mins)"}, {"id": "dc91422b-6636-4466-8fb8-482a09cdd7f4", "d": "2026-10-13", "s": 870, "e": 888, "r": "Simons Room (Metropolitan East)", "t": "Beyond the Model Card: The Jagged Frontier of AI in Finance", "sp": "Rayan Krishnan (Vals AI)", "f": "Stage Talk (18 mins)"}, {"id": "2d29f925-f16b-41b3-8086-de0524829cbe", "d": "2026-10-13", "s": 870, "e": 888, "r": "Shannon Room (NY Ballroom E)", "t": "Do Not Let Models Invent Numbers", "sp": "Vinoo Ganesh (Kepler)", "f": "Expo Session (18 mins)"}, {"id": "e8e53365-3c1f-4c28-bdd0-44c305a05d57", "d": "2026-10-13", "s": 870, "e": 888, "r": "Turing Room (Riverside Ballroom)", "t": "Why Frontier Models Fail on Billion Dollar Portfolios", "sp": "Chanyeol Choi (LinqAlpha), Janie Gu (Google DeepMind), Jack Haverty (LinqAlpha), Suyeol Yun (LinqAlpha)", "f": "Breakouts"}, {"id": "e834dfbe-1d65-4846-947f-d0f161d57c1a", "d": "2026-10-13", "s": 870, "e": 888, "r": "Sutton Room (NY Ballroom W)", "t": "Realtime Multiplayer Agentic Development in Delta", "sp": "", "f": "Expo Session (18 mins)"}, {"id": "40b68994-afa7-4f71-beee-c1d0ad76c9ad", "d": "2026-10-13", "s": 870, "e": 888, "r": "McCarthy Room (Riverside Suite)", "t": "Who is making the request? Agent Auth 101 via gateways + SDKs", "sp": "Kamil Potrec (Keycard)", "f": "Expo Session (18 mins)"}, {"id": "a244839c-239c-4789-b621-32a3568a218e", "d": "2026-10-13", "s": 895, "e": 913, "r": "Simons Room (Metropolitan East)", "t": "AI and the Future of Fundamental Investing", "sp": "Jack Woodruff (Kepler), Vinoo Ganesh (Kepler)", "f": "Stage Talk (18 mins)"}, {"id": "bdab432a-0538-4431-ad5a-62653affd9da", "d": "2026-10-13", "s": 895, "e": 913, "r": "Shannon Room (NY Ballroom E)", "t": "How to build an AI code review agent: from the creators of Greptile", "sp": "Daksh Gupta (Greptile)", "f": "Expo Session (18 mins)"}, {"id": "eaa39362-c0ec-4849-a90d-841f4825a5b3", "d": "2026-10-13", "s": 895, "e": 913, "r": "Turing Room (Riverside Ballroom)", "t": "Your Agent Just Paid for Nothing (6 Attacks on x402 Payments)", "sp": "Ishween Kaur (SoFi)", "f": "Breakouts"}, {"id": "272a7ef0-4b78-41a3-813d-a67361fcd2d3", "d": "2026-10-13", "s": 895, "e": 913, "r": "Sutton Room (NY Ballroom W)", "t": "Scaling AI with P&L on the line", "sp": "Noyan Tokgozoglu (Optiver)", "f": "Expo Session (18 mins)"}, {"id": "dfae680b-2617-4782-9cbe-85942a9959e7", "d": "2026-10-13", "s": 895, "e": 913, "r": "McCarthy Room (Riverside Suite)", "t": "State of the Agent: Reliability, Observability, and the Gap Between Them", "sp": "Shy Ruparel (Temporal)", "f": "Expo Session (18 mins)"}, {"id": "ea2eb55e-fbf3-4d5e-a74b-b0eaac758b98", "d": "2026-10-13", "s": 920, "e": 938, "r": "Shannon Room (NY Ballroom E)", "t": "How to build financial agents that work across the web", "sp": "Jay Sahnan, Arik Bird (Browserbase)", "f": "Expo Session (18 mins)"}, {"id": "2a07765d-fe3a-48df-be0f-75c111dbee6a", "d": "2026-10-13", "s": 920, "e": 938, "r": "Simons Room (Metropolitan East)", "t": "Shipping like a startup, regulated like a bank", "sp": "David Abitbol (Revolut)", "f": "Stage Talk (18 mins)"}, {"id": "2a589e49-4ee4-4c53-bfeb-40bc3db16506", "d": "2026-10-13", "s": 920, "e": 938, "r": "Turing Room (Riverside Ballroom)", "t": "Your agent fix just broke something else", "sp": "Sofia Jakovcevic (Arize AI)", "f": "Breakouts"}, {"id": "6e51dbf6-0d55-4bd4-80a9-67dfd5ec559a", "d": "2026-10-13", "s": 920, "e": 938, "r": "Sutton Room (NY Ballroom W)", "t": "Securing the Agentic Universe, One Layer at a Time", "sp": "", "f": "Expo Session (18 mins)"}, {"id": "fca86857-d079-46a6-94a7-62b0bb8e5d31", "d": "2026-10-13", "s": 920, "e": 938, "r": "McCarthy Room (Riverside Suite)", "t": "From Model to Metrics: Serving and Benchmarking Any LLM Live with vLLM and Runpod", "sp": "Chris Vela (Runpod)", "f": "Expo Session (18 mins)"}, {"id": "8b0e75e9-7072-4e07-a383-3ffe0a9a62cc", "d": "2026-10-13", "s": 945, "e": 963, "r": "Turing Room (Riverside Ballroom)", "t": "2 years of shipping a production agent: what we rebuilt and what we kept", "sp": "Fuad Ali (Arize AI)", "f": "Breakouts"}, {"id": "e710d1bc-660e-402a-92b7-866e1cace263", "d": "2026-10-13", "s": 945, "e": 963, "r": "Shannon Room (NY Ballroom E)", "t": "Building Humanlike Voice Agents for Financial Services", "sp": "Jesse Hall (LiveKit)", "f": "Expo Session (18 mins)"}, {"id": "1872565b-e24d-4da9-99c6-05a8c01d3d06", "d": "2026-10-13", "s": 945, "e": 963, "r": "Simons Room (Metropolitan East)", "t": "Everyone Has AI. Who Has the Advantage?", "sp": "Sid Pednekar", "f": "Stage Talk (18 mins)"}, {"id": "8d424512-c7f0-483c-9094-ca899d7bb1fd", "d": "2026-10-13", "s": 945, "e": 963, "r": "Sutton Room (NY Ballroom W)", "t": "Daytona Expo Session 1", "sp": "", "f": "Expo Session (18 mins)"}, {"id": "56da81eb-2e56-480b-b519-e15bc9ae5e8f", "d": "2026-10-13", "s": 945, "e": 963, "r": "McCarthy Room (Riverside Suite)", "t": "AI in Production: Maintaining Quality and Trust as Output Scales", "sp": "Cole Gannaway (Qodo)", "f": "Expo Session (18 mins)"}, {"id": "9a9dfcd0-459f-43eb-b3f8-004864b4ad2a", "d": "2026-10-13", "s": 990, "e": 1008, "r": "Simons Room (Metropolitan East)", "t": "Head of AI, Coatue", "sp": "Frank Long (Coatue)", "f": "Featured Keynote"}, {"id": "cada670e-c5ea-4977-b3c2-9a68dda26abb", "d": "2026-10-13", "s": 1008, "e": 1026, "r": "Simons Room (Metropolitan East)", "t": "Frontier Models for Acting in Space and Time", "sp": "Pim de Witte (General Intuition)", "f": "Featured Keynote"}, {"id": "871cd5c8-13f4-4fe9-ac49-c8b25d970add", "d": "2026-10-13", "s": 1026, "e": 1044, "r": "Simons Room (Metropolitan East)", "t": "CEO, Nous Research", "sp": "Dillon Rolnick (Nous Research)", "f": "Featured Keynote"}, {"id": "b3b5dcde-5bd1-492d-baef-8af2b342a330", "d": "2026-10-13", "s": 1050, "e": 1170, "r": "Speaker Lounge/Token Billionaires Lounge (Lennox Ballroom)", "t": "Leadership Reception sponsored by Primitive", "sp": "", "f": "other"}, {"id": "caecd5f6-b352-4868-a995-f0f71679caf0", "d": "2026-10-14", "s": 540, "e": 558, "r": "Simons Room (Metropolitan East)", "t": "Chasing capabilities while waiting for the frontier", "sp": "Alexander Shevchenko (Ramp)", "f": "Featured Keynote"}, {"id": "4add802c-6a68-4e9c-93fb-9c1e017193bc", "d": "2026-10-14", "s": 558, "e": 576, "r": "Simons Room (Metropolitan East)", "t": "The Machine that Changed the World, vAI", "sp": "Tariq Shaukat (Sonar)", "f": "Featured Keynote"}, {"id": "ee927042-2ba1-44c3-b304-d001ae247839", "d": "2026-10-14", "s": 576, "e": 594, "r": "Simons Room (Metropolitan East)", "t": "Trusting Agents in Policy-Driven Workflows", "sp": "Evan Kormos (Coinbase)", "f": "Featured Keynote"}, {"id": "02f94835-c29d-4cf5-b77a-c5a491b747b8", "d": "2026-10-14", "s": 594, "e": 612, "r": "Simons Room (Metropolitan East)", "t": "Building the Next Chapter of AI in Finance", "sp": "Joseph Kim (OpenAI)", "f": "Featured Keynote"}, {"id": "01982251-7fdc-4828-8520-fb34b9bc7564", "d": "2026-10-14", "s": 612, "e": 630, "r": "Simons Room (Metropolitan East)", "t": "Security in the Age of AI: Recent Attacks, Incidents & Defenses", "sp": "Andrey Rybka (Bloomberg)", "f": "Featured Keynote"}, {"id": "ece6925c-c979-483f-bd40-51eacdbbe11b", "d": "2026-10-14", "s": 640, "e": 658, "r": "Turing Room (Riverside Ballroom)", "t": "From Human Review to Self-Healing Agents: How Upstart Evaluates Voice AI at Regulated-Lending Scale", "sp": "Shiv Indap (Upstart), Brooke Hopkins (Coval)", "f": "Breakout Session (18 mins)"}, {"id": "d49d49e1-90cb-4b8d-beb6-84d6560aaf04", "d": "2026-10-14", "s": 640, "e": 658, "r": "Simons Room (Metropolitan East)", "t": "Towards Autonomous Analysts in Finance", "sp": "Yijia Liang (Compound AI)", "f": "Stage Talk (18 minutes)"}, {"id": "f7204e6d-a47c-4535-804e-16b4db579b95", "d": "2026-10-14", "s": 640, "e": 658, "r": "Shannon Room (NY Ballroom E)", "t": "Your job is now \"agent manager\"", "sp": "Ryan Carson (Untangle)", "f": "Breakout Session (18 mins)"}, {"id": "d3d8c80e-84b7-4106-b8b5-ca63bc508480", "d": "2026-10-14", "s": 640, "e": 658, "r": "Sutton Room (NY Ballroom W)", "t": "Developer Docs as Knowledge Infrastructure for Fintech", "sp": "Hahnbee Lee (Mintlify), Lincoln Murr (Coinbase)", "f": "Breakout Session (18 mins)"}, {"id": "f3445fe7-308b-4e84-8490-fd78a13db4fb", "d": "2026-10-14", "s": 640, "e": 658, "r": "McCarthy Room (Riverside Suite)", "t": "The Hidden Costs of a Faster Model", "sp": "Morgan Suo (MiniMax)", "f": "Breakout Session (18 mins)"}, {"id": "3524cdd1-2e7b-4c75-81b1-11b4d28141b8", "d": "2026-10-14", "s": 665, "e": 683, "r": "Turing Room (Riverside Ballroom)", "t": "Benchmarking the Full Stack: From Silicon to Harness.", "sp": "Steven Latré (imec)", "f": "Breakouts"}, {"id": "dcf188f6-95d0-4c22-856b-fccf0374e8e4", "d": "2026-10-14", "s": 665, "e": 683, "r": "Simons Room (Metropolitan East)", "t": "Not All GPU's Are Deployed The Same", "sp": "Oliver Kennon (SemiAnalysis)", "f": "Stage Talk (18 minutes)"}, {"id": "4607dbbe-8f94-4b0e-91ce-257d1cfb5448", "d": "2026-10-14", "s": 665, "e": 683, "r": "Shannon Room (NY Ballroom E)", "t": "We gave our finance agent more context. It got worse.", "sp": "Ryan Stevens (Ramp)", "f": "Breakout Session (18 mins)"}, {"id": "4188711c-a587-423b-86c2-1ff2ad38c15e", "d": "2026-10-14", "s": 665, "e": 683, "r": "Sutton Room (NY Ballroom W)", "t": "Claude Code, Financial Analyst: Turning a Coding Agent Loose on Governed Enterprise Data", "sp": "Natalia Connolly (AlixPartners), Kevin Madura (AlixPartners)", "f": "Breakout Session (18 mins)"}, {"id": "4b33ac12-ed84-4e32-be63-6a4f9f3acb32", "d": "2026-10-14", "s": 665, "e": 683, "r": "McCarthy Room (Riverside Suite)", "t": "Your Coding Agent Has a Context Problem", "sp": "Tom Moor (Linear)", "f": "Breakout Session (18 mins)"}, {"id": "bc4b6b4a-cf07-4326-8276-fcf845da0284", "d": "2026-10-14", "s": 690, "e": 708, "r": "Shannon Room (NY Ballroom E)", "t": "Building the Financial Account for Agents", "sp": "Lincoln Murr (Coinbase)", "f": "Stage Talk (18 mins)"}, {"id": "1165abe0-124d-4c1c-aa3b-6a14f5c5fd03", "d": "2026-10-14", "s": 690, "e": 708, "r": "Simons Room (Metropolitan East)", "t": "How Compute Markets Work", "sp": "Evan Conrad (San Francisco Compute Company)", "f": "Stage Talk (18 minutes)"}, {"id": "9b002687-09cf-42e2-9282-532ed9d0c184", "d": "2026-10-14", "s": 690, "e": 708, "r": "Turing Room (Riverside Ballroom)", "t": "Your Reranker Improved Retrieval. Did It Improve the Answer?", "sp": "Manimala Kumar (NVIDIA)", "f": "Breakouts"}, {"id": "11b98f47-dcc2-4524-8c06-d1f6c3ff044b", "d": "2026-10-14", "s": 690, "e": 708, "r": "Sutton Room (NY Ballroom W)", "t": "Who verifies the software factory?", "sp": "Manish Kapur (Sonar), Addy Osmani (Anthropic)", "f": "Breakout Session (18 mins)"}, {"id": "471890b7-1779-41e1-8411-b499dd38c346", "d": "2026-10-14", "s": 690, "e": 708, "r": "McCarthy Room (Riverside Suite)", "t": "Can AI run Goldman Sachs?", "sp": "Joanne Wang (Epsilab), Matthew Olsen (Epsilab), Fengjiao Peng (Epsilab)", "f": "Breakout Session (18 mins)"}, {"id": "70532ab5-f3d2-48a2-aebd-c2018afcd318", "d": "2026-10-14", "s": 715, "e": 733, "r": "Simons Room (Metropolitan East)", "t": "The Dark Pools of Compute", "sp": "Affaan Mustafa (Jump Trading), Alejandro Soumah Fernandez (Jump Trading)", "f": "Stage Talk (18 minutes)"}, {"id": "29083884-87dc-44f8-b412-b494afca8856", "d": "2026-10-14", "s": 715, "e": 733, "r": "Shannon Room (NY Ballroom E)", "t": "The Model Ate the Coding Harness. Now What?", "sp": "Jediah Katz (SpaceXAI)", "f": "Breakout Session (18 mins)"}, {"id": "534796a7-0f44-4d59-a1c5-0df28a947c6a", "d": "2026-10-14", "s": 715, "e": 733, "r": "Turing Room (Riverside Ballroom)", "t": "When AI Fails: Designing Evaluation Systems for High Stakes Applications", "sp": "Ramakrishnan Lokanathan (eSlams and PetDukaan)", "f": "Breakouts"}, {"id": "9f2a38a9-c0e9-461a-97c4-b8cb3fbe3e50", "d": "2026-10-14", "s": 715, "e": 733, "r": "Sutton Room (NY Ballroom W)", "t": "It's Not the Model, It's You", "sp": "Nicholas Arcolano (Jellyfish)", "f": "Breakout Session (18 mins)"}, {"id": "2401b55d-09c7-4159-8297-545dea0b7df2", "d": "2026-10-14", "s": 715, "e": 733, "r": "McCarthy Room (Riverside Suite)", "t": "Two Ways to Rob an AI-Native Bank", "sp": "Maty Bohacek (Stanford University)", "f": "Breakout Session (18 mins)"}, {"id": "11fef189-97e8-4c8e-87e8-dac43d800846", "d": "2026-10-14", "s": 740, "e": 758, "r": "Turing Room (Riverside Ballroom)", "t": "A/B Testing AI Products Is Weird: What Changes When the Product Is Probabilistic", "sp": "Supriya Subudhi (Bumble)", "f": "Breakouts"}, {"id": "d4b9ddcc-6c1c-4af1-8888-861b50451fa5", "d": "2026-10-14", "s": 740, "e": 758, "r": "Simons Room (Metropolitan East)", "t": "CEO, Compute Exchange", "sp": "Carmen Li (Compute Exchange)", "f": "Stage Talk (18 minutes)"}, {"id": "328c189f-fe70-418f-bde0-c450948c4fbc", "d": "2026-10-14", "s": 740, "e": 758, "r": "Shannon Room (NY Ballroom E)", "t": "The Rise of the Product Engineer", "sp": "Laurie Voss (Arize AI)", "f": "Breakout Session (18 mins)"}, {"id": "42d1cb16-e5c9-4eca-9aa8-d9a052b71dcd", "d": "2026-10-14", "s": 740, "e": 758, "r": "Sutton Room (NY Ballroom W)", "t": "The Map Beneath Modern Finance", "sp": "Stephen Chin (Neo4j), Neeraj Deshmukh (Blitzy)", "f": "Breakout Session (18 mins)"}, {"id": "d691c916-3f9f-48de-8d12-0c18343ba405", "d": "2026-10-14", "s": 740, "e": 758, "r": "McCarthy Room (Riverside Suite)", "t": "Agents Can Rewrite Compilers. Why Can't They Pick Stocks?", "sp": "Ashwin Paranjape (Samaya AI)", "f": "Breakout Session (18 mins)"}, {"id": "79730720-7956-4109-a54b-82393c157ed0", "d": "2026-10-14", "s": 820, "e": 838, "r": "Turing Room (Riverside Ballroom)", "t": "Artificial Analysis - Optimizing the Cost of Intelligence", "sp": "George Cameron (Artificial Analysis)", "f": "Breakouts"}, {"id": "0151a0fc-5cb6-4258-977a-65de8288e39b", "d": "2026-10-14", "s": 820, "e": 838, "r": "Shannon Room (NY Ballroom E)", "t": "Evals in 5 minutes", "sp": "", "f": "Expo Session (18 mins)"}, {"id": "387377e2-3f42-4403-8e25-c2714047e856", "d": "2026-10-14", "s": 820, "e": 838, "r": "Sutton Room (NY Ballroom W)", "t": "Catch your coding agent's mistakes before the PR", "sp": "Killian Carlsen-Phelan (Sonar)", "f": "Expo Session (18 mins)"}, {"id": "a901d5ea-57c6-433f-9c37-5fe6531adb99", "d": "2026-10-14", "s": 820, "e": 838, "r": "McCarthy Room (Riverside Suite)", "t": "Building a self-improving software factory", "sp": "Zach Lloyd (Warp)", "f": "Expo Session (18 mins)"}, {"id": "4cf641ef-436a-4e59-bd73-8a1988d8214c", "d": "2026-10-14", "s": 845, "e": 863, "r": "Simons Room (Metropolitan East)", "t": "CTO, Blackstone", "sp": "John Stecher (Blackstone), Scott Worland (Norm.ai)", "f": "Stage Talk (18 mins)"}, {"id": "e6ccda8d-0613-44f8-b98f-53ba8037b518", "d": "2026-10-14", "s": 845, "e": 863, "r": "Shannon Room (NY Ballroom E)", "t": "Scaling Agentic RL Across the Globe", "sp": "Jason Mancuso (Modal)", "f": "Expo Session (18 mins)"}, {"id": "ac709f86-ce51-4582-a680-70449c32d29c", "d": "2026-10-14", "s": 845, "e": 863, "r": "Turing Room (Riverside Ballroom)", "t": "Stop turning your Humans Into APIs for your Agents", "sp": "Emil Chetty (Wise)", "f": "Breakouts"}, {"id": "627ca259-d123-4bda-bc58-6e662277ef49", "d": "2026-10-14", "s": 845, "e": 863, "r": "Sutton Room (NY Ballroom W)", "t": "AI's Trust Layer for Wall Street: SRE & Platform Engineering", "sp": "Andrew Norrish (Sourcegraph)", "f": "Expo Session (18 mins)"}, {"id": "e4ca10c6-c8b4-427b-a337-8d2a28e2a7aa", "d": "2026-10-14", "s": 845, "e": 863, "r": "McCarthy Room (Riverside Suite)", "t": "From Agent Prototype to Production in Regulated Banking", "sp": "Jonathan Osborne (NatWest)", "f": "Expo Session (18 mins)"}, {"id": "bb3856b7-6575-483e-ae26-c4df34fdf3a4", "d": "2026-10-14", "s": 870, "e": 888, "r": "Simons Room (Metropolitan East)", "t": "Why Wall Street Still Doesn’t Trust AI", "sp": "Vinoo Ganesh (Kepler)", "f": "Stage Talk (18 mins)"}, {"id": "aaea3072-e0d1-480b-9c0e-eddf0fc6e43e", "d": "2026-10-14", "s": 870, "e": 888, "r": "Shannon Room (NY Ballroom E)", "t": "Your Agent Wants Your Data: Securing MCP Database Access from the Ground Up", "sp": "Jeff Smith (Oracle)", "f": "Expo Session (18 mins)"}, {"id": "0a0cbd67-23fa-4a3d-a8dc-06e3caa3ab2f", "d": "2026-10-14", "s": 870, "e": 888, "r": "Turing Room (Riverside Ballroom)", "t": "Your agent needs a skill to improve its skills", "sp": "Ben Holmes (Warp)", "f": "Breakouts"}, {"id": "3b17997c-2057-4e60-a311-0f16cd9833ab", "d": "2026-10-14", "s": 870, "e": 888, "r": "Sutton Room (NY Ballroom W)", "t": "Are You Smarter Than a Fruit Fly?", "sp": "Nick Nisi (WorkOS)", "f": "Expo Session (18 mins)"}, {"id": "cd44e04a-fc21-4814-9b82-700c1b75799f", "d": "2026-10-14", "s": 870, "e": 888, "r": "McCarthy Room (Riverside Suite)", "t": "How Raj Led Datasite’s AI and Data Transformation at Scale with Reducto", "sp": "Adit Abraham (Reducto), Raj Bakhru (Datasite)", "f": "Expo Session (18 mins)"}, {"id": "970f672e-f351-46bb-9790-78c6b1baf81d", "d": "2026-10-14", "s": 895, "e": 913, "r": "Shannon Room (NY Ballroom E)", "t": "Build your own team of managed agents", "sp": "Jack Wotherspoon (Google DeepMind)", "f": "Expo Session (18 mins)"}, {"id": "12e5a06d-d1c9-4d66-80a0-ce94ca707d0b", "d": "2026-10-14", "s": 895, "e": 913, "r": "Simons Room (Metropolitan East)", "t": "Coding an Autonomous Wall Street Coworker: Custom Skills, Connectors, and Event Hooks", "sp": "Philipp Schmid (Google DeepMind)", "f": "Stage Talk (18 mins)"}, {"id": "1735a9c7-e790-4f06-8e4f-382b335c2e90", "d": "2026-10-14", "s": 895, "e": 913, "r": "Turing Room (Riverside Ballroom)", "t": "Hill-Climbing “Back-Office” Agents: Cost, Reliability, and Feedback Loops", "sp": "Milind Sunil Shah (Brainbase Labs)", "f": "Breakouts"}, {"id": "65de0896-90a4-406a-8a58-d845569302ad", "d": "2026-10-14", "s": 895, "e": 913, "r": "Sutton Room (NY Ballroom W)", "t": "Permission to Act: Giving Agents Authority in Regulated Industries", "sp": "Sagar Batchu (Speakeasy)", "f": "Expo Session (18 mins)"}, {"id": "f7cd2f57-654a-4bbc-874b-ffa66a8ab3ed", "d": "2026-10-14", "s": 895, "e": 913, "r": "McCarthy Room (Riverside Suite)", "t": "Building Deployment Gates for AI Agents in Financial Services", "sp": "Doneyli De Jesus (Langfuse (by ClickHouse))", "f": "Expo Session (18 mins)"}, {"id": "f5c310e9-b0bb-4fa6-bc0d-bda758e1c464", "d": "2026-10-14", "s": 920, "e": 938, "r": "Turing Room (Riverside Ballroom)", "t": "A Roadmap for Evaluating Highly-Subjective Tasks", "sp": "Cameron Wolfe (Netflix)", "f": "Breakouts"}, {"id": "3442adab-3404-4423-8d80-c49258b9c468", "d": "2026-10-14", "s": 920, "e": 938, "r": "Shannon Room (NY Ballroom E)", "t": "Graph Engineering 101: Predictability, Governance, Portability", "sp": "Zachary Blumenfeld (Neo4j)", "f": "Expo Session (18 mins)"}, {"id": "bf371da6-6ef6-42ec-865f-5de4974a9114", "d": "2026-10-14", "s": 920, "e": 938, "r": "Simons Room (Metropolitan East)", "t": "Your Company Has No Model of Itself: Bootstrapping a World Model from Slack, Decks and Meetings", "sp": "Joao Wenzel (Citadel Securities)", "f": "Stage Talk (18 mins)"}, {"id": "9a73fc65-539f-449e-aa2c-5fb55c1371f4", "d": "2026-10-14", "s": 920, "e": 938, "r": "Sutton Room (NY Ballroom W)", "t": "PlanetScale Q&A + Merch Drop", "sp": "Ben Dicken (PlanetScale)", "f": "Expo Session (18 mins)"}, {"id": "88b218ef-aae2-47f4-b071-3cb60257e92e", "d": "2026-10-14", "s": 920, "e": 938, "r": "McCarthy Room (Riverside Suite)", "t": "Building an Evidence Layer for Financial Agents", "sp": "Aamir Shakir (Mixedbread)", "f": "Expo Session (18 mins)"}, {"id": "6c50c19e-b0c1-462a-9c9a-e4f24e5a32e0", "d": "2026-10-14", "s": 945, "e": 963, "r": "Simons Room (Metropolitan East)", "t": "Applied Research, Prime Intellect", "sp": "Will Brown (Prime Intellect)", "f": "Stage Talk (18 mins)"}, {"id": "8413d6ee-ceb1-4095-9f27-49d518f1dd5a", "d": "2026-10-14", "s": 945, "e": 963, "r": "Turing Room (Riverside Ballroom)", "t": "Code Mode: your agent should write code", "sp": "Mikyo King (Arize AI)", "f": "Breakouts"}, {"id": "3005a1a2-c6cc-426f-9319-185b86b0039c", "d": "2026-10-14", "s": 945, "e": 963, "r": "Shannon Room (NY Ballroom E)", "t": "Tabular Foundation Models in Finance", "sp": "Sauraj Gambhir (Prior Labs)", "f": "Expo Session (18 mins)"}, {"id": "15eeafc6-0c0c-48c3-8bb1-48b70b49b55e", "d": "2026-10-14", "s": 945, "e": 963, "r": "Sutton Room (NY Ballroom W)", "t": "Cisco Expo Session 1", "sp": "", "f": "Expo Session (18 mins)"}, {"id": "ff7ea99c-bf5b-4b94-8680-c5fb6b5abb81", "d": "2026-10-14", "s": 945, "e": 963, "r": "McCarthy Room (Riverside Suite)", "t": "Decoupling Agents from Infrastructure", "sp": "Nikhil Harithas (Factory)", "f": "Expo Session (18 mins)"}, {"id": "44e9d04a-e8b4-418c-8a85-02fbb9263dd0", "d": "2026-10-14", "s": 990, "e": 1008, "r": "Simons Room (Metropolitan East)", "t": "AI in Practice: An Inside Look at Apollo's Approach", "sp": "Michael Manapat (Rowspace), Jack McDonald (Apollo Global Management)", "f": "Featured Keynote"}, {"id": "1cbc625f-7f07-49bb-9c5c-57c95f07ba77", "d": "2026-10-14", "s": 1008, "e": 1026, "r": "Simons Room (Metropolitan East)", "t": "Process Supervision for Agents That Do Long-Horizon Work", "sp": "Mitchell Troyanovsky (Basis)", "f": "Featured Keynote"}, {"id": "af8422e8-d5f8-4dbd-a918-6360f5bfba80", "d": "2026-10-14", "s": 1026, "e": 1044, "r": "Simons Room (Metropolitan East)", "t": "Everything will be Simulated", "sp": "Cristóbal Valenzuela (Runway)", "f": "Featured Keynote"}];
@@ -338,10 +345,11 @@ const store = {
   const d = (s) => Math.ceil((new Date(s) - now) / day);
   const start = d('2026-10-12T08:00:00-04:00'), end = d('2026-10-14T17:30:00-04:00');
   let txt;
-  if (start > 0) txt = `<span><b>${start}</b> ${start === 1 ? 'day' : 'days'} to badge pickup</span>`;
-  else if (end >= 0) txt = `<span><b>Conference week.</b> Check the During tab.</span>`;
-  else txt = `<span><b>Back home.</b> Work through the After tab.</span>`;
-  el.innerHTML = txt;
+  const val = document.getElementById('countdown-value');
+  if (start > 0) { val.textContent = `${start} ${start === 1 ? 'day' : 'days'}`; txt = 'to badge pickup'; }
+  else if (end >= 0) { val.textContent = 'This week'; txt = 'Conference week — check the During tab.'; }
+  else { val.textContent = 'Back home'; txt = 'Work through the After tab.'; }
+  el.textContent = txt;
 })();
 
 // Checklists
@@ -364,16 +372,14 @@ document.querySelectorAll('ul.check input[type=checkbox]').forEach(b => {
 });
 counts();
 
-// Tabs
-const tabs = [...document.querySelectorAll('.tab')];
-function show(p) {
-  tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.p === p));
-  document.querySelectorAll('section.panel').forEach(s => s.hidden = s.dataset.phase !== p);
-  store.set('aie-tab', p);
-}
-tabs.forEach(t => t.addEventListener('click', () => { show(t.dataset.p); if (location.hash !== '#' + t.dataset.p) history.replaceState(null, '', '#' + t.dataset.p); }));
-const initial = (location.hash || '').slice(1);
-show(['before','during','after','schedule'].includes(initial) ? initial : store.get('aie-tab', 'before'));
+// Tabs: behavior comes from site.js ([data-tabs]); this only remembers the last tab.
+document.addEventListener('DOMContentLoaded', () => {
+  const list = document.querySelector('[role="tablist"][data-tabs]');
+  if (!list) return;
+  list.addEventListener('tabchange', e => store.set('aie-tab', e.detail.tab.dataset.p));
+  const saved = store.get('aie-tab', 'before');
+  if (!location.hash && saved !== 'before' && list._selectTab) list._selectTab(saved);
+});
 
 // Schedule
 const stars = new Set(store.get('aie-stars', []));
@@ -401,20 +407,22 @@ function render() {
     if (slot !== lastSlot) { if (lastSlot) out.push('</div></div>'); out.push(`<div class="slot"><div class="tm">${fmt(s.s)}</div><div class="sessions">`); lastSlot = slot; }
     const cls = s.f === 'Featured Keynote' ? 'kn' : (s.d === '2026-10-12' ? 'ws' : '');
     const on = stars.has(s.id);
-    out.push(`<div class="sess ${cls}"><div class="ti">${esc(s.t)}</div><button class="star" data-id="${s.id}" aria-pressed="${on}" aria-label="${on ? 'Unstar' : 'Star'} ${esc(s.t)}">${on ? '★' : '☆'}</button><div class="meta"><span class="rm">${esc(s.r)}</span> · ${fmt(s.s)}–${fmt(s.e)}${s.sp ? ' · ' + esc(s.sp) : ''}</div>${SUGGEST[s.id] ? `<div class="why">Suggested: ${esc(SUGGEST[s.id])}</div>` : ''}</div>`);
+    out.push(`<div class="sess ${cls}"><div class="ti">${esc(s.t)}</div><button class="star" data-id="${s.id}" aria-pressed="${on}" aria-label="${on ? 'Unstar' : 'Star'} ${esc(s.t)}"><span aria-hidden="true">${on ? '★' : '☆'}</span></button><div class="meta"><span class="rm">${esc(s.r)}</span> · ${fmt(s.s)}–${fmt(s.e)}${s.sp ? ' · ' + esc(s.sp) : ''}</div>${SUGGEST[s.id] ? `<div class="why">Suggested: ${esc(SUGGEST[s.id])}</div>` : ''}</div>`);
   }
   if (lastSlot) out.push('</div></div>');
-  document.getElementById('sched').innerHTML = list.length ? out.join('') : `<p class="empty">${state.star ? 'No starred sessions yet. Tap ☆ on any talk to add it.' : 'No sessions match this filter.'}</p>`;
+  document.getElementById('sched-count').textContent = `${list.length} of ${SESSIONS.length} sessions`;
+  document.getElementById('sched').innerHTML = list.length ? out.join('') : `<p class="empty">${state.star ? 'No starred sessions yet. Tap the star on any talk to add it.' : 'No sessions match this filter.'}</p>`;
 }
 document.getElementById('sched').addEventListener('click', e => {
   const b = e.target.closest('.star'); if (!b) return;
   const id = b.dataset.id; stars.has(id) ? stars.delete(id) : stars.add(id);
   store.set('aie-stars', [...stars]); starCount(); render();
+  document.querySelector(`#sched .star[data-id="${id}"]`)?.focus();
 });
 document.getElementById('q').addEventListener('input', e => { state.q = e.target.value; render(); });
-document.querySelectorAll('.chip[data-day]').forEach(c => c.addEventListener('click', () => {
+document.querySelectorAll('#sched-filters [data-day]').forEach(c => c.addEventListener('click', () => {
   state.day = c.dataset.day;
-  document.querySelectorAll('.chip[data-day]').forEach(x => x.setAttribute('aria-pressed', x === c));
+  document.querySelectorAll('#sched-filters [data-day]').forEach(x => x.setAttribute('aria-pressed', x === c));
   render();
 }));
 [['f-sug', 'sug'], ['f-star', 'star'], ['f-expo', 'hideExpo']].forEach(([id, k]) => {

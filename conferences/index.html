@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-support>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1d4ed8">
+  <meta name="theme-color" content="#ffffff">
   <title>Conferences — Scott Soward</title>
   <link rel="stylesheet" href="../css/site.css">
+  <!-- chrome:head -->
+  <script>(function(d){var r=d.documentElement,t=null;try{t=localStorage.getItem('hub-theme')}catch(e){}if(r.dataset.themeLock)t=r.dataset.themeLock;else if(!r.hasAttribute('data-theme-support'))t='light';else if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t)})(document);</script>
+  <script src="../js/site.js" defer></script>
+  <!-- /chrome:head -->
 </head>
 <body>
 
@@ -13,120 +17,108 @@
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand" href="../">
-      <span class="brand-name">Scott Soward</span>
-      <span class="brand-role">Engineer · Builder · Teacher</span>
+    <a class="brand" href="../" aria-label="Scott Soward — home">
+      <span class="brand-mark" aria-hidden="true">SS</span>
+      <span class="brand-text"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></span>
     </a>
-    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
-      <span aria-hidden="true">☰</span>
-    </button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <a href="../">Home</a>
-      <a href="../presentations/">Gospel</a>
+      <a href="../conferences/" aria-current="page">Conferences</a>
       <a href="../tech-presentations/">Tech &amp; AI</a>
-      <a href="../activities/">Activities</a>
-      <a href="./" aria-current="page">Conferences</a>
+      <a href="../presentations/">Gospel</a>
       <a href="../alma31.html">Scripture</a>
+      <a href="../ham-radio/">Study tools</a>
+      <a href="../activities/">Activities</a>
     </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </div>
 </header>
 
 <main id="main">
+<nav class="breadcrumbs container" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><span aria-current="page">Conferences</span></li></ol></nav>
+
   <section class="site-hero container">
     <p class="hero-eyebrow">Conferences</p>
     <h1 class="hero-title">Conferences &amp; events</h1>
-    <p class="hero-lede">Personal schedules and coordination tools for professional and family conferences.</p>
+    <p class="hero-lede">Coordination dashboards and trip plans for the conferences I lead or attend. Past events stay here as a reference for planning the next one.</p>
   </section>
 
-  <section class="section container" aria-labelledby="conferences-heading">
-    <p class="section-eyebrow">Conferences</p>
-    <h2 id="conferences-heading" class="section-title">All conferences</h2>
-
+  <section class="section container" aria-labelledby="upcoming-heading">
+    <p class="section-eyebrow">Upcoming</p>
+    <h2 id="upcoming-heading" class="section-title">Coming up</h2>
     <div class="card-grid">
-
-      <article class="card">
+      <article class="card is-featured">
         <div class="card-body">
-          <div class="card-chips"><span class="chip conference">Conference</span><span class="chip">Planning</span></div>
+          <div class="card-top"><span class="chip conference">Conference</span><span class="chip status-upcoming">Upcoming</span></div>
           <p class="card-meta">March 4–6, 2027 · Salt Palace, Salt Lake City</p>
-          <h3 class="card-title">RootsTech 2027</h3>
+          <h3 class="card-title"><a class="card-link" href="rootstech-2027/">RootsTech 2027</a></h3>
           <p class="card-text">Coordination dashboard for the RootsTech Studio team — staffing plan and shift model, key dates, and carry-forward notes from 2026. Schedule and scripts fill in as the lineup is announced.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="rootstech-2027/">Open dashboard &rarr;</a>
           <span class="card-meta">Staffing · Planning in progress</span>
+          <span class="card-cta" aria-hidden="true">Open dashboard</span>
         </div>
       </article>
+    </div>
+  </section>
 
+  <section class="section container" aria-labelledby="past-heading">
+    <p class="section-eyebrow">Archive</p>
+    <h2 id="past-heading" class="section-title">Past events</h2>
+    <div class="card-grid">
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip conference">Conference</span><span class="chip">Trip plan</span></div>
+          <div class="card-top"><span class="chip conference">Conference</span><span class="chip status-archived">Past</span></div>
           <p class="card-meta">October 12–14, 2026 · Sheraton Times Square, New York</p>
-          <h3 class="card-title">AI Engineer NYC 2026</h3>
+          <h3 class="card-title"><a class="card-link" href="aie-nyc-2026/">AI Engineer NYC 2026</a></h3>
           <p class="card-text">Trip plan for AI Engineer NYC — before/during/after checklists, a day-by-day timeline, and the full session schedule with search, suggested talks, and stars.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="aie-nyc-2026/">Open trip plan &rarr;</a>
-          <a class="card-meta" href="aie-nyc-2026/private/">🔒 Private itinerary</a>
+          <a class="card-meta" href="aie-nyc-2026/private/"><span aria-hidden="true">🔒</span> Private itinerary</a>
+          <span class="card-cta" aria-hidden="true">Open trip plan</span>
         </div>
       </article>
-
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip conference">Conference</span></div>
+          <div class="card-top"><span class="chip conference">Conference</span><span class="chip status-archived">Past</span></div>
           <p class="card-meta">May 5–7, 2026 · Anaheim Convention Center</p>
-          <h3 class="card-title">Atlassian Team '26</h3>
+          <h3 class="card-title"><a class="card-link" href="atlassian-team-26/">Atlassian Team '26</a></h3>
           <p class="card-text">The new shape of teamwork — human-AI workforce. Personalized 3-day agenda focused on Jira Admin, AI Agents (Rovo), and Strategy &amp; Leadership. Includes an interactive venue map.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="atlassian-team-26/">View agenda &rarr;</a>
           <span class="card-meta">3 days · 20+ sessions</span>
+          <span class="card-cta" aria-hidden="true">View agenda</span>
         </div>
       </article>
-
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip conference">Conference</span></div>
-          <p class="card-meta">March 6–8, 2026 · Salt Palace, Salt Lake City</p>
-          <h3 class="card-title">RootsTech 2026</h3>
+          <div class="card-top"><span class="chip conference">Conference</span><span class="chip status-archived">Past</span></div>
+          <p class="card-meta">March 5–7, 2026 · Salt Palace, Salt Lake City</p>
+          <h3 class="card-title"><a class="card-link" href="rootstech-2026/">RootsTech 2026</a></h3>
           <p class="card-text">Coordination dashboard for the FamilySearch GMC / Interactive TV team — keynote schedule, video scripts and drafts, rehearsal logistics, and team reminders.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="rootstech-2026/">Open dashboard &rarr;</a>
           <span class="card-meta">Dashboard · Schedule · Videos · Logistics</span>
+          <span class="card-cta" aria-hidden="true">Open dashboard</span>
         </div>
       </article>
-
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container site-footer-inner">
-    <span>© <span id="year">2026</span> Scott Soward</span>
-    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+    <span>&copy; <span data-year>2026</span> Scott Soward</span>
+    <nav aria-label="Footer">
+      <a href="../">Home</a>
+      <a href="https://github.com/ssoward/hub">Source on GitHub</a>
+    </nav>
   </div>
 </footer>
 
-<script>
-  (function() {
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('primary-nav');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
-        }
-      });
-    }
-  })();
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
 
 </body>
 </html>

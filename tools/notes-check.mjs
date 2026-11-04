@@ -10,6 +10,7 @@
 
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { NAV } from './site-chrome.mjs';
 import { runSuite, REPO_ROOT } from './browser-harness.mjs';
 
 const NOTES = readdirSync(join(REPO_ROOT, 'notes'), { withFileTypes: true })
@@ -56,7 +57,7 @@ runSuite(`${NOTES.length} note${NOTES.length === 1 ? '' : 's'}`, async (t) => {
         description: !!document.querySelector('meta[name=description]')
       };`);
 
-    t.check(!!page.h1 && page.main && page.skip && page.nav === 6 && page.back &&
+    t.check(!!page.h1 && page.main && page.skip && page.nav === NAV.length && page.back &&
       page.viewport && page.description,
       `${name} carries the shared page furniture`, JSON.stringify(page));
     t.check(page.title.includes('Scott Soward'), `${name} has a site title`, page.title);

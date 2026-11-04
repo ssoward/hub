@@ -106,7 +106,10 @@ async function launchChrome(profile) {
   const chrome = spawn(CHROME, [
     '--headless=new', '--remote-debugging-port=0', `--user-data-dir=${profile}`,
     '--no-first-run', '--no-default-browser-check', '--disable-gpu',
-    '--window-size=1280,900', 'about:blank'
+    '--window-size=1280,900',
+    // CI runners (GitHub's Ubuntu images) can't use Chrome's sandbox.
+    ...(process.env.CI ? ['--no-sandbox'] : []),
+    'about:blank'
   ], { stdio: ['ignore', 'ignore', 'pipe'] });
 
   // Chrome prints the DevTools port it actually chose on stderr.

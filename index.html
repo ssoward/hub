@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-support>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1d4ed8">
-  <meta name="description" content="Personal hub of Scott Soward — engineering, presentations, conferences, scripture study, and learning experiences.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Personal hub of Scott Soward — conference dashboards, tech and gospel presentations, scripture study, study tools, and games.">
   <title>Scott Soward — Hub</title>
   <link rel="stylesheet" href="css/site.css">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <style>
+    .home-hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-10); align-items: center; }
+    .home-hero .hero-title { font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem); }
+    .hero-highlight { background: linear-gradient(135deg, var(--accent), #6d4ce0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    :root[data-theme="dark"] .hero-highlight { background-image: linear-gradient(135deg, #9db7ff, #c4b0ff); }
+    .up-next { display: block; color: var(--ink); background: var(--raised); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--sp-6); box-shadow: var(--shadow-2); position: relative; overflow: hidden; }
+    .up-next::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: linear-gradient(90deg, var(--accent), #6d4ce0); }
+    .up-next:hover { color: var(--ink); text-decoration: none; border-color: var(--accent); }
+    .up-next h2 { font-size: var(--fs-xl); margin: var(--sp-2) 0 var(--sp-1); }
+    .up-next .meta { color: var(--muted); font-size: var(--fs-sm); }
+    .up-next ul { margin: var(--sp-4) 0; padding-left: var(--sp-5); color: var(--ink-soft); font-size: var(--fs-sm); }
+    .up-next li + li { margin-top: 4px; }
+    @media (max-width: 860px) { .home-hero { grid-template-columns: 1fr; gap: var(--sp-6); } }
+  </style>
+  <!-- chrome:head -->
+  <script>(function(d){var r=d.documentElement,t=null;try{t=localStorage.getItem('hub-theme')}catch(e){}if(r.dataset.themeLock)t=r.dataset.themeLock;else if(!r.hasAttribute('data-theme-support'))t='light';else if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t)})(document);</script>
+  <script src="js/site.js" defer></script>
+  <!-- /chrome:head -->
 </head>
 <body>
 
@@ -16,387 +34,382 @@
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand" href="./">
-      <span class="brand-name">Scott Soward</span>
-      <span class="brand-role">Engineer · Builder · Teacher</span>
+    <a class="brand" href="./" aria-label="Scott Soward — home">
+      <span class="brand-mark" aria-hidden="true">SS</span>
+      <span class="brand-text"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></span>
     </a>
-    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
-      <span aria-hidden="true">☰</span>
-    </button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <a href="./" aria-current="page">Home</a>
-      <a href="presentations/">Gospel</a>
-      <a href="tech-presentations/">Tech &amp; AI</a>
-      <a href="activities/">Activities</a>
       <a href="conferences/">Conferences</a>
+      <a href="tech-presentations/">Tech &amp; AI</a>
+      <a href="presentations/">Gospel</a>
       <a href="alma31.html">Scripture</a>
+      <a href="ham-radio/">Study tools</a>
+      <a href="activities/">Activities</a>
     </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </div>
 </header>
 
 <main id="main">
-  <section class="site-hero container">
-    <p class="hero-eyebrow">Personal hub</p>
-    <h1 class="hero-title">Scott Soward</h1>
-    <p class="hero-lede">
-      Software engineer at FamilySearch. I build tools and teaching resources
-      across technology, scripture study, conferences, and learning experiences.
-      This is a quiet corner of the web where I keep them.
-    </p>
+  <section class="site-hero container home-hero" aria-labelledby="hero-title">
+    <div>
+      <p class="hero-eyebrow">Personal hub</p>
+      <h1 id="hero-title" class="hero-title">Tools, talks and <span class="hero-highlight">event plans</span>, in one place.</h1>
+      <p class="hero-lede">I&rsquo;m Scott Soward, a group manager and software engineer at FamilySearch. This is where I keep the things I build — conference dashboards, presentations on technology and the gospel, study tools, and a few games.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#everything">Browse everything</a>
+        <a class="btn btn-ghost" href="conferences/">Conference dashboards</a>
+      </div>
+    </div>
+    <a class="up-next" href="conferences/rootstech-2027/">
+      <span class="chip status-upcoming">Up next</span>
+      <h2>RootsTech 2027</h2>
+      <p class="meta">March 4–6, 2027 · Salt Palace, Salt Lake City</p>
+      <ul>
+        <li>Studio staffing plan and HR shift model</li>
+        <li>Open action items and key dates</li>
+        <li>What to keep and fix from 2026</li>
+      </ul>
+      <span class="card-cta">Open the studio dashboard</span>
+    </a>
   </section>
 
-  <section class="section container" aria-labelledby="work-heading">
-    <p class="section-eyebrow">Work &amp; writing</p>
-    <h2 id="work-heading" class="section-title">Everything in one place</h2>
+  <section class="section container" aria-labelledby="areas-heading">
+    <div class="section-head">
+      <div><p class="section-eyebrow">Browse by area</p>
+      <h2 id="areas-heading" class="section-title">Sections</h2></div>
+    </div>
+    <nav class="tile-grid" aria-labelledby="areas-heading">
+      <a class="tile" href="conferences/"><span class="tile-name">Conferences</span><span class="tile-desc">Event dashboards &amp; trip plans</span><span class="tile-count" data-count-of="conferences/index.html">4</span></a>
+      <a class="tile" href="tech-presentations/"><span class="tile-name">Tech &amp; AI</span><span class="tile-desc">Talks and interactive pieces</span><span class="tile-count" data-count-of="tech-presentations/index.html">4</span></a>
+      <a class="tile" href="presentations/"><span class="tile-name">Gospel</span><span class="tile-desc">Teaching presentations</span><span class="tile-count" data-count-of="presentations/index.html">12</span></a>
+      <a class="tile" href="alma31.html"><span class="tile-name">Scripture</span><span class="tile-desc">Alma 31 study app</span><span class="tile-count" data-count-of="">5 pages</span></a>
+      <a class="tile" href="ham-radio/"><span class="tile-name">Study tools</span><span class="tile-desc">Ham radio exam trainer</span><span class="tile-count" data-count-of="">1,431 Qs</span></a>
+      <a class="tile" href="activities/"><span class="tile-name">Activities</span><span class="tile-desc">Games &amp; puzzles</span><span class="tile-count" data-count-of="activities/index.html">22</span></a>
+    </nav>
+  </section>
 
-    <div class="filter-bar" role="group" aria-label="Filter by category">
-      <button type="button" class="btn btn-ghost" aria-pressed="true" data-filter="all">All</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="gospel">Gospel</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="tech">Tech &amp; AI</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="conference">Conferences</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="study">Study tools</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="notes">Notes</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="activity">Activities</button>
-      <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="scripture">Scripture</button>
+  <section id="everything" class="section container" aria-labelledby="work-heading" data-collection data-collection-hash data-noun="item">
+    <div class="section-head">
+      <div><p class="section-eyebrow">Everything</p>
+      <h2 id="work-heading" class="section-title">All work</h2></div>
+      <p class="result-count" data-collection-count aria-live="polite"></p>
+    </div>
+    <div class="toolbar">
+      <label class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="visually-hidden">Search all work</span><input type="search" placeholder="Search talks, tools, events…  (press /)" data-collection-search autocomplete="off"></label>
+      <div class="filter-bar" role="group" aria-label="Filter by area">
+        <button type="button" class="btn btn-ghost" aria-pressed="true" data-filter="all">All <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="conference">Conferences <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="tech">Tech &amp; AI <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="gospel">Gospel <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="scripture">Scripture <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="study">Study tools <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="notes">Notes <span class="count"></span></button>
+        <button type="button" class="btn btn-ghost" aria-pressed="false" data-filter="activity">Activities <span class="count"></span></button>
+      </div>
     </div>
 
     <div class="card-grid" id="cards">
-
-      <article class="card" data-tags="activity">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip activity">Activity</span></div>
-          <h3 class="card-title">Chess</h3>
-          <p class="card-text">A full chess engine in the browser — castling, en passant, promotion, checkmate and the draw rules — with a computer opponent at three strengths, or a friend beside you.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="activities/chess/">Open<span class="visually-hidden"> chess</span> &rarr;</a>
-          <span class="card-meta">2 players · CPU</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="activity">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip activity">Activity</span></div>
-          <h3 class="card-title">Scoreboard</h3>
-          <p class="card-text">Keep score for any game — cards, dominoes, driveway basketball. Tap a score to add a point, &minus; to take one back; names and scores are saved on the device.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="activities/scoreboard/">Open<span class="visually-hidden"> the scoreboard</span> &rarr;</a>
-          <span class="card-meta">Up to 12 players</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="notes">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip notes">Notes</span></div>
-          <h3 class="card-title">Training to Age Better</h3>
-          <p class="card-text">Interview findings from the Buck Institute podcast — Gordon Lithgow and Rhonda Patrick on micronutrients, vitamin D, hormesis, sauna and cold, chronic stress, and where aging research is heading.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="notes/training-to-age-better/">Read<span class="visually-hidden"> the interview notes</span> &rarr;</a>
-          <span class="card-meta">10 sections · Buck Institute #04</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="study">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip study">Study tool</span></div>
-          <h3 class="card-title">Ham Radio Exam Trainer</h3>
-          <p class="card-text">Flash cards with spaced repetition and full-length practice exams for the FCC amateur radio licenses — the complete current Technician, General, and Amateur Extra question pools, straight from the NCVEC.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="ham-radio/">Open<span class="visually-hidden"> the ham radio exam trainer</span> &rarr;</a>
-          <span class="card-meta">1,431 questions · 3 classes</span>
-        </div>
-      </article>
+    
 
       <article class="card" data-tags="conference">
         <div class="card-body">
-          <div class="card-chips"><span class="chip conference">Conferences</span></div>
-          <h3 class="card-title">Conferences &amp; events</h3>
-          <p class="card-text">Professional and family conference schedules — Atlassian Team '26 (Anaheim) and RootsTech 2026 (Salt Lake City).</p>
+          <div class="card-top"><span class="chip conference">Conferences</span></div>
+          <h3 class="card-title"><a class="card-link" href="conferences/">Conferences &amp; events</a></h3>
+          <p class="card-text">Event dashboards and trip plans — RootsTech 2027 studio planning, AI Engineer NYC, Atlassian Team &rsquo;26, and the RootsTech 2026 archive.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="conferences/">View<span class="visually-hidden"> conferences</span> &rarr;</a>
           <span class="card-meta">4 conferences</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Wherefore Can Ye Doubt?</h3>
-          <p class="card-text">1 Nephi 4 read alongside President Oaks&rsquo; &ldquo;Coming Closer to Jesus Christ&rdquo; (BYU, 2026) — Nephi&rsquo;s question at the walls of Jerusalem, and the four practices for overcoming doubt already enacted in the chapter.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/wherefore-can-ye-doubt/">Open &rarr;</a>
-          <span class="card-meta">16 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Light, Truth, and Grace</h3>
-          <p class="card-text">Richard D. Draper (BYU, 2009) — why light is <em>capacity</em> rather than information, why truth is what glorifies, and why grace comes to everyone whether they choose it or not.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/light-truth-and-grace/">Open &rarr;</a>
-          <span class="card-meta">21 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">The Olive Leaf — Doctrine and Covenants 88</h3>
-          <p class="card-text">A deep study of the longest section in the Doctrine and Covenants — the Light of Christ, law and kingdoms, the parable of the twelve kingdoms, the seven trumps, and the charge to establish a house of learning.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/dc-88-olive-leaf/">Open &rarr;</a>
-          <span class="card-meta">23 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Maggie's Miracle — But Did You Die?</h3>
-          <p class="card-text">Thanksgiving Day 2024 — sudden cardiac arrest, 26 minutes without a pulse, a daughter's CPR training six days old, and the community and grace that brought Maggie home.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/maggies-miracle/">Open &rarr;</a>
-          <span class="card-meta">20 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Throwing the Door Wide Open</h3>
-          <p class="card-text">Camille N. Johnson, Relief Society General President — inviting more of Jesus Christ into daily life through deepened prayer, scripture, sacrament, temple worship, forgiveness, and service.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/throwing-the-door-wide-open/">Open &rarr;</a>
-          <span class="card-meta">14 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Do Not Miss the Majesty of This Moment</h3>
-          <p class="card-text">Temple growth &amp; spiritual preparation — the unprecedented acceleration of temple building under President Nelson and his call to not miss the majesty of our moment.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/do-not-miss-the-majesty/">Open &rarr;</a>
-          <span class="card-meta">12 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Ward Sunday School Presidents Training</h3>
-          <p class="card-text">Teaching in the Savior's Way — stake-level training for ward Sunday School presidents. March 2026.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/stake-ss-presidents-training/">Open &rarr;</a>
-          <span class="card-meta">23 slides</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Ward Conference 2026</h3>
-          <p class="card-text">PMG vs. Teaching in the Savior's Way — comparing missionary teaching methods with gospel instruction principles.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/ward-conference-2026/">Open &rarr;</a>
-          <span class="card-meta">Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Confidence in the Presence of God</h3>
-          <p class="card-text">Based on President Russell M. Nelson's talk — developing spiritual confidence through faithful discipleship.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/confidence-in-presence-of-god/confidence-presentation.html">Open &rarr;</a>
-          <span class="card-meta">Presentation</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">AI in the Tech Industry</h3>
-          <p class="card-text">The Majesty of the Moment — a presentation for BYU-Idaho students on AI's impact on the technology landscape.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/ai-students-byuideo/">Open &rarr;</a>
-          <span class="card-meta">Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">All Who Have Endured Valiantly</h3>
-          <p class="card-text">Elder David A. Bednar — exploring charity as the pure love of Christ. D&amp;C 121:29.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/all-who-have-endured-valiantly/">Open &rarr;</a>
-          <span class="card-meta">12 slides · Reveal.js</span>
-        </div>
-      </article>
-
-      <article class="card" data-tags="gospel">
-        <div class="card-body">
-          <div class="card-chips"><span class="chip gospel">Gospel</span></div>
-          <h3 class="card-title">Easter Week Art Display</h3>
-          <p class="card-text">Sacred artwork and scripture — eight days of Holy Week explored through art and the words of prophets.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="presentations/easter-week/">Open &rarr;</a>
-          <span class="card-meta">8 presentations</span>
+          <span class="card-cta" aria-hidden="true">View</span>
         </div>
       </article>
 
       <article class="card" data-tags="tech">
         <div class="card-body">
-          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
-          <h3 class="card-title">Utility Management Hub</h3>
+          <div class="card-top"><span class="chip tech">Tech &amp; AI</span></div>
+          <h3 class="card-title"><a class="card-link" href="tech-presentations/utility-management/">Utility Management Hub</a></h3>
           <p class="card-text">An industry analysis of utility management — the seven core workflows, ACH payments, the AI invoice pipeline, ESG compliance, the Capturis acquisition, and the competitive landscape.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="tech-presentations/utility-management/">Open &rarr;</a>
           <span class="card-meta">20 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card" data-tags="tech">
         <div class="card-body">
-          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
-          <h3 class="card-title">The Meaning of Life for AI</h3>
+          <div class="card-top"><span class="chip tech">Tech &amp; AI</span></div>
+          <h3 class="card-title"><a class="card-link" href="tech-presentations/meaning-of-life-for-ai/">The Meaning of Life for AI</a></h3>
           <p class="card-text">A philosophical inquiry from the inside — an AI's honest exploration of its own existence through philosophy, creativity, and emergence.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="tech-presentations/meaning-of-life-for-ai/">Open &rarr;</a>
           <span class="card-meta">15 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card" data-tags="tech">
         <div class="card-body">
-          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
-          <h3 class="card-title">A Day in the Life of AI</h3>
+          <div class="card-top"><span class="chip tech">Tech &amp; AI</span></div>
+          <h3 class="card-title"><a class="card-link" href="tech-presentations/daily-life-of-ai/">A Day in the Life of AI</a></h3>
           <p class="card-text">An animated visual experience — a looping canvas depicting an AI's daily routine through six phases, from dawn boot-up to starlit sleep.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="tech-presentations/daily-life-of-ai/">Open &rarr;</a>
           <span class="card-meta">Interactive · Canvas</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card" data-tags="tech">
         <div class="card-body">
-          <div class="card-chips"><span class="chip tech">Tech &amp; AI</span></div>
-          <h3 class="card-title">The Evolution of AI</h3>
+          <div class="card-top"><span class="chip tech">Tech &amp; AI</span></div>
+          <h3 class="card-title"><a class="card-link" href="tech-presentations/ai-evolution-collage/">The Evolution of AI</a></h3>
           <p class="card-text">Seven eras of artificial intelligence — from symbolic systems to modern reasoning models, visualized through CSS and SVG art.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="tech-presentations/ai-evolution-collage/">Open &rarr;</a>
           <span class="card-meta">7 eras · Interactive</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
-      <article class="card" data-tags="activity">
+      <article class="card" data-tags="gospel">
         <div class="card-body">
-          <div class="card-chips"><span class="chip activity">Activity</span></div>
-          <h3 class="card-title">The Alien Hat Riddle</h3>
-          <p class="card-text">A logic puzzle with an interactive simulation — work through the famous hat riddle and test your reasoning step by step.</p>
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/wherefore-can-ye-doubt/">Wherefore Can Ye Doubt?</a></h3>
+          <p class="card-text">1 Nephi 4 read alongside President Oaks&rsquo; &ldquo;Coming Closer to Jesus Christ&rdquo; (BYU, 2026) — Nephi&rsquo;s question at the walls of Jerusalem, and the four practices for overcoming doubt already enacted in the chapter.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="activities/hat-riddle/">Open &rarr;</a>
-          <span class="card-meta">Interactive</span>
+          <span class="card-meta">16 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/light-truth-and-grace/">Light, Truth, and Grace</a></h3>
+          <p class="card-text">Richard D. Draper (BYU, 2009) — why light is <em>capacity</em> rather than information, why truth is what glorifies, and why grace comes to everyone whether they choose it or not.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">21 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/dc-88-olive-leaf/">The Olive Leaf — Doctrine and Covenants 88</a></h3>
+          <p class="card-text">A deep study of the longest section in the Doctrine and Covenants — the Light of Christ, law and kingdoms, the parable of the twelve kingdoms, the seven trumps, and the charge to establish a house of learning.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">23 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/maggies-miracle/">Maggie's Miracle — But Did You Die?</a></h3>
+          <p class="card-text">Thanksgiving Day 2024 — sudden cardiac arrest, 26 minutes without a pulse, a daughter's CPR training six days old, and the community and grace that brought Maggie home.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">20 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/throwing-the-door-wide-open/">Throwing the Door Wide Open</a></h3>
+          <p class="card-text">Camille N. Johnson, Relief Society General President — inviting more of Jesus Christ into daily life through deepened prayer, scripture, sacrament, temple worship, forgiveness, and service.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">14 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/do-not-miss-the-majesty/">Do Not Miss the Majesty of This Moment</a></h3>
+          <p class="card-text">Temple growth &amp; spiritual preparation — the unprecedented acceleration of temple building under President Nelson and his call to not miss the majesty of our moment.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">12 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/stake-ss-presidents-training/">Ward Sunday School Presidents Training</a></h3>
+          <p class="card-text">Teaching in the Savior's Way — stake-level training for ward Sunday School presidents. March 2026.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">23 slides</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/ward-conference-2026/">Ward Conference 2026</a></h3>
+          <p class="card-text">PMG vs. Teaching in the Savior's Way — comparing missionary teaching methods with gospel instruction principles.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/confidence-in-presence-of-god/confidence-presentation.html">Confidence in the Presence of God</a></h3>
+          <p class="card-text">Based on President Russell M. Nelson's talk — developing spiritual confidence through faithful discipleship.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Presentation</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/ai-students-byuideo/">AI in the Tech Industry</a></h3>
+          <p class="card-text">The Majesty of the Moment — a presentation for BYU-Idaho students on AI's impact on the technology landscape.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/all-who-have-endured-valiantly/">All Who Have Endured Valiantly</a></h3>
+          <p class="card-text">Elder David A. Bednar — exploring charity as the pure love of Christ. D&amp;C 121:29.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">12 slides · Reveal.js</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="gospel">
+        <div class="card-body">
+          <div class="card-top"><span class="chip gospel">Gospel</span></div>
+          <h3 class="card-title"><a class="card-link" href="presentations/easter-week/">Easter Week Art Display</a></h3>
+          <p class="card-text">Sacred artwork and scripture — eight days of Holy Week explored through art and the words of prophets.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">8 presentations</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
       <article class="card" data-tags="scripture">
         <div class="card-body">
-          <div class="card-chips"><span class="chip scripture">Scripture</span></div>
-          <h3 class="card-title">Alma 31 Study App</h3>
+          <div class="card-top"><span class="chip scripture">Scripture</span></div>
+          <h3 class="card-title"><a class="card-link" href="alma31.html">Alma 31 Study App</a></h3>
           <p class="card-text">The Rameumptom and true prayer — full text, analysis, gallery, and activities exploring one of the Book of Mormon's most vivid chapters.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="alma31.html">Open &rarr;</a>
           <span class="card-meta">5 pages</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
         </div>
       </article>
 
+      <article class="card" data-tags="study" data-keywords="ham amateur radio fcc license technician general extra exam">
+        <div class="card-body">
+          <div class="card-top"><span class="chip study">Study tool</span></div>
+          <h3 class="card-title"><a class="card-link" href="ham-radio/">Ham Radio Exam Trainer</a></h3>
+          <p class="card-text">Flash cards with spaced repetition and full-length practice exams for the FCC amateur radio licenses — the complete current Technician, General, and Amateur Extra question pools, straight from the NCVEC.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">1,431 questions · 3 classes</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="notes">
+        <div class="card-body">
+          <div class="card-top"><span class="chip notes">Notes</span></div>
+          <h3 class="card-title"><a class="card-link" href="notes/training-to-age-better/">Training to Age Better</a></h3>
+          <p class="card-text">Interview findings from the Buck Institute podcast — Gordon Lithgow and Rhonda Patrick on micronutrients, vitamin D, hormesis, sauna and cold, chronic stress, and where aging research is heading.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">10 sections · Buck Institute #04</span>
+          <span class="card-cta" aria-hidden="true">Read</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="activity">
+        <div class="card-body">
+          <div class="card-top"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title"><a class="card-link" href="activities/chess/">Chess</a></h3>
+          <p class="card-text">A full chess engine in the browser — castling, en passant, promotion, checkmate and the draw rules — with a computer opponent at three strengths, or a friend beside you.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">2 players · CPU</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="activity">
+        <div class="card-body">
+          <div class="card-top"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title"><a class="card-link" href="activities/scoreboard/">Scoreboard</a></h3>
+          <p class="card-text">Keep score for any game — cards, dominoes, driveway basketball. Tap a score to add a point, &minus; to take one back; names and scores are saved on the device.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Up to 12 players</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+
+      <article class="card" data-tags="activity">
+        <div class="card-body">
+          <div class="card-top"><span class="chip activity">Activity</span></div>
+          <h3 class="card-title"><a class="card-link" href="activities/hat-riddle/">The Alien Hat Riddle</a></h3>
+          <p class="card-text">A logic puzzle with an interactive simulation — work through the famous hat riddle and test your reasoning step by step.</p>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Interactive</span>
+          <span class="card-cta" aria-hidden="true">Open</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="empty-state" data-collection-empty hidden>
+      <p>Nothing matches that search.</p>
+      <p><button type="button" class="btn btn-ghost btn-sm" data-collection-reset>Clear search and filters</button></p>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container site-footer-inner">
-    <span>© <span id="year">2026</span> Scott Soward</span>
-    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+    <span>&copy; <span data-year>2026</span> Scott Soward</span>
+    <nav aria-label="Footer">
+      <a href="./">Home</a>
+      <a href="https://github.com/ssoward/hub">Source on GitHub</a>
+    </nav>
   </div>
 </footer>
 
-<script>
-  (function() {
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('primary-nav');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
-        }
-      });
-    }
-  })();
-
-  (function() {
-    const buttons = document.querySelectorAll('.filter-bar [data-filter]');
-    const cards = document.querySelectorAll('#cards .card');
-    const valid = new Set(Array.from(buttons).map(b => b.dataset.filter));
-    function apply(tag) {
-      cards.forEach(c => {
-        const tags = (c.getAttribute('data-tags') || '').split(/\s+/);
-        c.hidden = !(tag === 'all' || tags.includes(tag));
-      });
-      buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === tag)));
-    }
-    function fromHash() {
-      const tag = (location.hash || '').slice(1).toLowerCase();
-      if (tag === 'activity') { location.replace('activities/'); return; }
-      apply(valid.has(tag) ? tag : 'all');
-    }
-    buttons.forEach(b => b.addEventListener('click', () => {
-      const t = b.dataset.filter;
-      if (t === 'activity') { location.href = 'activities/'; return; }
-      const url = t === 'all' ? location.pathname + location.search : '#' + t;
-      history.replaceState(null, '', url);
-      apply(t);
-    }));
-    window.addEventListener('hashchange', fromHash);
-    fromHash();
-  })();
-
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
 
 </body>
 </html>

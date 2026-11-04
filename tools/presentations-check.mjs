@@ -47,7 +47,7 @@ runSuite(`${DECKS.length} presentation deck${DECKS.length === 1 ? '' : 's'}`, as
   await t.open('/presentations/');
 
   const cardLinks = await t.eval(`
-    const links = [...document.querySelectorAll('.card-footer a[href^="./"]')]
+    const links = [...document.querySelectorAll('.card .card-link[href^="./"]')]
       .map(a => a.getAttribute('href'));
     const checked = [];
     for (const href of links) {
