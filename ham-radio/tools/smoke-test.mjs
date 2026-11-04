@@ -493,7 +493,7 @@ async function main() {
       const card = [...document.querySelectorAll('#cards .card')]
         .find(c => c.querySelector('.card-title').textContent.includes('Ham Radio'));
       return !!card && card.dataset.tags === 'study' &&
-             card.querySelector('a.btn').getAttribute('href') === 'ham-radio/';
+             card.querySelector('a.card-link').getAttribute('href') === 'ham-radio/';
     `), 'the hub has a card linking to the trainer');
     check(await cdp.eval(`
       const btn = document.querySelector('.filter-bar [data-filter="study"]');

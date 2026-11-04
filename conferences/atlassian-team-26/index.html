@@ -1,181 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-support>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1d4ed8">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Scott Soward's personal 3-day agenda for Atlassian Team '26 in Anaheim — Jira admin, Rovo AI agents, and leadership sessions, plus tips and a venue map.">
   <title>Atlassian Team '26 — Scott Soward</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="../../css/site.css">
   <style>
-    :root {
-      --orange: #c2410c;
-      --orange-light: #ea580c;
-      --orange-pale: #fff7ed;
-      --orange-border: #fed7aa;
-      --amber: #b45309;
-      --amber-light: #d97706;
-      --amber-pale: #fffbeb;
-      --amber-border: #fde68a;
-      --red: #b91c1c;
-      --gray-light: #f3f4f6;
-    }
+    /* Atlassian Team '26 — page layout only; colors come from site.css tokens. */
+    .event-meta { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); margin: var(--sp-4) 0; color: var(--ink-soft); font-size: var(--fs-sm); font-weight: 550; }
+    .event-meta > span { display: inline-flex; align-items: center; gap: 6px; }
+    .event-meta svg { width: 16px; height: 16px; color: var(--muted); flex: none; }
+    .event-tagline { font-style: italic; }
+    .focus-tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .page-index { margin-top: var(--sp-6); }
 
-    /* Page-specific content styles only — site.css owns chrome */
-    main#main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
-    @media (max-width: 640px) { main#main { padding: 24px 16px 60px; } }
+    /* Day picker */
+    .day-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); margin-bottom: var(--sp-5); }
+    .day-picker [role="tab"] { border-radius: var(--r-md); min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 8px; line-height: 1.25; }
+    .day-weekday { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .day-date { font-size: var(--fs-base); font-weight: 700; }
+    .day-label { font-size: var(--fs-xs); font-weight: 500; opacity: .85; }
+    @media (max-width: 520px) { .day-label { display: none; } }
 
-    /* ===== CONFERENCE HERO ===== */
-    .conf-hero {
-      background: white; border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 6px 24px rgba(0,0,0,0.06);
-      overflow: hidden; border: 1px solid rgba(0,0,0,0.06); margin-bottom: 32px;
-    }
-    .conf-hero-banner {
-      height: 8px;
-      background: linear-gradient(90deg, #7c2d12 0%, #c2410c 35%, #ea580c 65%, #f97316 100%);
-    }
-    .conf-hero-body { padding: 28px 28px 24px; }
-    .conf-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
-    .conf-name { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--dark); line-height: 1.2; margin-bottom: 6px; }
-    .conf-tagline { font-size: 0.9rem; color: var(--gray); margin-bottom: 18px; font-style: italic; line-height: 1.5; }
-    .conf-meta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
-    .conf-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #374151; font-weight: 500; }
-    .conf-meta-icon { font-size: 1rem; }
-    .conf-focuses { display: flex; flex-wrap: wrap; gap: 8px; }
-    .focus-tag {
-      display: inline-block; padding: 4px 12px; border-radius: 20px;
-      background: var(--orange-pale); border: 1px solid var(--orange-border);
-      color: var(--orange); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
-    }
+    .day-intro { margin-bottom: var(--sp-5); }
+    .grid-2 > .panel, .grid-3 > .panel { margin-top: 0; }
+    .tips-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+    .day-panel { scroll-margin-top: calc(var(--header-h) + 16px); }
 
-    /* ===== DAY TABS ===== */
-    .day-tabs {
-      display: flex; gap: 6px; margin-bottom: 24px; background: white;
-      border: 1px solid var(--border); border-radius: 12px; padding: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    }
-    .day-tab {
-      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
-      padding: 10px 8px; border-radius: 8px; border: none; background: transparent;
-      cursor: pointer; transition: all 0.2s; font-family: inherit;
-    }
-    .day-tab:hover { background: var(--orange-pale); }
-    .day-tab.active { background: var(--orange); }
-    .day-tab .day-weekday { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray); }
-    .day-tab .day-date { font-size: 0.82rem; font-weight: 600; color: #374151; }
-    .day-tab .day-label { font-size: 0.62rem; color: #9ca3af; text-align: center; line-height: 1.3; }
-    .day-tab.active .day-weekday,
-    .day-tab.active .day-date,
-    .day-tab.active .day-label { color: white; }
-
-    /* ===== DAY PANEL ===== */
-    .day-panel { display: block; }
-    .day-panel.hidden { display: none; }
-    .day-intro {
-      background: white; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px;
-      border-left: 4px solid var(--orange-light); font-size: 0.82rem; color: #374151;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05); line-height: 1.6;
-    }
-    .day-intro strong { color: var(--orange); }
-
-    /* ===== SESSION LIST ===== */
-    .sessions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-
+    /* Session list */
+    .sessions { list-style: none; margin: 0 0 var(--sp-6); padding: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
     .session {
-      background: white; border-radius: 10px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
-      border: 1px solid var(--border); border-left: 4px solid #d1d5db;
-      display: flex; gap: 0; overflow: hidden; transition: box-shadow 0.2s;
+      display: grid; grid-template-columns: 96px 1fr; min-width: 0;
+      background: var(--raised); border: 1px solid var(--border); border-left: 4px solid var(--border-strong);
+      border-radius: var(--r-lg); box-shadow: var(--shadow-1); overflow: hidden;
     }
-    .session:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-    .session.must-attend { border-left-color: var(--orange); background: linear-gradient(135deg, #fff7ed 0%, white 40%); }
-    .session.standby { border-left-color: var(--amber-light); background: linear-gradient(135deg, #fffbeb 0%, white 40%); }
-    .session.social { border-left-color: #059669; background: linear-gradient(135deg, #f0fdf4 0%, white 40%); }
-
-    .session-time {
-      min-width: 100px; width: 100px; padding: 14px 10px 14px 14px;
-      display: flex; flex-direction: column; gap: 2px; flex-shrink: 0;
-      border-right: 1px solid var(--border);
-    }
-    .time-range { font-size: 0.72rem; font-weight: 700; color: var(--dark); line-height: 1.4; }
-    .time-range .time-end { color: var(--gray); font-weight: 500; }
-
-    .session-content { padding: 14px 16px; flex: 1; min-width: 0; }
-    .session-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 7px; }
-    .badge {
-      display: inline-block; padding: 2px 9px; border-radius: 10px;
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
-    }
-    .badge-must { background: #fee2e2; color: var(--red); }
-    .badge-standby { background: var(--amber-pale); color: var(--amber); border: 1px solid var(--amber-border); }
-    .badge-keynote { background: #ede9fe; color: #5b21b6; }
-    .badge-rovo { background: #dbeafe; color: #1d4ed8; }
-    .badge-admin { background: #dcfce7; color: #166534; }
-    .badge-panel { background: #fdf4ff; color: #7e22ce; }
-    .badge-social { background: #f0fdf4; color: #166534; }
-
-    .session-title { font-size: 0.9rem; font-weight: 700; color: var(--dark); line-height: 1.35; margin-bottom: 6px; }
-    .session-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 7px; }
-    .session-location { font-size: 0.72rem; color: var(--gray); display: flex; align-items: center; gap: 4px; }
-    .session-stars { font-size: 0.78rem; color: #d97706; letter-spacing: 0.05em; }
-    .session-stars.stars-3 { color: #9ca3af; }
-    .session-desc { font-size: 0.78rem; color: #4b5563; line-height: 1.6; }
-
-    /* Conflict note */
-    .conflict-note {
-      font-size: 0.68rem; color: var(--red); font-weight: 600; margin-top: 4px;
-      display: flex; align-items: center; gap: 4px;
+    .session.must-attend { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent-soft) 55%, var(--raised)); }
+    .session.standby { border-left-color: var(--warn); }
+    .session.social { border-left-color: var(--success); }
+    .session.is-dim { opacity: .72; }
+    .session.is-skipped { opacity: .55; }
+    .session-time { padding: var(--sp-4) var(--sp-3); border-right: 1px solid var(--border); background: var(--surface); }
+    .time-range { font-size: var(--fs-sm); font-weight: 700; color: var(--ink); line-height: 1.4; font-variant-numeric: tabular-nums; }
+    .time-end { color: var(--muted); font-weight: 500; }
+    .session-content { padding: var(--sp-4) var(--sp-5); min-width: 0; }
+    .session-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--sp-2); }
+    .badge { display: inline-flex; padding: 1px 9px; border-radius: var(--r-pill); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.9; background: var(--surface-2); color: var(--ink-soft); }
+    .badge-must, .badge-conflict { background: var(--danger-soft); color: var(--danger); }
+    .badge-standby { background: var(--warn-soft); color: var(--warn); }
+    .badge-keynote { background: var(--chip-notes-bg); color: var(--chip-notes-ink); }
+    .badge-rovo { background: var(--accent-soft); color: var(--accent); }
+    .badge-admin, .badge-social { background: var(--success-soft); color: var(--success); }
+    .badge-panel { background: var(--chip-tech-bg); color: var(--chip-tech-ink); }
+    .session-title { font-size: var(--fs-md); font-weight: 650; line-height: 1.35; margin-bottom: var(--sp-1); }
+    .session-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); margin-bottom: var(--sp-2); font-size: var(--fs-sm); color: var(--muted); }
+    .session-location { display: inline-flex; align-items: center; gap: 4px; }
+    .session-location svg { width: 14px; height: 14px; }
+    .session-stars { color: var(--warn); letter-spacing: .08em; }
+    .session-desc { font-size: var(--fs-sm); color: var(--ink-soft); line-height: 1.6; }
+    .conflict-note { font-size: var(--fs-sm); color: var(--danger); font-weight: 600; margin-top: var(--sp-2); }
+    @media (max-width: 560px) {
+      .session { grid-template-columns: 1fr; }
+      .session-time { border-right: 0; border-bottom: 1px solid var(--border); padding: var(--sp-2) var(--sp-4); }
+      .time-range br { display: none; }
+      .time-end::before { content: " – "; }
+      .session-content { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
     }
 
-    /* Day tips callout */
-    .day-tips {
-      background: var(--gray-light); border-radius: 10px; padding: 16px 18px;
-      margin-top: 8px; margin-bottom: 4px;
-    }
-    .day-tips-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); margin-bottom: 10px; }
-    .day-tips ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-    .day-tips li { font-size: 0.78rem; color: #374151; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
-    .day-tips li::before { content: '→'; color: var(--orange-light); font-weight: 700; flex-shrink: 0; margin-top: 0.05em; }
+    .day-tips ul { margin: 0; padding-left: var(--sp-5); color: var(--ink-soft); font-size: var(--fs-sm); }
+    .day-tips li + li { margin-top: var(--sp-1); }
 
-    /* ===== GENERAL TIPS SECTION ===== */
-    .section-divider { font-size: 0.7rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin: 36px 0 18px; display: flex; align-items: center; gap: 12px; }
-    .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .tip-card-title { font-size: var(--fs-base); margin-bottom: var(--sp-1); }
+    .tip-card-body { font-size: var(--fs-sm); color: var(--ink-soft); }
 
-    .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-    .tip-card {
-      background: white; border-radius: 10px; padding: 16px 18px;
-      border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .tip-card-icon { font-size: 1.4rem; margin-bottom: 8px; }
-    .tip-card-title { font-size: 0.8rem; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
-    .tip-card-body { font-size: 0.75rem; color: #4b5563; line-height: 1.6; }
-
-    /* ===== MAP SECTION ===== */
-    #venue-map { height: 420px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    .map-legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 16px; }
-    .legend-card { background: white; border-radius: 10px; padding: 14px 16px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 12px; }
-    .legend-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
-    .legend-info { flex: 1; min-width: 0; }
-    .legend-name { font-size: 0.85rem; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
-    .legend-addr { font-size: 0.72rem; color: var(--gray); margin-bottom: 5px; }
-    .legend-note { font-size: 0.7rem; color: #4b5563; line-height: 1.55; }
-    .legend-link { display: inline-block; margin-top: 8px; padding: 5px 12px; border-radius: 6px; background: var(--orange); color: white; font-size: 0.7rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: opacity 0.2s; }
-    .legend-link:hover { opacity: 0.85; }
-    .legend-link.blue { background: #1d4ed8; }
-    .legend-link.green { background: #15803d; }
-    @media (max-width: 600px) { #venue-map { height: 320px; } .map-legend { grid-template-columns: 1fr; } }
-
-    @media (max-width: 600px) {
-      .conf-hero-body { padding: 20px 18px; }
-      .session-time { min-width: 80px; width: 80px; }
-      .tips-grid { grid-template-columns: 1fr; }
-      .day-tab .day-label { display: none; }
-    }
-    @media (min-width: 601px) and (max-width: 800px) {
-      .tips-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    #venue-map { height: 420px; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border); z-index: 0; }
+    @media (max-width: 600px) { #venue-map { height: 320px; } }
+    .map-legend { margin-top: var(--sp-5); }
+    .legend-name { font-size: var(--fs-base); margin-bottom: 2px; }
+    .legend-addr { font-size: var(--fs-sm); color: var(--muted); margin-bottom: var(--sp-2); }
+    .legend-note { font-size: var(--fs-sm); color: var(--ink-soft); margin-bottom: var(--sp-3); }
+    /* Leaflet popups stay light in both themes */
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip { color: #0f172a; }
+    .leaflet-container a { color: #2048c9; }
+    .leaflet-bar a, .leaflet-touch .leaflet-bar a { width: 40px; height: 40px; line-height: 40px; font-size: 20px; }
   </style>
+  <!-- chrome:head -->
+  <script>(function(d){var r=d.documentElement,t=null;try{t=localStorage.getItem('hub-theme')}catch(e){}if(r.dataset.themeLock)t=r.dataset.themeLock;else if(!r.hasAttribute('data-theme-support'))t='light';else if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t)})(document);</script>
+  <script src="../../js/site.js" defer></script>
+  <!-- /chrome:head -->
 </head>
 <body>
 
@@ -183,63 +97,90 @@
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand" href="../../">
-      <span class="brand-name">Scott Soward</span>
-      <span class="brand-role">Engineer · Builder · Teacher</span>
+    <a class="brand" href="../../" aria-label="Scott Soward — home">
+      <span class="brand-mark" aria-hidden="true">SS</span>
+      <span class="brand-text"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></span>
     </a>
-    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
-      <span aria-hidden="true">☰</span>
-    </button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <a href="../../">Home</a>
-      <a href="../../presentations/">Gospel</a>
+      <a href="../../conferences/" aria-current="true">Conferences</a>
       <a href="../../tech-presentations/">Tech &amp; AI</a>
-      <a href="../../activities/">Activities</a>
-      <a href="../" aria-current="page">Conferences</a>
+      <a href="../../presentations/">Gospel</a>
       <a href="../../alma31.html">Scripture</a>
+      <a href="../../ham-radio/">Study tools</a>
+      <a href="../../activities/">Activities</a>
     </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </div>
 </header>
 
+<nav class="breadcrumbs container" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../">Conferences</a></li>
+    <li><span aria-current="page">Atlassian Team '26</span></li>
+  </ol>
+</nav>
+
 <main id="main">
 
-  <!-- ============================
-       CONFERENCE HERO
-       ============================ -->
-  <div class="conf-hero">
-    <div class="conf-hero-banner"></div>
-    <div class="conf-hero-body">
-      <div class="conf-eyebrow">Professional Conference &nbsp;&middot;&nbsp; May 2026</div>
-      <div class="conf-name">Atlassian Team '26</div>
-      <div class="conf-tagline">"The new shape of teamwork — Designing the Human-AI workforce"</div>
-      <div class="conf-meta">
-        <div class="conf-meta-item"><span class="conf-meta-icon">📅</span> May 5–7, 2026</div>
-        <div class="conf-meta-item"><span class="conf-meta-icon">📍</span> Anaheim Convention Center, CA</div>
-        <div class="conf-meta-item"><span class="conf-meta-icon">👤</span> Scott Soward</div>
-      </div>
-      <div class="conf-focuses">
-        <span class="focus-tag">Jira Admin</span>
-        <span class="focus-tag">Strategy / Planning / Leadership</span>
-        <span class="focus-tag">AI Agents (Rovo)</span>
+  <section class="site-hero container">
+    <p class="hero-eyebrow">Professional conference</p>
+    <h1 class="hero-title">Atlassian Team '26</h1>
+    <p class="hero-lede event-tagline">&ldquo;The new shape of teamwork &mdash; designing the human-AI workforce.&rdquo;</p>
+    <p class="event-meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>May 5&ndash;7, 2026</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Anaheim Convention Center, CA</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Scott Soward</span>
+      <span class="chip status-archived">Past event</span>
+    </p>
+    <div class="focus-tags" aria-label="Focus areas">
+      <span class="chip tech">Jira Admin</span>
+      <span class="chip conference">Strategy &middot; Planning &middot; Leadership</span>
+      <span class="chip study">AI Agents (Rovo)</span>
+    </div>
+    <nav class="page-index" aria-label="On this page">
+      <a href="#schedule">Schedule</a>
+      <a href="#tips">Conference tips</a>
+      <a href="#venue">Venue &amp; map</a>
+    </nav>
+  </section>
+
+  <div class="container">
+    <div class="callout info" role="note">
+      <div>
+        <p class="callout-title">This event is over</p>
+        <p>Team '26 wrapped on May 7, 2026. The agenda below is kept as a reference for what I planned to attend and why.</p>
       </div>
     </div>
   </div>
 
+  <section class="section container" id="schedule" aria-labelledby="schedule-heading">
+    <div class="section-head">
+      <div>
+        <p class="section-eyebrow">3 days</p>
+        <h2 id="schedule-heading" class="section-title">My agenda</h2>
+      </div>
+    </div>
+
   <!-- ============================
        DAY TABS
        ============================ -->
-  <div class="day-tabs" role="tablist" aria-label="Conference days">
-    <button type="button" class="day-tab active" role="tab" id="tab-tue" aria-controls="day-tue" aria-selected="true" tabindex="0">
+  <div class="segmented day-picker" role="tablist" data-tabs data-tabs-hash aria-label="Conference days">
+    <button type="button" role="tab" id="tab-tue" aria-controls="day-tue" aria-selected="true" tabindex="0">
       <span class="day-weekday">Tue</span>
       <span class="day-date">May 5</span>
       <span class="day-label">Expo + Kickoff</span>
     </button>
-    <button type="button" class="day-tab" role="tab" id="tab-wed" aria-controls="day-wed" aria-selected="false" tabindex="-1">
+    <button type="button" role="tab" id="tab-wed" aria-controls="day-wed" aria-selected="false" tabindex="-1">
       <span class="day-weekday">Wed</span>
       <span class="day-date">May 6</span>
       <span class="day-label">Keynotes + Deep Dives</span>
     </button>
-    <button type="button" class="day-tab" role="tab" id="tab-thu" aria-controls="day-thu" aria-selected="false" tabindex="-1">
+    <button type="button" role="tab" id="tab-thu" aria-controls="day-thu" aria-selected="false" tabindex="-1">
       <span class="day-weekday">Thu</span>
       <span class="day-date">May 7</span>
       <span class="day-label">Leadership + Closing</span>
@@ -249,14 +190,13 @@
   <!-- ============================
        TUESDAY
        ============================ -->
-  <div id="day-tue" class="day-panel" role="tabpanel" aria-labelledby="tab-tue">
-    <div class="day-intro">
-      <strong>Day 1 — Rovo Dev + Opening Keynote.</strong> Reserved seat in 304A at 2:15 PM — arrive a few minutes early. Use the 3:45–4:30 gap to hit the Expo. Opening Keynote at 5:30 PM is the highlight of the evening, followed by Welcome Reception.
-    </div>
+  <section id="day-tue" class="day-panel" role="tabpanel" aria-labelledby="tab-tue" tabindex="0">
+    <h3 class="visually-hidden">Tuesday, May 5</h3>
+    <div class="callout day-intro"><p><strong>Day 1 — Rovo Dev + Opening Keynote.</strong> Reserved seat in 304A at 2:15 PM — arrive a few minutes early. Use the 3:45–4:30 gap to hit the Expo. Opening Keynote at 5:30 PM is the highlight of the evening, followed by Welcome Reception.</p></div>
 
-    <div class="sessions">
+    <ul class="sessions">
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">2:15 PM<br><span class="time-end">3:45 PM</span></div>
         </div>
@@ -265,18 +205,18 @@
             <span class="badge badge-must">Reserved</span>
             <span class="badge badge-rovo">Learning · 90 min</span>
           </div>
-          <div class="session-title">Rovo Dev across your entire software lifecycle</div>
+          <h4 class="session-title">Rovo Dev across your entire software lifecycle</h4>
           <div class="session-meta">
-            <span class="session-location">📍 304A</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>304A</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Jovana Dunisijevic &amp; Lazar Deretic (Atlassian). Deep dive into Rovo Dev integrated across the full SDLC — from planning through deployment.</div>
-          <div class="conflict-note" style="margin-top:6px;">💻 Bring laptop &amp; charger &nbsp;·&nbsp; ⚠️ Reserved seating — seat released to standby 5 min before start if not claimed</div>
+          <div class="conflict-note">Bring laptop &amp; charger &nbsp;·&nbsp; Reserved seating — seat released to standby 5 min before start if not claimed</div>
         </div>
-      </div>
+      </li>
 
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">4:00 PM<br><span class="time-end">4:15 PM</span></div>
         </div>
@@ -284,17 +224,17 @@
           <div class="session-badges">
             <span class="badge badge-panel">Theater · Sponsored · 15 min</span>
           </div>
-          <div class="session-title">Rethink collaboration: Make Microsoft Teams part of the Jira workflow</div>
+          <h4 class="session-title">Rethink collaboration: Make Microsoft Teams part of the Jira workflow</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater C</span>
-            <span class="session-stars">★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater C</span>
+            <span class="session-stars" role="img" aria-label="Priority 3 of 5">★★★</span>
           </div>
           <div class="session-desc">Andreas Schmidt (yasoon). Integrating Microsoft Teams with Jira for a seamless cross-platform collaboration experience.</div>
-          <div class="conflict-note">⚡ Conflicts with Mission Possible (304C, reserved) below — choose one</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Conflicts with Mission Possible (304C, reserved) below — choose one</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">4:00 PM<br><span class="time-end">5:00 PM</span></div>
         </div>
@@ -303,17 +243,17 @@
             <span class="badge badge-must">Reserved</span>
             <span class="badge badge-admin">Learning · 60 min</span>
           </div>
-          <div class="session-title">Mission possible, from one control center: Atlassian administrator's playbook for today's era</div>
+          <h4 class="session-title">Mission possible, from one control center: Atlassian administrator's playbook for today's era</h4>
           <div class="session-meta">
-            <span class="session-location">📍 304C</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>304C</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Justin Maguire &amp; Marcus Asmar (Atlassian). Comprehensive admin playbook for managing Atlassian products in the AI era — from governance to automation.</div>
-          <div class="conflict-note">⚡ Conflicts with Rethink Collaboration (Theater C, 4:00) and AI Incident Prevention (Theater A, 4:30) — reserved seat, prioritize this</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Conflicts with Rethink Collaboration (Theater C, 4:00) and AI Incident Prevention (Theater A, 4:30) — reserved seat, prioritize this</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">4:30 PM<br><span class="time-end">4:45 PM</span></div>
         </div>
@@ -321,16 +261,16 @@
           <div class="session-badges">
             <span class="badge badge-panel">Theater · 15 min</span>
           </div>
-          <div class="session-title">AI-driven incident prevention with Jira Service Management</div>
+          <h4 class="session-title">AI-driven incident prevention with Jira Service Management</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Prithwish Basu (Atlassian). How AI proactively prevents incidents before they impact customers in JSM.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">5:30 PM<br><span class="time-end">6:15 PM</span></div>
         </div>
@@ -339,31 +279,31 @@
             <span class="badge badge-must">Must Attend</span>
             <span class="badge badge-keynote">Opening Keynote · 45 min</span>
           </div>
-          <div class="session-title">Opening Keynote: The new shape of teamwork — Designing the Human-AI workforce</div>
+          <h4 class="session-title">Opening Keynote: The new shape of teamwork — Designing the Human-AI workforce</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Main Stage · Livestream</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Main Stage · Livestream</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Emily Chang, Ethan Mollick (Wharton), Magnus Östberg (Mercedes-Benz AG). The big-picture vision for the Human-AI workforce.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session social">
+      <li class="session social">
         <div class="session-time">
           <div class="time-range">6:15 PM</div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-social">Social</span></div>
-          <div class="session-title">Welcome Reception</div>
+          <h4 class="session-title">Welcome Reception</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Food, drinks, and networking. Keynote wraps at 6:30 — head over right after.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">6:30 PM<br><span class="time-end">6:45 PM</span></div>
         </div>
@@ -371,52 +311,51 @@
           <div class="session-badges">
             <span class="badge badge-panel">Theater · 15 min</span>
           </div>
-          <div class="session-title">The shortcuts across the SDLC you are yet to discover</div>
+          <h4 class="session-title">The shortcuts across the SDLC you are yet to discover</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Jovana Dunisijevic (Atlassian). Quick-hit productivity tips across the software development lifecycle.</div>
-          <div class="conflict-note">⚡ Runs during Welcome Reception — 15 min, then rejoin reception</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Runs during Welcome Reception — 15 min, then rejoin reception</div>
         </div>
-      </div>
+      </li>
 
-    </div><!-- /sessions -->
+    </ul>
 
-    <div class="day-tips">
-      <div class="day-tips-title">Tuesday Tips</div>
+    <div class="panel day-tips">
+      <h4 class="panel-title">Tuesday Tips</h4>
       <ul>
-        <li>Reserved seat for Rovo Dev (304A) at 2:15 PM — 💻 bring laptop &amp; charger, arrive 5 min early.</li>
+        <li>Reserved seat for Rovo Dev (304A) at 2:15 PM — bring laptop &amp; charger, arrive 5 min early.</li>
         <li>4:00 PM conflict: Mission Possible (304C, reserved, 60 min) vs Rethink Collaboration (Theater C, 15 min). Reserved session takes priority — skip the theater.</li>
         <li>If attending Mission Possible (4:00–5:00 PM), you'll miss the 4:30 PM theater — it's okay, focus on the admin session.</li>
         <li>Theater sessions are 15 min each — easy to squeeze in around the reception.</li>
         <li>Opening Keynote ends at 6:15 PM — Welcome Reception is already underway, head over right after.</li>
       </ul>
     </div>
-  </div>
+  </section>
 
     <!-- ============================
        WEDNESDAY
        ============================ -->
-  <div id="day-wed" class="day-panel hidden" role="tabpanel" aria-labelledby="tab-wed">
-    <div class="day-intro">
-      <strong>Day 2 — Packed day from 10:45 AM on.</strong> Founder Keynote at 9 AM kicks it off, then Teamwork Collection keynote (10:45) — and Axel Springer Rovo Dev case study also at 10:45 (pick one), and lunch at 12:30. Afternoon: Jira AI agents (1:30), two competing breakouts at 2:30, and the Agentic Pivot keynote (4:00). Pick your battles — several sessions conflict.
-    </div>
+  <section id="day-wed" class="day-panel" role="tabpanel" aria-labelledby="tab-wed" tabindex="0" hidden>
+    <h3 class="visually-hidden">Wednesday, May 6</h3>
+    <div class="callout day-intro"><p><strong>Day 2 — Packed day from 10:45 AM on.</strong> Founder Keynote at 9 AM kicks it off, then Teamwork Collection keynote (10:45) — and Axel Springer Rovo Dev case study also at 10:45 (pick one), and lunch at 12:30. Afternoon: Jira AI agents (1:30), two competing breakouts at 2:30, and the Agentic Pivot keynote (4:00). Pick your battles — several sessions conflict.</p></div>
 
-    <div class="sessions">
+    <ul class="sessions">
 
-      <div class="session social">
+      <li class="session social">
         <div class="session-time">
           <div class="time-range">8:00 AM</div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-social">Expo</span></div>
-          <div class="session-title">Breakfast</div>
-          <div class="session-meta"><span class="session-location">📍 Expo Hall</span></div>
+          <h4 class="session-title">Breakfast</h4>
+          <div class="session-meta"><span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Hall</span></div>
         </div>
-      </div>
+      </li>
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">9:00 AM<br><span class="time-end">10:15 AM</span></div>
         </div>
@@ -425,16 +364,16 @@
             <span class="badge badge-must">Must Attend</span>
             <span class="badge badge-keynote">Founder Keynote · 75 min</span>
           </div>
-          <div class="session-title">Founder Keynote: Human-AI collaboration at scale</div>
+          <h4 class="session-title">Founder Keynote: Human-AI collaboration at scale</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Main Stage · Livestream</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Main Stage · Livestream</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Mike Cannon-Brookes, Sherif Mansour, Tamar Yehoshua (Atlassian). The headline keynote — reimagining teamwork in the AI era.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">10:45 AM<br><span class="time-end">11:15 AM</span></div>
         </div>
@@ -443,17 +382,17 @@
             <span class="badge badge-must">Must Attend</span>
             <span class="badge badge-keynote">Solution Keynote · 30 min</span>
           </div>
-          <div class="session-title">Teamwork Collection keynote: Power the era of human-AI collaboration</div>
+          <h4 class="session-title">Teamwork Collection keynote: Power the era of human-AI collaboration</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom A · Livestream · On Demand</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom A · Livestream · On Demand</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Andrew Stillman &amp; Sanchan Saxena (Atlassian). How the full Teamwork Collection (Confluence, Jira, Loom, Rovo) comes together for the human-AI era.</div>
-          <div class="conflict-note">⚡ Conflicts with Axel Springer Rovo Dev (Ballroom C, 10:45) — pick one</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Conflicts with Axel Springer Rovo Dev (Ballroom C, 10:45) — pick one</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">10:45 AM<br><span class="time-end">11:30 AM</span></div>
         </div>
@@ -462,29 +401,29 @@
             <span class="badge badge-rovo">Rovo Dev · 45 min</span>
             <span class="badge badge-keynote">On Demand</span>
           </div>
-          <div class="session-title">Accelerating the SDLC at scale: How Axel Springer uses Rovo Dev to ship faster</div>
+          <h4 class="session-title">Accelerating the SDLC at scale: How Axel Springer uses Rovo Dev to ship faster</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom C</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom C</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Martin Bild (Axel Springer). Real-world case study: how a major media company embedded Rovo Dev to dramatically compress their release cycle.</div>
-          <div class="conflict-note">⚡ Conflicts with Teamwork Collection keynote (Ballroom A, 10:45) — pick one</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Conflicts with Teamwork Collection keynote (Ballroom A, 10:45) — pick one</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session social">
+      <li class="session social">
         <div class="session-time">
           <div class="time-range">12:30 PM</div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-social">Expo</span></div>
-          <div class="session-title">Lunch</div>
-          <div class="session-meta"><span class="session-location">📍 Expo Hall</span></div>
+          <h4 class="session-title">Lunch</h4>
+          <div class="session-meta"><span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Hall</span></div>
           <div class="session-desc">Use the morning gap (10 AM–1:30 PM) and lunch for Expo demos and peer connections.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">12:30 PM<br><span class="time-end">12:45 PM</span></div>
         </div>
@@ -492,17 +431,17 @@
           <div class="session-badges">
             <span class="badge badge-panel">Theater · 15 min</span>
           </div>
-          <div class="session-title">Transform strategy into action with Goals and Projects</div>
+          <h4 class="session-title">Transform strategy into action with Goals and Projects</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Makisa Appleton (Atlassian). Connecting high-level goals to daily Jira work with the Goals + Projects framework.</div>
-          <div class="conflict-note">⚡ During lunch — grab food first then head over</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>During lunch — grab food first then head over</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">12:30 PM<br><span class="time-end">12:45 PM</span></div>
         </div>
@@ -510,17 +449,17 @@
           <div class="session-badges">
             <span class="badge badge-panel">Theater · 15 min</span>
           </div>
-          <div class="session-title">Stop shoving big ideas into tiny forms: When an agent is a better front door</div>
+          <h4 class="session-title">Stop shoving big ideas into tiny forms: When an agent is a better front door</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater C</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater C</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Chelsea Bullock (Atlassian). When conversational AI agents beat structured forms for intake and triage — a practical design shift.</div>
-          <div class="conflict-note">⚡ Same time as Goals &amp; Projects theater (Theater A) — pick one</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Same time as Goals &amp; Projects theater (Theater A) — pick one</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">1:30 PM<br><span class="time-end">2:15 PM</span></div>
         </div>
@@ -529,17 +468,17 @@
             <span class="badge badge-rovo">Rovo</span>
             <span class="badge badge-keynote">On Demand · 45 min</span>
           </div>
-          <div class="session-title">Bring the power of AI agents to your Jira workflows</div>
+          <h4 class="session-title">Bring the power of AI agents to your Jira workflows</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom B</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom B</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Matthew Canham &amp; Natalie Chung (Atlassian). Practical walkthrough of embedding Rovo AI agents directly into Jira workflows.</div>
         </div>
-      </div>
+      </li>
 
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">2:30 PM<br><span class="time-end">3:15 PM</span></div>
         </div>
@@ -548,17 +487,17 @@
             <span class="badge badge-rovo">Culture · 45 min</span>
             <span class="badge badge-keynote">On Demand</span>
           </div>
-          <div class="session-title">Inside Atlassian: Building a culture of AI-fluent teams</div>
+          <h4 class="session-title">Inside Atlassian: Building a culture of AI-fluent teams</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom B</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom B</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Alicia Lenart, David Cross, Gene Liu &amp; Jackie Davis (Atlassian). How Atlassian built internal AI fluency — the programs, habits, and culture shifts that made it stick.</div>
-          <div class="conflict-note">⚡ Conflicts with Customer Support Dream Team (Ballroom E) — pick one</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Conflicts with Customer Support Dream Team (Ballroom E) — pick one</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">2:30 PM<br><span class="time-end">3:15 PM</span></div>
         </div>
@@ -566,17 +505,17 @@
           <div class="session-badges">
             <span class="badge badge-admin">Customer Service · 45 min</span>
           </div>
-          <div class="session-title">Assemble your human-AI customer support dream team with the Customer Service Management app</div>
+          <h4 class="session-title">Assemble your human-AI customer support dream team with the Customer Service Management app</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom E</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom E</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Dorothea Linneweber (Atlassian). Real-world playbook for combining human agents and AI in JSM-powered customer support.</div>
-          <div class="conflict-note">⚡ Conflicts with Inside Atlassian AI-fluent teams (Ballroom B) — pick one</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Conflicts with Inside Atlassian AI-fluent teams (Ballroom B) — pick one</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">4:00 PM<br><span class="time-end">4:30 PM</span></div>
         </div>
@@ -585,32 +524,32 @@
             <span class="badge badge-must">Must Attend</span>
             <span class="badge badge-keynote">Solution Keynote · 30 min</span>
           </div>
-          <div class="session-title">The agentic pivot: Building software in the era of human-AI collaboration</div>
+          <h4 class="session-title">The agentic pivot: Building software in the era of human-AI collaboration</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom A · On Demand</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom A · On Demand</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Ming Wu &amp; Tanguy Crusson (Atlassian). How software teams restructure around agentic workflows and human-AI pair programming.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session social">
+      <li class="session social">
         <div class="session-time">
           <div class="time-range">4:15 PM</div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-social">Social</span></div>
-          <div class="session-title">Rovo Happy Hour</div>
+          <h4 class="session-title">Rovo Happy Hour</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Networking with Rovo-focused attendees. Keynote ends at 4:30 — head straight over.</div>
-          <div class="conflict-note">⚡ Starts during the Agentic Pivot keynote — join at 4:30 PM when keynote wraps</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Starts during the Agentic Pivot keynote — join at 4:30 PM when keynote wraps</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">5:00 PM<br><span class="time-end">5:15 PM</span></div>
         </div>
@@ -618,19 +557,19 @@
           <div class="session-badges">
             <span class="badge badge-panel">Theater · 15 min</span>
           </div>
-          <div class="session-title">AI-assisted engineering: 5 trends we're seeing from 500+ organizations</div>
+          <h4 class="session-title">AI-assisted engineering: 5 trends we're seeing from 500+ organizations</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater B</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater B</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Data-backed research on AI adoption trends across engineering teams — quick insight you can bring back to your org.</div>
         </div>
-      </div>
+      </li>
 
-    </div><!-- /sessions -->
+    </ul>
 
-    <div class="day-tips">
-      <div class="day-tips-title">Wednesday Tips</div>
+    <div class="panel day-tips">
+      <h4 class="panel-title">Wednesday Tips</h4>
       <ul>
         <li>Arrive early for the Founder Keynote — Main Stage fills quickly for MCB appearances.</li>
         <li>10 AM–1:30 PM is a big open gap: great for Expo demos, the Atlassian Hub, and lunch at 11:30.</li>
@@ -638,30 +577,29 @@
         <li>The 5 PM theater session is 15 min — easy to catch on your way out of happy hour.</li>
       </ul>
     </div>
-  </div>
+  </section>
 
     <!-- ============================
        THURSDAY
        ============================ -->
-  <div id="day-thu" class="day-panel hidden" role="tabpanel" aria-labelledby="tab-thu">
-    <div class="day-intro">
-      <strong>Day 3 — Closing Keynote + Breakouts.</strong> Back-to-back Bitbucket Cloud (10:30) and AI code review (11:30). Three quick 15-min theater sessions right after lunch. Two 3:45 PM sessions in schedule, but my day ends at 4:00 PM — only 15 min usable.
-    </div>
+  <section id="day-thu" class="day-panel" role="tabpanel" aria-labelledby="tab-thu" tabindex="0" hidden>
+    <h3 class="visually-hidden">Thursday, May 7</h3>
+    <div class="callout day-intro"><p><strong>Day 3 — Closing Keynote + Breakouts.</strong> Back-to-back Bitbucket Cloud (10:30) and AI code review (11:30). Three quick 15-min theater sessions right after lunch. Two 3:45 PM sessions in schedule, but my day ends at 4:00 PM — only 15 min usable.</p></div>
 
-    <div class="sessions">
+    <ul class="sessions">
 
-      <div class="session social">
+      <li class="session social">
         <div class="session-time">
           <div class="time-range">8:00 AM</div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-social">Expo</span></div>
-          <div class="session-title">Breakfast</div>
-          <div class="session-meta"><span class="session-location">📍 Expo Hall</span></div>
+          <h4 class="session-title">Breakfast</h4>
+          <div class="session-meta"><span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Hall</span></div>
         </div>
-      </div>
+      </li>
 
-      <div class="session must-attend">
+      <li class="session must-attend">
         <div class="session-time">
           <div class="time-range">9:00 AM<br><span class="time-end">10:00 AM</span></div>
         </div>
@@ -670,16 +608,16 @@
             <span class="badge badge-must">Must Attend</span>
             <span class="badge badge-keynote">Closing Keynote · 60 min</span>
           </div>
-          <div class="session-title">Closing Keynote: Permission to build — Hardwiring a founder mindset into the enterprise</div>
+          <h4 class="session-title">Closing Keynote: Permission to build — Hardwiring a founder mindset into the enterprise</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Main Stage · Livestream</span>
-            <span class="session-stars">★★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Main Stage · Livestream</span>
+            <span class="session-stars" role="img" aria-label="Priority 5 of 5">★★★★★</span>
           </div>
           <div class="session-desc">Alexis Ohanian (Seven Seven Six) &amp; Mike Cannon-Brookes (Atlassian). Leadership, resilience, and the founder mindset inside large organizations.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">10:30 AM<br><span class="time-end">11:15 AM</span></div>
         </div>
@@ -687,16 +625,16 @@
           <div class="session-badges">
             <span class="badge badge-rovo">SDLC · 45 min</span>
           </div>
-          <div class="session-title">Embracing the AI-native SDLC with Bitbucket Cloud</div>
+          <h4 class="session-title">Embracing the AI-native SDLC with Bitbucket Cloud</h4>
           <div class="session-meta">
-            <span class="session-location">📍 304A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>304A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Chris Clarke &amp; Edmund Munday (Atlassian). How Bitbucket Cloud is being rebuilt for an AI-native development workflow from day one.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">11:30 AM<br><span class="time-end">12:15 PM</span></div>
         </div>
@@ -704,72 +642,72 @@
           <div class="session-badges">
             <span class="badge badge-rovo">AI Code · 45 min</span>
           </div>
-          <div class="session-title">Beyond the pull request: AI-native code review and incident resolution</div>
+          <h4 class="session-title">Beyond the pull request: AI-native code review and incident resolution</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom C</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom C</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Natalija Fuksmane &amp; Ryan Jiang (Atlassian). How AI reshapes code review and links it directly to incident response.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session social">
+      <li class="session social">
         <div class="session-time">
           <div class="time-range">12:15 PM</div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-social">Expo</span></div>
-          <div class="session-title">Lunch</div>
-          <div class="session-meta"><span class="session-location">📍 Expo Hall</span></div>
+          <h4 class="session-title">Lunch</h4>
+          <div class="session-meta"><span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Hall</span></div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">12:30 PM<br><span class="time-end">12:45 PM</span></div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-panel">Theater · 15 min</span></div>
-          <div class="session-title">Beyond adoption: What it actually means to be an AI native engineering org</div>
+          <h4 class="session-title">Beyond adoption: What it actually means to be an AI native engineering org</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Brittni Allen (DX). What "AI native" actually requires in culture, process, and tooling — beyond just adopting new tools.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">12:55 PM<br><span class="time-end">1:10 PM</span></div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-panel">Theater · 15 min</span></div>
-          <div class="session-title">Build a customer service AI agent: From zero to hero in 15 minutes</div>
+          <h4 class="session-title">Build a customer service AI agent: From zero to hero in 15 minutes</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Vincent Wong (Atlassian). Live demo: build a working customer service Rovo Agent from scratch in 15 minutes.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">1:20 PM<br><span class="time-end">1:35 PM</span></div>
         </div>
         <div class="session-content">
           <div class="session-badges"><span class="badge badge-panel">Theater · 15 min</span></div>
-          <div class="session-title">Build Plans That Move at the Speed of Your Business</div>
+          <h4 class="session-title">Build Plans That Move at the Speed of Your Business</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Expo Theater B</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Expo Theater B</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Ingrid Blake &amp; Jake Comito (Atlassian). Build strategic Jira plans that update dynamically with your business.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">1:45 PM<br><span class="time-end">2:30 PM</span></div>
         </div>
@@ -778,16 +716,16 @@
             <span class="badge badge-admin">Product Discovery · 45 min</span>
             <span class="badge badge-keynote">On Demand</span>
           </div>
-          <div class="session-title">From strategy to impact: Jira Product Discovery in practice</div>
+          <h4 class="session-title">From strategy to impact: Jira Product Discovery in practice</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom B</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom B</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Axel Sooriah (Atlassian), Brent Johnson (Maple), Luke Strobel (Erie Insurance), Suzanna Sargsyan. Real teams share how they use Jira Product Discovery in production.</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session">
+      <li class="session">
         <div class="session-time">
           <div class="time-range">2:45 PM<br><span class="time-end">3:30 PM</span></div>
         </div>
@@ -795,76 +733,76 @@
           <div class="session-badges">
             <span class="badge badge-rovo">Learning · 45 min</span>
           </div>
-          <div class="session-title">Jira Plans (Advanced Roadmaps) for project management</div>
+          <h4 class="session-title">Jira Plans (Advanced Roadmaps) for project management</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom E</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom E</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Alex Ortiz (Apetech LLC). Practical guide to cross-team roadmaps and project management with Jira Plans.</div>
         </div>
-      </div>
+      </li>
 
 
-      <div class="session" style="opacity:0.7;">
+      <li class="session is-dim">
         <div class="session-time">
           <div class="time-range">3:45 PM<br><span class="time-end">4:30 PM</span></div>
         </div>
         <div class="session-content">
           <div class="session-badges">
             <span class="badge badge-admin">Learning · 45 min</span>
-            <span class="badge" style="background:#fee2e2;color:#b91c1c;">Time conflict</span>
+            <span class="badge badge-conflict">Time conflict</span>
           </div>
-          <div class="session-title">Are you smarter than a Jira admin? – Round 2</div>
+          <h4 class="session-title">Are you smarter than a Jira admin? – Round 2</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom A</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom A</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Sajit Nair (Culture Commandos Advisory LLP). Interactive Jira admin quiz — fun and educational for any admin level.</div>
-          <div class="conflict-note">⚡ Starts 3:45, runs to 4:30 — past my 4:00 PM cutoff (only 15 min)</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Starts 3:45, runs to 4:30 — past my 4:00 PM cutoff (only 15 min)</div>
         </div>
-      </div>
+      </li>
 
-      <div class="session" style="opacity:0.7;">
+      <li class="session is-dim">
         <div class="session-time">
           <div class="time-range">3:45 PM<br><span class="time-end">4:30 PM</span></div>
         </div>
         <div class="session-content">
           <div class="session-badges">
             <span class="badge badge-panel">Breakout · 45 min</span>
-            <span class="badge" style="background:#fee2e2;color:#b91c1c;">Time conflict</span>
+            <span class="badge badge-conflict">Time conflict</span>
           </div>
-          <div class="session-title">Your meetings need a makeover: Learn the frameworks in Confluence, Jira, and Loom</div>
+          <h4 class="session-title">Your meetings need a makeover: Learn the frameworks in Confluence, Jira, and Loom</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Ballroom E</span>
-            <span class="session-stars">★★★★</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Ballroom E</span>
+            <span class="session-stars" role="img" aria-label="Priority 4 of 5">★★★★</span>
           </div>
           <div class="session-desc">Brittany Soinski (Atlassian). Practical frameworks for better async and sync meetings using Confluence, Jira, and Loom together.</div>
-          <div class="conflict-note">⚡ Starts 3:45, runs to 4:30 — past my 4:00 PM cutoff (only 15 min)</div>
+          <div class="conflict-note"><span class="visually-hidden">Conflict: </span>Starts 3:45, runs to 4:30 — past my 4:00 PM cutoff (only 15 min)</div>
         </div>
-      </div>
+      </li>
 
 
-      <div class="session" style="opacity: 0.45;">
+      <li class="session is-skipped">
         <div class="session-time">
           <div class="time-range">4:30 PM<br><span class="time-end">7:00 PM</span></div>
         </div>
         <div class="session-content">
           <div class="session-badges">
             <span class="badge badge-social">Social</span>
-            <span class="badge" style="background:#fee2e2;color:#b91c1c;">Skipping</span>
+            <span class="badge badge-conflict">Skipping</span>
           </div>
-          <div class="session-title">Bash — Closing Party</div>
+          <h4 class="session-title">Bash — Closing Party</h4>
           <div class="session-meta">
-            <span class="session-location">📍 Conference Venue</span>
+            <span class="session-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="visually-hidden">Room: </span>Conference Venue</span>
           </div>
           <div class="session-desc">Skipping.</div>
         </div>
-      </div>
+      </li>
 
-    </div><!-- /sessions -->
+    </ul>
 
-    <div class="day-tips">
-      <div class="day-tips-title">Thursday Tips</div>
+    <div class="panel day-tips">
+      <h4 class="panel-title">Thursday Tips</h4>
       <ul>
         <li>Back-to-back: Bitbucket Cloud (304A, 10:30) then AI code review (Ballroom C, 11:30) — plan the room change.</li>
         <li>Lunch is at 12:15 but theater sessions start at 12:30 — grab food quickly or eat during the sessions.</li>
@@ -872,148 +810,80 @@
         <li>Last session ends 3:30 PM — 30-min window before my 4:00 PM wrap. Use it to write top takeaways and say goodbyes.</li>
       </ul>
     </div>
-  </div>
+  </section>
 
-    <!-- ============================
-       GENERAL TIPS
-       ============================ -->
-  <div class="section-divider">General Conference Tips</div>
+    </section>
 
-  <div class="tips-grid">
-    <div class="tip-card">
-      <div class="tip-card-icon">⏱</div>
-      <div class="tip-card-title">Standby Strategy</div>
-      <div class="tip-card-body">Arrive 5–10 minutes early for standby sessions. Rovo Theater fills fastest — be there by the time the previous session ends.</div>
+  <section class="section container" id="tips" aria-labelledby="tips-heading">
+    <p class="section-eyebrow">Playbook</p>
+    <h2 id="tips-heading" class="section-title">General conference tips</h2>
+    <div class="grid-3 tips-grid">
+    <div class="panel tip-card">
+      <h3 class="tip-card-title">Standby Strategy</h3>
+      <p class="tip-card-body">Arrive 5–10 minutes early for standby sessions. Rovo Theater fills fastest — be there by the time the previous session ends.</p>
     </div>
-    <div class="tip-card">
-      <div class="tip-card-icon">📱</div>
-      <div class="tip-card-title">Official App</div>
-      <div class="tip-card-body">Use the Team '26 app for floor maps, session reminders, and My Schedule. Add sessions tonight so you get notifications.</div>
+    <div class="panel tip-card">
+      <h3 class="tip-card-title">Official App</h3>
+      <p class="tip-card-body">Use the Team '26 app for floor maps, session reminders, and My Schedule. Add sessions tonight so you get notifications.</p>
     </div>
-    <div class="tip-card">
-      <div class="tip-card-icon">🎙</div>
-      <div class="tip-card-title">Keynotes</div>
-      <div class="tip-card-body">All keynotes are livestreamed, but in-person energy is worth it. Arrive early — Main Stage fills up for founder keynotes.</div>
+    <div class="panel tip-card">
+      <h3 class="tip-card-title">Keynotes</h3>
+      <p class="tip-card-body">All keynotes are livestreamed, but in-person energy is worth it. Arrive early — Main Stage fills up for founder keynotes.</p>
     </div>
-    <div class="tip-card">
-      <div class="tip-card-icon">🤝</div>
-      <div class="tip-card-title">Networking</div>
-      <div class="tip-card-body">Welcome Reception (Tue), Rovo Happy Hour (Wed), BASH (Thu). Don't skip these — the hallway track is where deals and ideas happen.</div>
+    <div class="panel tip-card">
+      <h3 class="tip-card-title">Networking</h3>
+      <p class="tip-card-body">Welcome Reception (Tue), Rovo Happy Hour (Wed), BASH (Thu). Don't skip these — the hallway track is where deals and ideas happen.</p>
     </div>
-    <div class="tip-card">
-      <div class="tip-card-icon">🔄</div>
-      <div class="tip-card-title">Backup Plan</div>
-      <div class="tip-card-body">Session full? Head to Expo Theaters or peer meetups. They're less crowded and often just as good for specific demos.</div>
+    <div class="panel tip-card">
+      <h3 class="tip-card-title">Backup Plan</h3>
+      <p class="tip-card-body">Session full? Head to Expo Theaters or peer meetups. They're less crowded and often just as good for specific demos.</p>
     </div>
-    <div class="tip-card">
-      <div class="tip-card-icon">🎒</div>
-      <div class="tip-card-title">Essentials</div>
-      <div class="tip-card-body">Comfortable shoes, portable charger (full battery), water bottle, and business cards or a QR code for your LinkedIn.</div>
+    <div class="panel tip-card">
+      <h3 class="tip-card-title">Essentials</h3>
+      <p class="tip-card-body">Comfortable shoes, portable charger (full battery), water bottle, and business cards or a QR code for your LinkedIn.</p>
     </div>
   </div>
+  </section>
 
-  <!-- ============================
-       VENUE MAP
-       ============================ -->
-  <div class="section-divider">Venue & Area Map</div>
+  <section class="section container" id="venue" aria-labelledby="venue-heading">
+    <p class="section-eyebrow">Getting around</p>
+    <h2 id="venue-heading" class="section-title">Venue &amp; area map</h2>
 
-  <div id="venue-map"></div>
+  <div id="venue-map" role="region" aria-label="Map of the Anaheim Convention Center area"></div>
 
-  <div class="map-legend">
+  <div class="grid-2 map-legend">
 
-    <div class="legend-card">
-      <div class="legend-icon">🏛️</div>
-      <div class="legend-info">
-        <div class="legend-name">Anaheim Convention Center</div>
-        <div class="legend-addr">800 W Katella Ave, Anaheim, CA 92802</div>
-        <div class="legend-note">Atlassian Team '26 venue — Expo Hall, Main Stage, all ballrooms</div>
-        <a class="legend-link" href="https://maps.google.com/?q=800+W+Katella+Ave,+Anaheim,+CA+92802" target="_blank" rel="noopener">Directions</a>
-      </div>
+    <div class="panel legend-card">
+      <h3 class="legend-name">Anaheim Convention Center</h3>
+      <p class="legend-addr">800 W Katella Ave, Anaheim, CA 92802</p>
+      <p class="legend-note">Atlassian Team '26 venue — Expo Hall, Main Stage, all ballrooms</p>
+      <a class="btn btn-secondary btn-sm" href="https://maps.google.com/?q=800+W+Katella+Ave,+Anaheim,+CA+92802" target="_blank" rel="noopener">Directions<span class="visually-hidden"> to Anaheim Convention Center (opens in a new tab)</span></a>
     </div>
 
 
-    <div class="legend-card">
-      <div class="legend-icon">🏓</div>
-      <div class="legend-info">
-        <div class="legend-name">Anaheim Tennis & Pickleball Center</div>
-        <div class="legend-addr">975 S State College Blvd, Anaheim, CA 92806</div>
-        <div class="legend-note">10 dedicated pickleball courts · Lights · Mon–Fri 7am–9pm, Sat–Sun 7am–6pm · ~15 min drive · (714) 991-9090</div>
-        <a class="legend-link green" href="https://maps.google.com/?q=975+S+State+College+Blvd,+Anaheim,+CA+92806" target="_blank" rel="noopener">Directions</a>
-      </div>
+    <div class="panel legend-card">
+      <h3 class="legend-name">Anaheim Tennis & Pickleball Center</h3>
+      <p class="legend-addr">975 S State College Blvd, Anaheim, CA 92806</p>
+      <p class="legend-note">10 dedicated pickleball courts · Lights · Mon–Fri 7am–9pm, Sat–Sun 7am–6pm · ~15 min drive · (714) 991-9090</p>
+      <a class="btn btn-secondary btn-sm" href="https://maps.google.com/?q=975+S+State+College+Blvd,+Anaheim,+CA+92806" target="_blank" rel="noopener">Directions<span class="visually-hidden"> to Anaheim Tennis & Pickleball Center (opens in a new tab)</span></a>
     </div>
 
   </div>
+
+  </section>
 
 </main>
 
 <footer class="site-footer">
   <div class="container site-footer-inner">
-    <span>© <span id="year">2026</span> Scott Soward · Atlassian Team '26 personal agenda</span>
-    <a href="../">&larr; Back to conferences</a>
+    <span>&copy; <span data-year>2026</span> Scott Soward</span>
+    <nav aria-label="Footer">
+      <a href="../../conferences/">&larr; All conferences</a>
+      <a href="../../">Home</a>
+      <a href="https://github.com/ssoward/hub">Source on GitHub</a>
+    </nav>
   </div>
 </footer>
-
-<script>
-  (function() {
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('primary-nav');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
-        }
-      });
-    }
-  })();
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Accessible tablist with keyboard navigation + URL hash state
-  (function() {
-    const lists = document.querySelectorAll('[role="tablist"]');
-    lists.forEach(list => {
-      const tabs = Array.from(list.querySelectorAll('[role="tab"]'));
-      const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
-      const ids = tabs.map(t => t.id);
-      function activate(i, setFocus) {
-        tabs.forEach((t, j) => {
-          const sel = j === i;
-          t.setAttribute('aria-selected', String(sel));
-          t.tabIndex = sel ? 0 : -1;
-          t.classList.toggle('active', sel);
-          if (panels[j]) panels[j].classList.toggle('hidden', !sel);
-        });
-        if (setFocus) tabs[i].focus();
-      }
-      function fromHash() {
-        const h = (location.hash || '').slice(1);
-        const idx = ids.indexOf(h);
-        if (idx >= 0) activate(idx, false);
-      }
-      list.addEventListener('keydown', (e) => {
-        const i = tabs.indexOf(document.activeElement);
-        if (i < 0) return;
-        let next = -1;
-        if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
-        if (e.key === 'ArrowLeft')  next = (i - 1 + tabs.length) % tabs.length;
-        if (e.key === 'Home') next = 0;
-        if (e.key === 'End')  next = tabs.length - 1;
-        if (next >= 0) { e.preventDefault(); activate(next, true); history.replaceState(null, '', '#' + ids[next]); }
-      });
-      tabs.forEach((t, i) => t.addEventListener('click', () => {
-        activate(i, false);
-        history.replaceState(null, '', '#' + ids[i]);
-      }));
-      window.addEventListener('hashchange', fromHash);
-      fromHash();
-    });
-  })();
-</script>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -1026,7 +896,7 @@
 
   function makeMarker(emoji, bg) {
     return L.divIcon({
-      html: '<div style="background:' + bg + ';border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 2px 10px rgba(0,0,0,0.35);border:2.5px solid white;">' + emoji + '</div>',
+      html: '<div aria-hidden="true" style="background:' + bg + ';border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 2px 10px rgba(0,0,0,0.35);border:2.5px solid white;">' + emoji + '</div>',
       iconSize: [38, 38],
       iconAnchor: [19, 19],
       popupAnchor: [0, -22],

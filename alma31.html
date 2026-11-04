@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="css/site.css">
 
     <title>Alma 31 — Scott Soward</title>
+  <!-- chrome:head -->
+  <script>(function(d){var r=d.documentElement,t=null;try{t=localStorage.getItem('hub-theme')}catch(e){}if(r.dataset.themeLock)t=r.dataset.themeLock;else if(!r.hasAttribute('data-theme-support'))t='light';else if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';r.setAttribute('data-theme',t)})(document);</script>
+  <script src="js/site.js" defer></script>
+  <!-- /chrome:head -->
 </head>
 <body>
 
@@ -23,21 +27,23 @@
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand" href="./">
-      <span class="brand-name">Scott Soward</span>
-      <span class="brand-role">Engineer · Builder · Teacher</span>
+    <a class="brand" href="./" aria-label="Scott Soward — home">
+      <span class="brand-mark" aria-hidden="true">SS</span>
+      <span class="brand-text"><span class="brand-name">Scott Soward</span><span class="brand-role">Engineer · Builder · Teacher</span></span>
     </a>
-    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">
-      <span aria-hidden="true">☰</span>
-    </button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <a href="./">Home</a>
-      <a href="presentations/">Gospel</a>
-      <a href="tech-presentations/">Tech &amp; AI</a>
-      <a href="activities/">Activities</a>
       <a href="conferences/">Conferences</a>
+      <a href="tech-presentations/">Tech &amp; AI</a>
+      <a href="presentations/">Gospel</a>
       <a href="alma31.html" aria-current="page">Scripture</a>
+      <a href="ham-radio/">Study tools</a>
+      <a href="activities/">Activities</a>
     </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button type="button" class="icon-btn nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </div>
 </header>
 
@@ -55,61 +61,61 @@
     <div class="card-grid">
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip scripture">Scripture</span></div>
-          <h3 class="card-title">Full scripture text</h3>
+          <div class="card-top"><span class="chip scripture">Scripture</span></div>
+          <h3 class="card-title"><a class="card-link" href="pages/scripture.html">Full scripture text</a></h3>
           <p class="card-text">Read Alma 31 verse by verse, with section headers and cross-references.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="pages/scripture.html">Read &rarr;</a>
           <span class="card-meta">38 verses</span>
+          <span class="card-cta" aria-hidden="true">Read</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip scripture">Analysis</span></div>
-          <h3 class="card-title">Deep analysis</h3>
+          <div class="card-top"><span class="chip scripture">Analysis</span></div>
+          <h3 class="card-title"><a class="card-link" href="pages/analysis.html">Deep analysis</a></h3>
           <p class="card-text">Themes, historical context, and spiritual insights — pride, prayer, the word, and compassion.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="pages/analysis.html">View &rarr;</a>
           <span class="card-meta">Thematic study</span>
+          <span class="card-cta" aria-hidden="true">View</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip scripture">Gallery</span></div>
-          <h3 class="card-title">Visual gallery</h3>
+          <div class="card-top"><span class="chip scripture">Gallery</span></div>
+          <h3 class="card-title"><a class="card-link" href="pages/gallery.html">Visual gallery</a></h3>
           <p class="card-text">Artistic interpretations of the Rameumptom, the characters, and key scenes from the chapter.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="pages/gallery.html">View &rarr;</a>
           <span class="card-meta">Artwork &amp; lightbox</span>
+          <span class="card-cta" aria-hidden="true">View</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip scripture">Applications</span></div>
-          <h3 class="card-title">Study applications</h3>
+          <div class="card-top"><span class="chip scripture">Applications</span></div>
+          <h3 class="card-title"><a class="card-link" href="pages/applications.html">Study applications</a></h3>
           <p class="card-text">Personal study ideas, family activities by age group, and teaching resources for educators.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="pages/applications.html">Get ideas &rarr;</a>
           <span class="card-meta">All ages</span>
+          <span class="card-cta" aria-hidden="true">Get ideas</span>
         </div>
       </article>
 
       <article class="card">
         <div class="card-body">
-          <div class="card-chips"><span class="chip scripture">About</span></div>
-          <h3 class="card-title">About this study app</h3>
+          <div class="card-top"><span class="chip scripture">About</span></div>
+          <h3 class="card-title"><a class="card-link" href="pages/about.html">About this study app</a></h3>
           <p class="card-text">Project background, sources, and feedback. Built as a personal scripture study tool.</p>
         </div>
         <div class="card-footer">
-          <a class="btn btn-primary" href="pages/about.html">About &rarr;</a>
           <span class="card-meta">Project notes</span>
+          <span class="card-cta" aria-hidden="true">About</span>
         </div>
       </article>
     </div>
@@ -153,31 +159,15 @@
 
 <footer class="site-footer">
   <div class="container site-footer-inner">
-    <span>© <span id="year">2026</span> Scott Soward</span>
-    <a href="https://github.com/ssoward/hub">github.com/ssoward/hub</a>
+    <span>&copy; <span data-year>2026</span> Scott Soward</span>
+    <nav aria-label="Footer">
+      <a href="./">Home</a>
+      <a href="https://github.com/ssoward/hub">Source on GitHub</a>
+    </nav>
   </div>
 </footer>
 
 <script>
-  (function() {
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.getElementById('primary-nav');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus();
-        }
-      });
-    }
-  })();
-  document.getElementById('year').textContent = new Date().getFullYear();
-
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('sw.js').catch(() => {});

@@ -1,13 +1,15 @@
 {
   "name": "hub",
   "version": "1.0.0",
-  "description": "Gospel study, tech presentations, interactive activities, and conference schedules \u2014 a static site hub",
+  "description": "Scott Soward's personal hub — conference dashboards, tech and gospel presentations, scripture study, study tools, and games. A static site.",
   "main": "index.html",
   "scripts": {
     "start": "python3 -m http.server 8080",
     "build": "echo 'Static site - no build process needed'",
     "deploy": "echo 'Ready for static deployment to Vercel/Netlify'",
-    "test": "npm run test:notes && npm run test:presentations && npm run test:activities && npm run test:chess && npm run test:2048 && npm run test:simon && npm run test:lights-out && npm run test:connect-four && npm run test:dots-and-boxes && npm run test:memory-match && npm run test:scoreboard",
+    "test": "npm run test:site && npm run test:a11y && npm run test:notes && npm run test:presentations && npm run test:activities && npm run test:chess && npm run test:2048 && npm run test:simon && npm run test:lights-out && npm run test:connect-four && npm run test:dots-and-boxes && npm run test:memory-match && npm run test:scoreboard",
+    "test:site": "node tools/site-chrome.mjs --check && node tools/site-check.mjs",
+    "test:a11y": "node tools/a11y-audit.mjs",
     "test:activities": "node tools/activities-sweep.mjs",
     "test:notes": "node tools/notes-check.mjs",
     "test:presentations": "node tools/presentations-check.mjs",
@@ -22,7 +24,8 @@
     "ham:build": "python3 ham-radio/tools/build_pools.py",
     "ham:validate": "python3 ham-radio/tools/validate_pools.py",
     "ham:test": "python3 ham-radio/tools/validate_pools.py && node ham-radio/tools/smoke-test.mjs",
-    "test:responsive": "node tools/responsive-audit.mjs"
+    "test:responsive": "node tools/responsive-audit.mjs",
+    "chrome": "node tools/site-chrome.mjs"
   },
   "keywords": [
     "2048",
